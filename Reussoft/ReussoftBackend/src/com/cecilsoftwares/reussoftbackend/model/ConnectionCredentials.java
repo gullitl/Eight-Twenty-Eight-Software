@@ -112,6 +112,10 @@ public class ConnectionCredentials {
             return this;
         }
 
+        public ConnectionCredentials build() {
+            return new ConnectionCredentials(this);
+        }
+
     }
 
 }

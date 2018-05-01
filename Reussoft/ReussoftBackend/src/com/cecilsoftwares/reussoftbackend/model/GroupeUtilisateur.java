@@ -61,5 +61,9 @@ public class GroupeUtilisateur {
             return this;
         }
 
+        public GroupeUtilisateur build() {
+            return new GroupeUtilisateur(this);
+        }
+
     }
 }

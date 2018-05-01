@@ -46,19 +46,23 @@ public class Shop {
             this.codeShop = codeShop;
         }
 
-        public ShopBuilder codeShop(int codeShop) {
-            this.codeShop = codeShop;
+        public ShopBuilder nom(String nom) {
+            this.nom = nom;
             return this;
         }
 
-        public ShopBuilder nom(String nom) {
-            this.nom = nom;
+        public ShopBuilder adresse(String adresse) {
+            this.adresse = adresse;
             return this;
         }
 
         public ShopBuilder listeCollaborateurs(List<Collaborateur> listeCollaborateurs) {
             this.listeCollaborateurs = listeCollaborateurs;
             return this;
+        }
+
+        public Shop build() {
+            return new Shop(this);
         }
 
     }

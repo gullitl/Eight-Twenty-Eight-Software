@@ -47,6 +47,10 @@ public class Fournisseur {
             return this;
         }
 
+        public Fournisseur build() {
+            return new Fournisseur(this);
+        }
+
     }
 
 }

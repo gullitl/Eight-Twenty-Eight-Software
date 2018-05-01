@@ -8,14 +8,14 @@ import java.util.Date;
 public class SessionUtilisateur {
 
     private int codeSessionUtilisateur;
-    private Collaborateur idCollaborateur;
+    private Collaborateur collaborateur;
     private Shop idShop;
     private String log;
     private Date dateHeure;
 
     public SessionUtilisateur(SessionUtilisateurBuilder sessionUtilisateurBuilder) {
         codeSessionUtilisateur = sessionUtilisateurBuilder.codeSessionUtilisateur;
-        idCollaborateur = sessionUtilisateurBuilder.idCollaborateur;
+        collaborateur = sessionUtilisateurBuilder.collaborateur;
         idShop = sessionUtilisateurBuilder.idShop;
         log = sessionUtilisateurBuilder.log;
         dateHeure = sessionUtilisateurBuilder.dateHeure;
@@ -25,8 +25,8 @@ public class SessionUtilisateur {
         return codeSessionUtilisateur;
     }
 
-    public Collaborateur getIdCollaborateur() {
-        return idCollaborateur;
+    public Collaborateur getCollaborateur() {
+        return collaborateur;
     }
 
     public Shop getIdShop() {
@@ -44,7 +44,7 @@ public class SessionUtilisateur {
     public static class SessionUtilisateurBuilder {
 
         private int codeSessionUtilisateur;
-        private Collaborateur idCollaborateur;
+        private Collaborateur collaborateur;
         private Shop idShop;
         private String log;
         private Date dateHeure;
@@ -53,8 +53,8 @@ public class SessionUtilisateur {
             this.codeSessionUtilisateur = codeSessionUtilisateur;
         }
 
-        public SessionUtilisateurBuilder idCollaborateur(Collaborateur idCollaborateur) {
-            this.idCollaborateur = idCollaborateur;
+        public SessionUtilisateurBuilder collaborateur(Collaborateur collaborateur) {
+            this.collaborateur = collaborateur;
             return this;
         }
 
@@ -71,6 +71,10 @@ public class SessionUtilisateur {
         public SessionUtilisateurBuilder dateHeure(Date dateHeure) {
             this.dateHeure = dateHeure;
             return this;
+        }
+
+        public SessionUtilisateur build() {
+            return new SessionUtilisateur(this);
         }
 
     }

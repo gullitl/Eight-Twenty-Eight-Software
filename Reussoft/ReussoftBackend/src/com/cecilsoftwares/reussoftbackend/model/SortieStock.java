@@ -10,25 +10,25 @@ import java.util.Date;
 public class SortieStock {
 
     private int codeSortieStock;
-    private Produit idProduit;
-    private Shop idShop;
-    private Client idClient;
+    private Produit produit;
+    private Shop shop;
+    private Client client;
     private DispatchEnum dispatchEnum;
     private BigDecimal prixUSD;
     private BigDecimal prixFC;
-    private TauxCarte idTauxCarte;
+    private TauxCarte tauxCarte;
     private int qtdProduit;
     private Date dateHeure;
 
     public SortieStock(SortieStockBuilder sortieStockBuilder) {
         codeSortieStock = sortieStockBuilder.codeSortieStock;
-        idProduit = sortieStockBuilder.idProduit;
-        idShop = sortieStockBuilder.idShop;
-        idClient = sortieStockBuilder.idClient;
+        produit = sortieStockBuilder.produit;
+        shop = sortieStockBuilder.shop;
+        client = sortieStockBuilder.client;
         dispatchEnum = sortieStockBuilder.dispatchEnum;
         prixUSD = sortieStockBuilder.prixUSD;
         prixFC = sortieStockBuilder.prixFC;
-        idTauxCarte = sortieStockBuilder.idTauxCarte;
+        tauxCarte = sortieStockBuilder.tauxCarte;
         qtdProduit = sortieStockBuilder.qtdProduit;
         dateHeure = sortieStockBuilder.dateHeure;
     }
@@ -37,16 +37,16 @@ public class SortieStock {
         return codeSortieStock;
     }
 
-    public Produit getIdProduit() {
-        return idProduit;
+    public Produit getProduit() {
+        return produit;
     }
 
-    public Shop getIdShop() {
-        return idShop;
+    public Shop getShop() {
+        return shop;
     }
 
-    public Client getIdClient() {
-        return idClient;
+    public Client getClient() {
+        return client;
     }
 
     public DispatchEnum getDispatchEnum() {
@@ -61,8 +61,8 @@ public class SortieStock {
         return prixFC;
     }
 
-    public TauxCarte getIdTauxCarte() {
-        return idTauxCarte;
+    public TauxCarte getTauxCarte() {
+        return tauxCarte;
     }
 
     public int getQtdProduit() {
@@ -76,13 +76,13 @@ public class SortieStock {
     public static class SortieStockBuilder {
 
         private int codeSortieStock;
-        private Produit idProduit;
-        private Shop idShop;
-        private Client idClient;
+        private Produit produit;
+        private Shop shop;
+        private Client client;
         private DispatchEnum dispatchEnum;
         private BigDecimal prixUSD;
         private BigDecimal prixFC;
-        private TauxCarte idTauxCarte;
+        private TauxCarte tauxCarte;
         private int qtdProduit;
         private Date dateHeure;
 
@@ -90,18 +90,18 @@ public class SortieStock {
             this.codeSortieStock = codeSortieStock;
         }
 
-        public SortieStockBuilder idProduit(Produit idProduit) {
-            this.idProduit = idProduit;
+        public SortieStockBuilder produit(Produit produit) {
+            this.produit = produit;
             return this;
         }
 
-        public SortieStockBuilder idShop(Shop idShop) {
-            this.idShop = idShop;
+        public SortieStockBuilder shop(Shop shop) {
+            this.shop = shop;
             return this;
         }
 
-        public SortieStockBuilder idClient(Client idClient) {
-            this.idClient = idClient;
+        public SortieStockBuilder client(Client client) {
+            this.client = client;
             return this;
         }
 
@@ -120,8 +120,8 @@ public class SortieStock {
             return this;
         }
 
-        public SortieStockBuilder idTauxCarte(TauxCarte idTauxCarte) {
-            this.idTauxCarte = idTauxCarte;
+        public SortieStockBuilder tauxCarte(TauxCarte tauxCarte) {
+            this.tauxCarte = tauxCarte;
             return this;
         }
 
@@ -133,6 +133,10 @@ public class SortieStock {
         public SortieStockBuilder dateHeure(Date dateHeure) {
             this.dateHeure = dateHeure;
             return this;
+        }
+
+        public SortieStock build() {
+            return new SortieStock(this);
         }
 
     }

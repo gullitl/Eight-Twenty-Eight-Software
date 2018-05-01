@@ -5,15 +5,15 @@ package com.cecilsoftwares.reussoftbackend.model;
  */
 public class Collaborateur {
 
-    private int codeCollaborateur;
-    private String preNom;
-    private String nom;
-    private String postnom;
-    private String surnom;
-    private String utilizateur;
-    private GroupeUtilisateur idGroupeUtilisateur;
-    private String motDePasse;
-    private Shop shop;
+    private final int codeCollaborateur;
+    private final String preNom;
+    private final String nom;
+    private final String postnom;
+    private final String surnom;
+    private final String utilizateur;
+    private final GroupeUtilisateur groupeUtilisateur;
+    private final String motDePasse;
+    private final Shop shop;
 
     public Collaborateur(CollaborateurBuilder collaborateurBuilder) {
         codeCollaborateur = collaborateurBuilder.codeCollaborateur;
@@ -22,7 +22,7 @@ public class Collaborateur {
         postnom = collaborateurBuilder.preNom;
         surnom = collaborateurBuilder.surnom;
         utilizateur = collaborateurBuilder.utilizateur;
-        idGroupeUtilisateur = collaborateurBuilder.idGroupeUtilisateur;
+        groupeUtilisateur = collaborateurBuilder.groupeUtilisateur;
         motDePasse = collaborateurBuilder.motDePasse;
         shop = collaborateurBuilder.shop;
     }
@@ -51,8 +51,8 @@ public class Collaborateur {
         return utilizateur;
     }
 
-    public GroupeUtilisateur getIdGroupeUtilisateur() {
-        return idGroupeUtilisateur;
+    public GroupeUtilisateur getGroupeUtilisateur() {
+        return groupeUtilisateur;
     }
 
     public String getMotDePasse() {
@@ -71,7 +71,7 @@ public class Collaborateur {
         private String postnom;
         private String surnom;
         private String utilizateur;
-        private GroupeUtilisateur idGroupeUtilisateur;
+        private GroupeUtilisateur groupeUtilisateur;
         private String motDePasse;
         private Shop shop;
 
@@ -104,8 +104,8 @@ public class Collaborateur {
             return this;
         }
 
-        public CollaborateurBuilder idGroupeUtilisateur(GroupeUtilisateur idGroupeUtilisateur) {
-            this.idGroupeUtilisateur = idGroupeUtilisateur;
+        public CollaborateurBuilder groupeUtilisateur(GroupeUtilisateur groupeUtilisateur) {
+            this.groupeUtilisateur = groupeUtilisateur;
             return this;
         }
 
@@ -117,6 +117,10 @@ public class Collaborateur {
         public CollaborateurBuilder shop(Shop shop) {
             this.shop = shop;
             return this;
+        }
+
+        public Collaborateur build() {
+            return new Collaborateur(this);
         }
 
     }

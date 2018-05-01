@@ -12,26 +12,26 @@ import java.math.BigDecimal;
  */
 public class Stock {
 
-    private Produit idProduit;
-    private Shop idShop;
+    private Produit produit;
+    private Shop shop;
     private BigDecimal qtdStock;
     private BigDecimal qtdMaximumStock;
     private BigDecimal qtdMinimumStock;
 
     public Stock(StockBuilder stockBuilder) {
-        idProduit = stockBuilder.idProduit;
-        idShop = stockBuilder.idShop;
+        produit = stockBuilder.produit;
+        shop = stockBuilder.shop;
         qtdStock = stockBuilder.qtdStock;
         qtdMaximumStock = stockBuilder.qtdMaximumStock;
         qtdMinimumStock = stockBuilder.qtdMinimumStock;
     }
 
-    public Produit getIdProduit() {
-        return idProduit;
+    public Produit getProduit() {
+        return produit;
     }
 
-    public Shop getIdShop() {
-        return idShop;
+    public Shop getShop() {
+        return shop;
     }
 
     public BigDecimal getQtdStock() {
@@ -48,15 +48,15 @@ public class Stock {
 
     public static class StockBuilder {
 
-        private Produit idProduit;
-        private Shop idShop;
+        private Produit produit;
+        private Shop shop;
         private BigDecimal qtdStock;
         private BigDecimal qtdMaximumStock;
         private BigDecimal qtdMinimumStock;
 
-        public StockBuilder(Produit idProduit, Shop idShop) {
-            this.idProduit = idProduit;
-            this.idShop = idShop;
+        public StockBuilder(Produit produit, Shop shop) {
+            this.produit = produit;
+            this.shop = shop;
         }
 
         public StockBuilder qtdStock(BigDecimal qtdStock) {
@@ -72,6 +72,10 @@ public class Stock {
         public StockBuilder qtdMinimumStock(BigDecimal qtdMinimumStock) {
             this.qtdMinimumStock = qtdMinimumStock;
             return this;
+        }
+
+        public Stock build() {
+            return new Stock(this);
         }
 
     }

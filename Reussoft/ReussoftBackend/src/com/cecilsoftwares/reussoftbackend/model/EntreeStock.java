@@ -10,25 +10,25 @@ import java.util.Date;
 public class EntreeStock {
 
     private int codeEntreeStock;
-    private Produit idProduit;
-    private Shop idShop;
-    private Fournisseur idFournisseur;
+    private Produit produit;
+    private Shop shop;
+    private Fournisseur fournisseur;
     private DispatchEnum dispatchEnum;
     private BigDecimal prixUSD;
     private BigDecimal prixFC;
-    private TauxCarte idTauxCarte;
+    private TauxCarte tauxCarte;
     private int qtdProduit;
     private Date dateHeure;
 
     public EntreeStock(EntreeStockBuilder entreeStockBuilder) {
         codeEntreeStock = entreeStockBuilder.codeEntreeStock;
-        idProduit = entreeStockBuilder.idProduit;
-        idShop = entreeStockBuilder.idShop;
-        idFournisseur = entreeStockBuilder.idFournisseur;
+        produit = entreeStockBuilder.produit;
+        shop = entreeStockBuilder.shop;
+        fournisseur = entreeStockBuilder.fournisseur;
         dispatchEnum = entreeStockBuilder.dispatchEnum;
         prixUSD = entreeStockBuilder.prixUSD;
         prixFC = entreeStockBuilder.prixFC;
-        idTauxCarte = entreeStockBuilder.idTauxCarte;
+        tauxCarte = entreeStockBuilder.tauxCarte;
         qtdProduit = entreeStockBuilder.qtdProduit;
         dateHeure = entreeStockBuilder.dateHeure;
     }
@@ -37,16 +37,16 @@ public class EntreeStock {
         return codeEntreeStock;
     }
 
-    public Produit getIdProduit() {
-        return idProduit;
+    public Produit getProduit() {
+        return produit;
     }
 
-    public Shop getIdShop() {
-        return idShop;
+    public Shop getShop() {
+        return shop;
     }
 
-    public Fournisseur getIdFournisseur() {
-        return idFournisseur;
+    public Fournisseur getFournisseur() {
+        return fournisseur;
     }
 
     public DispatchEnum getDispatchEnum() {
@@ -61,8 +61,8 @@ public class EntreeStock {
         return prixFC;
     }
 
-    public TauxCarte getIdTauxCarte() {
-        return idTauxCarte;
+    public TauxCarte getTauxCarte() {
+        return tauxCarte;
     }
 
     public int getQtdProduit() {
@@ -76,13 +76,13 @@ public class EntreeStock {
     public static class EntreeStockBuilder {
 
         private int codeEntreeStock;
-        private Produit idProduit;
-        private Shop idShop;
-        private Fournisseur idFournisseur;
+        private Produit produit;
+        private Shop shop;
+        private Fournisseur fournisseur;
         private DispatchEnum dispatchEnum;
         private BigDecimal prixUSD;
         private BigDecimal prixFC;
-        private TauxCarte idTauxCarte;
+        private TauxCarte tauxCarte;
         private int qtdProduit;
         private Date dateHeure;
 
@@ -90,18 +90,18 @@ public class EntreeStock {
             this.codeEntreeStock = codeEntreeStock;
         }
 
-        public EntreeStockBuilder idProduit(Produit idProduit) {
-            this.idProduit = idProduit;
+        public EntreeStockBuilder produit(Produit produit) {
+            this.produit = produit;
             return this;
         }
 
-        public EntreeStockBuilder idShop(Shop idShop) {
-            this.idShop = idShop;
+        public EntreeStockBuilder shop(Shop shop) {
+            this.shop = shop;
             return this;
         }
 
-        public EntreeStockBuilder idFournisseur(Fournisseur idFournisseur) {
-            this.idFournisseur = idFournisseur;
+        public EntreeStockBuilder fournisseur(Fournisseur fournisseur) {
+            this.fournisseur = fournisseur;
             return this;
         }
 
@@ -120,8 +120,8 @@ public class EntreeStock {
             return this;
         }
 
-        public EntreeStockBuilder idTauxCarte(TauxCarte idTauxCarte) {
-            this.idTauxCarte = idTauxCarte;
+        public EntreeStockBuilder tauxCarte(TauxCarte tauxCarte) {
+            this.tauxCarte = tauxCarte;
             return this;
         }
 
@@ -133,6 +133,10 @@ public class EntreeStock {
         public EntreeStockBuilder dateHeure(Date dateHeure) {
             this.dateHeure = dateHeure;
             return this;
+        }
+
+        public EntreeStock build() {
+            return new EntreeStock(this);
         }
 
     }

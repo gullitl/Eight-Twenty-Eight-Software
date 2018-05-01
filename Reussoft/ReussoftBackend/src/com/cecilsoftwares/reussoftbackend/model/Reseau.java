@@ -61,6 +61,10 @@ public class Reseau {
             return this;
         }
 
+        public Reseau build() {
+            return new Reseau(this);
+        }
+
     }
 
 }

@@ -69,6 +69,10 @@ public class CategorieProduit {
             return this;
         }
 
+        public CategorieProduit build() {
+            return new CategorieProduit(this);
+        }
+
     }
 
 }

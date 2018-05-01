@@ -9,13 +9,13 @@ import java.util.Date;
 public class TauxCarte {
 
     private int codeTauxCarte;
-    private Shop idShop;
+    private Shop shop;
     private BigDecimal tauxCarte;
     private Date dateHeure;
 
     public TauxCarte(TauxCarteBuilder tauxCarteBuilder) {
         codeTauxCarte = tauxCarteBuilder.codeTauxCarte;
-        idShop = tauxCarteBuilder.idShop;
+        shop = tauxCarteBuilder.shop;
         tauxCarte = tauxCarteBuilder.tauxCarte;
         dateHeure = tauxCarteBuilder.dateHeure;
     }
@@ -24,8 +24,8 @@ public class TauxCarte {
         return codeTauxCarte;
     }
 
-    public Shop getIdShop() {
-        return idShop;
+    public Shop getShop() {
+        return shop;
     }
 
     public BigDecimal getTauxCarte() {
@@ -39,7 +39,7 @@ public class TauxCarte {
     public static class TauxCarteBuilder {
 
         private int codeTauxCarte;
-        private Shop idShop;
+        private Shop shop;
         private BigDecimal tauxCarte;
         private Date dateHeure;
 
@@ -47,8 +47,8 @@ public class TauxCarte {
             this.codeTauxCarte = codeTauxCarte;
         }
 
-        public TauxCarteBuilder idShop(Shop idShop) {
-            this.idShop = idShop;
+        public TauxCarteBuilder shop(Shop shop) {
+            this.shop = shop;
             return this;
         }
 
@@ -60,6 +60,10 @@ public class TauxCarte {
         public TauxCarteBuilder dateHeure(Date dateHeure) {
             this.dateHeure = dateHeure;
             return this;
+        }
+
+        public TauxCarte build() {
+            return new TauxCarte(this);
         }
 
     }

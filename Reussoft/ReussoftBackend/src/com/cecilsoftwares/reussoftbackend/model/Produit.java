@@ -8,23 +8,27 @@ import java.math.BigDecimal;
 public class Produit {
 
     private int codeProduit;
-    private Reseau idReseau;
+    private Reseau reseau;
     private String description;
     private BigDecimal prixUSD;
     private BigDecimal prixFC;
-    private CategorieProduit idCategorieProduit;
+    private CategorieProduit categorieProduit;
 
     public Produit(ProduitBuilder produitBuilder) {
         codeProduit = produitBuilder.codeProduit;
-        idReseau = produitBuilder.idReseau;
+        reseau = produitBuilder.reseau;
         description = produitBuilder.description;
         prixUSD = produitBuilder.prixUSD;
         prixFC = produitBuilder.prixFC;
-        idCategorieProduit = produitBuilder.idCategorieProduit;
+        categorieProduit = produitBuilder.categorieProduit;
     }
 
-    public Reseau getIdReseau() {
-        return idReseau;
+    public int getCodeProduit() {
+        return codeProduit;
+    }
+
+    public Reseau getReseau() {
+        return reseau;
     }
 
     public String getDescription() {
@@ -39,25 +43,25 @@ public class Produit {
         return prixFC;
     }
 
-    public CategorieProduit getIdCategorieProduit() {
-        return idCategorieProduit;
+    public CategorieProduit getCategorieProduit() {
+        return categorieProduit;
     }
 
     public static class ProduitBuilder {
 
         private int codeProduit;
-        private Reseau idReseau;
+        private Reseau reseau;
         private String description;
         private BigDecimal prixUSD;
         private BigDecimal prixFC;
-        private CategorieProduit idCategorieProduit;
+        private CategorieProduit categorieProduit;
 
         public ProduitBuilder(int codeProduit) {
             this.codeProduit = codeProduit;
         }
 
-        public ProduitBuilder idReseau(Reseau idReseau) {
-            this.idReseau = idReseau;
+        public ProduitBuilder reseau(Reseau reseau) {
+            this.reseau = reseau;
             return this;
         }
 
@@ -76,9 +80,13 @@ public class Produit {
             return this;
         }
 
-        public ProduitBuilder idCategorieProduit(CategorieProduit idCategorieProduit) {
-            this.idCategorieProduit = idCategorieProduit;
+        public ProduitBuilder categorieProduit(CategorieProduit categorieProduit) {
+            this.categorieProduit = categorieProduit;
             return this;
+        }
+
+        public Produit build() {
+            return new Produit(this);
         }
 
     }

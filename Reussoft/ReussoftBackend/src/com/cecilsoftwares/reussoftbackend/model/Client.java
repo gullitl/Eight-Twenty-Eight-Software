@@ -47,6 +47,10 @@ public class Client {
             return this;
         }
 
+        public Client build() {
+            return new Client(this);
+        }
+
     }
 
 }
