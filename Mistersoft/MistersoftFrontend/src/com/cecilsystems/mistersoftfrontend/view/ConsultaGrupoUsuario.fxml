@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="567.0" prefWidth="525.0" stylesheets="@../resources/styles/GenericTheme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cecilsystems.mistersoftfrontend.controller.consulta.ConsultaGrupoUsuarioController">
+   <children>
+      <JFXTextField fx:id="jtxDescricaoFiltro" labelFloat="true" layoutX="38.0" layoutY="30.0" onKeyReleased="#jtxDescricaoFiltroKeyReleased" prefHeight="31.0" prefWidth="450.0" promptText="Descrição" />
+      <TableView fx:id="tvwGrupoUsuario" layoutX="38.0" layoutY="83.0" onMouseClicked="#tvwGrupoUsuarioSelecionarMouseClicked" prefHeight="443.0" prefWidth="450.0" style="-fx-focus-color: #4050a8;">
+        <columns>
+          <TableColumn fx:id="clmCodigo" editable="false" prefWidth="110.0" resizable="false" sortable="false" text="Código" />
+          <TableColumn fx:id="clmDescricao" editable="false" prefWidth="317.0" resizable="false" sortable="false" text="Descrição" />
+        </columns>
+      </TableView>
+      <Label fx:id="lblQtd" layoutX="38.0" layoutY="536.0" styleClass="label-comum" text="Qtd grupos usuário" />
+   </children>
+</AnchorPane>

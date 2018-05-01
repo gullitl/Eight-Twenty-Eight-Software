@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.cecilsystems.cecilfxcomponent.MaskedJFXTextField?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="289.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cecilsystems.mistersoftfrontend.controller.RelatorioMontagemPecaController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="653.0" prefWidth="650.0" stylesheets="@../resources/styles/GenericTheme.css">
+         <children>
+            <GridPane layoutX="46.0" layoutY="20.0" prefHeight="150.0" prefWidth="345.0">
+              <columnConstraints>
+                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints fillHeight="false" maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints fillHeight="false" maxHeight="71.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="69.0" prefWidth="267.0" spacing="1.0">
+                     <children>
+                        <MaskedJFXTextField fx:id="jmskCodigoPecaComposta" mask="N!" onKeyReleased="#jmskCodigoPecaCompostaKeyReleased" prefWidth="213.0" promptText="Código" />
+                        <JFXButton fx:id="jbtnConsultarPeca" onAction="#jbtnConsultarPecaAction" prefHeight="30.0" prefWidth="40.0" styleClass="button-pesquisar" text="...">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="69.0" prefWidth="262.0" spacing="10.0" GridPane.rowIndex="1">
+                     <children>
+                        <MaskedJFXTextField fx:id="jmskQtdPecaComposta" mask="N!" onKeyReleased="#jmskQtdPecaCompostaKeyReleased" prefWidth="213.0" promptText="Qtd" />
+                        <VBox prefHeight="53.0" prefWidth="40.0">
+                           <children>
+                              <JFXButton fx:id="jbtnUp" ellipsisString="" focusTraversable="false" onAction="#jbtnUpAction" prefHeight="5.0" prefWidth="35.0" text=" ">
+                                 <graphic>
+                                    <ImageView fitHeight="16.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/up-arrow.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="jbtnDown" focusTraversable="false" onAction="#jbtnDownAction" prefHeight="5.0" prefWidth="35.0" text=" ">
+                                 <graphic>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/down-arrow.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                           <padding>
+                              <Insets top="13.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+            <Label fx:id="lblDescricao" alignment="TOP_LEFT" layoutX="315.0" layoutY="45.0" prefHeight="69.0" prefWidth="310.0" styleClass="label-comum" text="Descrição" />
+            <JFXButton layoutX="315.0" layoutY="212.0" onAction="#jbtnImprimirAction" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-button-imprimir" text="IMPRIMIR" />
+            <JFXButton fx:id="jbtnLimpar" layoutX="420.0" layoutY="212.0" onAction="#jbtnLimparAction" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-button-limpar" text="LIMPAR" />
+            <JFXButton fx:id="jbtnFechar" layoutX="525.0" layoutY="212.0" onAction="#jbtnFecharAction" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-button-fechar" text="FECHAR" />
+            <HBox alignment="CENTER_RIGHT" layoutX="47.0" layoutY="76.0" prefHeight="20.0" prefWidth="213.0" spacing="30.0">
+               <children>
+                  <Label fx:id="lblPecaNaoCadastrado" prefHeight="20.0" prefWidth="166.0" styleClass="label-notificacao" text="Código: Não cadastrado" />
+                  <ImageView fx:id="imgvwPecaNaoCadastrado" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/error.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" layoutX="47.0" layoutY="148.0" prefHeight="20.0" prefWidth="213.0" spacing="30.0">
+               <children>
+                  <Label fx:id="lblQtdObrigatoria" prefHeight="20.0" prefWidth="166.0" styleClass="label-notificacao" text="Qtd: Campo obrigatório" />
+                  <ImageView fx:id="imgvwQtdObrigatoria" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/error.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

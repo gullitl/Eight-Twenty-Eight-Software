@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.cecilsystems.cecilfxcomponent.MaskedJFXTextField?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+
+<StackPane fx:id="stpnCadastroUsuario" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="614.0" prefWidth="1207.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cecilsystems.mistersoftfrontend.controller.CadastroMontagemPecaController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="549.0" prefWidth="627.0" stylesheets="@../resources/styles/GenericTheme.css">
+         <children>
+            <GridPane layoutX="40.0" layoutY="20.0" prefHeight="504.0" prefWidth="535.0">
+               <columnConstraints>
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="530.0" minWidth="10.0" prefWidth="496.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="69.0" prefWidth="267.0" spacing="1.0">
+                     <children>
+                        <MaskedJFXTextField fx:id="jmskCodigoPecaComposta" mask="N!" onKeyPressed="#jmskCodigoPecaCompostaKeyPressed" onKeyReleased="#jmskCodigoPecaCompostaKeyReleased" prefWidth="213.0" promptText="Código" />
+                        <JFXButton fx:id="jbtnConsultarPecaComposta" onAction="#jbtnConsultarPecaCompostaAction" prefHeight="30.0" prefWidth="40.0" styleClass="button-pesquisar" text="...">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <JFXTextField fx:id="jtxDescricaoPecaComposta" prefWidth="520.0" promptText="Descrição" GridPane.rowIndex="1" />
+                  <JFXTextField fx:id="jtxTotalItens" editable="false" prefWidth="259.0" promptText="Total Itens" GridPane.rowIndex="2" />
+                  <JFXTextField fx:id="jtxTotalMaoDeObra" editable="false" prefWidth="259.0" promptText="Total Mão de obra" GridPane.rowIndex="3" />
+                  <JFXTextField fx:id="jtxCustoPecaComposta" editable="false" prefWidth="259.0" promptText="Valor custo" GridPane.rowIndex="4" />
+                  <MaskedJFXTextField fx:id="jmskMarkup" mask="N!,NN" onKeyReleased="#jmskMarkupKeyReleased" prefWidth="259.0" promptText="Markup" GridPane.rowIndex="5" />
+                  <JFXTextField fx:id="jtxPrecoVenda" editable="false" prefWidth="259.0" promptText="Valor venda" GridPane.rowIndex="6" />
+               </children>
+            </GridPane>
+            <JFXButton fx:id="jbtnSalvar" layoutX="145.0" layoutY="553.0" onAction="#jbtnSalvarAction" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-button-salvar" text="SALVAR" />
+            <JFXButton fx:id="jbtnExcluir" layoutX="250.0" layoutY="553.0" onAction="#jbtnExcluirAction" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-button-excluir" text="EXCLUIR" />
+            <JFXButton fx:id="jbtnLimpar" layoutX="355.0" layoutY="553.0" onAction="#jbtnLimparAction" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-button-limpar" text="LIMPAR" />
+            <JFXButton fx:id="jbtnFechar" layoutX="460.0" layoutY="553.0" onAction="#jbtnFecharAction" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-button-fechar" text="FECHAR" />
+            <TabPane fx:id="tbpnIPCMDO" layoutX="303.0" layoutY="171.0" prefHeight="339.0" prefWidth="880.0" side="LEFT" stylesheets="@../resources/styles/tabPaneMontagemPeca.css" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="tbItens" onSelectionChanged="#tbItensSelectionChanged">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Line fx:id="lnEsquerdaItens" endY="273.0" layoutX="1.0" layoutY="64.0" stroke="#14256b" />
+                              <GridPane layoutX="21.0" layoutY="11.0" prefHeight="135.0" prefWidth="186.0">
+                                <columnConstraints>
+                                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="196.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints fillHeight="false" maxHeight="65.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fillHeight="false" maxHeight="65.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <HBox prefHeight="39.0" prefWidth="175.0" spacing="4.0">
+                                       <children>
+                                          <MaskedJFXTextField fx:id="jmskCodigoItem" mask="N!" onKeyReleased="#jmskCodigoItemKeyReleased" prefWidth="129.0" promptText="Código" />
+                                          <JFXButton fx:id="jbtnConsultarItensPecaComposta" onAction="#jbtnConsultarItensPecaCompostaAction" prefHeight="33.0" prefWidth="35.0" styleClass="button-pesquisar" text="..." />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="39.0" prefWidth="175.0" spacing="5.0" GridPane.rowIndex="1">
+                                       <children>
+                                          <MaskedJFXTextField fx:id="jmskQtdItem" mask="N!.NNNN" prefWidth="129.0" promptText="Qtd." />
+                                          <Label fx:id="lblUnidadeMedida" style="-fx-font-style: italic;" styleClass="label-comum" text="pa">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets top="6.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                              <Label fx:id="lblDescricaoItem" layoutX="215.0" layoutY="29.0" style="-fx-font-size: 14.5;" styleClass="label-comum" text="Descrição" />
+                              <JFXButton fx:id="jbtnAdicionarItem" layoutX="205.0" layoutY="96.0" onAction="#jbtnAdicionarItemAction" prefHeight="17.0" prefWidth="91.0" text="Adicionar">
+                                 <graphic>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/add.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="jbtnLimparCamposItem" layoutX="299.0" layoutY="96.0" onAction="#jbtnLimparCamposItemAction" prefHeight="17.0" prefWidth="76.0" text="Limpar">
+                                 <graphic>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/eraser.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <TableView fx:id="tvwItens" layoutX="21.0" layoutY="144.0" onKeyReleased="#tvwItensKeyReleased" onMouseClicked="#tvwItensMouseClicked" prefHeight="170.0" prefWidth="780.0" style="-fx-focus-color: #4050a8;">
+                                <columns>
+                                  <TableColumn fx:id="clmCodigoItem" prefWidth="73.0" resizable="false" text="Código" />
+                                  <TableColumn fx:id="clmDescricaoItem" prefWidth="370.0" resizable="false" text="Descrição" />
+                                    <TableColumn fx:id="clmQtdItem" prefWidth="87.0" resizable="false" text="Qtd." />
+                                    <TableColumn fx:id="clmCustoUnitarioItem" prefWidth="107.0" resizable="false" text="Custo unt." />
+                                    <TableColumn fx:id="clmCustoTotalItem" prefWidth="120.0" resizable="false" text="Custo total" />
+                                </columns>
+                              </TableView>
+                              <Label fx:id="lblQtdItensAdd" layoutX="22.0" layoutY="316.0" styleClass="label-comum" text="Qtd." />
+                              <Label layoutX="588.0" layoutY="316.0" styleClass="label-comum" text="Total Geral:" />
+                              <Label fx:id="lblTotalItens" alignment="CENTER_RIGHT" layoutX="669.0" layoutY="316.0" prefWidth="105.0" styleClass="label-comum" text="Label" />
+                              <HBox alignment="CENTER_RIGHT" layoutX="22.0" layoutY="57.0" prefHeight="20.0" prefWidth="129.0" spacing="26.0">
+                                 <children>
+                                    <Label fx:id="lblCodigoItemNaoCadastrado" prefHeight="20.0" prefWidth="86.0" styleClass="label-notificacao" text="Não cadastrado" />
+                                    <ImageView fx:id="imgvwCodigoItemNaoCadastrado" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/error.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets right="2.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                     <graphic>
+                        <ImageView fx:id="imgvwItens" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+                     </graphic>
+                </Tab>
+                <Tab fx:id="tbMaoDeObra" onSelectionChanged="#tbMaoDeObraSelectionChanged">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane layoutX="21.0" layoutY="11.0" prefHeight="134.0" prefWidth="187.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="185.0" minWidth="10.0" prefWidth="196.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints fillHeight="false" maxHeight="65.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints fillHeight="false" maxHeight="65.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <HBox prefHeight="39.0" prefWidth="175.0" spacing="4.0">
+                                       <children>
+                                          <MaskedJFXTextField fx:id="jmskCodigoMaoDeObra" mask="N!" onKeyReleased="#jmskCodigoMaoDeObraKeyReleased" prefWidth="129.0" promptText="Código" />
+                                          <JFXButton fx:id="jbtnConsultarMaoDeObra" onAction="#jbtnConsultarMaoDeObraAction" prefHeight="33.0" prefWidth="35.0" styleClass="button-pesquisar" text="..." />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="39.0" prefWidth="178.0" spacing="3.0" GridPane.rowIndex="1">
+                                       <children>
+                                          <MaskedJFXTextField fx:id="jmskQtdHHMaoDeObra" alignment="CENTER" mask="NN" prefWidth="63.0" promptText="Qtd. hora" />
+                                          <MaskedJFXTextField fx:id="jmskQtdMMMaoDeObra" alignment="CENTER" mask="NN" onKeyReleased="#jmskQtdMMMaoDeObraKeyReleased" prefWidth="63.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                              <Label fx:id="lblDescricaoMaoDeObra" layoutX="215.0" layoutY="29.0" style="-fx-font-size: 14.5;" styleClass="label-comum" text="Descrição" />
+                              <JFXButton fx:id="jbtnAdicionarMdo" layoutX="205.0" layoutY="97.0" onAction="#jbtnAdicionarMdoAction" prefHeight="17.0" prefWidth="91.0" text="Adicionar">
+                                 <graphic>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/add.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="jbtnLimparCamposMdo" layoutX="299.0" layoutY="97.0" onAction="#jbtnLimparCamposMdoAction" prefHeight="17.0" prefWidth="76.0" text="Limpar">
+                                 <graphic>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/eraser.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <TableView fx:id="tvwMaoDeObra" layoutX="21.0" layoutY="144.0" onKeyReleased="#tvwMaoDeObraKeyReleased" onMouseClicked="#tvwMaoDeObraMouseCliked" prefHeight="170.0" prefWidth="780.0" style="-fx-focus-color: #4050a8;">
+                                 <columns>
+                                    <TableColumn fx:id="clmCodigoMaoDeObra" resizable="false" text="Código" />
+                                    <TableColumn fx:id="clmDescricaoMaoDeObra" prefWidth="387.0" resizable="false" text="Descrição" />
+                                    <TableColumn fx:id="clmQtdMdo" prefWidth="60.0" resizable="false" text="Horas" />
+                                    <TableColumn fx:id="clmCustoUnitarioMdo" prefWidth="110.0" resizable="false" text="Custo" />
+                                    <TableColumn fx:id="clmCustoTotalMdo" prefWidth="120.0" resizable="false" text="Custo total" />
+                                 </columns>
+                              </TableView>
+                              <Label fx:id="lblQtdMaoDeObraAdd" layoutX="22.0" layoutY="316.0" styleClass="label-comum" text="Qtd." />
+                              <Label layoutX="588.0" layoutY="316.0" styleClass="label-comum" text="Total Geral:" />
+                              <Line fx:id="lnEsquerdaMDO1" endY="64.0" layoutX="1.0" layoutY="-1.0" stroke="#14256b" />
+                              <Line fx:id="lnEsquerdaMDO2" endY="211.0" layoutX="1.0" layoutY="126.0" stroke="#14256b" />
+                              <Label fx:id="lblTotalMaoDeObra" alignment="CENTER_RIGHT" layoutX="669.0" layoutY="316.0" prefHeight="19.0" prefWidth="105.0" styleClass="label-comum" text="Label" />
+                              <HBox alignment="CENTER_RIGHT" layoutX="22.0" layoutY="57.0" prefHeight="20.0" prefWidth="129.0" spacing="26.0">
+                                 <children>
+                                    <Label fx:id="lblCodigoMdoNaoCadastrado" prefHeight="20.0" prefWidth="86.0" styleClass="label-notificacao" text="Não cadastrado" />
+                                    <ImageView fx:id="imgvwCodigoMdoNaoCadastrado" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/error.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets right="2.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="lblDoisPontosSeparadoresHHMM" layoutX="84.0" layoutY="94.0" styleClass="label-comum" text=":" />
+                              <HBox alignment="CENTER_RIGHT" layoutX="22.0" layoutY="122.0" prefHeight="20.0" prefWidth="129.0" spacing="7.0">
+                                 <children>
+                                    <Label fx:id="lblQtdHoraMdoNaoInformado" prefHeight="20.0" prefWidth="106.0" styleClass="label-notificacao" text="Campo obrigatório" />
+                                    <ImageView fx:id="imgvwQtdHoraMdoNaoInformado" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/error.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets right="2.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <VBox layoutX="154.0" layoutY="81.0" prefHeight="38.0" prefWidth="40.0">
+                                 <children>
+                                    <JFXButton fx:id="jbtnUp" ellipsisString="" focusTraversable="false" onAction="#jbtnUpAction" prefHeight="5.0" prefWidth="35.0" text=" ">
+                                       <graphic>
+                                          <ImageView fitHeight="16.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/images/up-arrow.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton fx:id="jbtnDown" focusTraversable="false" onAction="#jbtnDownAction" prefHeight="5.0" prefWidth="35.0" text=" ">
+                                       <graphic>
+                                          <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/images/down-arrow.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                     <graphic>
+                        <ImageView fx:id="imgvwMaoDeObra" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+                     </graphic>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <Line fx:id="lnSuperior" endX="723.0" layoutX="457.0" layoutY="172.0" startX="-100.0" stroke="#14256b" />
+            <Line fx:id="lnInferior" endX="723.0" layoutX="458.0" layoutY="509.0" startX="-100.0" stroke="#14256b" />
+            <Line fx:id="lnDireita" endY="336.0" layoutX="1181.0" layoutY="172.0" stroke="#14256b" />
+            <HBox alignment="CENTER_RIGHT" layoutX="659.0" layoutY="588.0" prefHeight="20.0" prefWidth="520.0" spacing="7.0">
+               <children>
+                  <ImageView fx:id="imgvwNotificacao" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lblNotificacao" styleClass="label-notificacao" text="Imprimindo..." />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

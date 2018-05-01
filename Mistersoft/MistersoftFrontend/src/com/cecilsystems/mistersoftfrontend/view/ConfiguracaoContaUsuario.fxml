@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.cecilsystems.cecilfxcomponent.MaskedJFXTextField?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane fx:id="stpnCadastroUsuario" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="625.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cecilsystems.mistersoftfrontend.controller.ConfiguracaoContaUsuarioController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="549.0" prefWidth="627.0" stylesheets="@../resources/styles/GenericTheme.css">
+         <children>
+            <GridPane layoutX="53.0" layoutY="20.0" prefHeight="366.0" prefWidth="535.0">
+               <columnConstraints>
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="530.0" minWidth="10.0" prefWidth="496.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <JFXTextField fx:id="jtxNomeUsuario" prefWidth="518.0" promptText="Nome" GridPane.rowIndex="1" />
+                  <JFXTextField fx:id="jtxEmailUsuario" prefWidth="518.0" promptText="E-mail" GridPane.rowIndex="2" />
+                  <JFXPasswordField fx:id="jpwSenhaUsuario" prefWidth="259.0" promptText="Senha" GridPane.rowIndex="3" />
+                  <JFXPasswordField fx:id="jpwConfirmarSenhaUsuario" prefWidth="259.0" promptText="Confirmar Senha" GridPane.rowIndex="4" />
+                  <MaskedJFXTextField fx:id="jmskCodigoUsuario" editable="false" mask="N!" prefWidth="213.0" promptText="Código" />
+               </children>
+            </GridPane>
+            <JFXButton fx:id="jbtnSalvar" layoutX="249.0" layoutY="413.0" onAction="#jbtnSalvarAction" prefHeight="40.0" prefWidth="110.0" styleClass="jfx-button-salvar" text="ATUALIZAR" />
+            <JFXButton fx:id="jbtnLimpar" layoutX="365.0" layoutY="413.0" onAction="#jbtnLimparAction" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-button-limpar" text="LIMPAR" />
+            <JFXButton fx:id="jbtnFechar" layoutX="470.0" layoutY="413.0" onAction="#jbtnFecharAction" prefHeight="40.0" prefWidth="100.0" styleClass="jfx-button-fechar" text="FECHAR" />
+            <HBox alignment="CENTER_RIGHT" layoutX="54.0" layoutY="219.0" prefHeight="20.0" prefWidth="518.0" spacing="160.0">
+               <children>
+                  <Label fx:id="lblEmailInvalido" prefHeight="20.0" prefWidth="342.0" styleClass="label-notificacao" text="E-mail: Inválido" />
+                  <ImageView fx:id="imgvwEmailInvalido" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/error.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" layoutX="54.0" layoutY="361.0" prefHeight="20.0" prefWidth="259.0" spacing="28.0">
+               <children>
+                  <Label fx:id="lblConfirmarSenha" prefHeight="20.0" prefWidth="219.0" styleClass="label-notificacao" text="Confirmar Senha: Não corresponde" />
+                  <ImageView fx:id="imgvwConfirmarSenha" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/error.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="2.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
