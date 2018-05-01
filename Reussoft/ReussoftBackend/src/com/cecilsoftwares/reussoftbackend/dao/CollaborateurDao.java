@@ -88,86 +88,108 @@ public class CollaborateurDao {
         return null;
     }
 
-    public List<Usuario> lista() throws ClassNotFoundException, SQLException {
+    public List<Collaborateur> lister() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        List<Usuario> lstUsuarios;
+        List<Collaborateur> listeCollaborateurs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            lstUsuarios = new ArrayList();
-            scriptSQL = new StringBuilder("SELECT Usuario.cdUsuario, Usuario.email,");
-            scriptSQL.append(" Usuario.senha, Usuario.nome, Usuario.fotoPath,");
-            scriptSQL.append(" GrupoUsuario.cdGrupoUsuario, GrupoUsuario.dsGrupoUsuario,");
-            scriptSQL.append(" GrupoUsuario.daGrupoUsuario");
-            scriptSQL.append(" FROM Usuario");
-            scriptSQL.append(" LEFT JOIN GrupoUsuario");
-            scriptSQL.append(" ON Usuario.idGrupoUsuario = GrupoUsuario.cdGrupoUsuario");
+            listeCollaborateurs = new ArrayList();
+
+            scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
+            scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
+            scriptSQL.append(" groupeutilisateur.codeGroupeUtilizateur, groupeutilisateur.description, groupeutilisateur.descriptionAbregee,");
+            scriptSQL.append(" shop.codeShop, shop.nom, shop.adresse");
+            scriptSQL.append(" FROM collaborateur");
+            scriptSQL.append(" LEFT JOIN groupeutilisateur");
+            scriptSQL.append(" ON collaborateur.idGroupeUtilisateur = groupeutilisateur.codeGroupeUtilizateur");
+            scriptSQL.append(" LEFT JOIN shop");
+            scriptSQL.append(" ON collaborateur.idShop = shop.codeShop");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
-                    Usuario usuario = new Usuario();
-                    usuario.setCdUsuario(res.getInt(1));
-                    usuario.setEmail(res.getString(2));
-                    usuario.setSenha(res.getString(3));
-                    usuario.setNome(res.getString(4));
-                    usuario.setFotoPath(res.getString(5));
 
-                    GrupoUsuario grupoUsuario = new GrupoUsuario();
-                    grupoUsuario.setCdGrupoUsuario(res.getInt(6));
-                    grupoUsuario.setDsGrupoUsuario(res.getString(7));
-                    grupoUsuario.setDaGrupoUsuario(res.getString(8));
+                    GroupeUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
+                            .description(res.getString(9))
+                            .descriptionAbregee(res.getString(10))
+                            .build();
 
-                    usuario.setGrupoUsuario(grupoUsuario);
+                    Shop shop = new ShopBuilder(res.getInt(11))
+                            .nom(res.getString(12))
+                            .adresse(res.getString(13))
+                            .build();
 
-                    lstUsuarios.add(usuario);
+                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
+                            .utilizateur(res.getString(2))
+                            .motDePasse(res.getString(3))
+                            .preNom(res.getString(4))
+                            .nom(res.getString(5))
+                            .postnom(res.getString(6))
+                            .surnom(res.getString(7))
+                            .groupeUtilisateur(groupeUtilisateur)
+                            .shop(shop)
+                            .build();
+
+                    listeCollaborateurs.add(collaborateur);
                 }
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return lstUsuarios;
+        return listeCollaborateurs;
     }
 
-    public Usuario seleciona(int cdUsuario) throws ClassNotFoundException, SQLException {
+    public Collaborateur selectionner(int codeCollaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT Usuario.cdUsuario, Usuario.email, Usuario.senha,");
-            scriptSQL.append(" Usuario.nome, Usuario.fotoPath, GrupoUsuario.cdGrupoUsuario,");
-            scriptSQL.append(" GrupoUsuario.dsGrupoUsuario, GrupoUsuario.daGrupoUsuario");
-            scriptSQL.append(" FROM Usuario");
-            scriptSQL.append(" LEFT JOIN GrupoUsuario");
-            scriptSQL.append(" ON Usuario.idGrupoUsuario = GrupoUsuario.cdGrupoUsuario");
-            scriptSQL.append(" WHERE cdUsuario=?");
+            scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
+            scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
+            scriptSQL.append(" groupeutilisateur.codeGroupeUtilizateur, groupeutilisateur.description, groupeutilisateur.descriptionAbregee,");
+            scriptSQL.append(" shop.codeShop, shop.nom, shop.adresse");
+            scriptSQL.append(" FROM collaborateur");
+            scriptSQL.append(" LEFT JOIN groupeutilisateur");
+            scriptSQL.append(" ON collaborateur.idGroupeUtilisateur = groupeutilisateur.codeGroupeUtilizateur");
+            scriptSQL.append(" LEFT JOIN shop");
+            scriptSQL.append(" ON collaborateur.idShop = shop.codeShop");
+            scriptSQL.append(" WHERE collaborateur.codeCollaborateur=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, cdUsuario);
+            prs.setInt(1, codeCollaborateur);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
-                    Usuario usuario = new Usuario();
-                    usuario.setCdUsuario(res.getInt(1));
-                    usuario.setEmail(res.getString(2));
-                    usuario.setSenha(res.getString(3));
-                    usuario.setNome(res.getString(4));
-                    usuario.setFotoPath(res.getString(5));
 
-                    GrupoUsuario grupoUsuario = new GrupoUsuario();
-                    grupoUsuario.setCdGrupoUsuario(res.getInt(6));
-                    grupoUsuario.setDsGrupoUsuario(res.getString(7));
-                    grupoUsuario.setDaGrupoUsuario(res.getString(8));
+                    GroupeUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
+                            .description(res.getString(9))
+                            .descriptionAbregee(res.getString(10))
+                            .build();
 
-                    usuario.setGrupoUsuario(grupoUsuario);
+                    Shop shop = new ShopBuilder(res.getInt(11))
+                            .nom(res.getString(12))
+                            .adresse(res.getString(13))
+                            .build();
+
+                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
+                            .utilizateur(res.getString(2))
+                            .motDePasse(res.getString(3))
+                            .preNom(res.getString(4))
+                            .nom(res.getString(5))
+                            .postnom(res.getString(6))
+                            .surnom(res.getString(7))
+                            .groupeUtilisateur(groupeUtilisateur)
+                            .shop(shop)
+                            .build();
 
                     prs.close();
                     res.close();
                     conexao.close();
 
-                    return usuario;
+                    return collaborateur;
                 }
             }
             prs.close();
@@ -177,21 +199,21 @@ public class CollaborateurDao {
         return null;
     }
 
-    public boolean isEmailJaUtilizado(Usuario usuario, boolean modoEdicao) throws ClassNotFoundException, SQLException {
+    public boolean estUtilisateurExistant(Collaborateur collaborateur, boolean modeEdition) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT cdUsuario FROM Usuario");
-            scriptSQL.append(" WHERE email=?");
-            if (!modoEdicao) {
+            scriptSQL = new StringBuilder("SELECT codeCollaborateur FROM collaborateur");
+            scriptSQL.append(" WHERE utilizateur=?");
+            if (!modeEdition) {
                 prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-                prs.setString(1, usuario.getEmail());
+                prs.setString(1, collaborateur.getUtilisateur());
             } else {
-                scriptSQL.append(" and cdUsuario<>?");
+                scriptSQL.append(" and codeCollaborateur<>?");
                 prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-                prs.setString(1, usuario.getEmail());
-                prs.setInt(2, usuario.getCdUsuario());
+                prs.setString(1, collaborateur.getUtilisateur());
+                prs.setInt(2, collaborateur.getCodeCollaborateur());
             }
 
             res = prs.executeQuery();
@@ -208,22 +230,22 @@ public class CollaborateurDao {
         return false;
     }
 
-    public boolean salva(Usuario usuario) throws ClassNotFoundException, SQLException {
+    public boolean sauvegarder(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("INSERT INTO Usuario(");
+            scriptSQL = new StringBuilder("INSERT INTO colaborateur(");
             scriptSQL.append("cdUsuario, email, senha, nome, fotoPath, idGrupoUsuario)");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, usuario.getCdUsuario());
-            prs.setString(2, usuario.getEmail());
-            prs.setString(3, usuario.getSenha());
-            prs.setString(4, usuario.getNome());
-            prs.setString(5, usuario.getFotoPath());
-            prs.setInt(6, usuario.getGrupoUsuario().getCdGrupoUsuario());
+            prs.setInt(1, collaborateur.getCdUsuario());
+            prs.setString(2, collaborateur.getEmail());
+            prs.setString(3, collaborateur.getSenha());
+            prs.setString(4, collaborateur.getNome());
+            prs.setString(5, collaborateur.getFotoPath());
+            prs.setInt(6, collaborateur.getGrupoUsuario().getCdGrupoUsuario());
 
             prs.execute();
             prs.close();

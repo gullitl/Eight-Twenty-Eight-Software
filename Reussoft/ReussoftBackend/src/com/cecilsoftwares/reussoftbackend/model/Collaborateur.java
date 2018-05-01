@@ -10,7 +10,7 @@ public class Collaborateur {
     private final String nom;
     private final String postnom;
     private final String surnom;
-    private final String utilizateur;
+    private final String utilisateur;
     private final GroupeUtilisateur groupeUtilisateur;
     private final String motDePasse;
     private final Shop shop;
@@ -21,7 +21,7 @@ public class Collaborateur {
         nom = collaborateurBuilder.nom;
         postnom = collaborateurBuilder.preNom;
         surnom = collaborateurBuilder.surnom;
-        utilizateur = collaborateurBuilder.utilizateur;
+        utilisateur = collaborateurBuilder.utilizateur;
         groupeUtilisateur = collaborateurBuilder.groupeUtilisateur;
         motDePasse = collaborateurBuilder.motDePasse;
         shop = collaborateurBuilder.shop;
@@ -47,8 +47,8 @@ public class Collaborateur {
         return surnom;
     }
 
-    public String getUtilizateur() {
-        return utilizateur;
+    public String getUtilisateur() {
+        return utilisateur;
     }
 
     public GroupeUtilisateur getGroupeUtilisateur() {
