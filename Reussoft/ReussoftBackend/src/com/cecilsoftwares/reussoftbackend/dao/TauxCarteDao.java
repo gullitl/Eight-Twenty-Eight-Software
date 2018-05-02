@@ -16,17 +16,17 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class Produit {
+public class TauxCarteDao {
 
     private StringBuilder scriptSQL;
-    private static Produit uniqueInstance;
+    private static TauxCarteDao uniqueInstance;
 
-    public Produit() {
+    public TauxCarteDao() {
     }
 
-    public static synchronized Produit getInstance() {
+    public static synchronized TauxCarteDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new Produit();
+            uniqueInstance = new TauxCarteDao();
         }
         return uniqueInstance;
     }

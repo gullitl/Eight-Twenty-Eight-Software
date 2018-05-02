@@ -16,17 +16,17 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class Reseau {
+public class GroupeUtilisateurDao {
 
     private StringBuilder scriptSQL;
-    private static Reseau uniqueInstance;
+    private static GroupeUtilisateur uniqueInstance;
 
-    public Reseau() {
+    public GroupeUtilisateurDao() {
     }
 
-    public static synchronized Reseau getInstance() {
+    public static synchronized GroupeUtilisateur getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new Reseau();
+            uniqueInstance = new GroupeUtilisateur();
         }
         return uniqueInstance;
     }

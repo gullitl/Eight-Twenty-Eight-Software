@@ -1,7 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoftbackend.model.Client;
-import com.cecilsoftwares.reussoftbackend.model.Client.ClientBuilder;
+import com.cecilsoftwares.reussoftbackend.model.CategorieProduit;
+import com.cecilsoftwares.reussoftbackend.model.CategorieProduit.CategorieProduitBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,77 +12,76 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class ClientDao {
+public class CategorieProduitDao {
 
     private StringBuilder scriptSQL;
-    private static ClientDao uniqueInstance;
+    private static CategorieProduitDao uniqueInstance;
 
-    public ClientDao() {
+    public CategorieProduitDao() {
     }
 
-    public static synchronized ClientDao getInstance() {
+    public static synchronized CategorieProduitDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new ClientDao();
+            uniqueInstance = new CategorieProduitDao();
         }
         return uniqueInstance;
     }
 
-    public List<Client> lister() throws ClassNotFoundException, SQLException {
+    public List<CategorieProduit> lister() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        List<Client> listeClients;
+        List<CategorieProduit> listeCategoriesProduit;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT codeClient, responsable, entreprise");
-            scriptSQL.append(" FROM client");
+            scriptSQL = new StringBuilder("SELECT codeCategorieProduit, description, descriptionAbregee");
+            scriptSQL.append(" FROM categorieproduit");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
 
-            listeClients = new ArrayList();
+            listeCategoriesProduit = new ArrayList();
             if (res != null) {
                 while (res.next()) {
 
-                    Client client = new ClientBuilder(res.getInt(1))
-                            .responsable(res.getString(2))
-                            .entreprise(res.getString(3))
+                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(1))
+                            .description(res.getString(2))
+                            .descriptionAbregee(res.getString(3))
                             .build();
 
-                    listeClients.add(client);
+                    listeCategoriesProduit.add(categorieProduit);
                 }
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return listeClients;
+        return listeCategoriesProduit;
     }
 
-    public Client selectionner(int codeClient) throws ClassNotFoundException, SQLException {
+    public CategorieProduit selectionner(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT codeClient, responsable, entreprise");
-            scriptSQL.append(" FROM client");
-            scriptSQL.append(" WHERE codeClient=?");
+            scriptSQL = new StringBuilder("SELECT codeCategorieproduit, description, descriptionAbregee");
+            scriptSQL.append(" WHERE codeCategorieProduit=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeClient);
+            prs.setInt(1, codeCategorieProduit);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
 
-                    Client client = new ClientBuilder(res.getInt(1))
-                            .responsable(res.getString(2))
-                            .entreprise(res.getString(3))
+                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(1))
+                            .description(res.getString(2))
+                            .descriptionAbregee(res.getString(3))
                             .build();
 
                     prs.close();
                     res.close();
                     conexao.close();
 
-                    return client;
+                    return categorieProduit;
                 }
             }
             prs.close();
@@ -92,19 +91,19 @@ public class ClientDao {
         return null;
     }
 
-    public boolean sauvegarder(Client client) throws ClassNotFoundException, SQLException {
+    public boolean sauvegarder(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("INSERT INTO client(");
-            scriptSQL.append(" codeClient, responsable, entreprise )");
+            scriptSQL = new StringBuilder("INSERT INTO categorieproduit(");
+            scriptSQL.append(" codeCategorieProduit, description, descriptionAbregee");
             scriptSQL.append(" VALUES (?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, client.getCodeClient());
-            prs.setString(2, client.getResponsable());
-            prs.setString(3, client.getEntreprise());
+            prs.setInt(1, categorieProduit.getCodeCategorieProduit());
+            prs.setString(2, categorieProduit.getDescription());
+            prs.setString(3, categorieProduit.getDescriptionAbregee());
 
             prs.execute();
             prs.close();
@@ -113,19 +112,19 @@ public class ClientDao {
         return true;
     }
 
-    public boolean actualiser(Client client) throws ClassNotFoundException, SQLException {
+    public boolean actualiser(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("UPDATE client");
-            scriptSQL.append(" SET responsable=?, entreprise=?");
-            scriptSQL.append(" WHERE codeClient=?");
+            scriptSQL = new StringBuilder("UPDATE categorieproduit");
+            scriptSQL.append(" SET description=?, descriptionAbregee=?");
+            scriptSQL.append(" WHERE codeCategorieProduit=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setString(1, client.getResponsable());
-            prs.setString(2, client.getEntreprise());
-            prs.setInt(3, client.getCodeClient());
+            prs.setString(1, categorieProduit.getDescription());
+            prs.setString(2, categorieProduit.getDescriptionAbregee());
+            prs.setInt(3, categorieProduit.getCodeCategorieProduit());
 
             prs.execute();
             prs.close();
@@ -134,14 +133,14 @@ public class ClientDao {
         return true;
     }
 
-    public boolean exclure(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+    public boolean exclure(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("DELETE FROM client WHERE codeClient=?");
+            scriptSQL = new StringBuilder("DELETE FROM categorieproduit WHERE codeCategorieProduit=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCollaborateur);
+            prs.setInt(1, codeCategorieProduit);
 
             prs.execute();
             prs.close();
@@ -150,12 +149,12 @@ public class ClientDao {
         return true;
     }
 
-    public int selectionnerCodeClientSubsequent() throws ClassNotFoundException, SQLException {
+    public int selectionnerCodeCategorieProduitSubsequent() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT Max(codeClient)+1 FROM client");
+            scriptSQL = new StringBuilder("SELECT Max(codeCategorieProduit)+1 FROM categorieproduit");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {

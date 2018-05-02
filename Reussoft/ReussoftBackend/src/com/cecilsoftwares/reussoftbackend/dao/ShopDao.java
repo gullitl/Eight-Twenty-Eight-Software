@@ -16,17 +16,17 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class SortieStock {
+public class ShopDao {
 
     private StringBuilder scriptSQL;
-    private static SortieStock uniqueInstance;
+    private static Shop uniqueInstance;
 
-    public SortieStock() {
+    public ShopDao() {
     }
 
-    public static synchronized SortieStock getInstance() {
+    public static synchronized Shop getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new SortieStock();
+            uniqueInstance = new Shop();
         }
         return uniqueInstance;
     }

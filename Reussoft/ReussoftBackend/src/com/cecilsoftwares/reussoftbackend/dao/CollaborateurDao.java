@@ -94,8 +94,6 @@ public class CollaborateurDao {
         List<Collaborateur> listeCollaborateurs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            listeCollaborateurs = new ArrayList();
-
             scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
             scriptSQL.append(" groupeutilisateur.codeGroupeUtilizateur, groupeutilisateur.description, groupeutilisateur.descriptionAbregee,");
@@ -108,6 +106,8 @@ public class CollaborateurDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
+
+            listeCollaborateurs = new ArrayList();
             if (res != null) {
                 while (res.next()) {
 

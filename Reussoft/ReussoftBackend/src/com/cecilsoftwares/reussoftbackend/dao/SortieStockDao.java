@@ -16,17 +16,17 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class GroupeUtilisateur {
+public class SortieStockDao {
 
     private StringBuilder scriptSQL;
-    private static GroupeUtilisateur uniqueInstance;
+    private static SortieStockDao uniqueInstance;
 
-    public GroupeUtilisateur() {
+    public SortieStockDao() {
     }
 
-    public static synchronized GroupeUtilisateur getInstance() {
+    public static synchronized SortieStockDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new GroupeUtilisateur();
+            uniqueInstance = new SortieStockDao();
         }
         return uniqueInstance;
     }

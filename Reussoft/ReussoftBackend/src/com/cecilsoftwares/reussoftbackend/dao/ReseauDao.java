@@ -16,17 +16,17 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class Shop {
+public class ReseauDao {
 
     private StringBuilder scriptSQL;
-    private static Shop uniqueInstance;
+    private static ReseauDao uniqueInstance;
 
-    public Shop() {
+    public ReseauDao() {
     }
 
-    public static synchronized Shop getInstance() {
+    public static synchronized ReseauDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new Shop();
+            uniqueInstance = new ReseauDao();
         }
         return uniqueInstance;
     }

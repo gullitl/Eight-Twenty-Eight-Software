@@ -16,17 +16,17 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class Fournisseur {
+public class SessionUtilisateurDao {
 
     private StringBuilder scriptSQL;
-    private static Fournisseur uniqueInstance;
+    private static SessionUtilisateurDao uniqueInstance;
 
-    public Fournisseur() {
+    public SessionUtilisateurDao() {
     }
 
-    public static synchronized Fournisseur getInstance() {
+    public static synchronized SessionUtilisateurDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new Fournisseur();
+            uniqueInstance = new SessionUtilisateurDao();
         }
         return uniqueInstance;
     }

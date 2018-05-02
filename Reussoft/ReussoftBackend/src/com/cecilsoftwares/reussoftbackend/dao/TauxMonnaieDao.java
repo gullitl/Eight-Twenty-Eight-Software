@@ -16,17 +16,17 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class TauxCarte {
+public class TauxMonnaieDao {
 
     private StringBuilder scriptSQL;
-    private static TauxCarte uniqueInstance;
+    private static TauxMonnaieDao uniqueInstance;
 
-    public TauxCarte() {
+    public TauxMonnaieDao() {
     }
 
-    public static synchronized TauxCarte getInstance() {
+    public static synchronized TauxMonnaieDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new TauxCarte();
+            uniqueInstance = new TauxMonnaieDao();
         }
         return uniqueInstance;
     }

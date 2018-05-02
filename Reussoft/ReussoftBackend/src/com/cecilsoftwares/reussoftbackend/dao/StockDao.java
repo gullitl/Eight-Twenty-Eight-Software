@@ -16,17 +16,17 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class TauxMonnaie {
+public class StockDao {
 
     private StringBuilder scriptSQL;
-    private static TauxMonnaie uniqueInstance;
+    private static StockDao uniqueInstance;
 
-    public TauxMonnaie() {
+    public StockDao() {
     }
 
-    public static synchronized TauxMonnaie getInstance() {
+    public static synchronized StockDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new TauxMonnaie();
+            uniqueInstance = new StockDao();
         }
         return uniqueInstance;
     }
