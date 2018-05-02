@@ -5,14 +5,14 @@ package com.cecilsoftwares.reussoftbackend.model;
  */
 public class ConnectionCredentials {
 
-    private String mysqldLink;
-    private String jdbcDriver;
-    private String urlHead;
-    private String serverHost;
-    private int port;
-    private String schema;
-    private String user;
-    private String password;
+    private final String mysqldLink;
+    private final String jdbcDriver;
+    private final String urlHead;
+    private final String serverHost;
+    private final int port;
+    private final String schema;
+    private final String user;
+    private final String password;
 
     public ConnectionCredentials(ConnectionCredentialsBuilder connectionCredentialsBuilder) {
         mysqldLink = connectionCredentialsBuilder.mysqldLink;

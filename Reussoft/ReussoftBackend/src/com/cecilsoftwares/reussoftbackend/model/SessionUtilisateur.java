@@ -7,11 +7,11 @@ import java.util.Date;
  */
 public class SessionUtilisateur {
 
-    private int codeSessionUtilisateur;
-    private Collaborateur collaborateur;
-    private Shop idShop;
-    private String log;
-    private Date dateHeure;
+    private final int codeSessionUtilisateur;
+    private final Collaborateur collaborateur;
+    private final Shop idShop;
+    private final String log;
+    private final Date dateHeure;
 
     public SessionUtilisateur(SessionUtilisateurBuilder sessionUtilisateurBuilder) {
         codeSessionUtilisateur = sessionUtilisateurBuilder.codeSessionUtilisateur;

@@ -7,12 +7,12 @@ import java.math.BigDecimal;
  */
 public class Produit {
 
-    private int codeProduit;
-    private Reseau reseau;
-    private String description;
-    private BigDecimal prixUSD;
-    private BigDecimal prixFC;
-    private CategorieProduit categorieProduit;
+    private final int codeProduit;
+    private final Reseau reseau;
+    private final String description;
+    private final BigDecimal prixUSD;
+    private final BigDecimal prixFC;
+    private final CategorieProduit categorieProduit;
 
     public Produit(ProduitBuilder produitBuilder) {
         codeProduit = produitBuilder.codeProduit;

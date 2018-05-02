@@ -9,16 +9,16 @@ import java.util.Date;
  */
 public class SortieStock {
 
-    private int codeSortieStock;
-    private Produit produit;
-    private Shop shop;
-    private Client client;
-    private DispatchEnum dispatchEnum;
-    private BigDecimal prixUSD;
-    private BigDecimal prixFC;
-    private TauxCarte tauxCarte;
-    private int qtdProduit;
-    private Date dateHeure;
+    private final int codeSortieStock;
+    private final Produit produit;
+    private final Shop shop;
+    private final Client client;
+    private final DispatchEnum dispatchEnum;
+    private final BigDecimal prixUSD;
+    private final BigDecimal prixFC;
+    private final TauxCarte tauxCarte;
+    private final int qtdProduit;
+    private final Date dateHeure;
 
     public SortieStock(SortieStockBuilder sortieStockBuilder) {
         codeSortieStock = sortieStockBuilder.codeSortieStock;

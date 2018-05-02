@@ -7,20 +7,20 @@ import java.util.List;
  */
 public class GroupeUtilisateur {
 
-    private int codeGroupeUtilizateur;
-    private String description;
-    private String descriptionAbregee;
-    private List<Collaborateur> listeCollaborateurs;
+    private final int codeGroupeUtilisateur;
+    private final String description;
+    private final String descriptionAbregee;
+    private final List<Collaborateur> listeCollaborateurs;
 
     public GroupeUtilisateur(GroupeUtilisateurBuilder groupeUtilisateurBuilder) {
-        codeGroupeUtilizateur = groupeUtilisateurBuilder.codeGroupeUtilizateur;
+        codeGroupeUtilisateur = groupeUtilisateurBuilder.codeGroupeUtilizateur;
         description = groupeUtilisateurBuilder.description;
         descriptionAbregee = groupeUtilisateurBuilder.descriptionAbregee;
         listeCollaborateurs = groupeUtilisateurBuilder.listeCollaborateurs;
     }
 
-    public int getCodeGroupeUtilizateur() {
-        return codeGroupeUtilizateur;
+    public int getCodeGroupeUtilisateur() {
+        return codeGroupeUtilisateur;
     }
 
     public String getDescription() {
@@ -64,6 +64,5 @@ public class GroupeUtilisateur {
         public GroupeUtilisateur build() {
             return new GroupeUtilisateur(this);
         }
-
     }
 }

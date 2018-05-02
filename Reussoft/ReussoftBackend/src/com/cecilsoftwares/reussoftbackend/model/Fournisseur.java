@@ -5,9 +5,9 @@ package com.cecilsoftwares.reussoftbackend.model;
  */
 public class Fournisseur {
 
-    private int codeFournisseur;
-    private String entreprise;
-    private String responsable;
+    private final int codeFournisseur;
+    private final String entreprise;
+    private final String responsable;
 
     public Fournisseur(FournisseurBuilder fournisseurBuilder) {
         codeFournisseur = fournisseurBuilder.codeFournisseur;

@@ -12,11 +12,11 @@ import java.math.BigDecimal;
  */
 public class Stock {
 
-    private Produit produit;
-    private Shop shop;
-    private BigDecimal qtdStock;
-    private BigDecimal qtdMaximumStock;
-    private BigDecimal qtdMinimumStock;
+    private final Produit produit;
+    private final Shop shop;
+    private final BigDecimal qtdStock;
+    private final BigDecimal qtdMaximumStock;
+    private final BigDecimal qtdMinimumStock;
 
     public Stock(StockBuilder stockBuilder) {
         produit = stockBuilder.produit;

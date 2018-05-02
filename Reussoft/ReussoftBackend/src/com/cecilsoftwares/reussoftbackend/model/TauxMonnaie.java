@@ -8,10 +8,10 @@ import java.util.Date;
  */
 public class TauxMonnaie {
 
-    private int codeTauxMonnaie;
-    private Shop shop;
-    private BigDecimal tauxCarte;
-    private Date dateHeure;
+    private final int codeTauxMonnaie;
+    private final Shop shop;
+    private final BigDecimal tauxCarte;
+    private final Date dateHeure;
 
     public TauxMonnaie(TauxMonnaieBuilder tauxMonnaieBuilder) {
         codeTauxMonnaie = tauxMonnaieBuilder.codeTauxMonnaie;

@@ -7,10 +7,10 @@ import java.util.List;
  */
 public class Shop {
 
-    private int codeShop;
-    private String nom;
-    private String adresse;
-    private List<Collaborateur> listeCollaborateurs;
+    private final int codeShop;
+    private final String nom;
+    private final String adresse;
+    private final List<Collaborateur> listeCollaborateurs;
 
     public Shop(ShopBuilder shopBuilder) {
         codeShop = shopBuilder.codeShop;

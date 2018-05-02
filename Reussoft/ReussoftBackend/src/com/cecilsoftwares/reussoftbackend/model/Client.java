@@ -5,9 +5,9 @@ package com.cecilsoftwares.reussoftbackend.model;
  */
 public class Client {
 
-    private int codeClient;
-    private String entreprise;
-    private String responsable;
+    private final int codeClient;
+    private final String entreprise;
+    private final String responsable;
 
     public Client(ClientBuilder clientBuilder) {
         codeClient = clientBuilder.codeClient;

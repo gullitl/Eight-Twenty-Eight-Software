@@ -7,10 +7,10 @@ import java.util.List;
  */
 public class Reseau {
 
-    private int codeReseau;
-    private String nomReseau;
-    private String nomAbrege;
-    private List<Produit> listeProduits;
+    private final int codeReseau;
+    private final String nomReseau;
+    private final String nomAbrege;
+    private final List<Produit> listeProduits;
 
     public Reseau(ReseauBuilder reseauBuilder) {
         codeReseau = reseauBuilder.codeReseau;
