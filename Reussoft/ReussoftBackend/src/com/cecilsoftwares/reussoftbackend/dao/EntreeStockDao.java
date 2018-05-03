@@ -20,7 +20,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -106,7 +105,7 @@ public class EntreeStockDao {
 
                     TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(23))
                             .tauxCarte(res.getBigDecimal(24))
-                            .dateHeure(new Date())
+                            .dateHeure(res.getTimestamp(25))
                             .build();
 
                     EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1))
@@ -114,7 +113,7 @@ public class EntreeStockDao {
                             .prixUSD(res.getBigDecimal(3))
                             .prixFC(res.getBigDecimal(4))
                             .qtdProduit(res.getInt(5))
-                            .dateHeure(new Date())
+                            .dateHeure(res.getTimestamp(6))
                             .produit(produit)
                             .shop(shop)
                             .fournisseur(fournisseur)
@@ -195,7 +194,7 @@ public class EntreeStockDao {
 
                     TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(23))
                             .tauxCarte(res.getBigDecimal(24))
-                            .dateHeure(new Date())
+                            .dateHeure(res.getTimestamp(25))
                             .build();
 
                     EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1))
@@ -203,7 +202,7 @@ public class EntreeStockDao {
                             .prixUSD(res.getBigDecimal(3))
                             .prixFC(res.getBigDecimal(4))
                             .qtdProduit(res.getInt(5))
-                            .dateHeure(new Date())
+                            .dateHeure(res.getTimestamp(6))
                             .produit(produit)
                             .shop(shop)
                             .fournisseur(fournisseur)
@@ -253,56 +252,12 @@ public class EntreeStockDao {
         return true;
     }
 
-    public boolean actualiser(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("UPDATE entreeStock");
-            scriptSQL.append(" SET preNom=?, nom=?, postnom=?, surnom=?, utilisateur=?,");
-            scriptSQL.append(" idGroupeUtilisateur=?, motDePasse=?, idShop=?");
-            scriptSQL.append(" WHERE codeEntreeStock=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setInt(1, entreeStock.getCodeEntreeStock());
-            prs.setString(2, entreeStock.getPreNom());
-            prs.setString(3, entreeStock.getNom());
-            prs.setString(4, entreeStock.getPostnom());
-            prs.setString(5, entreeStock.getSurnom());
-            prs.setString(6, entreeStock.getUtilisateur());
-            prs.setInt(7, entreeStock.getGroupeUtilisateur().getCodeGroupeUtilisateur());
-            prs.setString(8, entreeStock.getMotDePasse());
-            prs.setInt(9, entreeStock.getShop().getCodeShop());
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    public boolean exclure(int codeEntreeStock) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("DELETE FROM entreeStock WHERE codeEntreeStock=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeEntreeStock);
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
     public int selectionnerCodeEntreeStockSubsequent() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT Max(codeEntreeStock)+1 FROM entreeStock");
+            scriptSQL = new StringBuilder("SELECT Max(codeEntreeStock)+1 FROM entreestock");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {

@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftbackend.model.Collaborateur;
 import com.cecilsoftwares.reussoftbackend.model.Collaborateur.CollaborateurBuilder;
+import com.cecilsoftwares.reussoftbackend.model.Fournisseur;
 import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur;
 import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur.GroupeUtilisateurBuilder;
 import com.cecilsoftwares.reussoftbackend.model.Shop;
@@ -31,10 +32,10 @@ public class FournisseurDao {
         return uniqueInstance;
     }
 
-    public List<Collaborateur> lister() throws ClassNotFoundException, SQLException {
+    public List<Fournisseur> lister() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        List<Collaborateur> listeCollaborateurs;
+        List<Fournisseur> listeCollaborateurs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
             listeCollaborateurs = new ArrayList();
