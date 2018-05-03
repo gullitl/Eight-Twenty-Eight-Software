@@ -11,7 +11,7 @@ public class Collaborateur {
     private final String postnom;
     private final String surnom;
     private final String utilisateur;
-    private final GroupeUtilisateur groupeUtilisateur;
+    private final ProfilUtilisateur profilUtilisateur;
     private final String motDePasse;
     private final Shop shop;
 
@@ -22,7 +22,7 @@ public class Collaborateur {
         postnom = collaborateurBuilder.preNom;
         surnom = collaborateurBuilder.surnom;
         utilisateur = collaborateurBuilder.utilizateur;
-        groupeUtilisateur = collaborateurBuilder.groupeUtilisateur;
+        profilUtilisateur = collaborateurBuilder.profilUtilisateur;
         motDePasse = collaborateurBuilder.motDePasse;
         shop = collaborateurBuilder.shop;
     }
@@ -51,8 +51,8 @@ public class Collaborateur {
         return utilisateur;
     }
 
-    public GroupeUtilisateur getGroupeUtilisateur() {
-        return groupeUtilisateur;
+    public ProfilUtilisateur getProfilUtilisateur() {
+        return profilUtilisateur;
     }
 
     public String getMotDePasse() {
@@ -71,7 +71,7 @@ public class Collaborateur {
         private String postnom;
         private String surnom;
         private String utilizateur;
-        private GroupeUtilisateur groupeUtilisateur;
+        private ProfilUtilisateur profilUtilisateur;
         private String motDePasse;
         private Shop shop;
 
@@ -104,8 +104,8 @@ public class Collaborateur {
             return this;
         }
 
-        public CollaborateurBuilder groupeUtilisateur(GroupeUtilisateur groupeUtilisateur) {
-            this.groupeUtilisateur = groupeUtilisateur;
+        public CollaborateurBuilder profilUtilisateur(ProfilUtilisateur profilUtilisateur) {
+            this.profilUtilisateur = profilUtilisateur;
             return this;
         }
 

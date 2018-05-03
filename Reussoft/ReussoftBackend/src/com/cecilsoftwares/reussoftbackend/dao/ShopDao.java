@@ -2,8 +2,8 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftbackend.model.Collaborateur;
 import com.cecilsoftwares.reussoftbackend.model.Collaborateur.CollaborateurBuilder;
-import com.cecilsoftwares.reussoftbackend.model.GroupeUtilisateur;
-import com.cecilsoftwares.reussoftbackend.model.GroupeUtilisateur.GroupeUtilisateurBuilder;
+import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur;
+import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur.GroupeUtilisateurBuilder;
 import com.cecilsoftwares.reussoftbackend.model.Shop;
 import com.cecilsoftwares.reussoftbackend.model.Shop.ShopBuilder;
 import java.sql.Connection;
@@ -19,14 +19,14 @@ import java.util.List;
 public class ShopDao {
 
     private StringBuilder scriptSQL;
-    private static Shop uniqueInstance;
+    private static ShopDao uniqueInstance;
 
     public ShopDao() {
     }
 
-    public static synchronized Shop getInstance() {
+    public static synchronized ShopDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new Shop();
+            uniqueInstance = new ShopDao();
         }
         return uniqueInstance;
     }
@@ -54,7 +54,7 @@ public class ShopDao {
             if (res != null) {
                 while (res.next()) {
 
-                    GroupeUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
+                    ProfilUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
                             .description(res.getString(9))
                             .descriptionAbregee(res.getString(10))
                             .build();
@@ -71,7 +71,7 @@ public class ShopDao {
                             .nom(res.getString(5))
                             .postnom(res.getString(6))
                             .surnom(res.getString(7))
-                            .groupeUtilisateur(groupeUtilisateur)
+                            .profilUtilisateur(groupeUtilisateur)
                             .shop(shop)
                             .build();
 
@@ -107,7 +107,7 @@ public class ShopDao {
             if (res != null) {
                 if (res.next()) {
 
-                    GroupeUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
+                    ProfilUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
                             .description(res.getString(9))
                             .descriptionAbregee(res.getString(10))
                             .build();
@@ -124,7 +124,7 @@ public class ShopDao {
                             .nom(res.getString(5))
                             .postnom(res.getString(6))
                             .surnom(res.getString(7))
-                            .groupeUtilisateur(groupeUtilisateur)
+                            .profilUtilisateur(groupeUtilisateur)
                             .shop(shop)
                             .build();
 
@@ -159,7 +159,7 @@ public class ShopDao {
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
             prs.setString(6, collaborateur.getUtilisateur());
-            prs.setInt(7, collaborateur.getGroupeUtilisateur().getCodeGroupeUtilisateur());
+            prs.setInt(7, collaborateur.getProfilUtilisateur().getCodeGroupeUtilisateur());
             prs.setString(8, collaborateur.getMotDePasse());
             prs.setInt(9, collaborateur.getShop().getCodeShop());
 
@@ -187,7 +187,7 @@ public class ShopDao {
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
             prs.setString(6, collaborateur.getUtilisateur());
-            prs.setInt(7, collaborateur.getGroupeUtilisateur().getCodeGroupeUtilisateur());
+            prs.setInt(7, collaborateur.getProfilUtilisateur().getCodeGroupeUtilisateur());
             prs.setString(8, collaborateur.getMotDePasse());
             prs.setInt(9, collaborateur.getShop().getCodeShop());
 

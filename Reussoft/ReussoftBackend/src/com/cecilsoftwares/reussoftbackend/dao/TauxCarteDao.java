@@ -2,8 +2,8 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftbackend.model.Collaborateur;
 import com.cecilsoftwares.reussoftbackend.model.Collaborateur.CollaborateurBuilder;
-import com.cecilsoftwares.reussoftbackend.model.GroupeUtilisateur;
-import com.cecilsoftwares.reussoftbackend.model.GroupeUtilisateur.GroupeUtilisateurBuilder;
+import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur;
+import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur.GroupeUtilisateurBuilder;
 import com.cecilsoftwares.reussoftbackend.model.Shop;
 import com.cecilsoftwares.reussoftbackend.model.Shop.ShopBuilder;
 import java.sql.Connection;
@@ -54,7 +54,7 @@ public class TauxCarteDao {
             if (res != null) {
                 while (res.next()) {
 
-                    GroupeUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
+                    ProfilUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
                             .description(res.getString(9))
                             .descriptionAbregee(res.getString(10))
                             .build();
@@ -107,7 +107,7 @@ public class TauxCarteDao {
             if (res != null) {
                 if (res.next()) {
 
-                    GroupeUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
+                    ProfilUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
                             .description(res.getString(9))
                             .descriptionAbregee(res.getString(10))
                             .build();
