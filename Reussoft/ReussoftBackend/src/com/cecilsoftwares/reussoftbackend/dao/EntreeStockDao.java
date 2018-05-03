@@ -1,17 +1,26 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
+import com.cecilsoftwares.reussoft.enumarable.DispatchEnum;
+import com.cecilsoftwares.reussoftbackend.model.CategorieProduit;
+import com.cecilsoftwares.reussoftbackend.model.CategorieProduit.CategorieProduitBuilder;
 import com.cecilsoftwares.reussoftbackend.model.EntreeStock;
 import com.cecilsoftwares.reussoftbackend.model.EntreeStock.EntreeStockBuilder;
-import com.cecilsoftwares.reussoftbackend.model.GroupeUtilisateur;
-import com.cecilsoftwares.reussoftbackend.model.GroupeUtilisateur.GroupeUtilisateurBuilder;
+import com.cecilsoftwares.reussoftbackend.model.Fournisseur;
+import com.cecilsoftwares.reussoftbackend.model.Fournisseur.FournisseurBuilder;
 import com.cecilsoftwares.reussoftbackend.model.Produit;
+import com.cecilsoftwares.reussoftbackend.model.Produit.ProduitBuilder;
+import com.cecilsoftwares.reussoftbackend.model.Reseau;
+import com.cecilsoftwares.reussoftbackend.model.Reseau.ReseauBuilder;
 import com.cecilsoftwares.reussoftbackend.model.Shop;
 import com.cecilsoftwares.reussoftbackend.model.Shop.ShopBuilder;
+import com.cecilsoftwares.reussoftbackend.model.TauxCarte;
+import com.cecilsoftwares.reussoftbackend.model.TauxCarte.TauxCarteBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,53 +50,75 @@ public class EntreeStockDao {
             listeEntreeStocks = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT entreestock.codeEntreeStock, entreestock.dispatch, entreestock.prixUSD,");
-            scriptSQL.append(" entreestock.prixFC, entreestock.qtdProduit, entreestock.dateHeure, entreeStock.surnom,");
-            scriptSQL.append(" produit.codeProduit, produit.idReseau, produit.description, produit.prixUSD, produit.prixFC,");
-            scriptSQL.append(" produit.idCategorieProduit, shop.codeShop, shop.nom, shop.adresse");
-            scriptSQL.append(" fournisseur.codeFournisseur, fournisseur.entreprise, fournisseur.responsable");
-            scriptSQL.append(" tauxcarte.codeTauxCarte, tauxcarte.idShop, tauxcarte.tauxCarte, tauxcarte.dateHeure");
+            scriptSQL.append(" entreestock.prixFC, entreestock.qtdProduit, entreestock.dateHeure,");
+            scriptSQL.append(" produit.codeProduit, produit.description, produit.prixUSD, produit.prixFC,");
+            scriptSQL.append(" reseau.codeReseau, reseau.nom, reseau.nomAbrege,");
+            scriptSQL.append(" categorieproduit.codeCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
+            scriptSQL.append(" shop.codeShop, shop.nom, shop.adresse");
+            scriptSQL.append(" fournisseur.codeFournisseur, fournisseur.entreprise, fournisseur.responsable,");
+            scriptSQL.append(" tauxcarte.codeTauxCarte, tauxcarte.tauxCarte, tauxcarte.dateHeure");
             scriptSQL.append(" FROM entreestock");
-            scriptSQL.append(" LEFT JOIN fournisseur");
-            scriptSQL.append(" ON entreestock.idFournisseur = fournisseur.codeFournisseur");
+            scriptSQL.append(" LEFT JOIN produit");
+            scriptSQL.append(" ON entreestock.idProduit = produit.codeProduit");
+            scriptSQL.append(" LEFT JOIN reseau");
+            scriptSQL.append(" ON produit.idReseau = reseau.codeReseau");
+            scriptSQL.append(" LEFT JOIN categorieproduit");
+            scriptSQL.append(" ON produit.idCategorieProduit = categorieproduit.codeCategorieProduit");
             scriptSQL.append(" LEFT JOIN shop");
             scriptSQL.append(" ON entreeStock.idShop = shop.codeShop");
+            scriptSQL.append(" LEFT JOIN fournisseur");
+            scriptSQL.append(" ON entreestock.idFournisseur = fournisseur.codeFournisseur");
             scriptSQL.append(" LEFT JOIN tauxcarte");
             scriptSQL.append(" ON entreestock.idTauxCarte = tauxcarte.codeTauxCarte");
 
-//            codeEntreeStock : int
-//  idProduit : int
-//  idShop : int
-//  idFournisseur : int
-//  dispatch : char
-//  prixUSD : decimal
-//  prixFC : decimal
-//  idTauxCarte : int
-//  qtdProduit : int
-//  dateHeure : varchar
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new GroupeUtilisateurBuilder(res.getInt(8))
-                            .description(res.getString(9))
-                            .descriptionAbregee(res.getString(10))
+                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(14))
+                            .description(res.getString(15))
+                            .descriptionAbregee(res.getString(16))
                             .build();
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Reseau reseau = new ReseauBuilder(res.getInt(11))
+                            .nomAbrege(res.getString(12))
+                            .nom(res.getString(13))
+                            .build();
+
+                    Produit produit = new ProduitBuilder(res.getInt(7))
+                            .description(res.getString(8))
+                            .prixUSD(res.getBigDecimal(9))
+                            .prixFC(res.getBigDecimal(10))
+                            .categorieProduit(categorieProduit)
+                            .reseau(reseau)
+                            .build();
+
+                    Shop shop = new ShopBuilder(res.getInt(17))
+                            .nom(res.getString(18))
+                            .adresse(res.getString(19))
+                            .build();
+
+                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(20))
+                            .entreprise(res.getString(21))
+                            .responsable(res.getString(22))
+                            .build();
+
+                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(23))
+                            .tauxCarte(res.getBigDecimal(24))
+                            .dateHeure(new Date())
                             .build();
 
                     EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1))
-                            .utilizateur(res.getString(2))
-                            .motDePasse(res.getString(3))
-                            .preNom(res.getString(4))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
-                            .groupeUtilisateur(produit)
+                            .dispatchEnum(res.getString(2).charAt(0) == DispatchEnum.VRAI.getType() ? DispatchEnum.VRAI : DispatchEnum.FAUX)
+                            .prixUSD(res.getBigDecimal(3))
+                            .prixFC(res.getBigDecimal(4))
+                            .qtdProduit(res.getInt(5))
+                            .dateHeure(new Date())
+                            .produit(produit)
                             .shop(shop)
+                            .fournisseur(fournisseur)
+                            .tauxCarte(tauxCarte)
                             .build();
 
                     listeEntreeStocks.add(entreeStock);
@@ -105,16 +136,28 @@ public class EntreeStockDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT entreeStock.codeEntreeStock, entreeStock.utilizateur, entreeStock.motDePasse,");
-            scriptSQL.append(" entreeStock.preNom, entreeStock.nom, entreeStock.postnom, entreeStock.surnom,");
-            scriptSQL.append(" groupeutilisateur.codeGroupeUtilizateur, groupeutilisateur.description, groupeutilisateur.descriptionAbregee,");
+            scriptSQL = new StringBuilder("SELECT entreestock.codeEntreeStock, entreestock.dispatch, entreestock.prixUSD,");
+            scriptSQL.append(" entreestock.prixFC, entreestock.qtdProduit, entreestock.dateHeure,");
+            scriptSQL.append(" produit.codeProduit, produit.description, produit.prixUSD, produit.prixFC,");
+            scriptSQL.append(" reseau.codeReseau, reseau.nom, reseau.nomAbrege,");
+            scriptSQL.append(" categorieproduit.codeCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
             scriptSQL.append(" shop.codeShop, shop.nom, shop.adresse");
-            scriptSQL.append(" FROM entreeStock");
-            scriptSQL.append(" LEFT JOIN groupeutilisateur");
-            scriptSQL.append(" ON entreeStock.idGroupeUtilisateur = groupeutilisateur.codeGroupeUtilizateur");
+            scriptSQL.append(" fournisseur.codeFournisseur, fournisseur.entreprise, fournisseur.responsable,");
+            scriptSQL.append(" tauxcarte.codeTauxCarte, tauxcarte.tauxCarte, tauxcarte.dateHeure");
+            scriptSQL.append(" FROM entreestock");
+            scriptSQL.append(" LEFT JOIN produit");
+            scriptSQL.append(" ON entreestock.idProduit = produit.codeProduit");
+            scriptSQL.append(" LEFT JOIN reseau");
+            scriptSQL.append(" ON produit.idReseau = reseau.codeReseau");
+            scriptSQL.append(" LEFT JOIN categorieproduit");
+            scriptSQL.append(" ON produit.idCategorieProduit = categorieproduit.codeCategorieProduit");
             scriptSQL.append(" LEFT JOIN shop");
             scriptSQL.append(" ON entreeStock.idShop = shop.codeShop");
-            scriptSQL.append(" WHERE entreeStock.codeEntreeStock=?");
+            scriptSQL.append(" LEFT JOIN fournisseur");
+            scriptSQL.append(" ON entreestock.idFournisseur = fournisseur.codeFournisseur");
+            scriptSQL.append(" LEFT JOIN tauxcarte");
+            scriptSQL.append(" ON entreestock.idTauxCarte = tauxcarte.codeTauxCarte");
+            scriptSQL.append(" WHERE entreestock.codeEntreeStock=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, codeEntreeStock);
@@ -122,25 +165,49 @@ public class EntreeStockDao {
             if (res != null) {
                 if (res.next()) {
 
-                    GroupeUtilisateur groupeUtilisateur = new GroupeUtilisateurBuilder(res.getInt(8))
-                            .description(res.getString(9))
-                            .descriptionAbregee(res.getString(10))
+                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(14))
+                            .description(res.getString(15))
+                            .descriptionAbregee(res.getString(16))
                             .build();
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Reseau reseau = new ReseauBuilder(res.getInt(11))
+                            .nomAbrege(res.getString(12))
+                            .nom(res.getString(13))
+                            .build();
+
+                    Produit produit = new ProduitBuilder(res.getInt(7))
+                            .description(res.getString(8))
+                            .prixUSD(res.getBigDecimal(9))
+                            .prixFC(res.getBigDecimal(10))
+                            .categorieProduit(categorieProduit)
+                            .reseau(reseau)
+                            .build();
+
+                    Shop shop = new ShopBuilder(res.getInt(17))
+                            .nom(res.getString(18))
+                            .adresse(res.getString(19))
+                            .build();
+
+                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(20))
+                            .entreprise(res.getString(21))
+                            .responsable(res.getString(22))
+                            .build();
+
+                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(23))
+                            .tauxCarte(res.getBigDecimal(24))
+                            .dateHeure(new Date())
                             .build();
 
                     EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1))
-                            .utilizateur(res.getString(2))
-                            .motDePasse(res.getString(3))
-                            .preNom(res.getString(4))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
-                            .groupeUtilisateur(groupeUtilisateur)
+                            .dispatchEnum(res.getString(2).charAt(0) == DispatchEnum.VRAI.getType() ? DispatchEnum.VRAI : DispatchEnum.FAUX)
+                            .prixUSD(res.getBigDecimal(3))
+                            .prixFC(res.getBigDecimal(4))
+                            .qtdProduit(res.getInt(5))
+                            .dateHeure(new Date())
+                            .produit(produit)
                             .shop(shop)
+                            .fournisseur(fournisseur)
+                            .tauxCarte(tauxCarte)
                             .build();
 
                     prs.close();
@@ -161,22 +228,23 @@ public class EntreeStockDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("INSERT INTO entreeStock(");
-            scriptSQL.append(" codeEntreeStock, preNom, nom, postnom, surnom,");
-            scriptSQL.append(" utilisateur, idGroupeUtilisateur, motDePasse, idShop )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            scriptSQL = new StringBuilder("INSERT INTO entreestock(");
+            scriptSQL.append(" codeEntreeStock, idProduit, idShop, idFournisseur, dispatch,");
+            scriptSQL.append(" prixUSD, prixFC, idTauxCarte, qtdProduit, dateHeure )");
+            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setInt(1, entreeStock.getCodeEntreeStock());
-            prs.setString(2, entreeStock.getPreNom());
-            prs.setString(3, entreeStock.getNom());
-            prs.setString(4, entreeStock.getPostnom());
-            prs.setString(5, entreeStock.getSurnom());
-            prs.setString(6, entreeStock.getUtilisateur());
-            prs.setInt(7, entreeStock.getGroupeUtilisateur().getCodeGroupeUtilisateur());
-            prs.setString(8, entreeStock.getMotDePasse());
-            prs.setInt(9, entreeStock.getShop().getCodeShop());
+            prs.setInt(2, entreeStock.getProduit().getCodeProduit());
+            prs.setInt(3, entreeStock.getShop().getCodeShop());
+            prs.setInt(4, entreeStock.getFournisseur().getCodeFournisseur());
+            prs.setString(5, String.valueOf(entreeStock.getDispatchEnum().getType()));
+            prs.setBigDecimal(6, entreeStock.getPrixUSD());
+            prs.setBigDecimal(7, entreeStock.getPrixFC());
+            prs.setInt(7, entreeStock.getTauxCarte().getCodeTauxCarte());
+            prs.setInt(8, entreeStock.getQtdProduit());
+            prs.setInt(10, entreeStock.getShop().getCodeShop());
 
             prs.execute();
             prs.close();

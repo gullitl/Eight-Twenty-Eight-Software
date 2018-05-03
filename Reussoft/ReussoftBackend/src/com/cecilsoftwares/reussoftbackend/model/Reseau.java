@@ -8,13 +8,13 @@ import java.util.List;
 public class Reseau {
 
     private final int codeReseau;
-    private final String nomReseau;
+    private final String nom;
     private final String nomAbrege;
     private final List<Produit> listeProduits;
 
     public Reseau(ReseauBuilder reseauBuilder) {
         codeReseau = reseauBuilder.codeReseau;
-        nomReseau = reseauBuilder.nomReseau;
+        nom = reseauBuilder.nom;
         nomAbrege = reseauBuilder.nomAbrege;
         listeProduits = reseauBuilder.listeProduits;
     }
@@ -23,8 +23,8 @@ public class Reseau {
         return codeReseau;
     }
 
-    public String getNomReseau() {
-        return nomReseau;
+    public String getNom() {
+        return nom;
     }
 
     public String getNomAbrege() {
@@ -38,7 +38,7 @@ public class Reseau {
     public static class ReseauBuilder {
 
         private int codeReseau;
-        private String nomReseau;
+        private String nom;
         private String nomAbrege;
         private List<Produit> listeProduits;
 
@@ -46,8 +46,8 @@ public class Reseau {
             this.codeReseau = codeReseau;
         }
 
-        public ReseauBuilder nomReseau(String nomReseau) {
-            this.nomReseau = nomReseau;
+        public ReseauBuilder nom(String nom) {
+            this.nom = nom;
             return this;
         }
 
