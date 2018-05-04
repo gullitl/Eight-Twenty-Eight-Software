@@ -7,30 +7,30 @@ import java.util.Date;
  */
 public class SessionUtilisateur {
 
-    private final int codeSessionUtilisateur;
+    private final int code;
     private final Collaborateur collaborateur;
-    private final Shop idShop;
+    private final Shop shop;
     private final String log;
     private final Date dateHeure;
 
     public SessionUtilisateur(SessionUtilisateurBuilder sessionUtilisateurBuilder) {
-        codeSessionUtilisateur = sessionUtilisateurBuilder.codeSessionUtilisateur;
+        code = sessionUtilisateurBuilder.code;
         collaborateur = sessionUtilisateurBuilder.collaborateur;
-        idShop = sessionUtilisateurBuilder.idShop;
+        shop = sessionUtilisateurBuilder.shop;
         log = sessionUtilisateurBuilder.log;
         dateHeure = sessionUtilisateurBuilder.dateHeure;
     }
 
-    public int getCodeSessionUtilisateur() {
-        return codeSessionUtilisateur;
+    public int getCode() {
+        return code;
     }
 
     public Collaborateur getCollaborateur() {
         return collaborateur;
     }
 
-    public Shop getIdShop() {
-        return idShop;
+    public Shop getShop() {
+        return shop;
     }
 
     public String getLog() {
@@ -43,14 +43,14 @@ public class SessionUtilisateur {
 
     public static class SessionUtilisateurBuilder {
 
-        private int codeSessionUtilisateur;
+        private int code;
         private Collaborateur collaborateur;
-        private Shop idShop;
+        private Shop shop;
         private String log;
         private Date dateHeure;
 
-        public SessionUtilisateurBuilder(int codeSessionUtilisateur) {
-            this.codeSessionUtilisateur = codeSessionUtilisateur;
+        public SessionUtilisateurBuilder(int code) {
+            this.code = code;
         }
 
         public SessionUtilisateurBuilder collaborateur(Collaborateur collaborateur) {
@@ -58,8 +58,8 @@ public class SessionUtilisateur {
             return this;
         }
 
-        public SessionUtilisateurBuilder idShop(Shop idShop) {
-            this.idShop = idShop;
+        public SessionUtilisateurBuilder shop(Shop shop) {
+            this.shop = shop;
             return this;
         }
 

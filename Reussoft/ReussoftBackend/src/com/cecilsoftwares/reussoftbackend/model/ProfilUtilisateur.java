@@ -7,20 +7,20 @@ import java.util.List;
  */
 public class ProfilUtilisateur {
 
-    private final int codeProfilUtilisateur;
+    private final int code;
     private final String description;
     private final String descriptionAbregee;
     private final List<Collaborateur> listeCollaborateurs;
 
     public ProfilUtilisateur(ProfilUtilisateurBuilder profilUtilisateurBuilder) {
-        codeProfilUtilisateur = profilUtilisateurBuilder.codeProfilUtilizateur;
+        code = profilUtilisateurBuilder.code;
         description = profilUtilisateurBuilder.description;
         descriptionAbregee = profilUtilisateurBuilder.descriptionAbregee;
         listeCollaborateurs = profilUtilisateurBuilder.listeCollaborateurs;
     }
 
-    public int getCodeProfilUtilisateur() {
-        return codeProfilUtilisateur;
+    public int getCode() {
+        return code;
     }
 
     public String getDescription() {
@@ -37,13 +37,13 @@ public class ProfilUtilisateur {
 
     public static class ProfilUtilisateurBuilder {
 
-        private int codeProfilUtilizateur;
+        private int code;
         private String description;
         private String descriptionAbregee;
         private List<Collaborateur> listeCollaborateurs;
 
-        public ProfilUtilisateurBuilder(int codeProfilUtilizateur) {
-            this.codeProfilUtilizateur = codeProfilUtilizateur;
+        public ProfilUtilisateurBuilder(int code) {
+            this.code = code;
         }
 
         public ProfilUtilisateurBuilder description(String description) {

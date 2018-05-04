@@ -7,20 +7,20 @@ import java.util.List;
  */
 public class CategorieProduit {
 
-    private final int codeCategorieProduit;
+    private final int code;
     private final String description;
     private final String descriptionAbregee;
     private final List<Produit> listeProduits;
 
     public CategorieProduit(CategorieProduitBuilder categorieProduitBuilder) {
-        codeCategorieProduit = categorieProduitBuilder.codeCategorieProduit;
+        code = categorieProduitBuilder.code;
         description = categorieProduitBuilder.description;
         descriptionAbregee = categorieProduitBuilder.descriptionAbregee;
         listeProduits = categorieProduitBuilder.listeProduits;
     }
 
-    public int getCodeCategorieProduit() {
-        return codeCategorieProduit;
+    public int getCode() {
+        return code;
     }
 
     public String getDescription() {
@@ -37,13 +37,13 @@ public class CategorieProduit {
 
     public static class CategorieProduitBuilder {
 
-        private int codeCategorieProduit;
+        private int code;
         private String description;
         private String descriptionAbregee;
         private List<Produit> listeProduits;
 
-        public CategorieProduitBuilder(int codeCategorieProduit) {
-            this.codeCategorieProduit = codeCategorieProduit;
+        public CategorieProduitBuilder(int code) {
+            this.code = code;
         }
 
         public CategorieProduitBuilder description(String description) {

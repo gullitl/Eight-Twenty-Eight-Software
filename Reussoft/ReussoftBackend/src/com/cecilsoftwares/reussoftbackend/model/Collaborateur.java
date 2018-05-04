@@ -5,34 +5,30 @@ package com.cecilsoftwares.reussoftbackend.model;
  */
 public class Collaborateur {
 
-    private final int codeCollaborateur;
-    private final String preNom;
+    private final int code;
+    private final String prenom;
     private final String nom;
     private final String postnom;
     private final String surnom;
-    private final String utilisateur;
-    private final ProfilUtilisateur profilUtilisateur;
-    private final String motDePasse;
     private final Shop shop;
+    private final Utilisateur utilisateur;
 
     public Collaborateur(CollaborateurBuilder collaborateurBuilder) {
-        codeCollaborateur = collaborateurBuilder.codeCollaborateur;
-        preNom = collaborateurBuilder.preNom;
+        code = collaborateurBuilder.code;
+        prenom = collaborateurBuilder.prenom;
         nom = collaborateurBuilder.nom;
-        postnom = collaborateurBuilder.preNom;
+        postnom = collaborateurBuilder.prenom;
         surnom = collaborateurBuilder.surnom;
-        utilisateur = collaborateurBuilder.utilizateur;
-        profilUtilisateur = collaborateurBuilder.profilUtilisateur;
-        motDePasse = collaborateurBuilder.motDePasse;
         shop = collaborateurBuilder.shop;
+        utilisateur = collaborateurBuilder.utilisateur;
     }
 
-    public int getCodeCollaborateur() {
-        return codeCollaborateur;
+    public int getCode() {
+        return code;
     }
 
-    public String getPreNom() {
-        return preNom;
+    public String getPrenom() {
+        return prenom;
     }
 
     public String getNom() {
@@ -47,40 +43,30 @@ public class Collaborateur {
         return surnom;
     }
 
-    public String getUtilisateur() {
-        return utilisateur;
-    }
-
-    public ProfilUtilisateur getProfilUtilisateur() {
-        return profilUtilisateur;
-    }
-
-    public String getMotDePasse() {
-        return motDePasse;
-    }
-
     public Shop getShop() {
         return shop;
     }
 
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
     public static class CollaborateurBuilder {
 
-        private int codeCollaborateur;
-        private String preNom;
+        private int code;
+        private String prenom;
         private String nom;
         private String postnom;
         private String surnom;
-        private String utilizateur;
-        private ProfilUtilisateur profilUtilisateur;
-        private String motDePasse;
         private Shop shop;
+        private Utilisateur utilisateur;
 
-        public CollaborateurBuilder(int codeCollaborateur) {
-            this.codeCollaborateur = codeCollaborateur;
+        public CollaborateurBuilder(int code) {
+            this.code = code;
         }
 
-        public CollaborateurBuilder preNom(String preNom) {
-            this.preNom = preNom;
+        public CollaborateurBuilder prenom(String prenom) {
+            this.prenom = prenom;
             return this;
         }
 
@@ -99,23 +85,13 @@ public class Collaborateur {
             return this;
         }
 
-        public CollaborateurBuilder utilizateur(String utilizateur) {
-            this.utilizateur = utilizateur;
-            return this;
-        }
-
-        public CollaborateurBuilder profilUtilisateur(ProfilUtilisateur profilUtilisateur) {
-            this.profilUtilisateur = profilUtilisateur;
-            return this;
-        }
-
-        public CollaborateurBuilder motDePasse(String motDePasse) {
-            this.motDePasse = motDePasse;
-            return this;
-        }
-
         public CollaborateurBuilder shop(Shop shop) {
             this.shop = shop;
+            return this;
+        }
+
+        public CollaborateurBuilder setUtilisateur(Utilisateur utilisateur) {
+            this.utilisateur = utilisateur;
             return this;
         }
 

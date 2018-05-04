@@ -33,7 +33,7 @@ public class CategorieProduitDao {
         List<CategorieProduit> listeCategoriesProduit;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT codeCategorieProduit, description, descriptionAbregee");
+            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee");
             scriptSQL.append(" FROM categorieproduit");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -58,16 +58,16 @@ public class CategorieProduitDao {
         return listeCategoriesProduit;
     }
 
-    public CategorieProduit selectionner(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
+    public CategorieProduit selectionner(int code) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT codeCategorieproduit, description, descriptionAbregee");
+            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee");
             scriptSQL.append(" WHERE codeCategorieProduit=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCategorieProduit);
+            prs.setInt(1, code);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
@@ -101,7 +101,7 @@ public class CategorieProduitDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, categorieProduit.getCodeCategorieProduit());
+            prs.setInt(1, categorieProduit.getCode());
             prs.setString(2, categorieProduit.getDescription());
             prs.setString(3, categorieProduit.getDescriptionAbregee());
 
@@ -118,13 +118,13 @@ public class CategorieProduitDao {
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
             scriptSQL = new StringBuilder("UPDATE categorieproduit");
             scriptSQL.append(" SET description=?, descriptionAbregee=?");
-            scriptSQL.append(" WHERE codeCategorieProduit=?");
+            scriptSQL.append(" WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, categorieProduit.getDescription());
             prs.setString(2, categorieProduit.getDescriptionAbregee());
-            prs.setInt(3, categorieProduit.getCodeCategorieProduit());
+            prs.setInt(3, categorieProduit.getCode());
 
             prs.execute();
             prs.close();
@@ -133,14 +133,14 @@ public class CategorieProduitDao {
         return true;
     }
 
-    public boolean exclure(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
+    public boolean exclure(int code) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("DELETE FROM categorieproduit WHERE codeCategorieProduit=?");
+            scriptSQL = new StringBuilder("DELETE FROM categorieproduit WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCategorieProduit);
+            prs.setInt(1, code);
 
             prs.execute();
             prs.close();
@@ -149,12 +149,13 @@ public class CategorieProduitDao {
         return true;
     }
 
-    public int selectionnerCodeCategorieProduitSubsequent() throws ClassNotFoundException, SQLException {
+    public int selectionnerCodeCategorieProduitSubsequent()
+            throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT Max(codeCategorieProduit)+1 FROM categorieproduit");
+            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM categorieproduit");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {

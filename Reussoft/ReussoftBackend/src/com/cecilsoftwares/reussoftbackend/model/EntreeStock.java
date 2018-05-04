@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class EntreeStock {
 
-    private final int codeEntreeStock;
+    private final int code;
     private final Produit produit;
     private final Shop shop;
     private final Fournisseur fournisseur;
@@ -17,11 +17,11 @@ public class EntreeStock {
     private final BigDecimal prixUSD;
     private final BigDecimal prixFC;
     private final TauxCarte tauxCarte;
-    private final int qtdProduit;
+    private final int quantiteProduit;
     private final Date dateHeure;
 
     public EntreeStock(EntreeStockBuilder entreeStockBuilder) {
-        codeEntreeStock = entreeStockBuilder.codeEntreeStock;
+        code = entreeStockBuilder.code;
         produit = entreeStockBuilder.produit;
         shop = entreeStockBuilder.shop;
         fournisseur = entreeStockBuilder.fournisseur;
@@ -29,12 +29,12 @@ public class EntreeStock {
         prixUSD = entreeStockBuilder.prixUSD;
         prixFC = entreeStockBuilder.prixFC;
         tauxCarte = entreeStockBuilder.tauxCarte;
-        qtdProduit = entreeStockBuilder.qtdProduit;
+        quantiteProduit = entreeStockBuilder.quantiteProduit;
         dateHeure = entreeStockBuilder.dateHeure;
     }
 
-    public int getCodeEntreeStock() {
-        return codeEntreeStock;
+    public int getCode() {
+        return code;
     }
 
     public Produit getProduit() {
@@ -65,8 +65,8 @@ public class EntreeStock {
         return tauxCarte;
     }
 
-    public int getQtdProduit() {
-        return qtdProduit;
+    public int getQuantiteProduit() {
+        return quantiteProduit;
     }
 
     public Date getDateHeure() {
@@ -75,7 +75,7 @@ public class EntreeStock {
 
     public static class EntreeStockBuilder {
 
-        private int codeEntreeStock;
+        private int code;
         private Produit produit;
         private Shop shop;
         private Fournisseur fournisseur;
@@ -83,11 +83,11 @@ public class EntreeStock {
         private BigDecimal prixUSD;
         private BigDecimal prixFC;
         private TauxCarte tauxCarte;
-        private int qtdProduit;
+        private int quantiteProduit;
         private Date dateHeure;
 
-        public EntreeStockBuilder(int codeEntreeStock) {
-            this.codeEntreeStock = codeEntreeStock;
+        public EntreeStockBuilder(int code) {
+            this.code = code;
         }
 
         public EntreeStockBuilder produit(Produit produit) {
@@ -125,8 +125,8 @@ public class EntreeStock {
             return this;
         }
 
-        public EntreeStockBuilder qtdProduit(int qtdProduit) {
-            this.qtdProduit = qtdProduit;
+        public EntreeStockBuilder quantiteProduit(int quantiteProduit) {
+            this.quantiteProduit = quantiteProduit;
             return this;
         }
 

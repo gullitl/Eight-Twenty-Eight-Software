@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cecilsoftwares.reussoftbackend.model;
 
 import java.math.BigDecimal;
@@ -14,16 +9,16 @@ public class Stock {
 
     private final Produit produit;
     private final Shop shop;
-    private final BigDecimal qtdStock;
-    private final BigDecimal qtdMaximumStock;
-    private final BigDecimal qtdMinimumStock;
+    private final BigDecimal quantiteStock;
+    private final BigDecimal quantiteMaximumStock;
+    private final BigDecimal quantiteMinimumStock;
 
     public Stock(StockBuilder stockBuilder) {
         produit = stockBuilder.produit;
         shop = stockBuilder.shop;
-        qtdStock = stockBuilder.qtdStock;
-        qtdMaximumStock = stockBuilder.qtdMaximumStock;
-        qtdMinimumStock = stockBuilder.qtdMinimumStock;
+        quantiteStock = stockBuilder.quantiteStock;
+        quantiteMaximumStock = stockBuilder.quantiteMaximumStock;
+        quantiteMinimumStock = stockBuilder.quantiteMinimumStock;
     }
 
     public Produit getProduit() {
@@ -34,43 +29,43 @@ public class Stock {
         return shop;
     }
 
-    public BigDecimal getQtdStock() {
-        return qtdStock;
+    public BigDecimal getQuantiteStock() {
+        return quantiteStock;
     }
 
-    public BigDecimal getQtdMaximumStock() {
-        return qtdMaximumStock;
+    public BigDecimal getQuantiteMaximumStock() {
+        return quantiteMaximumStock;
     }
 
-    public BigDecimal getQtdMinimumStock() {
-        return qtdMinimumStock;
+    public BigDecimal getQuantiteMinimumStock() {
+        return quantiteMinimumStock;
     }
 
     public static class StockBuilder {
 
         private Produit produit;
         private Shop shop;
-        private BigDecimal qtdStock;
-        private BigDecimal qtdMaximumStock;
-        private BigDecimal qtdMinimumStock;
+        private BigDecimal quantiteStock;
+        private BigDecimal quantiteMaximumStock;
+        private BigDecimal quantiteMinimumStock;
 
         public StockBuilder(Produit produit, Shop shop) {
             this.produit = produit;
             this.shop = shop;
         }
 
-        public StockBuilder qtdStock(BigDecimal qtdStock) {
-            this.qtdStock = qtdStock;
+        public StockBuilder quantiteStock(BigDecimal quantiteStock) {
+            this.quantiteStock = quantiteStock;
             return this;
         }
 
-        public StockBuilder qtdMaximumStock(BigDecimal qtdMaximumStock) {
-            this.qtdMaximumStock = qtdMaximumStock;
+        public StockBuilder quantiteMaximumStock(BigDecimal quantiteMaximumStock) {
+            this.quantiteMaximumStock = quantiteMaximumStock;
             return this;
         }
 
-        public StockBuilder qtdMinimumStock(BigDecimal qtdMinimumStock) {
-            this.qtdMinimumStock = qtdMinimumStock;
+        public StockBuilder qtdMinimumStock(BigDecimal quantiteMinimumStock) {
+            this.quantiteMinimumStock = quantiteMinimumStock;
             return this;
         }
 

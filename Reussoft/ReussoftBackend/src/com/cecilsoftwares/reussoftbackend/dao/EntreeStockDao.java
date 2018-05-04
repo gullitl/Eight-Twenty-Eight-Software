@@ -234,15 +234,15 @@ public class EntreeStockDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, entreeStock.getCodeEntreeStock());
-            prs.setInt(2, entreeStock.getProduit().getCodeProduit());
+            prs.setInt(1, entreeStock.getCode());
+            prs.setInt(2, entreeStock.getProduit().getCode());
             prs.setInt(3, entreeStock.getShop().getCodeShop());
-            prs.setInt(4, entreeStock.getFournisseur().getCodeFournisseur());
+            prs.setInt(4, entreeStock.getFournisseur().getCode());
             prs.setString(5, String.valueOf(entreeStock.getDispatchEnum().getType()));
             prs.setBigDecimal(6, entreeStock.getPrixUSD());
             prs.setBigDecimal(7, entreeStock.getPrixFC());
-            prs.setInt(7, entreeStock.getTauxCarte().getCodeTauxCarte());
-            prs.setInt(8, entreeStock.getQtdProduit());
+            prs.setInt(7, entreeStock.getTauxCarte().getCode());
+            prs.setInt(8, entreeStock.getQuantiteProduit());
             prs.setInt(10, entreeStock.getShop().getCodeShop());
 
             prs.execute();

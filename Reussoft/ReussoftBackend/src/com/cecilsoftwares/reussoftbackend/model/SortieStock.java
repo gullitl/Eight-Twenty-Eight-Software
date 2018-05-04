@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class SortieStock {
 
-    private final int codeSortieStock;
+    private final int code;
     private final Produit produit;
     private final Shop shop;
     private final Client client;
@@ -17,11 +17,11 @@ public class SortieStock {
     private final BigDecimal prixUSD;
     private final BigDecimal prixFC;
     private final TauxCarte tauxCarte;
-    private final int qtdProduit;
+    private final int quantiteProduit;
     private final Date dateHeure;
 
     public SortieStock(SortieStockBuilder sortieStockBuilder) {
-        codeSortieStock = sortieStockBuilder.codeSortieStock;
+        code = sortieStockBuilder.code;
         produit = sortieStockBuilder.produit;
         shop = sortieStockBuilder.shop;
         client = sortieStockBuilder.client;
@@ -29,12 +29,12 @@ public class SortieStock {
         prixUSD = sortieStockBuilder.prixUSD;
         prixFC = sortieStockBuilder.prixFC;
         tauxCarte = sortieStockBuilder.tauxCarte;
-        qtdProduit = sortieStockBuilder.qtdProduit;
+        quantiteProduit = sortieStockBuilder.quantiteProduit;
         dateHeure = sortieStockBuilder.dateHeure;
     }
 
-    public int getCodeSortieStock() {
-        return codeSortieStock;
+    public int getCode() {
+        return code;
     }
 
     public Produit getProduit() {
@@ -65,8 +65,8 @@ public class SortieStock {
         return tauxCarte;
     }
 
-    public int getQtdProduit() {
-        return qtdProduit;
+    public int getQuantiteProduit() {
+        return quantiteProduit;
     }
 
     public Date getDateHeure() {
@@ -75,7 +75,7 @@ public class SortieStock {
 
     public static class SortieStockBuilder {
 
-        private int codeSortieStock;
+        private int code;
         private Produit produit;
         private Shop shop;
         private Client client;
@@ -83,11 +83,11 @@ public class SortieStock {
         private BigDecimal prixUSD;
         private BigDecimal prixFC;
         private TauxCarte tauxCarte;
-        private int qtdProduit;
+        private int quantiteProduit;
         private Date dateHeure;
 
-        public SortieStockBuilder(int codeSortieStock) {
-            this.codeSortieStock = codeSortieStock;
+        public SortieStockBuilder(int code) {
+            this.code = code;
         }
 
         public SortieStockBuilder produit(Produit produit) {
@@ -125,8 +125,8 @@ public class SortieStock {
             return this;
         }
 
-        public SortieStockBuilder qtdProduit(int qtdProduit) {
-            this.qtdProduit = qtdProduit;
+        public SortieStockBuilder quantiteProduit(int quantiteProduit) {
+            this.quantiteProduit = quantiteProduit;
             return this;
         }
 

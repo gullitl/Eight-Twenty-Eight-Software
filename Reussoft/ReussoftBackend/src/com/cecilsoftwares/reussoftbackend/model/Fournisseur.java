@@ -5,18 +5,18 @@ package com.cecilsoftwares.reussoftbackend.model;
  */
 public class Fournisseur {
 
-    private final int codeFournisseur;
+    private final int code;
     private final String entreprise;
     private final String responsable;
 
     public Fournisseur(FournisseurBuilder fournisseurBuilder) {
-        codeFournisseur = fournisseurBuilder.codeFournisseur;
+        code = fournisseurBuilder.code;
         entreprise = fournisseurBuilder.entreprise;
         responsable = fournisseurBuilder.responsable;
     }
 
-    public int getCodeFournisseur() {
-        return codeFournisseur;
+    public int getCode() {
+        return code;
     }
 
     public String getEntreprise() {
@@ -29,12 +29,12 @@ public class Fournisseur {
 
     public static class FournisseurBuilder {
 
-        private int codeFournisseur;
+        private int code;
         private String entreprise;
         private String responsable;
 
-        public FournisseurBuilder(int codeFournisseur) {
-            this.codeFournisseur = codeFournisseur;
+        public FournisseurBuilder(int code) {
+            this.code = code;
         }
 
         public FournisseurBuilder entreprise(String entreprise) {

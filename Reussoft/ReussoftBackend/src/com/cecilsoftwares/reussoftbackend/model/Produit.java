@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  */
 public class Produit {
 
-    private final int codeProduit;
+    private final int code;
     private final Reseau reseau;
     private final String description;
     private final BigDecimal prixUSD;
@@ -15,7 +15,7 @@ public class Produit {
     private final CategorieProduit categorieProduit;
 
     public Produit(ProduitBuilder produitBuilder) {
-        codeProduit = produitBuilder.codeProduit;
+        code = produitBuilder.code;
         reseau = produitBuilder.reseau;
         description = produitBuilder.description;
         prixUSD = produitBuilder.prixUSD;
@@ -23,8 +23,8 @@ public class Produit {
         categorieProduit = produitBuilder.categorieProduit;
     }
 
-    public int getCodeProduit() {
-        return codeProduit;
+    public int getCode() {
+        return code;
     }
 
     public Reseau getReseau() {
@@ -49,15 +49,15 @@ public class Produit {
 
     public static class ProduitBuilder {
 
-        private int codeProduit;
+        private int code;
         private Reseau reseau;
         private String description;
         private BigDecimal prixUSD;
         private BigDecimal prixFC;
         private CategorieProduit categorieProduit;
 
-        public ProduitBuilder(int codeProduit) {
-            this.codeProduit = codeProduit;
+        public ProduitBuilder(int code) {
+            this.code = code;
         }
 
         public ProduitBuilder reseau(Reseau reseau) {

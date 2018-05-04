@@ -5,18 +5,18 @@ package com.cecilsoftwares.reussoftbackend.model;
  */
 public class Client {
 
-    private final int codeClient;
+    private final int code;
     private final String entreprise;
     private final String responsable;
 
     public Client(ClientBuilder clientBuilder) {
-        codeClient = clientBuilder.codeClient;
+        code = clientBuilder.code;
         entreprise = clientBuilder.entreprise;
         responsable = clientBuilder.responsable;
     }
 
-    public int getCodeClient() {
-        return codeClient;
+    public int getCode() {
+        return code;
     }
 
     public String getEntreprise() {
@@ -29,12 +29,12 @@ public class Client {
 
     public static class ClientBuilder {
 
-        private int codeClient;
+        private int code;
         private String entreprise;
         private String responsable;
 
-        public ClientBuilder(int codeClient) {
-            this.codeClient = codeClient;
+        public ClientBuilder(int code) {
+            this.code = code;
         }
 
         public ClientBuilder entreprise(String entreprise) {

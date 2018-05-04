@@ -8,20 +8,20 @@ import java.util.Date;
  */
 public class TauxMonnaie {
 
-    private final int codeTauxMonnaie;
+    private final int code;
     private final Shop shop;
     private final BigDecimal tauxCarte;
     private final Date dateHeure;
 
     public TauxMonnaie(TauxMonnaieBuilder tauxMonnaieBuilder) {
-        codeTauxMonnaie = tauxMonnaieBuilder.codeTauxMonnaie;
+        code = tauxMonnaieBuilder.code;
         shop = tauxMonnaieBuilder.shop;
         tauxCarte = tauxMonnaieBuilder.tauxCarte;
         dateHeure = tauxMonnaieBuilder.dateHeure;
     }
 
     public int getCodeTauxMonnaie() {
-        return codeTauxMonnaie;
+        return code;
     }
 
     public Shop getShop() {
@@ -38,13 +38,13 @@ public class TauxMonnaie {
 
     public static class TauxMonnaieBuilder {
 
-        private int codeTauxMonnaie;
+        private int code;
         private Shop shop;
         private BigDecimal tauxCarte;
         private Date dateHeure;
 
-        public TauxMonnaieBuilder(int codeTauxMonnaie) {
-            this.codeTauxMonnaie = codeTauxMonnaie;
+        public TauxMonnaieBuilder(int code) {
+            this.code = code;
         }
 
         public TauxMonnaieBuilder shop(Shop shop) {

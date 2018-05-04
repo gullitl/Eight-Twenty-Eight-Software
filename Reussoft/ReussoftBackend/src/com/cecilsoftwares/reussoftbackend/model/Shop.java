@@ -7,20 +7,20 @@ import java.util.List;
  */
 public class Shop {
 
-    private final int codeShop;
+    private final int code;
     private final String nom;
     private final String adresse;
     private final List<Collaborateur> listeCollaborateurs;
 
     public Shop(ShopBuilder shopBuilder) {
-        codeShop = shopBuilder.codeShop;
+        code = shopBuilder.code;
         nom = shopBuilder.nom;
         adresse = shopBuilder.adresse;
         listeCollaborateurs = shopBuilder.listeCollaborateurs;
     }
 
     public int getCodeShop() {
-        return codeShop;
+        return code;
     }
 
     public String getNom() {
@@ -37,13 +37,13 @@ public class Shop {
 
     public static class ShopBuilder {
 
-        private int codeShop;
+        private int code;
         private String nom;
         private String adresse;
         private List<Collaborateur> listeCollaborateurs;
 
-        public ShopBuilder(int codeShop) {
-            this.codeShop = codeShop;
+        public ShopBuilder(int code) {
+            this.code = code;
         }
 
         public ShopBuilder nom(String nom) {

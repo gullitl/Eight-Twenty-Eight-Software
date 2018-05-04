@@ -7,20 +7,20 @@ import java.util.List;
  */
 public class Reseau {
 
-    private final int codeReseau;
+    private final int code;
     private final String nom;
     private final String nomAbrege;
     private final List<Produit> listeProduits;
 
     public Reseau(ReseauBuilder reseauBuilder) {
-        codeReseau = reseauBuilder.codeReseau;
+        code = reseauBuilder.code;
         nom = reseauBuilder.nom;
         nomAbrege = reseauBuilder.nomAbrege;
         listeProduits = reseauBuilder.listeProduits;
     }
 
-    public int getCodeReseau() {
-        return codeReseau;
+    public int getCode() {
+        return code;
     }
 
     public String getNom() {
@@ -37,13 +37,13 @@ public class Reseau {
 
     public static class ReseauBuilder {
 
-        private int codeReseau;
+        private int code;
         private String nom;
         private String nomAbrege;
         private List<Produit> listeProduits;
 
-        public ReseauBuilder(int codeReseau) {
-            this.codeReseau = codeReseau;
+        public ReseauBuilder(int code) {
+            this.code = code;
         }
 
         public ReseauBuilder nom(String nom) {
