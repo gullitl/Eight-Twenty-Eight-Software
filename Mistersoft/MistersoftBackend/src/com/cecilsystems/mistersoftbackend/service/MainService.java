@@ -15,6 +15,7 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class MainService {
 
@@ -44,8 +45,10 @@ public class MainService {
                     .getConnectionCredentials().getMysqldLink());
         } catch (FileNotFoundException fnfe) {
             Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, fnfe);
+            JOptionPane.showMessageDialog(null, fnfe);
         } catch (IOException ioe) {
             Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, ioe);
+            JOptionPane.showMessageDialog(null, ioe);
         }
 
         boolean conectou = false;

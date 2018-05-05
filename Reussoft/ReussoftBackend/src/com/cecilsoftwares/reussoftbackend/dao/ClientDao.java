@@ -33,7 +33,7 @@ public class ClientDao {
         List<Client> listeClients;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT codeClient, responsable, entreprise");
+            scriptSQL = new StringBuilder("SELECT code, responsable, entreprise");
             scriptSQL.append(" FROM client");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -58,17 +58,17 @@ public class ClientDao {
         return listeClients;
     }
 
-    public Client selectionner(int codeClient) throws ClassNotFoundException, SQLException {
+    public Client selectionner(int code) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT codeClient, responsable, entreprise");
+            scriptSQL = new StringBuilder("SELECT code, responsable, entreprise");
             scriptSQL.append(" FROM client");
-            scriptSQL.append(" WHERE codeClient=?");
+            scriptSQL.append(" WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeClient);
+            prs.setInt(1, code);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
@@ -97,12 +97,12 @@ public class ClientDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
             scriptSQL = new StringBuilder("INSERT INTO client(");
-            scriptSQL.append(" codeClient, responsable, entreprise )");
+            scriptSQL.append(" code, responsable, entreprise )");
             scriptSQL.append(" VALUES (?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, client.getCodeClient());
+            prs.setInt(1, client.getCode());
             prs.setString(2, client.getResponsable());
             prs.setString(3, client.getEntreprise());
 
@@ -125,7 +125,7 @@ public class ClientDao {
 
             prs.setString(1, client.getResponsable());
             prs.setString(2, client.getEntreprise());
-            prs.setInt(3, client.getCodeClient());
+            prs.setInt(3, client.getCode());
 
             prs.execute();
             prs.close();
@@ -134,14 +134,14 @@ public class ClientDao {
         return true;
     }
 
-    public boolean exclure(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+    public boolean exclure(int code) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("DELETE FROM client WHERE codeClient=?");
+            scriptSQL = new StringBuilder("DELETE FROM client WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCollaborateur);
+            prs.setInt(1, code);
 
             prs.execute();
             prs.close();
@@ -155,7 +155,7 @@ public class ClientDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("SELECT Max(codeClient)+1 FROM client");
+            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM client");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {

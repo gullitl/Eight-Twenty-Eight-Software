@@ -153,8 +153,8 @@ public class ProduitDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, collaborateur.getCodeCollaborateur());
-            prs.setString(2, collaborateur.getPreNom());
+            prs.setInt(1, collaborateur.getCode());
+            prs.setString(2, collaborateur.getPrenom());
             prs.setString(3, collaborateur.getNom());
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
@@ -181,8 +181,8 @@ public class ProduitDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, collaborateur.getCodeCollaborateur());
-            prs.setString(2, collaborateur.getPreNom());
+            prs.setInt(1, collaborateur.getCode());
+            prs.setString(2, collaborateur.getPrenom());
             prs.setString(3, collaborateur.getNom());
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
