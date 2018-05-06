@@ -1,13 +1,13 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoftbackend.model.Collaborateur;
-import com.cecilsoftwares.reussoftbackend.model.Collaborateur.CollaborateurBuilder;
-import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
-import com.cecilsoftwares.reussoftbackend.model.Shop;
-import com.cecilsoftwares.reussoftbackend.model.Shop.ShopBuilder;
-import com.cecilsoftwares.reussoftbackend.model.Utilisateur;
-import com.cecilsoftwares.reussoftbackend.model.Utilisateur.UtilisateurBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
+import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
+import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur;
+import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur.UtilisateurBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -295,10 +295,6 @@ public class UtilisateurDao {
             prs.setString(3, collaborateur.getNom());
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
-            prs.setString(6, collaborateur.getUtilisateur());
-            prs.setInt(7, collaborateur.getProfilUtilisateur().getCodeProfilUtilisateur());
-            prs.setString(8, collaborateur.getMotDePasse());
-            prs.setInt(9, collaborateur.getShop().getCodeShop());
 
             prs.execute();
             prs.close();
