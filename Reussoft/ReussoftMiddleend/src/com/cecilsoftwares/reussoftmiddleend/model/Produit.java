@@ -7,24 +7,26 @@ import java.math.BigDecimal;
  */
 public class Produit {
 
-    private final int codeProduit;
+    private final int code;
     private final Reseau reseau;
     private final String description;
-    private final BigDecimal prixUSD;
-    private final BigDecimal prixFC;
+    private final BigDecimal prixAchatUSD;
+    private final BigDecimal prixAchatFC;
     private final CategorieProduit categorieProduit;
+    private final String observation;
 
     public Produit(ProduitBuilder produitBuilder) {
-        codeProduit = produitBuilder.codeProduit;
+        code = produitBuilder.code;
         reseau = produitBuilder.reseau;
         description = produitBuilder.description;
-        prixUSD = produitBuilder.prixUSD;
-        prixFC = produitBuilder.prixFC;
+        prixAchatUSD = produitBuilder.prixAchatUSD;
+        prixAchatFC = produitBuilder.prixAchatFC;
         categorieProduit = produitBuilder.categorieProduit;
+        observation = produitBuilder.observation;
     }
 
-    public int getCodeProduit() {
-        return codeProduit;
+    public int getCode() {
+        return code;
     }
 
     public Reseau getReseau() {
@@ -35,29 +37,34 @@ public class Produit {
         return description;
     }
 
-    public BigDecimal getPrixUSD() {
-        return prixUSD;
+    public BigDecimal getPrixAchatUSD() {
+        return prixAchatUSD;
     }
 
-    public BigDecimal getPrixFC() {
-        return prixFC;
+    public BigDecimal getPrixAchatFC() {
+        return prixAchatFC;
     }
 
     public CategorieProduit getCategorieProduit() {
         return categorieProduit;
     }
 
+    public String getObservateur() {
+        return observation;
+    }
+
     public static class ProduitBuilder {
 
-        private int codeProduit;
+        private int code;
         private Reseau reseau;
         private String description;
-        private BigDecimal prixUSD;
-        private BigDecimal prixFC;
+        private BigDecimal prixAchatUSD;
+        private BigDecimal prixAchatFC;
         private CategorieProduit categorieProduit;
+        private String observation;
 
-        public ProduitBuilder(int codeProduit) {
-            this.codeProduit = codeProduit;
+        public ProduitBuilder(int code) {
+            this.code = code;
         }
 
         public ProduitBuilder reseau(Reseau reseau) {
@@ -70,18 +77,23 @@ public class Produit {
             return this;
         }
 
-        public ProduitBuilder prixUSD(BigDecimal prixUSD) {
-            this.prixUSD = prixUSD;
+        public ProduitBuilder prixAchatUSD(BigDecimal prixAchatUSD) {
+            this.prixAchatUSD = prixAchatUSD;
             return this;
         }
 
-        public ProduitBuilder prixFC(BigDecimal prixFC) {
-            this.prixFC = prixFC;
+        public ProduitBuilder prixAchatFC(BigDecimal prixAchatFC) {
+            this.prixAchatFC = prixAchatFC;
             return this;
         }
 
         public ProduitBuilder categorieProduit(CategorieProduit categorieProduit) {
             this.categorieProduit = categorieProduit;
+            return this;
+        }
+
+        public ProduitBuilder observation(String observation) {
+            this.observation = observation;
             return this;
         }
 

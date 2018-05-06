@@ -1,26 +1,24 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
-import java.util.List;
-
 /**
  * @author Plamedi L. Lusembo
  */
 public class ProfilUtilisateur {
 
-    private final int codeProfilUtilisateur;
+    private final int code;
     private final String description;
     private final String descriptionAbregee;
-    private final List<Collaborateur> listeCollaborateurs;
+    private final String observation;
 
     public ProfilUtilisateur(ProfilUtilisateurBuilder profilUtilisateurBuilder) {
-        codeProfilUtilisateur = profilUtilisateurBuilder.codeProfilUtilizateur;
+        code = profilUtilisateurBuilder.codeProfilUtilizateur;
         description = profilUtilisateurBuilder.description;
         descriptionAbregee = profilUtilisateurBuilder.descriptionAbregee;
-        listeCollaborateurs = profilUtilisateurBuilder.listeCollaborateurs;
+        observation = profilUtilisateurBuilder.observation;
     }
 
-    public int getCodeProfilUtilisateur() {
-        return codeProfilUtilisateur;
+    public int getCode() {
+        return code;
     }
 
     public String getDescription() {
@@ -31,8 +29,8 @@ public class ProfilUtilisateur {
         return descriptionAbregee;
     }
 
-    public List<Collaborateur> getListeCollaborateurs() {
-        return listeCollaborateurs;
+    public String getObservation() {
+        return observation;
     }
 
     public static class ProfilUtilisateurBuilder {
@@ -40,7 +38,7 @@ public class ProfilUtilisateur {
         private int codeProfilUtilizateur;
         private String description;
         private String descriptionAbregee;
-        private List<Collaborateur> listeCollaborateurs;
+        private String observation;
 
         public ProfilUtilisateurBuilder(int codeProfilUtilizateur) {
             this.codeProfilUtilizateur = codeProfilUtilizateur;
@@ -56,8 +54,8 @@ public class ProfilUtilisateur {
             return this;
         }
 
-        public ProfilUtilisateurBuilder listeCollaborateurs(List<Collaborateur> listeCollaborateurs) {
-            this.listeCollaborateurs = listeCollaborateurs;
+        public ProfilUtilisateurBuilder observation(String observation) {
+            this.observation = observation;
             return this;
         }
 

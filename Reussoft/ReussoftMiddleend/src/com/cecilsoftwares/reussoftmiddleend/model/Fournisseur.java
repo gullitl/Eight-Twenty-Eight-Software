@@ -8,11 +8,13 @@ public class Fournisseur {
     private final int codeFournisseur;
     private final String entreprise;
     private final String responsable;
+    private final String observation;
 
     public Fournisseur(FournisseurBuilder fournisseurBuilder) {
         codeFournisseur = fournisseurBuilder.codeFournisseur;
         entreprise = fournisseurBuilder.entreprise;
         responsable = fournisseurBuilder.responsable;
+        observation = fournisseurBuilder.observation;
     }
 
     public int getCodeFournisseur() {
@@ -27,11 +29,16 @@ public class Fournisseur {
         return responsable;
     }
 
+    public String observation() {
+        return observation;
+    }
+
     public static class FournisseurBuilder {
 
         private int codeFournisseur;
         private String entreprise;
         private String responsable;
+        private String observation;
 
         public FournisseurBuilder(int codeFournisseur) {
             this.codeFournisseur = codeFournisseur;
@@ -44,6 +51,11 @@ public class Fournisseur {
 
         public FournisseurBuilder responsable(String responsable) {
             this.responsable = responsable;
+            return this;
+        }
+
+        public FournisseurBuilder observartion(String observation) {
+            this.observation = observation;
             return this;
         }
 

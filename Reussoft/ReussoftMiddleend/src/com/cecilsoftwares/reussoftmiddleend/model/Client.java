@@ -5,18 +5,20 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Client {
 
-    private final int codeClient;
+    private final int code;
     private final String entreprise;
     private final String responsable;
+    private final String observation;
 
     public Client(ClientBuilder clientBuilder) {
-        codeClient = clientBuilder.codeClient;
+        code = clientBuilder.code;
         entreprise = clientBuilder.entreprise;
         responsable = clientBuilder.responsable;
+        observation = clientBuilder.observation;
     }
 
-    public int getCodeClient() {
-        return codeClient;
+    public int getCode() {
+        return code;
     }
 
     public String getEntreprise() {
@@ -27,14 +29,19 @@ public class Client {
         return responsable;
     }
 
+    public String getObservation() {
+        return observation;
+    }
+
     public static class ClientBuilder {
 
-        private int codeClient;
+        private int code;
         private String entreprise;
         private String responsable;
+        private String observation;
 
-        public ClientBuilder(int codeClient) {
-            this.codeClient = codeClient;
+        public ClientBuilder(int code) {
+            this.code = code;
         }
 
         public ClientBuilder entreprise(String entreprise) {
@@ -47,10 +54,13 @@ public class Client {
             return this;
         }
 
+        public ClientBuilder observation(String observation) {
+            this.observation = observation;
+            return this;
+        }
+
         public Client build() {
             return new Client(this);
         }
-
     }
-
 }

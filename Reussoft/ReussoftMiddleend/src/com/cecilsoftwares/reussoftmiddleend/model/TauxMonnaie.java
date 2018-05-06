@@ -8,43 +8,50 @@ import java.util.Date;
  */
 public class TauxMonnaie {
 
-    private final int codeTauxMonnaie;
+    private final int code;
     private final Shop shop;
-    private final BigDecimal tauxCarte;
+    private final BigDecimal valeur;
     private final Date dateHeure;
+    private final String observation;
 
     public TauxMonnaie(TauxMonnaieBuilder tauxMonnaieBuilder) {
-        codeTauxMonnaie = tauxMonnaieBuilder.codeTauxMonnaie;
+        code = tauxMonnaieBuilder.code;
         shop = tauxMonnaieBuilder.shop;
-        tauxCarte = tauxMonnaieBuilder.tauxCarte;
+        valeur = tauxMonnaieBuilder.valeur;
         dateHeure = tauxMonnaieBuilder.dateHeure;
+        observation = tauxMonnaieBuilder.observation;
     }
 
-    public int getCodeTauxMonnaie() {
-        return codeTauxMonnaie;
+    public int getCode() {
+        return code;
     }
 
     public Shop getShop() {
         return shop;
     }
 
-    public BigDecimal getTauxCarte() {
-        return tauxCarte;
+    public BigDecimal getValeur() {
+        return valeur;
     }
 
     public Date getDateHeure() {
         return dateHeure;
     }
 
+    public String getObservation() {
+        return observation;
+    }
+
     public static class TauxMonnaieBuilder {
 
-        private int codeTauxMonnaie;
+        private int code;
         private Shop shop;
-        private BigDecimal tauxCarte;
+        private BigDecimal valeur;
         private Date dateHeure;
+        private String observation;
 
-        public TauxMonnaieBuilder(int codeTauxMonnaie) {
-            this.codeTauxMonnaie = codeTauxMonnaie;
+        public TauxMonnaieBuilder(int code) {
+            this.code = code;
         }
 
         public TauxMonnaieBuilder shop(Shop shop) {
@@ -52,13 +59,18 @@ public class TauxMonnaie {
             return this;
         }
 
-        public TauxMonnaieBuilder tauxCarte(BigDecimal tauxCarte) {
-            this.tauxCarte = tauxCarte;
+        public TauxMonnaieBuilder valeur(BigDecimal valeur) {
+            this.valeur = valeur;
             return this;
         }
 
         public TauxMonnaieBuilder dateHeure(Date dateHeure) {
             this.dateHeure = dateHeure;
+            return this;
+        }
+
+        public TauxMonnaieBuilder observation(String observation) {
+            this.observation = observation;
             return this;
         }
 

@@ -1,26 +1,26 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
-import java.util.List;
-
 /**
  * @author Plamedi L. Lusembo
  */
 public class Shop {
 
-    private final int codeShop;
+    private final int code;
     private final String nom;
     private final String adresse;
-    private final List<Collaborateur> listeCollaborateurs;
+    private final String observation;
+    private final boolean active;
 
     public Shop(ShopBuilder shopBuilder) {
-        codeShop = shopBuilder.codeShop;
+        code = shopBuilder.code;
         nom = shopBuilder.nom;
         adresse = shopBuilder.adresse;
-        listeCollaborateurs = shopBuilder.listeCollaborateurs;
+        observation = shopBuilder.observation;
+        active = shopBuilder.active;
     }
 
-    public int getCodeShop() {
-        return codeShop;
+    public int getCode() {
+        return code;
     }
 
     public String getNom() {
@@ -31,19 +31,24 @@ public class Shop {
         return adresse;
     }
 
-    public List<Collaborateur> getListeCollaborateurs() {
-        return listeCollaborateurs;
+    public String getObservation() {
+        return observation;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public static class ShopBuilder {
 
-        private int codeShop;
+        private int code;
         private String nom;
         private String adresse;
-        private List<Collaborateur> listeCollaborateurs;
+        private String observation;
+        private boolean active;
 
-        public ShopBuilder(int codeShop) {
-            this.codeShop = codeShop;
+        public ShopBuilder(int code) {
+            this.code = code;
         }
 
         public ShopBuilder nom(String nom) {
@@ -56,8 +61,13 @@ public class Shop {
             return this;
         }
 
-        public ShopBuilder listeCollaborateurs(List<Collaborateur> listeCollaborateurs) {
-            this.listeCollaborateurs = listeCollaborateurs;
+        public ShopBuilder observation(String observation) {
+            this.observation = observation;
+            return this;
+        }
+
+        public ShopBuilder active(boolean active) {
+            this.active = active;
             return this;
         }
 

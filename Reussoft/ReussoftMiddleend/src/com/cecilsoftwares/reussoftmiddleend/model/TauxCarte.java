@@ -8,43 +8,50 @@ import java.util.Date;
  */
 public class TauxCarte {
 
-    private final int codeTauxCarte;
+    private final int code;
     private final Shop shop;
-    private final BigDecimal tauxCarte;
+    private final BigDecimal valeur;
     private final Date dateHeure;
+    private final String observation;
 
     public TauxCarte(TauxCarteBuilder tauxCarteBuilder) {
-        codeTauxCarte = tauxCarteBuilder.codeTauxCarte;
+        code = tauxCarteBuilder.code;
         shop = tauxCarteBuilder.shop;
-        tauxCarte = tauxCarteBuilder.tauxCarte;
+        valeur = tauxCarteBuilder.valeur;
         dateHeure = tauxCarteBuilder.dateHeure;
+        observation = tauxCarteBuilder.observation;
     }
 
-    public int getCodeTauxCarte() {
-        return codeTauxCarte;
+    public int getCode() {
+        return code;
     }
 
     public Shop getShop() {
         return shop;
     }
 
-    public BigDecimal getTauxCarte() {
-        return tauxCarte;
+    public BigDecimal getValeur() {
+        return valeur;
     }
 
     public Date getDateHeure() {
         return dateHeure;
     }
 
+    public String getObservation() {
+        return observation;
+    }
+
     public static class TauxCarteBuilder {
 
-        private int codeTauxCarte;
+        private int code;
         private Shop shop;
-        private BigDecimal tauxCarte;
+        private BigDecimal valeur;
         private Date dateHeure;
+        private String observation;
 
-        public TauxCarteBuilder(int codeTauxCarte) {
-            this.codeTauxCarte = codeTauxCarte;
+        public TauxCarteBuilder(int code) {
+            this.code = code;
         }
 
         public TauxCarteBuilder shop(Shop shop) {
@@ -52,13 +59,18 @@ public class TauxCarte {
             return this;
         }
 
-        public TauxCarteBuilder tauxCarte(BigDecimal tauxCarte) {
-            this.tauxCarte = tauxCarte;
+        public TauxCarteBuilder valeur(BigDecimal valeur) {
+            this.valeur = valeur;
             return this;
         }
 
         public TauxCarteBuilder dateHeure(Date dateHeure) {
             this.dateHeure = dateHeure;
+            return this;
+        }
+
+        public TauxCarteBuilder observation(String observation) {
+            this.observation = observation;
             return this;
         }
 

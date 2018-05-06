@@ -1,6 +1,5 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
-import com.cecilsoftwares.reussoftmiddleend.enumarable.DispatchEnum;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -9,32 +8,32 @@ import java.util.Date;
  */
 public class EntreeStock {
 
-    private final int codeEntreeStock;
+    private final int code;
     private final Produit produit;
     private final Shop shop;
     private final Fournisseur fournisseur;
-    private final DispatchEnum dispatchEnum;
-    private final BigDecimal prixUSD;
-    private final BigDecimal prixFC;
     private final TauxCarte tauxCarte;
-    private final int qtdProduit;
+    private final BigDecimal prixAchatUSD;
+    private final BigDecimal prixAchatFC;
+    private final BigDecimal quantiteProduit;
     private final Date dateHeure;
+    private final String observation;
 
     public EntreeStock(EntreeStockBuilder entreeStockBuilder) {
-        codeEntreeStock = entreeStockBuilder.codeEntreeStock;
+        code = entreeStockBuilder.code;
+        prixAchatUSD = entreeStockBuilder.prixAchatUSD;
+        prixAchatFC = entreeStockBuilder.prixAchatFC;
+        tauxCarte = entreeStockBuilder.tauxCarte;
+        dateHeure = entreeStockBuilder.dateHeure;
         produit = entreeStockBuilder.produit;
         shop = entreeStockBuilder.shop;
         fournisseur = entreeStockBuilder.fournisseur;
-        dispatchEnum = entreeStockBuilder.dispatchEnum;
-        prixUSD = entreeStockBuilder.prixUSD;
-        prixFC = entreeStockBuilder.prixFC;
-        tauxCarte = entreeStockBuilder.tauxCarte;
-        qtdProduit = entreeStockBuilder.qtdProduit;
-        dateHeure = entreeStockBuilder.dateHeure;
+        quantiteProduit = entreeStockBuilder.quantiteProduit;
+        observation = entreeStockBuilder.observation;
     }
 
-    public int getCodeEntreeStock() {
-        return codeEntreeStock;
+    public int getCode() {
+        return code;
     }
 
     public Produit getProduit() {
@@ -49,45 +48,45 @@ public class EntreeStock {
         return fournisseur;
     }
 
-    public DispatchEnum getDispatchEnum() {
-        return dispatchEnum;
+    public BigDecimal getPrixAchatUSD() {
+        return prixAchatUSD;
     }
 
-    public BigDecimal getPrixUSD() {
-        return prixUSD;
+    public BigDecimal getPrixAchatFC() {
+        return prixAchatFC;
     }
 
-    public BigDecimal getPrixFC() {
-        return prixFC;
+    public BigDecimal getQuantiteProduit() {
+        return quantiteProduit;
     }
 
     public TauxCarte getTauxCarte() {
         return tauxCarte;
     }
 
-    public int getQtdProduit() {
-        return qtdProduit;
-    }
-
     public Date getDateHeure() {
         return dateHeure;
     }
 
+    public String getObservation() {
+        return observation;
+    }
+
     public static class EntreeStockBuilder {
 
-        private int codeEntreeStock;
+        private int code;
         private Produit produit;
         private Shop shop;
         private Fournisseur fournisseur;
-        private DispatchEnum dispatchEnum;
-        private BigDecimal prixUSD;
-        private BigDecimal prixFC;
+        private BigDecimal prixAchatUSD;
+        private BigDecimal prixAchatFC;
         private TauxCarte tauxCarte;
-        private int qtdProduit;
         private Date dateHeure;
+        private BigDecimal quantiteProduit;
+        private String observation;
 
-        public EntreeStockBuilder(int codeEntreeStock) {
-            this.codeEntreeStock = codeEntreeStock;
+        public EntreeStockBuilder(int code) {
+            this.code = code;
         }
 
         public EntreeStockBuilder produit(Produit produit) {
@@ -105,18 +104,13 @@ public class EntreeStock {
             return this;
         }
 
-        public EntreeStockBuilder dispatchEnum(DispatchEnum dispatchEnum) {
-            this.dispatchEnum = dispatchEnum;
+        public EntreeStockBuilder prixAchatUSD(BigDecimal prixAchatUSD) {
+            this.prixAchatUSD = prixAchatUSD;
             return this;
         }
 
-        public EntreeStockBuilder prixUSD(BigDecimal prixUSD) {
-            this.prixUSD = prixUSD;
-            return this;
-        }
-
-        public EntreeStockBuilder prixFC(BigDecimal prixFC) {
-            this.prixFC = prixFC;
+        public EntreeStockBuilder prixAchatFC(BigDecimal prixAchatFC) {
+            this.prixAchatFC = prixAchatFC;
             return this;
         }
 
@@ -125,20 +119,24 @@ public class EntreeStock {
             return this;
         }
 
-        public EntreeStockBuilder qtdProduit(int qtdProduit) {
-            this.qtdProduit = qtdProduit;
+        public EntreeStockBuilder dateHeure(Date dateHeure) {
+            this.dateHeure = dateHeure;
             return this;
         }
 
-        public EntreeStockBuilder dateHeure(Date dateHeure) {
-            this.dateHeure = dateHeure;
+        public EntreeStockBuilder quantiteProduit(BigDecimal quantiteProduit) {
+            this.quantiteProduit = quantiteProduit;
+            return this;
+        }
+
+        public EntreeStockBuilder observation(String observation) {
+            this.observation = observation;
             return this;
         }
 
         public EntreeStock build() {
             return new EntreeStock(this);
         }
-
     }
 
 }

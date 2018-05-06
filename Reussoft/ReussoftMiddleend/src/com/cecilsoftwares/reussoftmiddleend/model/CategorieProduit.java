@@ -1,26 +1,24 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
-import java.util.List;
-
 /**
  * @author Plamedi L. Lusembo
  */
 public class CategorieProduit {
 
-    private final int codeCategorieProduit;
+    private final int code;
     private final String description;
     private final String descriptionAbregee;
-    private final List<Produit> listeProduits;
+    private final String observation;
 
     public CategorieProduit(CategorieProduitBuilder categorieProduitBuilder) {
-        codeCategorieProduit = categorieProduitBuilder.codeCategorieProduit;
+        code = categorieProduitBuilder.code;
         description = categorieProduitBuilder.description;
         descriptionAbregee = categorieProduitBuilder.descriptionAbregee;
-        listeProduits = categorieProduitBuilder.listeProduits;
+        observation = categorieProduitBuilder.observation;
     }
 
-    public int getCodeCategorieProduit() {
-        return codeCategorieProduit;
+    public int getCode() {
+        return code;
     }
 
     public String getDescription() {
@@ -31,19 +29,19 @@ public class CategorieProduit {
         return descriptionAbregee;
     }
 
-    public List<Produit> getListeProduits() {
-        return listeProduits;
+    public String getObservation() {
+        return observation;
     }
 
     public static class CategorieProduitBuilder {
 
-        private int codeCategorieProduit;
+        private int code;
         private String description;
         private String descriptionAbregee;
-        private List<Produit> listeProduits;
+        private String observation;
 
-        public CategorieProduitBuilder(int codeCategorieProduit) {
-            this.codeCategorieProduit = codeCategorieProduit;
+        public CategorieProduitBuilder(int code) {
+            this.code = code;
         }
 
         public CategorieProduitBuilder description(String description) {
@@ -56,15 +54,13 @@ public class CategorieProduit {
             return this;
         }
 
-        public CategorieProduitBuilder listeProduits(List<Produit> listeProduits) {
-            this.listeProduits = listeProduits;
+        public CategorieProduitBuilder observation(String observation) {
+            this.observation = observation;
             return this;
         }
 
         public CategorieProduit build() {
             return new CategorieProduit(this);
         }
-
     }
-
 }

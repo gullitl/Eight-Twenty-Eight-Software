@@ -1,26 +1,24 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
-import java.util.List;
-
 /**
  * @author Plamedi L. Lusembo
  */
 public class Reseau {
 
-    private final int codeReseau;
+    private final int code;
     private final String nom;
     private final String nomAbrege;
-    private final List<Produit> listeProduits;
+    private final String observation;
 
     public Reseau(ReseauBuilder reseauBuilder) {
-        codeReseau = reseauBuilder.codeReseau;
+        code = reseauBuilder.code;
         nom = reseauBuilder.nom;
         nomAbrege = reseauBuilder.nomAbrege;
-        listeProduits = reseauBuilder.listeProduits;
+        observation = reseauBuilder.observation;
     }
 
-    public int getCodeReseau() {
-        return codeReseau;
+    public int getCode() {
+        return code;
     }
 
     public String getNom() {
@@ -31,19 +29,19 @@ public class Reseau {
         return nomAbrege;
     }
 
-    public List<Produit> getListeProduits() {
-        return listeProduits;
+    public String getObservation() {
+        return observation;
     }
 
     public static class ReseauBuilder {
 
-        private int codeReseau;
+        private int code;
         private String nom;
         private String nomAbrege;
-        private List<Produit> listeProduits;
+        private String observation;
 
-        public ReseauBuilder(int codeReseau) {
-            this.codeReseau = codeReseau;
+        public ReseauBuilder(int code) {
+            this.code = code;
         }
 
         public ReseauBuilder nom(String nom) {
@@ -56,8 +54,8 @@ public class Reseau {
             return this;
         }
 
-        public ReseauBuilder listeProduits(List<Produit> listeProduits) {
-            this.listeProduits = listeProduits;
+        public ReseauBuilder observation(String observation) {
+            this.observation = observation;
             return this;
         }
 

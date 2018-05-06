@@ -3,7 +3,7 @@ package com.cecilsoftwares.reussoftmiddleend.model;
 /**
  * @author Plamedi L. Lusembo
  */
-public class ConnectionCredentials {
+public class AppConfig {
 
     private final String mysqldLink;
     private final String jdbcDriver;
@@ -14,15 +14,15 @@ public class ConnectionCredentials {
     private final String user;
     private final String password;
 
-    public ConnectionCredentials(ConnectionCredentialsBuilder connectionCredentialsBuilder) {
-        mysqldLink = connectionCredentialsBuilder.mysqldLink;
-        jdbcDriver = connectionCredentialsBuilder.mysqldLink;
-        urlHead = connectionCredentialsBuilder.urlHead;
-        serverHost = connectionCredentialsBuilder.serverHost;
-        port = connectionCredentialsBuilder.port;
-        schema = connectionCredentialsBuilder.schema;
-        user = connectionCredentialsBuilder.user;
-        password = connectionCredentialsBuilder.password;
+    public AppConfig(AppConfigBuilder appConfigBuilder) {
+        mysqldLink = appConfigBuilder.mysqldLink;
+        jdbcDriver = appConfigBuilder.mysqldLink;
+        urlHead = appConfigBuilder.urlHead;
+        serverHost = appConfigBuilder.serverHost;
+        port = appConfigBuilder.port;
+        schema = appConfigBuilder.schema;
+        user = appConfigBuilder.user;
+        password = appConfigBuilder.password;
     }
 
     public String getMysqldLink() {
@@ -61,7 +61,7 @@ public class ConnectionCredentials {
         return getUrlHead() + "//" + getServerHost() + ":" + getPort() + "/";
     }
 
-    public static class ConnectionCredentialsBuilder {
+    public static class AppConfigBuilder {
 
         private String mysqldLink;
         private String jdbcDriver;
@@ -72,48 +72,48 @@ public class ConnectionCredentials {
         private String user;
         private String password;
 
-        public ConnectionCredentialsBuilder mysqldLink(String mysqldLink) {
+        public AppConfigBuilder mysqldLink(String mysqldLink) {
             this.mysqldLink = mysqldLink;
             return this;
         }
 
-        public ConnectionCredentialsBuilder jdbcDriver(String jdbcDriver) {
+        public AppConfigBuilder jdbcDriver(String jdbcDriver) {
             this.jdbcDriver = jdbcDriver;
             return this;
         }
 
-        public ConnectionCredentialsBuilder urlHead(String urlHead) {
+        public AppConfigBuilder urlHead(String urlHead) {
             this.urlHead = urlHead;
             return this;
         }
 
-        public ConnectionCredentialsBuilder serverHost(String serverHost) {
+        public AppConfigBuilder serverHost(String serverHost) {
             this.serverHost = serverHost;
             return this;
         }
 
-        public ConnectionCredentialsBuilder port(int port) {
+        public AppConfigBuilder port(int port) {
             this.port = port;
             return this;
         }
 
-        public ConnectionCredentialsBuilder schema(String schema) {
+        public AppConfigBuilder schema(String schema) {
             this.schema = schema;
             return this;
         }
 
-        public ConnectionCredentialsBuilder user(String user) {
+        public AppConfigBuilder user(String user) {
             this.user = user;
             return this;
         }
 
-        public ConnectionCredentialsBuilder password(String password) {
+        public AppConfigBuilder password(String password) {
             this.password = password;
             return this;
         }
 
-        public ConnectionCredentials build() {
-            return new ConnectionCredentials(this);
+        public AppConfig build() {
+            return new AppConfig(this);
         }
 
     }
