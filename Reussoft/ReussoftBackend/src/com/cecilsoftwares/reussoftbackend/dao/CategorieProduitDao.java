@@ -1,7 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoftbackend.model.CategorieProduit;
-import com.cecilsoftwares.reussoftbackend.model.CategorieProduit.CategorieProduitBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
+import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit.CategorieProduitBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

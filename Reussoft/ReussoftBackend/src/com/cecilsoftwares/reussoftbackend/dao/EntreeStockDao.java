@@ -1,20 +1,19 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoft.enumarable.DispatchEnum;
-import com.cecilsoftwares.reussoftbackend.model.CategorieProduit;
-import com.cecilsoftwares.reussoftbackend.model.CategorieProduit.CategorieProduitBuilder;
-import com.cecilsoftwares.reussoftbackend.model.EntreeStock;
-import com.cecilsoftwares.reussoftbackend.model.EntreeStock.EntreeStockBuilder;
-import com.cecilsoftwares.reussoftbackend.model.Fournisseur;
-import com.cecilsoftwares.reussoftbackend.model.Fournisseur.FournisseurBuilder;
-import com.cecilsoftwares.reussoftbackend.model.Produit;
-import com.cecilsoftwares.reussoftbackend.model.Produit.ProduitBuilder;
-import com.cecilsoftwares.reussoftbackend.model.Reseau;
-import com.cecilsoftwares.reussoftbackend.model.Reseau.ReseauBuilder;
-import com.cecilsoftwares.reussoftbackend.model.Shop;
-import com.cecilsoftwares.reussoftbackend.model.Shop.ShopBuilder;
-import com.cecilsoftwares.reussoftbackend.model.TauxCarte;
-import com.cecilsoftwares.reussoftbackend.model.TauxCarte.TauxCarteBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
+import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit.CategorieProduitBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
+import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock.EntreeStockBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
+import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur.FournisseurBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Produit;
+import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
+import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
+import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte.TauxCarteBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -87,8 +86,6 @@ public class EntreeStockDao {
 
                     Produit produit = new ProduitBuilder(res.getInt(7))
                             .description(res.getString(8))
-                            .prixUSD(res.getBigDecimal(9))
-                            .prixFC(res.getBigDecimal(10))
                             .categorieProduit(categorieProduit)
                             .reseau(reseau)
                             .build();
@@ -104,15 +101,10 @@ public class EntreeStockDao {
                             .build();
 
                     TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(23))
-                            .tauxCarte(res.getBigDecimal(24))
                             .dateHeure(res.getTimestamp(25))
                             .build();
 
                     EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1))
-                            .dispatchEnum(res.getString(2).charAt(0) == DispatchEnum.VRAI.getType() ? DispatchEnum.VRAI : DispatchEnum.FAUX)
-                            .prixUSD(res.getBigDecimal(3))
-                            .prixFC(res.getBigDecimal(4))
-                            .qtdProduit(res.getInt(5))
                             .dateHeure(res.getTimestamp(6))
                             .produit(produit)
                             .shop(shop)
@@ -176,8 +168,6 @@ public class EntreeStockDao {
 
                     Produit produit = new ProduitBuilder(res.getInt(7))
                             .description(res.getString(8))
-                            .prixUSD(res.getBigDecimal(9))
-                            .prixFC(res.getBigDecimal(10))
                             .categorieProduit(categorieProduit)
                             .reseau(reseau)
                             .build();
@@ -193,15 +183,10 @@ public class EntreeStockDao {
                             .build();
 
                     TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(23))
-                            .tauxCarte(res.getBigDecimal(24))
                             .dateHeure(res.getTimestamp(25))
                             .build();
 
                     EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1))
-                            .dispatchEnum(res.getString(2).charAt(0) == DispatchEnum.VRAI.getType() ? DispatchEnum.VRAI : DispatchEnum.FAUX)
-                            .prixUSD(res.getBigDecimal(3))
-                            .prixFC(res.getBigDecimal(4))
-                            .qtdProduit(res.getInt(5))
                             .dateHeure(res.getTimestamp(6))
                             .produit(produit)
                             .shop(shop)
@@ -236,14 +221,7 @@ public class EntreeStockDao {
 
             prs.setInt(1, entreeStock.getCode());
             prs.setInt(2, entreeStock.getProduit().getCode());
-            prs.setInt(3, entreeStock.getShop().getCodeShop());
-            prs.setInt(4, entreeStock.getFournisseur().getCode());
-            prs.setString(5, String.valueOf(entreeStock.getDispatchEnum().getType()));
-            prs.setBigDecimal(6, entreeStock.getPrixUSD());
-            prs.setBigDecimal(7, entreeStock.getPrixFC());
             prs.setInt(7, entreeStock.getTauxCarte().getCode());
-            prs.setInt(8, entreeStock.getQuantiteProduit());
-            prs.setInt(10, entreeStock.getShop().getCodeShop());
 
             prs.execute();
             prs.close();

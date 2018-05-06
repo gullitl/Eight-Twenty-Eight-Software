@@ -1,13 +1,13 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoftbackend.model.Collaborateur;
-import com.cecilsoftwares.reussoftbackend.model.Collaborateur.CollaborateurBuilder;
-import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
-import com.cecilsoftwares.reussoftbackend.model.Shop;
-import com.cecilsoftwares.reussoftbackend.model.Shop.ShopBuilder;
-import com.cecilsoftwares.reussoftbackend.model.Utilisateur;
-import com.cecilsoftwares.reussoftbackend.model.Utilisateur.UtilisateurBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
+import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
+import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur;
+import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur.UtilisateurBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,14 +66,14 @@ public class CollaborateurDao {
                             .adresse(res.getString(13))
                             .build();
 
+                    Utilisateur utilisateur = new UtilisateurBuilder(0).build();
+
                     Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .utilizateur(res.getString(2))
-                            .motDePasse(res.getString(3))
-                            .preNom(res.getString(4))
+                            .utilisateur(utilisateur)
+                            .prenom(res.getString(4))
                             .nom(res.getString(5))
                             .postnom(res.getString(6))
                             .surnom(res.getString(7))
-                            .profilUtilisateur(profilUtilisateur)
                             .shop(shop)
                             .build();
 
@@ -120,13 +120,9 @@ public class CollaborateurDao {
                             .build();
 
                     Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .utilizateur(res.getString(2))
-                            .motDePasse(res.getString(3))
-                            .preNom(res.getString(4))
                             .nom(res.getString(5))
                             .postnom(res.getString(6))
                             .surnom(res.getString(7))
-                            .profilUtilisateur(profilUtilisateur)
                             .shop(shop)
                             .build();
 
@@ -153,11 +149,9 @@ public class CollaborateurDao {
             scriptSQL.append(" WHERE utilizateur=?");
             if (!modeEdition) {
                 prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-                prs.setString(1, collaborateur.getUtilisateur());
             } else {
                 scriptSQL.append(" and codeCollaborateur<>?");
                 prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-                prs.setString(1, collaborateur.getUtilisateur());
                 prs.setInt(2, collaborateur.getCode());
             }
 
@@ -191,10 +185,6 @@ public class CollaborateurDao {
             prs.setString(3, collaborateur.getNom());
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
-            prs.setString(6, collaborateur.getUtilisateur());
-            prs.setInt(7, collaborateur.getProfilUtilisateur().getCodeProfilUtilisateur());
-            prs.setString(8, collaborateur.getMotDePasse());
-            prs.setInt(9, collaborateur.getShop().getCodeShop());
 
             prs.execute();
             prs.close();
@@ -219,10 +209,6 @@ public class CollaborateurDao {
             prs.setString(3, collaborateur.getNom());
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
-            prs.setString(6, collaborateur.getUtilisateur());
-            prs.setInt(7, collaborateur.getProfilUtilisateur().getCodeProfilUtilisateur());
-            prs.setString(8, collaborateur.getMotDePasse());
-            prs.setInt(9, collaborateur.getShop().getCodeShop());
 
             prs.execute();
             prs.close();

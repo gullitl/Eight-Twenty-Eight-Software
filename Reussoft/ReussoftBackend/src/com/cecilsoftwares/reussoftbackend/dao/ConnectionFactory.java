@@ -25,16 +25,16 @@ public class ConnectionFactory {
 
     public boolean criaEsquemaCasoNaoExiste() {
         try {
-            Class.forName(ConnectionCredentialsKS.getInstance().getConnectionCredentials().getJdbcDriver());
+            Class.forName(AppConfigKS.getInstance().getAppConfig().getJdbcDriver());
             Connection connection = ((Connection) DriverManager
-                    .getConnection(ConnectionCredentialsKS.getInstance().getConnectionCredentials().getUrl(),
-                            ConnectionCredentialsKS.getInstance().getConnectionCredentials().getUser(),
-                            ConnectionCredentialsKS.getInstance().getConnectionCredentials().getPassword()));
+                    .getConnection(AppConfigKS.getInstance().getAppConfig().getUrl(),
+                            AppConfigKS.getInstance().getAppConfig().getUser(),
+                            AppConfigKS.getInstance().getAppConfig().getPassword()));
 
             Statement statement = connection.createStatement();
 
-            int result = statement.executeUpdate("CREATE DATABASE IF NOT EXISTS " + ConnectionCredentialsKS
-                    .getInstance().getConnectionCredentials().getSchema());
+            int result = statement.executeUpdate("CREATE DATABASE IF NOT EXISTS " + AppConfigKS
+                    .getInstance().getAppConfig().getSchema());
 
             return result == 0 || result == 1;
 
@@ -45,13 +45,13 @@ public class ConnectionFactory {
     }
 
     public Connection abreNovaConexao() throws ClassNotFoundException, SQLException {
-        Class.forName(ConnectionCredentialsKS.getInstance().getConnectionCredentials().getJdbcDriver());
+        Class.forName(AppConfigKS.getInstance().getAppConfig().getJdbcDriver());
 
         return ((Connection) DriverManager
-                .getConnection(ConnectionCredentialsKS.getInstance().getConnectionCredentials().getUrl()
-                        + ConnectionCredentialsKS.getInstance().getConnectionCredentials().getSchema(),
-                        ConnectionCredentialsKS.getInstance().getConnectionCredentials().getUser(),
-                        ConnectionCredentialsKS.getInstance().getConnectionCredentials().getPassword()));
+                .getConnection(AppConfigKS.getInstance().getAppConfig().getUrl()
+                        + AppConfigKS.getInstance().getAppConfig().getSchema(),
+                        AppConfigKS.getInstance().getAppConfig().getUser(),
+                        AppConfigKS.getInstance().getAppConfig().getPassword()));
     }
 
 }

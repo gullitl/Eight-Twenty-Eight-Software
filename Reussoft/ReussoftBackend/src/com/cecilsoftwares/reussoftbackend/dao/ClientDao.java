@@ -1,7 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoftbackend.model.Client;
-import com.cecilsoftwares.reussoftbackend.model.Client.ClientBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Client;
+import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

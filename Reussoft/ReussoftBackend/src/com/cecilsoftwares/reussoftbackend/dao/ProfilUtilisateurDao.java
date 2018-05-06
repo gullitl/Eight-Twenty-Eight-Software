@@ -1,11 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoftbackend.model.Collaborateur;
-import com.cecilsoftwares.reussoftbackend.model.Collaborateur.CollaborateurBuilder;
-import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftbackend.model.ProfilUtilisateur.GroupeUtilisateurBuilder;
-import com.cecilsoftwares.reussoftbackend.model.Shop;
-import com.cecilsoftwares.reussoftbackend.model.Shop.ShopBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
+import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,14 +15,14 @@ import java.util.List;
 public class ProfilUtilisateurDao {
 
     private StringBuilder scriptSQL;
-    private static ProfilUtilisateur uniqueInstance;
+    private static ProfilUtilisateurDao uniqueInstance;
 
     public ProfilUtilisateurDao() {
     }
 
-    public static synchronized ProfilUtilisateur getInstance() {
+    public static synchronized ProfilUtilisateurDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new ProfilUtilisateur();
+            uniqueInstance = new ProfilUtilisateurDao();
         }
         return uniqueInstance;
     }
