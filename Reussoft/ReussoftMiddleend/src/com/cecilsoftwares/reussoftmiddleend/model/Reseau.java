@@ -9,12 +9,14 @@ public class Reseau {
     private final String nom;
     private final String nomAbrege;
     private final String observation;
+    private final boolean active;
 
     public Reseau(ReseauBuilder reseauBuilder) {
         code = reseauBuilder.code;
         nom = reseauBuilder.nom;
         nomAbrege = reseauBuilder.nomAbrege;
         observation = reseauBuilder.observation;
+        active = reseauBuilder.active;
     }
 
     public int getCode() {
@@ -33,12 +35,17 @@ public class Reseau {
         return observation;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
     public static class ReseauBuilder {
 
         private int code;
         private String nom;
         private String nomAbrege;
         private String observation;
+        private boolean active;
 
         public ReseauBuilder(int code) {
             this.code = code;
@@ -56,6 +63,11 @@ public class Reseau {
 
         public ReseauBuilder observation(String observation) {
             this.observation = observation;
+            return this;
+        }
+
+        public ReseauBuilder active(boolean active) {
+            this.active = active;
             return this;
         }
 

@@ -5,20 +5,22 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Fournisseur {
 
-    private final int codeFournisseur;
+    private final int code;
     private final String entreprise;
     private final String responsable;
+    private final String telephone;
     private final String observation;
 
     public Fournisseur(FournisseurBuilder fournisseurBuilder) {
-        codeFournisseur = fournisseurBuilder.codeFournisseur;
+        code = fournisseurBuilder.code;
         entreprise = fournisseurBuilder.entreprise;
         responsable = fournisseurBuilder.responsable;
+        telephone = fournisseurBuilder.telephone;
         observation = fournisseurBuilder.observation;
     }
 
-    public int getCodeFournisseur() {
-        return codeFournisseur;
+    public int getCode() {
+        return code;
     }
 
     public String getEntreprise() {
@@ -29,19 +31,24 @@ public class Fournisseur {
         return responsable;
     }
 
-    public String observation() {
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public String getObservation() {
         return observation;
     }
 
     public static class FournisseurBuilder {
 
-        private int codeFournisseur;
+        private int code;
         private String entreprise;
         private String responsable;
+        private String telephone;
         private String observation;
 
-        public FournisseurBuilder(int codeFournisseur) {
-            this.codeFournisseur = codeFournisseur;
+        public FournisseurBuilder(int code) {
+            this.code = code;
         }
 
         public FournisseurBuilder entreprise(String entreprise) {
@@ -51,6 +58,11 @@ public class Fournisseur {
 
         public FournisseurBuilder responsable(String responsable) {
             this.responsable = responsable;
+            return this;
+        }
+
+        public FournisseurBuilder telephone(String telephone) {
+            this.telephone = telephone;
             return this;
         }
 
