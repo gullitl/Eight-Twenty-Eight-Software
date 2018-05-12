@@ -19,6 +19,7 @@ public class RapportCollaborateur extends JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Rapport des Collaborateurs");
 
         jLabel1.setText("RapportCollaborateur");
 

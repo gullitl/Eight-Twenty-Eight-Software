@@ -14,6 +14,7 @@ public class MDI extends javax.swing.JFrame {
 
     private ConfigurationCompte configurationCompte;
     private OperationDispatch operationDispatch;
+    private OperationAlternationCollaborateurShop operationAlternationCollaborateurShop;
     private OperationEntreeStock operationEntreeStock;
     private RapportClient rapportClient;
     private RapportCollaborateur rapportCollaborateur;
@@ -30,7 +31,6 @@ public class MDI extends javax.swing.JFrame {
     private RegistreProduit registreProduit;
     private RegistreReseau registreReseau;
     private RegistreShop registreShop;
-    private RegistreUtilisateur registreUtilisateur;
     private AideAPropos aideAPropos;
 
     @SuppressWarnings("unchecked")
@@ -48,12 +48,12 @@ public class MDI extends javax.swing.JFrame {
         jmiRegistreFournisseur = new javax.swing.JMenuItem();
         jmiRegistreClient = new javax.swing.JMenuItem();
         jmiRegistreReseau = new javax.swing.JMenuItem();
-        jmiRegistreCollaborateur = new javax.swing.JMenuItem();
         jmiRegistreProfilUtilisateur = new javax.swing.JMenuItem();
-        jmiRegistreUtilisateur = new javax.swing.JMenuItem();
+        jmiRegistreCollaborateur = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jmiOperationEntreeStock = new javax.swing.JMenuItem();
         jmiOperationDispatch = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jmiRapportEntreeStock = new javax.swing.JMenuItem();
         jmiRapportDispatch = new javax.swing.JMenuItem();
@@ -66,7 +66,7 @@ public class MDI extends javax.swing.JFrame {
         jmiAideApropos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Principal");
+        setTitle("Reussoft - Makservices");
 
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
@@ -141,14 +141,6 @@ public class MDI extends javax.swing.JFrame {
         });
         jMenu3.add(jmiRegistreReseau);
 
-        jmiRegistreCollaborateur.setText("Collaborateur");
-        jmiRegistreCollaborateur.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiRegistreCollaborateurActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jmiRegistreCollaborateur);
-
         jmiRegistreProfilUtilisateur.setText("Profil utilisateur");
         jmiRegistreProfilUtilisateur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,13 +149,13 @@ public class MDI extends javax.swing.JFrame {
         });
         jMenu3.add(jmiRegistreProfilUtilisateur);
 
-        jmiRegistreUtilisateur.setText("Utilisateur");
-        jmiRegistreUtilisateur.addActionListener(new java.awt.event.ActionListener() {
+        jmiRegistreCollaborateur.setText("Collaborateur");
+        jmiRegistreCollaborateur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiRegistreUtilisateurActionPerformed(evt);
+                jmiRegistreCollaborateurActionPerformed(evt);
             }
         });
-        jMenu3.add(jmiRegistreUtilisateur);
+        jMenu3.add(jmiRegistreCollaborateur);
 
         jMenuBar1.add(jMenu3);
 
@@ -184,6 +176,14 @@ public class MDI extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jmiOperationDispatch);
+
+        jMenuItem1.setText("Alternation de Collaborateurs aux Shops");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem1);
 
         jMenuBar1.add(jMenu4);
 
@@ -448,29 +448,10 @@ public class MDI extends javax.swing.JFrame {
         registreProfilUtilisateur.setVisible(true);
     }//GEN-LAST:event_jmiRegistreProfilUtilisateurActionPerformed
 
-    private void jmiRegistreUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRegistreUtilisateurActionPerformed
-        if (registreUtilisateur == null) {
-            registreUtilisateur = new RegistreUtilisateur();
-            jDesktopPane.add(registreUtilisateur);
-
-            registreUtilisateur.addInternalFrameListener(new InternalFrameAdapter() {
-                @Override
-                public void internalFrameClosing(InternalFrameEvent e) {
-                    registreUtilisateur = null;
-                }
-            });
-        }
-        registreUtilisateur.setLocation(
-                jDesktopPane.getWidth() / 2 - registreUtilisateur.getWidth() / 2,
-                jDesktopPane.getHeight() / 2 - registreUtilisateur.getHeight() / 2);
-
-        registreUtilisateur.setVisible(true);
-    }//GEN-LAST:event_jmiRegistreUtilisateurActionPerformed
-
     private void jmiOperationEntreeStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiOperationEntreeStockActionPerformed
         if (operationEntreeStock == null) {
             operationEntreeStock = new OperationEntreeStock();
-            jDesktopPane.add(registreUtilisateur);
+            jDesktopPane.add(operationEntreeStock);
 
             operationEntreeStock.addInternalFrameListener(new InternalFrameAdapter() {
                 @Override
@@ -657,6 +638,26 @@ public class MDI extends javax.swing.JFrame {
         aideAPropos.setVisible(true);
     }//GEN-LAST:event_jmiAideAproposActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        if (operationAlternationCollaborateurShop == null) {
+            operationAlternationCollaborateurShop = new OperationAlternationCollaborateurShop();
+            jDesktopPane.add(operationAlternationCollaborateurShop);
+
+            operationAlternationCollaborateurShop.addInternalFrameListener(new InternalFrameAdapter() {
+                @Override
+                public void internalFrameClosing(InternalFrameEvent e) {
+                    operationAlternationCollaborateurShop = null;
+                }
+            });
+        }
+        operationAlternationCollaborateurShop.setLocation(
+                jDesktopPane.getWidth() / 2 - operationAlternationCollaborateurShop.getWidth() / 2,
+                jDesktopPane.getHeight() / 2 - operationAlternationCollaborateurShop.getHeight() / 2);
+
+        operationAlternationCollaborateurShop.setVisible(true);
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JMenu jMenu1;
@@ -665,6 +666,7 @@ public class MDI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jmiAideApropos;
     private javax.swing.JMenuItem jmiConfigurationMonCompte;
     private javax.swing.JMenuItem jmiOperationDispatch;
@@ -684,6 +686,5 @@ public class MDI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiRegistreProfilUtilisateur;
     private javax.swing.JMenuItem jmiRegistreReseau;
     private javax.swing.JMenuItem jmiRegistreShop;
-    private javax.swing.JMenuItem jmiRegistreUtilisateur;
     // End of variables declaration//GEN-END:variables
 }
