@@ -10,7 +10,6 @@ public class EntreeStock {
 
     private final int code;
     private final Produit produit;
-    private final Shop shop;
     private final Fournisseur fournisseur;
     private final TauxCarte tauxCarte;
     private final BigDecimal prixAchatUSD;
@@ -26,7 +25,6 @@ public class EntreeStock {
         tauxCarte = entreeStockBuilder.tauxCarte;
         dateHeure = entreeStockBuilder.dateHeure;
         produit = entreeStockBuilder.produit;
-        shop = entreeStockBuilder.shop;
         fournisseur = entreeStockBuilder.fournisseur;
         quantiteProduit = entreeStockBuilder.quantiteProduit;
         observation = entreeStockBuilder.observation;
@@ -38,10 +36,6 @@ public class EntreeStock {
 
     public Produit getProduit() {
         return produit;
-    }
-
-    public Shop getShop() {
-        return shop;
     }
 
     public Fournisseur getFournisseur() {
@@ -76,7 +70,6 @@ public class EntreeStock {
 
         private int code;
         private Produit produit;
-        private Shop shop;
         private Fournisseur fournisseur;
         private BigDecimal prixAchatUSD;
         private BigDecimal prixAchatFC;
@@ -91,11 +84,6 @@ public class EntreeStock {
 
         public EntreeStockBuilder produit(Produit produit) {
             this.produit = produit;
-            return this;
-        }
-
-        public EntreeStockBuilder shop(Shop shop) {
-            this.shop = shop;
             return this;
         }
 
