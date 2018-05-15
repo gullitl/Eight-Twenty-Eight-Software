@@ -1,6 +1,13 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
+import com.cecilsoftwares.reussoftbackend.service.ShopService;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 
 /**
  * @author Plamedi L. Lusembo
@@ -10,6 +17,7 @@ public class RegistreShop extends JInternalFrame {
     public RegistreShop() {
         initComponents();
         limparCampos();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -29,11 +37,11 @@ public class RegistreShop extends JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         tfdNumero = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        tdfQuartier = new javax.swing.JTextField();
+        tfdQuartier = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         tfdCommune = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        tdfDistrict = new javax.swing.JTextField();
+        tfdDistrict = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         cbxProvince = new javax.swing.JComboBox<>();
         chbActiver = new javax.swing.JCheckBox();
@@ -69,7 +77,7 @@ public class RegistreShop extends JInternalFrame {
 
         jLabel9.setText("Province:");
 
-        cbxProvince.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxProvince.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kinshasa", "Kasaï", "Kongo-Central" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,14 +98,14 @@ public class RegistreShop extends JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel9)
                             .addComponent(jLabel6)
-                            .addComponent(tdfQuartier)
+                            .addComponent(tfdQuartier)
                             .addComponent(cbxProvince, 0, 250, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(tdfDistrict)
+                            .addComponent(tfdDistrict)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel8)
@@ -122,7 +130,7 @@ public class RegistreShop extends JInternalFrame {
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tdfQuartier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdQuartier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdCommune, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -131,13 +139,18 @@ public class RegistreShop extends JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxProvince, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tdfDistrict, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdDistrict, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
         chbActiver.setText("Activer");
 
         jButton1.setText("ENREGISTRER");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("ANNULER");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -208,16 +221,42 @@ public class RegistreShop extends JInternalFrame {
         limparCampos();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String adresse = new StringBuilder(tfdAvenue.getText())
+                .append(", ").append(tfdNumero.getText())
+                .append(", ").append(tfdQuartier.getText())
+                .append(", ").append(tfdCommune.getText())
+                .append(", ").append(cbxProvince.getSelectedItem().toString())
+                .append(", ").append(tfdDistrict.getText())
+                .toString();
+        Shop shop = new ShopBuilder(Integer.parseInt(tfdCode.getText()))
+                .nom(tfdNom.getText())
+                .adresse(adresse)
+                .observation(txaObservation.getText())
+                .active(true)
+                .build();
+
+        try {
+            if (ShopService.getInstance().enregistrerShop(shop)) {
+                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le nouveau Shop");
+            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void limparCampos() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdNom.setText("");
         tfdAvenue.setText("");
         tfdNumero.setText("");
-        tdfQuartier.setText("");
+        tfdQuartier.setText("");
         tfdCommune.setText("");
         cbxProvince.setSelectedIndex(0);
-        tdfDistrict.setText("");
+        tfdDistrict.setText("");
         txaObservation.setText("");
         chbActiver.setVisible(false);
         chbActiver.setSelected(true);
@@ -240,13 +279,13 @@ public class RegistreShop extends JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField tdfDistrict;
-    private javax.swing.JTextField tdfQuartier;
     private javax.swing.JTextField tfdAvenue;
     private javax.swing.JTextField tfdCode;
     private javax.swing.JTextField tfdCommune;
+    private javax.swing.JTextField tfdDistrict;
     private javax.swing.JTextField tfdNom;
     private javax.swing.JTextField tfdNumero;
+    private javax.swing.JTextField tfdQuartier;
     private javax.swing.JTextArea txaObservation;
     // End of variables declaration//GEN-END:variables
 }
