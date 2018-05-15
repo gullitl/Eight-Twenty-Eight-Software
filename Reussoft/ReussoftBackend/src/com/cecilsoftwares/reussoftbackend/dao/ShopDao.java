@@ -134,22 +134,21 @@ public class ShopDao {
         return null;
     }
 
-    public boolean sauvegarder(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
+    //Valide
+    public boolean sauvegarder(Shop shop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
-            scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
-            scriptSQL.append(" codeCollaborateur, preNom, nom, postnom, surnom,");
-            scriptSQL.append(" utilisateur, idGroupeUtilisateur, motDePasse, idShop )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            scriptSQL = new StringBuilder("INSERT INTO shop(");
+            scriptSQL.append(" nom, adresse, active, observation");
+            scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, collaborateur.getCode());
-            prs.setString(2, collaborateur.getPrenom());
-            prs.setString(3, collaborateur.getNom());
-            prs.setString(4, collaborateur.getPostnom());
-            prs.setString(5, collaborateur.getSurnom());
+            prs.setString(1, shop.getNom());
+            prs.setString(2, shop.getAdresse());
+            prs.setInt(3, shop.isActive() ? 1 : 0);
+            prs.setString(4, shop.getObservation());
 
             prs.execute();
             prs.close();

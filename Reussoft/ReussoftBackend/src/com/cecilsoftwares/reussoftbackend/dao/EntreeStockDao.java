@@ -107,7 +107,6 @@ public class EntreeStockDao {
                     EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(6))
                             .produit(produit)
-                            .shop(shop)
                             .fournisseur(fournisseur)
                             .tauxCarte(tauxCarte)
                             .build();
@@ -189,7 +188,6 @@ public class EntreeStockDao {
                     EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(6))
                             .produit(produit)
-                            .shop(shop)
                             .fournisseur(fournisseur)
                             .tauxCarte(tauxCarte)
                             .build();
