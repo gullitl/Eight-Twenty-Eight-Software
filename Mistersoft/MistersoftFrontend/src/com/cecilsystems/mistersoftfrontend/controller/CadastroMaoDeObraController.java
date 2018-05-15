@@ -225,6 +225,7 @@ public class CadastroMaoDeObraController implements Initializable {
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Maos de Obra");
+            dialogStage.setResizable(false);;
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(formStage);
             dialogStage.setX(414);

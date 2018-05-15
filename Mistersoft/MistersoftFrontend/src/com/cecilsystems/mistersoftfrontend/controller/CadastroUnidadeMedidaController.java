@@ -192,6 +192,7 @@ public class CadastroUnidadeMedidaController implements Initializable {
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Unidade Medida");
+            dialogStage.setResizable(false);
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(formStage);
             dialogStage.setX(414);

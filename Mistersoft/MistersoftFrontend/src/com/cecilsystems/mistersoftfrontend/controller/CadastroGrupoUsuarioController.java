@@ -191,6 +191,7 @@ public class CadastroGrupoUsuarioController implements Initializable {
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Grupos Usuário");
+            dialogStage.setResizable(false);;
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(formStage);
             dialogStage.setX(414);

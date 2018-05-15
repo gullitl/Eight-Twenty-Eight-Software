@@ -726,6 +726,7 @@ public class CadastroMontagemPecaController implements Initializable {
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Peca Compostas");
+            dialogStage.setResizable(false);
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(formStage);
             dialogStage.setX(376);

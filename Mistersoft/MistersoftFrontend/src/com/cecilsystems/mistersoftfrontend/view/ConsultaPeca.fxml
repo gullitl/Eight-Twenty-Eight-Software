@@ -6,13 +6,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="618.0" prefWidth="624.0" stylesheets="@../resources/styles/GenericTheme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cecilsystems.mistersoft.controller.consulta.ConsultaPecaController">
+<AnchorPane id="AnchorPane" prefHeight="618.0" prefWidth="700.0" stylesheets="@../resources/styles/GenericTheme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cecilsystems.mistersoft.controller.consulta.ConsultaPecaController">
    <children>
-      <JFXTextField fx:id="jtxDescricaoFiltro" labelFloat="true" layoutX="31.0" layoutY="30.0" onKeyReleased="#jtxDescricaoFiltroKeyReleased" prefHeight="31.0" prefWidth="562.0" promptText="Descrição" />
-      <TableView fx:id="tvwPeca" layoutX="31.0" layoutY="83.0" onMouseClicked="#tvwPecaSelecionarMouseClicked" prefHeight="495.0" prefWidth="562.0" style="-fx-focus-color: #4050a8;">
+      <JFXTextField fx:id="jtxDescricaoFiltro" labelFloat="true" layoutX="31.0" layoutY="30.0" onKeyReleased="#jtxDescricaoFiltroKeyReleased" prefHeight="31.0" prefWidth="629.0" promptText="Descrição" />
+      <TableView fx:id="tvwPeca" layoutX="31.0" layoutY="83.0" onMouseClicked="#tvwPecaSelecionarMouseClicked" prefHeight="495.0" prefWidth="629.0" style="-fx-focus-color: #4050a8;">
         <columns>
-          <TableColumn fx:id="clmCodigo" editable="false" prefWidth="110.0" resizable="false" sortable="false" text="Código" />
-          <TableColumn fx:id="clmDescricao" editable="false" prefWidth="404.0" resizable="false" sortable="false" text="Descrição" />
+          <TableColumn fx:id="clmCodigo" editable="false" prefWidth="117.0" resizable="false" sortable="false" text="Código" />
+          <TableColumn fx:id="clmDescricao" editable="false" prefWidth="464.0" resizable="false" sortable="false" text="Descrição" />
             <TableColumn fx:id="clmTipo" prefWidth="25.0" resizable="false" />
         </columns>
       </TableView>

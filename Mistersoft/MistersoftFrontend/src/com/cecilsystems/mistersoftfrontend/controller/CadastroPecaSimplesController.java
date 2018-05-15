@@ -322,6 +322,7 @@ public class CadastroPecaSimplesController implements Initializable {
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Pecas Simples");
+            dialogStage.setResizable(false);
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(formStage);
             dialogStage.setX(376);
