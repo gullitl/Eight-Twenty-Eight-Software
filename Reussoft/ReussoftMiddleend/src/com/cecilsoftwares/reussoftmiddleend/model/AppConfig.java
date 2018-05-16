@@ -5,7 +5,6 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class AppConfig {
 
-    private final String mysqldLink;
     private final String jdbcDriver;
     private final String urlHead;
     private final String serverHost;
@@ -15,18 +14,13 @@ public class AppConfig {
     private final String password;
 
     public AppConfig(AppConfigBuilder appConfigBuilder) {
-        mysqldLink = appConfigBuilder.mysqldLink;
-        jdbcDriver = appConfigBuilder.mysqldLink;
+        jdbcDriver = appConfigBuilder.jdbcDriver;
         urlHead = appConfigBuilder.urlHead;
         serverHost = appConfigBuilder.serverHost;
         port = appConfigBuilder.port;
         schema = appConfigBuilder.schema;
         user = appConfigBuilder.user;
         password = appConfigBuilder.password;
-    }
-
-    public String getMysqldLink() {
-        return mysqldLink;
     }
 
     public String getJdbcDriver() {
@@ -63,7 +57,6 @@ public class AppConfig {
 
     public static class AppConfigBuilder {
 
-        private String mysqldLink;
         private String jdbcDriver;
         private String urlHead;
         private String serverHost;
@@ -71,11 +64,6 @@ public class AppConfig {
         private String schema;
         private String user;
         private String password;
-
-        public AppConfigBuilder mysqldLink(String mysqldLink) {
-            this.mysqldLink = mysqldLink;
-            return this;
-        }
 
         public AppConfigBuilder jdbcDriver(String jdbcDriver) {
             this.jdbcDriver = jdbcDriver;
