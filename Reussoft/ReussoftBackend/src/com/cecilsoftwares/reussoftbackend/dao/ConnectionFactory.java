@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
+import com.cecilsoftwares.reussoftbackend.AppConfigKS;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
