@@ -28,12 +28,4 @@ public class AppConfigKS {
         this.appConfig = appConfig;
     }
 
-    public static AppConfigKS getUniqueInstance() {
-        return uniqueInstance;
-    }
-
-    public static void setUniqueInstance(AppConfigKS uniqueInstance) {
-        AppConfigKS.uniqueInstance = uniqueInstance;
-    }
-
 }

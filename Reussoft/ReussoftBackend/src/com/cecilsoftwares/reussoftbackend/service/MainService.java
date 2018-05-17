@@ -35,11 +35,21 @@ public class MainService {
         try {
             Gson gson = new Gson();
             BufferedReader br;
-            br = new BufferedReader(new FileReader("mson.ini"));
+            br = new BufferedReader(new FileReader("mason.ini"));
 
-            AppConfig cc = gson.fromJson(br, AppConfig.class);
+            AppConfig appConfig = gson.fromJson(br, AppConfig.class);
 
-            AppConfigKS.getInstance().setAppConfig(cc);
+            AppConfigKS.getInstance().setAppConfig(appConfig);
+
+            JOptionPane.showMessageDialog(null, AppConfigKS.getInstance().getAppConfig().getJdbcDriver()
+                    + "\n" + AppConfigKS.getInstance().getAppConfig().getUrlHead()
+                    + "\n" + AppConfigKS.getInstance().getAppConfig().getServerHost()
+                    + "\n" + AppConfigKS.getInstance().getAppConfig().getPort()
+                    + "\n" + AppConfigKS.getInstance().getAppConfig().getSchema()
+                    + "\n" + AppConfigKS.getInstance().getAppConfig().getUser()
+                    + "\n" + AppConfigKS.getInstance().getAppConfig().getPassword()
+            );
+            System.exit(0);
 
         } catch (FileNotFoundException fnfe) {
             Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, fnfe);
