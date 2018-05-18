@@ -44,7 +44,7 @@ public class EntreeStockDao {
         ResultSet res;
         List<EntreeStock> listeEntreeStocks;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeEntreeStocks = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT entreestock.codeEntreeStock, entreestock.dispatch, entreestock.prixUSD,");
@@ -125,7 +125,7 @@ public class EntreeStockDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT entreestock.codeEntreeStock, entreestock.dispatch, entreestock.prixUSD,");
             scriptSQL.append(" entreestock.prixFC, entreestock.qtdProduit, entreestock.dateHeure,");
             scriptSQL.append(" produit.codeProduit, produit.description, produit.prixUSD, produit.prixFC,");
@@ -206,10 +206,11 @@ public class EntreeStockDao {
         return null;
     }
 
+    //Valide
     public boolean sauvegarder(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO entreestock(");
             scriptSQL.append(" codeEntreeStock, idProduit, idShop, idFournisseur, dispatch,");
             scriptSQL.append(" prixUSD, prixFC, idTauxCarte, qtdProduit, dateHeure )");
@@ -232,7 +233,7 @@ public class EntreeStockDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT Max(codeEntreeStock)+1 FROM entreestock");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

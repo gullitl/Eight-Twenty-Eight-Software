@@ -41,16 +41,6 @@ public class MainService {
 
             AppConfigKS.getInstance().setAppConfig(appConfig);
 
-            JOptionPane.showMessageDialog(null, AppConfigKS.getInstance().getAppConfig().getJdbcDriver()
-                    + "\n" + AppConfigKS.getInstance().getAppConfig().getUrlHead()
-                    + "\n" + AppConfigKS.getInstance().getAppConfig().getServerHost()
-                    + "\n" + AppConfigKS.getInstance().getAppConfig().getPort()
-                    + "\n" + AppConfigKS.getInstance().getAppConfig().getSchema()
-                    + "\n" + AppConfigKS.getInstance().getAppConfig().getUser()
-                    + "\n" + AppConfigKS.getInstance().getAppConfig().getPassword()
-            );
-            System.exit(0);
-
         } catch (FileNotFoundException fnfe) {
             Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, fnfe);
             JOptionPane.showMessageDialog(null, fnfe);
@@ -62,9 +52,17 @@ public class MainService {
         boolean conectou = false;
         do {
             try {
-                System.out.println(ConnectionFactory.getInstance().abreNovaConexao());
+                System.out.println(ConnectionFactory.getInstance().habiliterConnection());
                 conectou = true;
                 System.out.println("SUCESS");
+                JOptionPane.showMessageDialog(null, AppConfigKS.getInstance().getAppConfig().getJdbcDriver()
+                        + "\n" + AppConfigKS.getInstance().getAppConfig().getUrlHead()
+                        + "\n" + AppConfigKS.getInstance().getAppConfig().getServerHost()
+                        + "\n" + AppConfigKS.getInstance().getAppConfig().getPort()
+                        + "\n" + AppConfigKS.getInstance().getAppConfig().getSchema()
+                        + "\n" + AppConfigKS.getInstance().getAppConfig().getUser()
+                        + "\n" + AppConfigKS.getInstance().getAppConfig().getPassword()
+                );
             } catch (ClassNotFoundException | SQLException ex) {
                 System.out.println("Não conectou: " + ex);
             }

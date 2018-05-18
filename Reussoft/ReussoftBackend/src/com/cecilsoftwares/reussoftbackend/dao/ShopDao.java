@@ -36,7 +36,7 @@ public class ShopDao {
         ResultSet res;
         List<Collaborateur> listeCollaborateurs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeCollaborateurs = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
@@ -85,7 +85,7 @@ public class ShopDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
             scriptSQL.append(" groupeutilisateur.codeGroupeUtilizateur, groupeutilisateur.description, groupeutilisateur.descriptionAbregee,");
@@ -138,7 +138,7 @@ public class ShopDao {
     public boolean sauvegarder(Shop shop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO shop(");
             scriptSQL.append(" nom, adresse, active, observation");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
@@ -160,7 +160,7 @@ public class ShopDao {
     public boolean actualiser(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("UPDATE collaborateur");
             scriptSQL.append(" SET preNom=?, nom=?, postnom=?, surnom=?, utilisateur=?,");
             scriptSQL.append(" idGroupeUtilisateur=?, motDePasse=?, idShop=?");
@@ -184,7 +184,7 @@ public class ShopDao {
     public boolean exclure(int codeCollaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM collaborateur WHERE codeCollaborateur=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -201,7 +201,7 @@ public class ShopDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT Max(codeCollaborateur)+1 FROM collaborateur");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

@@ -37,7 +37,7 @@ public class UtilisateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse,");
             scriptSQL.append(" profilutilisateur.code, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
             scriptSQL.append(" collaborateur.code, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
@@ -101,7 +101,7 @@ public class UtilisateurDao {
         ResultSet res;
         List<Utilisateur> listeUtilisateurs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse,");
             scriptSQL.append(" profilutilisateur.code, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
             scriptSQL.append(" collaborateur.code, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
@@ -161,7 +161,7 @@ public class UtilisateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse,");
             scriptSQL.append(" profilutilisateur.code, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
             scriptSQL.append(" collaborateur.code, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
@@ -224,7 +224,7 @@ public class UtilisateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT code FROM utilisateur");
             scriptSQL.append(" WHERE nom=?");
             if (!modeEdition) {
@@ -254,7 +254,7 @@ public class UtilisateurDao {
     public boolean sauvegarder(Utilisateur utilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO utilisateur(");
             scriptSQL.append(" code, idProfilUtilisateur, idCollaborateur, nom, motDePasse)");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
@@ -277,7 +277,7 @@ public class UtilisateurDao {
     public boolean actualiser(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("UPDATE utilisateur(");
             scriptSQL.append(" SET idProfilUtilisateur=?, idCollaborateur=?, nom, motDePasse)");
@@ -306,7 +306,7 @@ public class UtilisateurDao {
     public boolean exclure(int codeCollaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM collaborateur WHERE codeCollaborateur=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -323,7 +323,7 @@ public class UtilisateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT Max(codeCollaborateur)+1 FROM collaborateur");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

@@ -32,7 +32,7 @@ public class ClientDao {
         ResultSet res;
         List<Client> listeClients;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT code, responsable, entreprise");
             scriptSQL.append(" FROM client");
 
@@ -62,7 +62,7 @@ public class ClientDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT code, responsable, entreprise");
             scriptSQL.append(" FROM client");
             scriptSQL.append(" WHERE code=?");
@@ -92,10 +92,11 @@ public class ClientDao {
         return null;
     }
 
+    //Valide
     public boolean sauvegarder(Client client) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO client(");
             scriptSQL.append(" code, responsable, entreprise )");
             scriptSQL.append(" VALUES (?, ?, ?)");
@@ -116,7 +117,7 @@ public class ClientDao {
     public boolean actualiser(Client client) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("UPDATE client");
             scriptSQL.append(" SET responsable=?, entreprise=?");
             scriptSQL.append(" WHERE codeClient=?");
@@ -137,7 +138,7 @@ public class ClientDao {
     public boolean exclure(int code) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM client WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -154,7 +155,7 @@ public class ClientDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM client");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

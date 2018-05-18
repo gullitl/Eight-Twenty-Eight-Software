@@ -38,7 +38,7 @@ public class CollaborateurDao {
         ResultSet res;
         List<Collaborateur> listeCollaborateurs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
             scriptSQL.append(" profilutilisateur.codeProfilUtilizateur, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
@@ -91,7 +91,7 @@ public class CollaborateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
             scriptSQL.append(" profilutilisateur.codeProfilUtilizateur, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
@@ -144,7 +144,7 @@ public class CollaborateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT codeCollaborateur FROM collaborateur");
             scriptSQL.append(" WHERE utilizateur=?");
             if (!modeEdition) {
@@ -172,7 +172,7 @@ public class CollaborateurDao {
     public boolean sauvegarder(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
             scriptSQL.append(" codeCollaborateur, preNom, nom, postnom, surnom,");
             scriptSQL.append(" utilisateur, idProfilUtilisateur, motDePasse, idShop )");
@@ -196,7 +196,7 @@ public class CollaborateurDao {
     public boolean actualiser(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("UPDATE collaborateur");
             scriptSQL.append(" SET preNom=?, nom=?, postnom=?, surnom=?, utilisateur=?,");
             scriptSQL.append(" idProfilUtilisateur=?, motDePasse=?, idShop=?");
@@ -220,7 +220,7 @@ public class CollaborateurDao {
     public boolean exclure(int codeCollaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM collaborateur WHERE codeCollaborateur=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -237,7 +237,7 @@ public class CollaborateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().abreNovaConexao()) {
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT Max(codeCollaborateur)+1 FROM collaborateur");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

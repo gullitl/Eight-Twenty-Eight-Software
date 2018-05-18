@@ -45,7 +45,7 @@ public class ConnectionFactory {
         return false;
     }
 
-    public Connection abreNovaConexao() throws ClassNotFoundException, SQLException {
+    public Connection habiliterConnection() throws ClassNotFoundException, SQLException {
         Class.forName(AppConfigKS.getInstance().getAppConfig().getJdbcDriver());
 
         return ((Connection) DriverManager
