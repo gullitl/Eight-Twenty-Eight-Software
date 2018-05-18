@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftfrontend;
 
+import com.cecilsoftwares.reussoftbackend.service.MainService;
 import com.cecilsoftwares.reussoftfrontend.form.Login;
 
 /**
@@ -30,6 +31,8 @@ public class MainApp {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+
+        MainService.getInstance().initialiserBaseDonnees();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {

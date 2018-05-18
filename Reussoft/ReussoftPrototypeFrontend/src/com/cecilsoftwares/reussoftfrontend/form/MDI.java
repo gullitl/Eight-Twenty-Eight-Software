@@ -43,11 +43,11 @@ public class MDI extends javax.swing.JFrame {
         jmiConfigurationMonCompte = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jmiRegistreShop = new javax.swing.JMenuItem();
+        jmiRegistreReseau = new javax.swing.JMenuItem();
         jmiRegistreCategorieProduit = new javax.swing.JMenuItem();
         jmiRegistreProduit = new javax.swing.JMenuItem();
         jmiRegistreFournisseur = new javax.swing.JMenuItem();
         jmiRegistreClient = new javax.swing.JMenuItem();
-        jmiRegistreReseau = new javax.swing.JMenuItem();
         jmiRegistreProfilUtilisateur = new javax.swing.JMenuItem();
         jmiRegistreCollaborateur = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
@@ -101,6 +101,14 @@ public class MDI extends javax.swing.JFrame {
         });
         jMenu3.add(jmiRegistreShop);
 
+        jmiRegistreReseau.setText("Réseau");
+        jmiRegistreReseau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiRegistreReseauActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmiRegistreReseau);
+
         jmiRegistreCategorieProduit.setText("Categorie de Produit");
         jmiRegistreCategorieProduit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,14 +140,6 @@ public class MDI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jmiRegistreClient);
-
-        jmiRegistreReseau.setText("Réseau");
-        jmiRegistreReseau.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiRegistreReseauActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jmiRegistreReseau);
 
         jmiRegistreProfilUtilisateur.setText("Profil utilisateur");
         jmiRegistreProfilUtilisateur.addActionListener(new java.awt.event.ActionListener() {
