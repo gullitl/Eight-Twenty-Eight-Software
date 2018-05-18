@@ -66,7 +66,7 @@ public class Fournisseur {
             return this;
         }
 
-        public FournisseurBuilder observartion(String observation) {
+        public FournisseurBuilder observation(String observation) {
             this.observation = observation;
             return this;
         }

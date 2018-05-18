@@ -114,8 +114,9 @@ public class Collaborateur {
             return this;
         }
 
-        public void setObservation(String observation) {
+        public CollaborateurBuilder observation(String observation) {
             this.observation = observation;
+            return this;
         }
 
         public Collaborateur build() {
