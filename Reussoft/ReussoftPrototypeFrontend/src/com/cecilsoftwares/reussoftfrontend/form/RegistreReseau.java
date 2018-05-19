@@ -144,6 +144,7 @@ public class RegistreReseau extends JInternalFrame {
 
         try {
             if (ReseauService.getInstance().enregistrerReseau(reseau)) {
+                annulerEnregistrement();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {

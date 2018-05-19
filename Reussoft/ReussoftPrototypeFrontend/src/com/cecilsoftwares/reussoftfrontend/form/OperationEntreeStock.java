@@ -232,6 +232,7 @@ public class OperationEntreeStock extends javax.swing.JInternalFrame {
 
         try {
             if (EntreeStockService.getInstance().enregistrerEntreeStock(entreeStock)) {
+                annulerEnregistrement();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {

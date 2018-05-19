@@ -148,6 +148,7 @@ public class RegistreFournisseur extends JInternalFrame {
 
         try {
             if (FournisseurService.getInstance().enregistrerFournisseur(fournisseur)) {
+                annulerEnregistrement();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {

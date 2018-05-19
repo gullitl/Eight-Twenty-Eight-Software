@@ -238,6 +238,7 @@ public class RegistreShop extends JInternalFrame {
 
         try {
             if (ShopService.getInstance().enregistrerShop(shop)) {
+                annulerEnregistrement();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {

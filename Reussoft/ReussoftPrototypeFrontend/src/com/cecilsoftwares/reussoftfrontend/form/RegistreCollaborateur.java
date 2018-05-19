@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
+import com.cecilsoftwares.reussoftfrontend.dialog.RegistreUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
@@ -17,6 +18,8 @@ import javax.swing.JOptionPane;
  * @author Plamedi L. Lusembo
  */
 public class RegistreCollaborateur extends JInternalFrame {
+
+    private Utilisateur utilisateur;
 
     public RegistreCollaborateur() {
         initComponents();
@@ -39,7 +42,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         tfdSurnom = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         tfdIdUtilisateur = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnCreerUtilisateur = new javax.swing.JButton();
         lblNomUtilisateur = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -71,7 +74,14 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         jLabel7.setText("Utilisateur:");
 
-        jButton2.setText("Créer");
+        tfdIdUtilisateur.setEditable(false);
+
+        btnCreerUtilisateur.setText("Créer");
+        btnCreerUtilisateur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreerUtilisateurActionPerformed(evt);
+            }
+        });
 
         lblNomUtilisateur.setText("nomUtilisateur");
 
@@ -96,6 +106,8 @@ public class RegistreCollaborateur extends JInternalFrame {
                 btnEnregistrerActionPerformed(evt);
             }
         });
+
+        tfdIdShop.setEditable(false);
 
         jButton5.setText("...");
 
@@ -122,7 +134,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(tfdIdUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)
+                                .addComponent(btnCreerUtilisateur)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblNomUtilisateur))
                             .addGroup(layout.createSequentialGroup()
@@ -187,7 +199,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdIdUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
+                    .addComponent(btnCreerUtilisateur)
                     .addComponent(lblNomUtilisateur))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
@@ -204,6 +216,16 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+        tfdIdUtilisateur.setText(String.valueOf(this.utilisateur.getCode()));
+        lblNomUtilisateur.setText(this.utilisateur.getNom());
+    }
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
         annulerEnregistrement();
@@ -227,6 +249,7 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         try {
             if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
+                annulerEnregistrement();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {
@@ -234,6 +257,12 @@ public class RegistreCollaborateur extends JInternalFrame {
             Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
+
+    private void btnCreerUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreerUtilisateurActionPerformed
+        RegistreUtilisateur registreUtilisateur = new RegistreUtilisateur(null, true);
+        registreUtilisateur.setRegistreCollaborateur(this);
+        registreUtilisateur.setVisible(true);
+    }//GEN-LAST:event_btnCreerUtilisateurActionPerformed
 
     public void annulerEnregistrement() {
         tfdCode.setText("");
@@ -253,10 +282,10 @@ public class RegistreCollaborateur extends JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
+    private javax.swing.JButton btnCreerUtilisateur;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JCheckBox chbActiver;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

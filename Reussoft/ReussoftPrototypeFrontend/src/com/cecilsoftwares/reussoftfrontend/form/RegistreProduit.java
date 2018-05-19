@@ -226,6 +226,7 @@ public class RegistreProduit extends JInternalFrame {
 
         try {
             if (ProduitService.getInstance().enregistrerProduit(produit)) {
+                annulerEnregistrement();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {

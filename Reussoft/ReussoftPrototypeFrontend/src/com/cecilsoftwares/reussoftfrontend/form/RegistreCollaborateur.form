@@ -42,7 +42,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="tfdIdUtilisateur" min="-2" pref="145" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnCreerUtilisateur" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="lblNomUtilisateur" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -123,7 +123,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="tfdIdUtilisateur" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCreerUtilisateur" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblNomUtilisateur" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -194,11 +194,17 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfdIdUtilisateur">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btnCreerUtilisateur">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cr&#xe9;er"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreerUtilisateurActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblNomUtilisateur">
       <Properties>
@@ -247,6 +253,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfdIdShop">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton5">
       <Properties>

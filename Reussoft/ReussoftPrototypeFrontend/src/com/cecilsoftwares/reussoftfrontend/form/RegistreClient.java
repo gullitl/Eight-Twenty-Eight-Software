@@ -153,6 +153,7 @@ public class RegistreClient extends JInternalFrame {
 
         try {
             if (ClientService.getInstance().enregistrerClient(client)) {
+                annulerEnregistrement();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {
