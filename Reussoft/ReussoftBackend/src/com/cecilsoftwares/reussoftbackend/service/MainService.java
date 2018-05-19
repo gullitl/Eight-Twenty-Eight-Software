@@ -4,10 +4,10 @@ import com.cecilsoftwares.reussoftbackend.AppConfigKS;
 import com.cecilsoftwares.reussoftbackend.dao.ConnectionFactory;
 import com.cecilsoftwares.reussoftmiddleend.model.AppConfig;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -33,40 +33,29 @@ public class MainService {
 
     public void initialiserBaseDonnees() {
         try {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().create();
             BufferedReader br;
             br = new BufferedReader(new FileReader("mason.ini"));
 
             AppConfig appConfig = gson.fromJson(br, AppConfig.class);
-
             AppConfigKS.getInstance().setAppConfig(appConfig);
 
         } catch (FileNotFoundException fnfe) {
             Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, fnfe);
             JOptionPane.showMessageDialog(null, fnfe);
-        } catch (IOException ioe) {
-            Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, ioe);
-            JOptionPane.showMessageDialog(null, ioe);
         }
 
-        boolean conectou = false;
+        boolean connecte = false;
         do {
             try {
                 System.out.println(ConnectionFactory.getInstance().habiliterConnection());
-                conectou = true;
+                connecte = true;
                 System.out.println("SUCESS");
-                JOptionPane.showMessageDialog(null, AppConfigKS.getInstance().getAppConfig().getJdbcDriver()
-                        + "\n" + AppConfigKS.getInstance().getAppConfig().getUrlHead()
-                        + "\n" + AppConfigKS.getInstance().getAppConfig().getServerHost()
-                        + "\n" + AppConfigKS.getInstance().getAppConfig().getPort()
-                        + "\n" + AppConfigKS.getInstance().getAppConfig().getSchema()
-                        + "\n" + AppConfigKS.getInstance().getAppConfig().getUser()
-                        + "\n" + AppConfigKS.getInstance().getAppConfig().getPassword()
-                );
+
             } catch (ClassNotFoundException | SQLException ex) {
                 System.out.println("Não conectou: " + ex);
             }
-        } while (!conectou);
+        } while (!connecte);
     }
 
     public String getMacAddress() throws UnknownHostException, SocketException {

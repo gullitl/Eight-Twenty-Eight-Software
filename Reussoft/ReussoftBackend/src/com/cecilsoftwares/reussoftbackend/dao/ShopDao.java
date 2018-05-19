@@ -134,13 +134,13 @@ public class ShopDao {
         return null;
     }
 
-    //Valide
+    //Valide=true
     public boolean sauvegarder(Shop shop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO shop(");
-            scriptSQL.append(" nom, adresse, active, observation");
+            scriptSQL.append(" nom, adresse, active, observation)");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
