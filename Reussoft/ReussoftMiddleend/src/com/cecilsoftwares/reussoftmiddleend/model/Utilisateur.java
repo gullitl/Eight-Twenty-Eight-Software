@@ -11,7 +11,7 @@ public class Utilisateur {
     private final String nom;
     private final String motDePasse;
     private final boolean active;
-    private final String observateur;
+    private final String observation;
 
     public Utilisateur(UtilisateurBuilder utilisateurBuilder) {
         code = utilisateurBuilder.code;
@@ -20,7 +20,7 @@ public class Utilisateur {
         nom = utilisateurBuilder.nom;
         motDePasse = utilisateurBuilder.motDePasse;
         active = utilisateurBuilder.active;
-        observateur = utilisateurBuilder.observateur;
+        observation = utilisateurBuilder.observation;
     }
 
     public int getCode() {
@@ -47,8 +47,8 @@ public class Utilisateur {
         return active;
     }
 
-    public String getObservateur() {
-        return observateur;
+    public String getObservation() {
+        return observation;
     }
 
     public static class UtilisateurBuilder {
@@ -59,7 +59,7 @@ public class Utilisateur {
         private String nom;
         private String motDePasse;
         private boolean active;
-        private String observateur;
+        private String observation;
 
         public UtilisateurBuilder(int code) {
             this.code = code;
@@ -90,8 +90,8 @@ public class Utilisateur {
             return this;
         }
 
-        public UtilisateurBuilder observateur(String observateur) {
-            this.observateur = observateur;
+        public UtilisateurBuilder observation(String observation) {
+            this.observation = observation;
             return this;
         }
 
