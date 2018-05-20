@@ -162,7 +162,7 @@ public class RegistreClient extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
-    public void annulerEnregistrement() {
+    private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         txaObservation.setText("");

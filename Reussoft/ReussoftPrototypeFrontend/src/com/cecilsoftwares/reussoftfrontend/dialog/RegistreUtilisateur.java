@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
@@ -10,14 +5,15 @@ import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur.UtilisateurBuilder;
+import java.util.Arrays;
 
 /**
- *
  * @author Plamedi L. Lusembo
  */
 public class RegistreUtilisateur extends javax.swing.JDialog {
 
     private RegistreCollaborateur registreCollaborateur;
+    private Utilisateur utilisateur;
 
     /**
      * @param parent
@@ -27,10 +23,20 @@ public class RegistreUtilisateur extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         annulerEnregistrement();
+        remplirFormulaire();
+
     }
 
     public void setRegistreCollaborateur(RegistreCollaborateur registreCollaborateur) {
         this.registreCollaborateur = registreCollaborateur;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     @SuppressWarnings("unchecked")
@@ -175,20 +181,35 @@ public class RegistreUtilisateur extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(Integer.parseInt(tfdIdProfilUtilisateur.getText())).build();
+        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(Integer.parseInt(tfdIdProfilUtilisateur.getText()))
+                .build();
 
-        Utilisateur utilisateur = new UtilisateurBuilder(Integer.parseInt(tfdCode.getText()))
+        setUtilisateur(new UtilisateurBuilder(Integer.parseInt(tfdCode.getText()))
                 .nom(tfdNom.getText())
                 .profilUtilisateur(profilUtilisateur)
-                .motDePasse(pwfMotPasse.getPassword().toString())
-                .observateur(txaObservation.getText())
+                .motDePasse(Arrays.toString(pwfMotPasse.getPassword()))
+                .observation(txaObservation.getText())
                 .active(true)
-                .build();
-        this.registreCollaborateur.setUtilisateur(utilisateur);
+                .build());
+        this.registreCollaborateur.setUtilisateur(getUtilisateur());
         this.dispose();
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
-    public void annulerEnregistrement() {
+    private void remplirFormulaire() {
+        if (getUtilisateur() != null) {
+            tfdCode.setText(String.valueOf(getUtilisateur().getCode()));
+            tfdNom.setText(getUtilisateur().getNom());
+            tfdIdProfilUtilisateur.setText(String.valueOf(getUtilisateur()
+                    .getProfilUtilisateur().getCode()));
+            lblDescriptionProfilUtilisateur.setText(getUtilisateur()
+                    .getProfilUtilisateur().getDescription());
+            txaObservation.setText(getUtilisateur().getObservation());
+            chbActiver.setSelected(getUtilisateur().isActive());
+            chbActiver.setVisible(true);
+        }
+    }
+
+    private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdNom.setText("");

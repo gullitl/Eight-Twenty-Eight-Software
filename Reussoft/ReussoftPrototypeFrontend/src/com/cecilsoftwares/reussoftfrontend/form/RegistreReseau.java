@@ -153,7 +153,7 @@ public class RegistreReseau extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
-    public void annulerEnregistrement() {
+    private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdNom.setText("");

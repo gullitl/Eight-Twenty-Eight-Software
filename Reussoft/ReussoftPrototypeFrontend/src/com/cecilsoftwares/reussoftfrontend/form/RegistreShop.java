@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.ShopService;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationShop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.SQLException;
@@ -17,7 +18,6 @@ public class RegistreShop extends JInternalFrame {
     public RegistreShop() {
         initComponents();
         annulerEnregistrement();
-
     }
 
     @SuppressWarnings("unchecked")
@@ -47,7 +47,7 @@ public class RegistreShop extends JInternalFrame {
         chbActiver = new javax.swing.JCheckBox();
         btnEnregistrer = new javax.swing.JButton();
         btnAnnuler = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnConsulterShop = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -77,7 +77,7 @@ public class RegistreShop extends JInternalFrame {
 
         jLabel9.setText("Province:");
 
-        cbxProvince.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kinshasa", "Kasaï", "Kongo-Central" }));
+        cbxProvince.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Kinshasa", "Kasaï", "Kongo-Central" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -159,7 +159,12 @@ public class RegistreShop extends JInternalFrame {
             }
         });
 
-        jButton3.setText("...");
+        btnConsulterShop.setText("...");
+        btnConsulterShop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterShopActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,7 +178,7 @@ public class RegistreShop extends JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3))
+                        .addComponent(btnConsulterShop))
                     .addComponent(jLabel2)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -194,7 +199,7 @@ public class RegistreShop extends JInternalFrame {
                 .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(btnConsulterShop))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(3, 3, 3)
@@ -248,7 +253,29 @@ public class RegistreShop extends JInternalFrame {
 
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
-    public void annulerEnregistrement() {
+    private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
+        ConsultationShop consultationShop = new ConsultationShop(null, true);
+        consultationShop.setFrameAncetre(this);
+        consultationShop.setVisible(true);
+    }//GEN-LAST:event_btnConsulterShopActionPerformed
+
+    public void shopSelectionne(Shop shop) {
+        tfdCode.setText(String.valueOf(shop.getCode()));
+        tfdNom.setText(shop.getNom());
+
+        String[] adresse = shop.getAdresse().split("#");
+        tfdAvenue.setText(adresse[0]);
+        tfdNumero.setText(adresse[1]);
+        tfdQuartier.setText(adresse[2]);
+        tfdCommune.setText(adresse[3]);
+        cbxProvince.setSelectedIndex(0);
+        tfdDistrict.setText(adresse[5]);
+
+        chbActiver.setVisible(true);
+        chbActiver.setSelected(shop.isActive());
+    }
+
+    private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdNom.setText("");
@@ -265,10 +292,10 @@ public class RegistreShop extends JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
+    private javax.swing.JButton btnConsulterShop;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JComboBox<String> cbxProvince;
     private javax.swing.JCheckBox chbActiver;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

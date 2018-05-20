@@ -146,7 +146,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
-    public void annulerEnregistrement() {
+    private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdDescription.setText("");

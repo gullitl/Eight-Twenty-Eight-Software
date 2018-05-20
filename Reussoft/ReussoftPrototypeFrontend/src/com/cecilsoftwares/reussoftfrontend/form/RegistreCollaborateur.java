@@ -7,7 +7,6 @@ import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBui
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur.UtilisateurBuilder;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -159,7 +158,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                                     .addComponent(tfdPostnom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane1))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(btnEnregistrer)
+                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(52, Short.MAX_VALUE))
@@ -211,7 +210,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,8 +222,6 @@ public class RegistreCollaborateur extends JInternalFrame {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
-        tfdIdUtilisateur.setText(String.valueOf(this.utilisateur.getCode()));
-        lblNomUtilisateur.setText(this.utilisateur.getNom());
     }
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
@@ -234,15 +231,13 @@ public class RegistreCollaborateur extends JInternalFrame {
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
         Shop shop = new ShopBuilder(Integer.parseInt(tfdIdShop.getText())).build();
-        Utilisateur utilisateur = new UtilisateurBuilder(Integer.parseInt(tfdIdShop.getText())).build();
-
         Collaborateur collaborateur = new CollaborateurBuilder(Integer.parseInt(tfdCode.getText()))
                 .prenom(tfdPrenom.getText())
                 .nom(tfdNom.getText())
                 .postnom(tfdPostnom.getText())
                 .surnom(tfdSurnom.getText())
                 .shop(shop)
-                .utilisateur(utilisateur)
+                .utilisateur(this.utilisateur)
                 .observation(txaObservation.getText())
                 .active(true)
                 .build();
@@ -261,10 +256,15 @@ public class RegistreCollaborateur extends JInternalFrame {
     private void btnCreerUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreerUtilisateurActionPerformed
         RegistreUtilisateur registreUtilisateur = new RegistreUtilisateur(null, true);
         registreUtilisateur.setRegistreCollaborateur(this);
+        registreUtilisateur.setUtilisateur(getUtilisateur());
         registreUtilisateur.setVisible(true);
+        if (this.utilisateur != null) {
+            tfdIdUtilisateur.setText(String.valueOf(this.utilisateur.getCode()));
+            lblNomUtilisateur.setText(this.utilisateur.getNom());
+        }
     }//GEN-LAST:event_btnCreerUtilisateurActionPerformed
 
-    public void annulerEnregistrement() {
+    private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdPrenom.setText("");

@@ -157,7 +157,7 @@ public class RegistreFournisseur extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
-    public void annulerEnregistrement() {
+    private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         txaObservation.setText("");
