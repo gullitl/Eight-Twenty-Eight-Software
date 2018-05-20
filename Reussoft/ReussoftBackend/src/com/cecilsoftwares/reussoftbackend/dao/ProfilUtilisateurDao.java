@@ -134,7 +134,7 @@ public class ProfilUtilisateurDao {
         return null;
     }
 
-    public boolean sauvegarder(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

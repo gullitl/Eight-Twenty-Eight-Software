@@ -169,7 +169,7 @@ public class CollaborateurDao {
         return false;
     }
 
-    public boolean sauvegarder(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

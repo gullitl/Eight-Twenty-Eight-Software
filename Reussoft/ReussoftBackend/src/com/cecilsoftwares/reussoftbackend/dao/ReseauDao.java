@@ -136,7 +136,7 @@ public class ReseauDao {
     }
 
     //Valide
-    public boolean sauvegarder(Reseau reseau) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerReseau(Reseau reseau) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

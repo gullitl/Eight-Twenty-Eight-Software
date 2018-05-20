@@ -31,13 +31,14 @@ public class ShopDao {
         return uniqueInstance;
     }
 
-    public List<Collaborateur> lister() throws ClassNotFoundException, SQLException {
+    //Valide
+    public List<Shop> listerTousLesShops() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        List<Collaborateur> listeCollaborateurs;
+        List<Shop> listeShops;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            listeCollaborateurs = new ArrayList();
+            listeShops = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
@@ -71,17 +72,17 @@ public class ShopDao {
                             .shop(shop)
                             .build();
 
-                    listeCollaborateurs.add(collaborateur);
+                    listeShops.add(shop);
                 }
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return listeCollaborateurs;
+        return listeShops;
     }
 
-    public Collaborateur selectionner(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+    public Shop selectionnerShop(int codeShop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -98,7 +99,7 @@ public class ShopDao {
             scriptSQL.append(" WHERE collaborateur.codeCollaborateur=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCollaborateur);
+            prs.setInt(1, codeShop);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
@@ -124,7 +125,7 @@ public class ShopDao {
                     res.close();
                     conexao.close();
 
-                    return collaborateur;
+                    return shop;
                 }
             }
             prs.close();
@@ -135,7 +136,7 @@ public class ShopDao {
     }
 
     //Valide=true
-    public boolean sauvegarder(Shop shop) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerShop(Shop shop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

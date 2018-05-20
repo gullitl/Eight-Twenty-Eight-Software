@@ -28,7 +28,7 @@ public class ReseauService {
     }
 
     public boolean enregistrerReseau(Reseau reseau) throws ClassNotFoundException, SQLException {
-        return ReseauDao.getInstance().sauvegarder(reseau);
+        return ReseauDao.getInstance().enregistrerReseau(reseau);
     }
 
 }

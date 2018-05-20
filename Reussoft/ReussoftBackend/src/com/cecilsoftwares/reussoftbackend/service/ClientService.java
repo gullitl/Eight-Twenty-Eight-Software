@@ -6,9 +6,7 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ClientDao;
-import com.cecilsoftwares.reussoftbackend.dao.ShopDao;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.SQLException;
 
 /**
@@ -30,7 +28,7 @@ public class ClientService {
     }
 
     public boolean enregistrerClient(Client client) throws ClassNotFoundException, SQLException {
-        return ClientDao.getInstance().sauvegarder(client);
+        return ClientDao.getInstance().enregistrerClient(client);
     }
 
 }

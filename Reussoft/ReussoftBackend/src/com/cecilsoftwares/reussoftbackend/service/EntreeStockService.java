@@ -6,9 +6,7 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.EntreeStockDao;
-import com.cecilsoftwares.reussoftbackend.dao.ShopDao;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.SQLException;
 
 /**
@@ -30,7 +28,7 @@ public class EntreeStockService {
     }
 
     public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
-        return EntreeStockDao.getInstance().sauvegarder(entreeStock);
+        return EntreeStockDao.getInstance().enregistrerEntreeStock(entreeStock);
     }
 
 }

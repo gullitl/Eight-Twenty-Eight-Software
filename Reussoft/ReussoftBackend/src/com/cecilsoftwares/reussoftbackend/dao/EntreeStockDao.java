@@ -207,7 +207,7 @@ public class EntreeStockDao {
     }
 
     //Valide
-    public boolean sauvegarder(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

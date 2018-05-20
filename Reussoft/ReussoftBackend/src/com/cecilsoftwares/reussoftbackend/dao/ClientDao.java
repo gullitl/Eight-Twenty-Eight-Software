@@ -93,7 +93,7 @@ public class ClientDao {
     }
 
     //Valide
-    public boolean sauvegarder(Client client) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerClient(Client client) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

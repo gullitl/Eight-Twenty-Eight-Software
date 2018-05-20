@@ -92,7 +92,7 @@ public class CategorieProduitDao {
     }
 
     //Valide
-    public boolean sauvegarder(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

@@ -6,9 +6,7 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ProfilUtilisateurDao;
-import com.cecilsoftwares.reussoftbackend.dao.ShopDao;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.SQLException;
 
 /**
@@ -30,7 +28,7 @@ public class ProfilUtilisateurService {
     }
 
     public boolean enregistrerProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
-        return ProfilUtilisateurDao.getInstance().sauvegarder(profilUtilisateur);
+        return ProfilUtilisateurDao.getInstance().enregistrerProfilUtilisateur(profilUtilisateur);
     }
 
 }

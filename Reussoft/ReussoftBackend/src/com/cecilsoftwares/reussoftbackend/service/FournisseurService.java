@@ -6,9 +6,7 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.FournisseurDao;
-import com.cecilsoftwares.reussoftbackend.dao.ShopDao;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.SQLException;
 
 /**
@@ -30,7 +28,7 @@ public class FournisseurService {
     }
 
     public boolean enregistrerFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
-        return FournisseurDao.getInstance().sauvegarder(fournisseur);
+        return FournisseurDao.getInstance().enregistrerFournisseur(fournisseur);
     }
 
 }

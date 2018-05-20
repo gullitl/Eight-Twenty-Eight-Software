@@ -6,9 +6,7 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.CategorieProduitDao;
-import com.cecilsoftwares.reussoftbackend.dao.ShopDao;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.SQLException;
 
 /**
@@ -30,7 +28,7 @@ public class CategorieProduitService {
     }
 
     public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
-        return CategorieProduitDao.getInstance().sauvegarder(categorieProduit);
+        return CategorieProduitDao.getInstance().enregistrerCategorieProduit(categorieProduit);
     }
 
 }

@@ -136,7 +136,7 @@ public class FournisseurDao {
         return null;
     }
 
-    public boolean sauvegarder(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

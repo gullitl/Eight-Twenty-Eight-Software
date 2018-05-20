@@ -157,7 +157,8 @@ public class UtilisateurDao {
         return listeUtilisateurs;
     }
 
-    public Utilisateur selectionner(int code) throws ClassNotFoundException, SQLException {
+    //Valide
+    public Utilisateur consulterUtilisateurParCode(int code) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -251,7 +252,8 @@ public class UtilisateurDao {
         return false;
     }
 
-    public boolean sauvegarder(Utilisateur utilisateur) throws ClassNotFoundException, SQLException {
+    //valide
+    public boolean enregistrerUtilisateur(Utilisateur utilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

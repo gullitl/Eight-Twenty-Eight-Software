@@ -28,7 +28,7 @@ public class ProduitService {
     }
 
     public boolean enregistrerProduit(Produit produit) throws ClassNotFoundException, SQLException {
-        return ProduitDao.getInstance().sauvegarder(produit);
+        return ProduitDao.getInstance().enregistrerProduit(produit);
     }
 
 }
