@@ -1,6 +1,9 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProduit;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationReseau;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit.CategorieProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
@@ -36,7 +39,7 @@ public class RegistreProduit extends JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         tfdCode = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnConsulterProduit = new javax.swing.JButton();
         tfdDescription = new javax.swing.JTextField();
         tfdPrixAchatUSD = new javax.swing.JTextField();
         tfdPrixAchatFC = new javax.swing.JTextField();
@@ -45,11 +48,11 @@ public class RegistreProduit extends JInternalFrame {
         chbActiver = new javax.swing.JCheckBox();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnConsulterReseau = new javax.swing.JButton();
         tfdIdReseau = new javax.swing.JTextField();
-        lblDescriptionResau = new javax.swing.JLabel();
+        lblDescriptionReseau = new javax.swing.JLabel();
         tfdIdCategorieproduit = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
+        btnConsulterCategorieProduit = new javax.swing.JButton();
         lblDescriptionCategorieProduit = new javax.swing.JLabel();
 
         setClosable(true);
@@ -70,7 +73,12 @@ public class RegistreProduit extends JInternalFrame {
 
         jLabel7.setText("Observation:");
 
-        jButton1.setText("...");
+        btnConsulterProduit.setText("...");
+        btnConsulterProduit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterProduitActionPerformed(evt);
+            }
+        });
 
         txaObservation.setColumns(20);
         txaObservation.setRows(5);
@@ -92,11 +100,21 @@ public class RegistreProduit extends JInternalFrame {
             }
         });
 
-        jButton4.setText("...");
+        btnConsulterReseau.setText("...");
+        btnConsulterReseau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterReseauActionPerformed(evt);
+            }
+        });
 
-        lblDescriptionResau.setText("jLabel8");
+        lblDescriptionReseau.setText("jLabel8");
 
-        jButton5.setText("...");
+        btnConsulterCategorieProduit.setText("...");
+        btnConsulterCategorieProduit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterCategorieProduitActionPerformed(evt);
+            }
+        });
 
         lblDescriptionCategorieProduit.setText("jLabel8");
 
@@ -118,18 +136,18 @@ public class RegistreProduit extends JInternalFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton1))
+                                    .addComponent(btnConsulterProduit))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(tfdIdReseau, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton4)
+                                    .addComponent(btnConsulterReseau)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblDescriptionResau))
+                                    .addComponent(lblDescriptionReseau))
                                 .addComponent(jLabel6)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(tfdIdCategorieproduit, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton5)
+                                    .addComponent(btnConsulterCategorieProduit)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(lblDescriptionCategorieProduit)))
                             .addGap(134, 134, 134)))
@@ -160,7 +178,7 @@ public class RegistreProduit extends JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnConsulterProduit))
                 .addGap(16, 16, 16)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -170,14 +188,14 @@ public class RegistreProduit extends JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdIdReseau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4)
-                    .addComponent(lblDescriptionResau))
+                    .addComponent(btnConsulterReseau)
+                    .addComponent(lblDescriptionReseau))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdIdCategorieproduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5)
+                    .addComponent(btnConsulterCategorieProduit)
                     .addComponent(lblDescriptionCategorieProduit))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -235,12 +253,51 @@ public class RegistreProduit extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
+    private void btnConsulterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProduitActionPerformed
+        ConsultationProduit consultationProduit = new ConsultationProduit(null, true);
+        consultationProduit.setFrameAncetre(this);
+        consultationProduit.setVisible(true);
+    }//GEN-LAST:event_btnConsulterProduitActionPerformed
+
+    private void btnConsulterReseauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterReseauActionPerformed
+        ConsultationReseau consultationReseau = new ConsultationReseau(null, true);
+        consultationReseau.setFrameAncetre(this);
+        consultationReseau.setVisible(true);
+    }//GEN-LAST:event_btnConsulterReseauActionPerformed
+
+    private void btnConsulterCategorieProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCategorieProduitActionPerformed
+        ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true);
+        consultationCategorieProduit.setFrameAncetre(this);
+        consultationCategorieProduit.setVisible(true);
+    }//GEN-LAST:event_btnConsulterCategorieProduitActionPerformed
+
+    public void produitSelectionne(Produit produit) {
+        tfdCode.setText(String.valueOf(produit.getCode()));
+        tfdDescription.setText(produit.getDescription());
+        tfdIdReseau.setText(String.valueOf(produit.getReseau().getCode()));
+        lblDescriptionReseau.setText(produit.getReseau().getNom());
+        tfdPrixAchatUSD.setText(produit.getPrixAchatUSD().toString());
+        tfdPrixAchatFC.setText(produit.getPrixAchatFC().toString());
+        tfdIdCategorieproduit.setText(String.valueOf(produit.getCategorieProduit().getCode()));
+        lblDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
+    }
+
+    public void reseauSelectionne(Reseau reseau) {
+        tfdIdReseau.setText(String.valueOf(reseau.getCode()));
+        lblDescriptionReseau.setText(reseau.getNom());
+    }
+
+    public void categorieProduitSelectionne(CategorieProduit categorieProduit) {
+        tfdIdCategorieproduit.setText(String.valueOf(categorieProduit.getCode()));
+        lblDescriptionCategorieProduit.setText(categorieProduit.getDescription());
+    }
+
     private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdDescription.setText("");
         tfdIdReseau.setText("");
-        lblDescriptionResau.setText("");
+        lblDescriptionReseau.setText("");
         tfdPrixAchatUSD.setText("");
         tfdPrixAchatFC.setText("");
         tfdIdCategorieproduit.setText("");
@@ -252,11 +309,11 @@ public class RegistreProduit extends JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
+    private javax.swing.JButton btnConsulterCategorieProduit;
+    private javax.swing.JButton btnConsulterProduit;
+    private javax.swing.JButton btnConsulterReseau;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JCheckBox chbActiver;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -266,7 +323,7 @@ public class RegistreProduit extends JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDescriptionCategorieProduit;
-    private javax.swing.JLabel lblDescriptionResau;
+    private javax.swing.JLabel lblDescriptionReseau;
     private javax.swing.JTextField tfdCode;
     private javax.swing.JTextField tfdDescription;
     private javax.swing.JTextField tfdIdCategorieproduit;

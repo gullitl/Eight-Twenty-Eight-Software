@@ -1,8 +1,9 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
+import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
 import com.cecilsoftwares.reussoftbackend.service.ShopService;
-import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
-import com.cecilsoftwares.reussoftfrontend.form.RegistreShop;
+import com.cecilsoftwares.reussoftfrontend.form.RegistreFournisseur;
+import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author Plamedi L. Lusembo
  */
-public class ConsultationShop extends javax.swing.JDialog {
+public class ConsultationFournisseur extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
     private List<Shop> shops;
@@ -26,17 +27,17 @@ public class ConsultationShop extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public ConsultationShop(java.awt.Frame parent, boolean modal) {
+    public ConsultationFournisseur(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        defaultTableModel = (DefaultTableModel) tblShop.getModel();
+        defaultTableModel = (DefaultTableModel) tblFournisseur.getModel();
         dataRows = new Object[2];
 
         try {
             shops = ShopService.getInstance().listerTousLesShops();
             listerShops(shops);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationShop.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -48,7 +49,7 @@ public class ConsultationShop extends javax.swing.JDialog {
             defaultTableModel.addRow(dataRows);
         }
         String formeNombre = shops.size() > 1 ? "Shops" : "Shop";
-        lblNombreShop.setText(shops.size() + " " + formeNombre);
+        lblNombreFournisseur.setText(shops.size() + " " + formeNombre);
     }
 
     public JInternalFrame getFrameAncetre() {
@@ -63,28 +64,28 @@ public class ConsultationShop extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tfdRechercheNomShop = new javax.swing.JTextField();
+        tfdRechercheEntrepriseFournisseur = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblShop = new javax.swing.JTable();
-        lblNombreShop = new javax.swing.JLabel();
+        tblFournisseur = new javax.swing.JTable();
+        lblNombreFournisseur = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registre d'Utilisateur");
         setResizable(false);
 
-        tfdRechercheNomShop.addKeyListener(new java.awt.event.KeyAdapter() {
+        tfdRechercheEntrepriseFournisseur.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfdRechercheNomShopKeyReleased(evt);
+                tfdRechercheEntrepriseFournisseurKeyReleased(evt);
             }
         });
 
-        tblShop.setModel(new javax.swing.table.DefaultTableModel(
+        tblFournisseur.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Code", "Nom"
+                "Code", "Fournisseur"
             }
         ) {
             Class[] types = new Class [] {
@@ -102,23 +103,21 @@ public class ConsultationShop extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tblShop.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblFournisseur.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblShopMouseClicked(evt);
+                tblFournisseurMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tblShop);
-        if (tblShop.getColumnModel().getColumnCount() > 0) {
-            tblShop.getColumnModel().getColumn(0).setResizable(false);
-            tblShop.getColumnModel().getColumn(0).setHeaderValue("Code");
-            tblShop.getColumnModel().getColumn(1).setResizable(false);
-            tblShop.getColumnModel().getColumn(1).setPreferredWidth(300);
-            tblShop.getColumnModel().getColumn(1).setHeaderValue("Nom");
+        jScrollPane2.setViewportView(tblFournisseur);
+        if (tblFournisseur.getColumnModel().getColumnCount() > 0) {
+            tblFournisseur.getColumnModel().getColumn(0).setResizable(false);
+            tblFournisseur.getColumnModel().getColumn(1).setResizable(false);
+            tblFournisseur.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
-        lblNombreShop.setText("jLabel1");
+        lblNombreFournisseur.setText("jLabel1");
 
-        jLabel1.setText("Nom");
+        jLabel1.setText("Fournisseur:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,9 +127,9 @@ public class ConsultationShop extends javax.swing.JDialog {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(lblNombreShop)
+                    .addComponent(lblNombreFournisseur)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(tfdRechercheNomShop)
+                        .addComponent(tfdRechercheEntrepriseFournisseur)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
@@ -140,11 +139,11 @@ public class ConsultationShop extends javax.swing.JDialog {
                 .addContainerGap(19, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdRechercheNomShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfdRechercheEntrepriseFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNombreShop)
+                .addComponent(lblNombreFournisseur)
                 .addContainerGap())
         );
 
@@ -152,46 +151,43 @@ public class ConsultationShop extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblShopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblShopMouseClicked
+    private void tblFournisseurMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFournisseurMouseClicked
         if (evt.getClickCount() == 2) {
             if (getFrameAncetre() != null) {
                 try {
-                    int row = tblShop.getSelectedRow();
-                    Shop shop = ShopService.getInstance()
-                            .selectionnerShopParCode((int) defaultTableModel.getValueAt(row, 0));
-                    if (getFrameAncetre() instanceof RegistreShop) {
-                        RegistreShop registreShop = (RegistreShop) getFrameAncetre();
-                        registreShop.shopSelectionne(shop);
-                    } else if (getFrameAncetre() instanceof RegistreCollaborateur) {
-                        RegistreCollaborateur registreCollaborateur = (RegistreCollaborateur) getFrameAncetre();
-                        registreCollaborateur.shopSelectionne(shop);
+                    int row = tblFournisseur.getSelectedRow();
+                    Fournisseur fournisseur = FournisseurService.getInstance()
+                            .selectionnerFournisseurParCode((int) defaultTableModel.getValueAt(row, 0));
+                    if (getFrameAncetre() instanceof RegistreFournisseur) {
+                        RegistreFournisseur registreFournisseur = (RegistreFournisseur) getFrameAncetre();
+                        registreFournisseur.fournisseurSelectionne(fournisseur);
                     }
                 } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationShop.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             dispose();
         }
 
-    }//GEN-LAST:event_tblShopMouseClicked
+    }//GEN-LAST:event_tblFournisseurMouseClicked
 
-    private void tfdRechercheNomShopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomShopKeyReleased
+    private void tfdRechercheEntrepriseFournisseurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheEntrepriseFournisseurKeyReleased
         List<Shop> listeShops = new ArrayList();
         for (Shop shop : shops) {
             if (shop.getNom().toUpperCase()
-                    .startsWith(tfdRechercheNomShop.getText().toUpperCase())) {
+                    .startsWith(tfdRechercheEntrepriseFournisseur.getText().toUpperCase())) {
                 listeShops.add(shop);
             }
         }
 
         listerShops(listeShops);
-    }//GEN-LAST:event_tfdRechercheNomShopKeyReleased
+    }//GEN-LAST:event_tfdRechercheEntrepriseFournisseurKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblNombreShop;
-    private javax.swing.JTable tblShop;
-    private javax.swing.JTextField tfdRechercheNomShop;
+    private javax.swing.JLabel lblNombreFournisseur;
+    private javax.swing.JTable tblFournisseur;
+    private javax.swing.JTextField tfdRechercheEntrepriseFournisseur;
     // End of variables declaration//GEN-END:variables
 }

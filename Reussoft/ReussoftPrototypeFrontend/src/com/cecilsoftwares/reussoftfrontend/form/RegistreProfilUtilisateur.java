@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import java.sql.SQLException;
@@ -34,7 +35,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnConsulterProfilUtilisateur = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -66,7 +67,12 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             }
         });
 
-        jButton3.setText("...");
+        btnConsulterProfilUtilisateur.setText("...");
+        btnConsulterProfilUtilisateur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterProfilUtilisateurActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,7 +94,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton3))
+                            .addComponent(btnConsulterProfilUtilisateur))
                         .addComponent(jLabel3)
                         .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(58, Short.MAX_VALUE))
@@ -101,7 +107,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(btnConsulterProfilUtilisateur))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -146,6 +152,12 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
+    private void btnConsulterProfilUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProfilUtilisateurActionPerformed
+        ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true);
+        consultationProfilUtilisateur.setFrameAncetre(this);
+        consultationProfilUtilisateur.setVisible(true);
+    }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
+
     private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
@@ -154,10 +166,18 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         txaObservation.setText("");
     }
 
+    public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
+        tfdCode.setText(String.valueOf(profilUtilisateur.getCode()));
+        tfdDescription.setText(profilUtilisateur.getDescription());
+        tfdDescriptionAbregee.setText(profilUtilisateur.getDescriptionAbregee());
+        txaObservation.setText(profilUtilisateur.getObservation());
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
+    private javax.swing.JButton btnConsulterProfilUtilisateur;
     private javax.swing.JButton btnEnregistrer;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

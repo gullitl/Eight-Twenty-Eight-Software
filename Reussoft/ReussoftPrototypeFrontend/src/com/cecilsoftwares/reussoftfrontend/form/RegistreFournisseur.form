@@ -41,7 +41,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="tfdCode" min="-2" pref="130" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnConsulterFournisseur" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="tfdEntreprise" alignment="0" max="32767" attributes="0"/>
                       <Component id="tfdResponsable" alignment="0" max="32767" attributes="0"/>
@@ -61,7 +61,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="tfdCode" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnConsulterFournisseur" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
@@ -117,10 +117,13 @@
     </Component>
     <Component class="javax.swing.JTextField" name="tfdCode">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnConsulterFournisseur">
       <Properties>
         <Property name="text" type="java.lang.String" value="..."/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsulterFournisseurActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfdEntreprise">
     </Component>

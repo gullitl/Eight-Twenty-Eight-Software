@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.ClientService;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationClient;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
 import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
 import java.sql.SQLException;
@@ -34,7 +35,7 @@ public class RegistreClient extends JInternalFrame {
         tfdResponsable = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaObservation = new javax.swing.JTextArea();
-        jButton3 = new javax.swing.JButton();
+        btnConsulterClient = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         tfdTelephone = new javax.swing.JTextField();
 
@@ -68,7 +69,12 @@ public class RegistreClient extends JInternalFrame {
         txaObservation.setRows(5);
         jScrollPane1.setViewportView(txaObservation);
 
-        jButton3.setText("...");
+        btnConsulterClient.setText("...");
+        btnConsulterClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterClientActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Téléphone:");
 
@@ -99,7 +105,7 @@ public class RegistreClient extends JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3))
+                                .addComponent(btnConsulterClient))
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -112,7 +118,7 @@ public class RegistreClient extends JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(btnConsulterClient))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -162,6 +168,16 @@ public class RegistreClient extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
+    private void btnConsulterClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterClientActionPerformed
+        ConsultationClient consultationClient = new ConsultationClient(null, true);
+        consultationClient.setFrameAncetre(this);
+        consultationClient.setVisible(true);
+    }//GEN-LAST:event_btnConsulterClientActionPerformed
+
+    public void clientSelectionne(Client client) {
+
+    }
+
     private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
@@ -173,8 +189,8 @@ public class RegistreClient extends JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
+    private javax.swing.JButton btnConsulterClient;
     private javax.swing.JButton btnEnregistrer;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

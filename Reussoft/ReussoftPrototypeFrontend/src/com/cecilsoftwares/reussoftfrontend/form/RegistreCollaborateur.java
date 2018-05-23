@@ -1,6 +1,8 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCollaborateur;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationShop;
 import com.cecilsoftwares.reussoftfrontend.dialog.RegistreUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
@@ -33,7 +35,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         tfdCode = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnConsulterCollaborateur = new javax.swing.JButton();
         tfdPrenom = new javax.swing.JTextField();
         tfdNom = new javax.swing.JTextField();
         tfdPostnom = new javax.swing.JTextField();
@@ -50,7 +52,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         tfdIdShop = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
+        btnConsulterShop = new javax.swing.JButton();
         lblDescriptionShop = new javax.swing.JLabel();
 
         setClosable(true);
@@ -67,7 +69,12 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         jLabel5.setText("Shop:");
 
-        jButton1.setText("...");
+        btnConsulterCollaborateur.setText("...");
+        btnConsulterCollaborateur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterCollaborateurActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Postnom:");
 
@@ -108,7 +115,12 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         tfdIdShop.setEditable(false);
 
-        jButton5.setText("...");
+        btnConsulterShop.setText("...");
+        btnConsulterShop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterShopActionPerformed(evt);
+            }
+        });
 
         lblDescriptionShop.setText("jLabel10");
 
@@ -122,7 +134,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(tfdIdShop, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
+                        .addComponent(btnConsulterShop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDescriptionShop))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +158,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton1))
+                                        .addComponent(btnConsulterCollaborateur))
                                     .addComponent(tfdPrenom))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,7 +183,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnConsulterCollaborateur))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -191,7 +203,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdIdShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5)
+                    .addComponent(btnConsulterShop)
                     .addComponent(lblDescriptionShop))
                 .addGap(28, 28, 28)
                 .addComponent(jLabel7)
@@ -253,6 +265,25 @@ public class RegistreCollaborateur extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
+    public void collaborateurSelectionne(Collaborateur collaborateur) {
+        tfdCode.setText(String.valueOf(collaborateur.getCode()));
+        tfdPrenom.setText(collaborateur.getPrenom());
+        tfdNom.setText(collaborateur.getNom());
+        tfdPostnom.setText(collaborateur.getPostnom());
+        tfdSurnom.setText(collaborateur.getSurnom());
+        tfdIdShop.setText(String.valueOf(collaborateur.getShop().getCode()));
+        lblDescriptionShop.setText(collaborateur.getShop().getNom());
+        tfdIdUtilisateur.setText(String.valueOf(collaborateur.getUtilisateur().getCode()));
+        lblNomUtilisateur.setText(collaborateur.getUtilisateur().getNom());
+        txaObservation.setText(collaborateur.getObservation());
+        chbActiver.setVisible(true);
+        chbActiver.setSelected(collaborateur.isActive());
+    }
+
+    public void shopSelectionne(Shop shop) {
+        tfdIdShop.setText(String.valueOf(shop.getCode()));
+        lblDescriptionShop.setText(shop.getNom());
+    }
     private void btnCreerUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreerUtilisateurActionPerformed
         RegistreUtilisateur registreUtilisateur = new RegistreUtilisateur(null, true);
         registreUtilisateur.setRegistreCollaborateur(this);
@@ -263,6 +294,18 @@ public class RegistreCollaborateur extends JInternalFrame {
             lblNomUtilisateur.setText(this.utilisateur.getNom());
         }
     }//GEN-LAST:event_btnCreerUtilisateurActionPerformed
+
+    private void btnConsulterCollaborateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCollaborateurActionPerformed
+        ConsultationCollaborateur consultationCollaborateur = new ConsultationCollaborateur(null, true);
+        consultationCollaborateur.setFrameAncetre(this);
+        consultationCollaborateur.setVisible(true);
+    }//GEN-LAST:event_btnConsulterCollaborateurActionPerformed
+
+    private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
+        ConsultationShop consultationShop = new ConsultationShop(null, true);
+        consultationShop.setFrameAncetre(this);
+        consultationShop.setVisible(true);
+    }//GEN-LAST:event_btnConsulterShopActionPerformed
 
     private void annulerEnregistrement() {
         tfdCode.setText("");
@@ -282,11 +325,11 @@ public class RegistreCollaborateur extends JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
+    private javax.swing.JButton btnConsulterCollaborateur;
+    private javax.swing.JButton btnConsulterShop;
     private javax.swing.JButton btnCreerUtilisateur;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JCheckBox chbActiver;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

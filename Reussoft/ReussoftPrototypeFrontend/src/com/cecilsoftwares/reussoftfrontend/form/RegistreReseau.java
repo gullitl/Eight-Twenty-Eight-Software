@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.ReseauService;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationReseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
 import java.sql.SQLException;
@@ -28,7 +29,7 @@ public class RegistreReseau extends JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         tfdCode = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnConsulterReseau = new javax.swing.JButton();
         tfdNom = new javax.swing.JTextField();
         tfdNomAbrege = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -49,7 +50,12 @@ public class RegistreReseau extends JInternalFrame {
 
         jLabel4.setText("Observation:");
 
-        jButton1.setText("...");
+        btnConsulterReseau.setText("...");
+        btnConsulterReseau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterReseauActionPerformed(evt);
+            }
+        });
 
         txaObservation.setColumns(20);
         txaObservation.setRows(5);
@@ -87,7 +93,7 @@ public class RegistreReseau extends JInternalFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton1))
+                            .addComponent(btnConsulterReseau))
                         .addComponent(tfdNom)
                         .addComponent(tfdNomAbrege, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
@@ -105,7 +111,7 @@ public class RegistreReseau extends JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnConsulterReseau))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -153,6 +159,21 @@ public class RegistreReseau extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
+    private void btnConsulterReseauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterReseauActionPerformed
+        ConsultationReseau consultationReseau = new ConsultationReseau(null, true);
+        consultationReseau.setFrameAncetre(this);
+        consultationReseau.setVisible(true);
+    }//GEN-LAST:event_btnConsulterReseauActionPerformed
+
+    public void reseauSelectionne(Reseau reseau) {
+        tfdCode.setText(String.valueOf(reseau.getCode()));
+        tfdNom.setText(reseau.getNom());
+        tfdNomAbrege.setText(reseau.getNomAbrege());
+        txaObservation.setText(reseau.getObservation());
+        chbActiver.setVisible(true);
+        chbActiver.setSelected(reseau.isActive());
+    }
+
     private void annulerEnregistrement() {
         tfdCode.setText("");
         tfdCode.requestFocus();
@@ -165,9 +186,9 @@ public class RegistreReseau extends JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
+    private javax.swing.JButton btnConsulterReseau;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JCheckBox chbActiver;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
