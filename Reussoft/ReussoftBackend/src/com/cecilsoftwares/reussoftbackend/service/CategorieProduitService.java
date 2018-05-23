@@ -28,8 +28,16 @@ public class CategorieProduitService {
         return uniqueInstance;
     }
 
+    public int selectionnerCodeCategorieProduitSubsequent() throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().selectionnerCodeCategorieProduitSubsequent();
+    }
+
     public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
         return CategorieProduitDao.getInstance().enregistrerCategorieProduit(categorieProduit);
+    }
+
+    public boolean actualiserCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().actualiserCategorieProduit(categorieProduit);
     }
 
     public List<CategorieProduit> listerTousLesCategorieProduits() throws ClassNotFoundException, SQLException {
