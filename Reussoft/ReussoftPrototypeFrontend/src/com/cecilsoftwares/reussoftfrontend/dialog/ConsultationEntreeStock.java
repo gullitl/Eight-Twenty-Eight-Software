@@ -69,7 +69,7 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre d'Utilisateur");
+        setTitle("Entrées stock");
         setResizable(false);
 
         tfdRechercheEntrepriseFournisseur.addKeyListener(new java.awt.event.KeyAdapter() {

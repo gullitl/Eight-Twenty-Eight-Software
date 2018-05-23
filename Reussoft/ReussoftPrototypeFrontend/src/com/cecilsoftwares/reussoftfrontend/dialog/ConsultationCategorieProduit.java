@@ -70,7 +70,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre d'Utilisateur");
+        setTitle("Categories de produit");
         setResizable(false);
 
         tfdRechercheDescriptionCategorieProduit.addKeyListener(new java.awt.event.KeyAdapter() {

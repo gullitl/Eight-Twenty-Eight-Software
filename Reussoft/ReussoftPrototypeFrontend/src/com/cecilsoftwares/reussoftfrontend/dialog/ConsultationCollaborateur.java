@@ -69,7 +69,7 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre d'Utilisateur");
+        setTitle("Collaborateurs");
         setResizable(false);
 
         tfdRechercheNomCollaborateur.addKeyListener(new java.awt.event.KeyAdapter() {

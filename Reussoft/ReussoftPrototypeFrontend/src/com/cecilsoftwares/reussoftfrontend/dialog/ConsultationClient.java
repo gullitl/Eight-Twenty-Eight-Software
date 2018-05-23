@@ -69,7 +69,7 @@ public class ConsultationClient extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre d'Utilisateur");
+        setTitle("Clients");
         setResizable(false);
 
         tfdRechercheEntrepriseClient.addKeyListener(new java.awt.event.KeyAdapter() {

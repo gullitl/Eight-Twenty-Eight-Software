@@ -70,7 +70,7 @@ public class ConsultationReseau extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre d'Utilisateur");
+        setTitle("Reseaux");
         setResizable(false);
 
         tfdRechercheNomReseau.addKeyListener(new java.awt.event.KeyAdapter() {

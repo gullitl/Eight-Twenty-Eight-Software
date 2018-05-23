@@ -70,7 +70,7 @@ public class ConsultationShop extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre d'Utilisateur");
+        setTitle("Shops");
         setResizable(false);
 
         tfdRechercheNomShop.addKeyListener(new java.awt.event.KeyAdapter() {

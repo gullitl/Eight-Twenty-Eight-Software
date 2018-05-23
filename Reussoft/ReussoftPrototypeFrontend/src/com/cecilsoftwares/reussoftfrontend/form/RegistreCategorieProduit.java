@@ -17,6 +17,8 @@ public class RegistreCategorieProduit extends JInternalFrame {
     public RegistreCategorieProduit() {
         initComponents();
         annulerEnregistrement();
+        tfdCode.setText(String.valueOf(selectionnerCodeSubsequent()));
+
     }
 
     @SuppressWarnings("unchecked")
@@ -127,6 +129,16 @@ public class RegistreCategorieProduit extends JInternalFrame {
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
         annulerEnregistrement();
     }//GEN-LAST:event_btnAnnulerActionPerformed
+
+    private int selectionnerCodeSubsequent() {
+        try {
+            System.out.println("Teste");
+            return CategorieProduitService.getInstance().selectionnerCodeCategorieProduitSubsequent();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(RegistreCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
         CategorieProduit categorieProduit = new CategorieProduitBuilder(Integer.parseInt(tfdCode.getText()))
