@@ -39,7 +39,7 @@ public class EntreeStockDao {
         return uniqueInstance;
     }
 
-    public List<EntreeStock> lister() throws ClassNotFoundException, SQLException {
+    public List<EntreeStock> listerTousLesEntreeStocks() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<EntreeStock> listeEntreeStocks;
@@ -120,8 +120,9 @@ public class EntreeStockDao {
         }
         return listeEntreeStocks;
     }
+//valide
 
-    public EntreeStock selectionner(int codeEntreeStock) throws ClassNotFoundException, SQLException {
+    public EntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 

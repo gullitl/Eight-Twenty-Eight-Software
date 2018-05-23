@@ -8,6 +8,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 import com.cecilsoftwares.reussoftbackend.dao.EntreeStockDao;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -31,4 +32,11 @@ public class EntreeStockService {
         return EntreeStockDao.getInstance().enregistrerEntreeStock(entreeStock);
     }
 
+    public List<EntreeStock> listerTousLesEntreeStocks() throws ClassNotFoundException, SQLException {
+        return EntreeStockDao.getInstance().listerTousLesEntreeStocks();
+    }
+
+    public EntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
+        return EntreeStockDao.getInstance().selectionnerEntreeStockParCode(codeEntreeStock);
+    }
 }

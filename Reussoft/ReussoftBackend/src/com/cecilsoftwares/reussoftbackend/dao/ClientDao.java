@@ -27,7 +27,8 @@ public class ClientDao {
         return uniqueInstance;
     }
 
-    public List<Client> lister() throws ClassNotFoundException, SQLException {
+//valide
+    public List<Client> listerTousLesClients() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<Client> listeClients;
@@ -58,7 +59,8 @@ public class ClientDao {
         return listeClients;
     }
 
-    public Client selectionner(int code) throws ClassNotFoundException, SQLException {
+    //valide
+    public Client selectionnerClientParCode(int codeClient) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -68,7 +70,7 @@ public class ClientDao {
             scriptSQL.append(" WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, code);
+            prs.setInt(1, codeClient);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {

@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.UtilisateurDao;
 import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
- *
  * @author Plamedi L. Lusembo
  */
 public class UtilisateurService {
@@ -32,9 +27,12 @@ public class UtilisateurService {
         return UtilisateurDao.getInstance().enregistrerUtilisateur(utilisateur);
     }
 
-    public Utilisateur consulterUtilisateurParCode(int codeUtilisateur)
-            throws ClassNotFoundException, SQLException {
-        return UtilisateurDao.getInstance().consulterUtilisateurParCode(codeUtilisateur);
+    public List<Utilisateur> listerTousLesUtilisateurs() throws ClassNotFoundException, SQLException {
+        return UtilisateurDao.getInstance().listerTousLesUtilisateurs();
+    }
+
+    public Utilisateur selectionnerUtilisateurParCode(int codeUtilisateur) throws ClassNotFoundException, SQLException {
+        return UtilisateurDao.getInstance().selectionnerUtilisateurParCode(codeUtilisateur);
     }
 
 }

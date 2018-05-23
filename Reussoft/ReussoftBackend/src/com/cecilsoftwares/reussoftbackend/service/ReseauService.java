@@ -8,6 +8,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 import com.cecilsoftwares.reussoftbackend.dao.ReseauDao;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -31,4 +32,11 @@ public class ReseauService {
         return ReseauDao.getInstance().enregistrerReseau(reseau);
     }
 
+    public List<Reseau> listerTousLesReseaus() throws ClassNotFoundException, SQLException {
+        return ReseauDao.getInstance().listerTousLesReseaus();
+    }
+
+    public Reseau selectionnerReseauParCode(int codeReseau) throws ClassNotFoundException, SQLException {
+        return ReseauDao.getInstance().selectionnerReseauParCode(codeReseau);
+    }
 }

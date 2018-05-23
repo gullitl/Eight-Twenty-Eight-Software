@@ -95,8 +95,9 @@ public class UtilisateurDao {
         }
         return null;
     }
+//valide
 
-    public List<Utilisateur> lister() throws ClassNotFoundException, SQLException {
+    public List<Utilisateur> listerTousLesUtilisateurs() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<Utilisateur> listeUtilisateurs;
@@ -158,7 +159,7 @@ public class UtilisateurDao {
     }
 
     //Valide
-    public Utilisateur consulterUtilisateurParCode(int code) throws ClassNotFoundException, SQLException {
+    public Utilisateur selectionnerUtilisateurParCode(int code) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 

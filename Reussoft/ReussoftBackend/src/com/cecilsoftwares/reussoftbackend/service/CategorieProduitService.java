@@ -8,6 +8,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 import com.cecilsoftwares.reussoftbackend.dao.CategorieProduitDao;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -31,4 +32,11 @@ public class CategorieProduitService {
         return CategorieProduitDao.getInstance().enregistrerCategorieProduit(categorieProduit);
     }
 
+    public List<CategorieProduit> listerTousLesCategorieProduits() throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().listerTousLesCategorieProduits();
+    }
+
+    public CategorieProduit selectionnerCategorieProduitParCode(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().selectionnerCategorieProduitParCode(codeCategorieProduit);
+    }
 }

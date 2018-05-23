@@ -33,7 +33,7 @@ public class FournisseurDao {
         return uniqueInstance;
     }
 
-    public List<Fournisseur> lister() throws ClassNotFoundException, SQLException {
+    public List<Fournisseur> listerTousLesFournisseurs() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<Fournisseur> listeCollaborateurs;
@@ -83,7 +83,8 @@ public class FournisseurDao {
         return listeCollaborateurs;
     }
 
-    public Collaborateur selectionner(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+    //valide
+    public Fournisseur selectionnerFournisseurParCode(int codeFournisseur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -100,33 +101,19 @@ public class FournisseurDao {
             scriptSQL.append(" WHERE collaborateur.codeCollaborateur=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCollaborateur);
+            prs.setInt(1, codeFournisseur);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(8))
-                            .description(res.getString(9))
-                            .descriptionAbregee(res.getString(10))
-                            .build();
-
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
-                            .build();
-
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
-                            .shop(shop)
+                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(1))
                             .build();
 
                     prs.close();
                     res.close();
                     conexao.close();
 
-                    return collaborateur;
+                    return fournisseur;
                 }
             }
             prs.close();

@@ -8,6 +8,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 import com.cecilsoftwares.reussoftbackend.dao.CollaborateurDao;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -31,4 +32,11 @@ public class CollaborateurService {
         return CollaborateurDao.getInstance().enregistrerCollaborateur(collaborateur);
     }
 
+    public List<Collaborateur> listerTousLesCollaborateurs() throws ClassNotFoundException, SQLException {
+        return CollaborateurDao.getInstance().listerTousLesCollaborateurs();
+    }
+
+    public Collaborateur selectionnerCollaborateurParCode(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+        return CollaborateurDao.getInstance().selectionnerCollaborateurParCode(codeCollaborateur);
+    }
 }

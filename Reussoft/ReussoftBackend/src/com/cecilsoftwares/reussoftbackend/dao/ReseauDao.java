@@ -1,12 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,14 +27,15 @@ public class ReseauDao {
         }
         return uniqueInstance;
     }
+//valide
 
-    public List<Collaborateur> lister() throws ClassNotFoundException, SQLException {
+    public List<Reseau> listerTousLesReseaus() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        List<Collaborateur> listeCollaborateurs;
+        List<Reseau> reseaux;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            listeCollaborateurs = new ArrayList();
+            reseaux = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
@@ -55,34 +52,17 @@ public class ReseauDao {
             if (res != null) {
                 while (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(8))
-                            .description(res.getString(9))
-                            .descriptionAbregee(res.getString(10))
-                            .build();
-
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
-                            .build();
-
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
-                            .shop(shop)
-                            .build();
-
-                    listeCollaborateurs.add(collaborateur);
                 }
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return listeCollaborateurs;
+        return reseaux;
     }
+//valide
 
-    public Collaborateur selectionner(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+    public Reseau selectionnerReseauParCode(int codereseau) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -99,33 +79,19 @@ public class ReseauDao {
             scriptSQL.append(" WHERE collaborateur.codeCollaborateur=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCollaborateur);
+            prs.setInt(1, codereseau);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
-
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(8))
-                            .description(res.getString(9))
-                            .descriptionAbregee(res.getString(10))
-                            .build();
-
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
-                            .build();
-
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
+                    Reseau reseau = new ReseauBuilder(res.getInt(1))
                             .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
-                            .shop(shop)
                             .build();
 
                     prs.close();
                     res.close();
                     conexao.close();
 
-                    return collaborateur;
+                    return reseau;
                 }
             }
             prs.close();

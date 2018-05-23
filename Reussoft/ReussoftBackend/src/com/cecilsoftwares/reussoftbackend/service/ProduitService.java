@@ -8,6 +8,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 import com.cecilsoftwares.reussoftbackend.dao.ProduitDao;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -31,4 +32,11 @@ public class ProduitService {
         return ProduitDao.getInstance().enregistrerProduit(produit);
     }
 
+    public List<Produit> listerTousLesProduits() throws ClassNotFoundException, SQLException {
+        return ProduitDao.getInstance().listerTousLesProduits();
+    }
+
+    public Produit selectionnerProduitParCode(int codeProduit) throws ClassNotFoundException, SQLException {
+        return ProduitDao.getInstance().selectionnerProduitParCode(codeProduit);
+    }
 }

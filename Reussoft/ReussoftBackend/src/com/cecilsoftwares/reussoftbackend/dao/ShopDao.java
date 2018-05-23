@@ -82,7 +82,7 @@ public class ShopDao {
         return listeShops;
     }
 
-    public Shop selectionnerShop(int codeShop) throws ClassNotFoundException, SQLException {
+    public Shop selectionnerShopParCode(int codeShop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 

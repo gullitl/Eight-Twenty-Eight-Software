@@ -27,7 +27,8 @@ public class CategorieProduitDao {
         return uniqueInstance;
     }
 
-    public List<CategorieProduit> lister() throws ClassNotFoundException, SQLException {
+//valide
+    public List<CategorieProduit> listerTousLesCategorieProduits() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<CategorieProduit> listeCategoriesProduit;
@@ -58,7 +59,8 @@ public class CategorieProduitDao {
         return listeCategoriesProduit;
     }
 
-    public CategorieProduit selectionner(int code) throws ClassNotFoundException, SQLException {
+    //valide
+    public CategorieProduit selectionnerCategorieProduitParCode(int codeProduitParCode) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -67,7 +69,7 @@ public class CategorieProduitDao {
             scriptSQL.append(" WHERE codeCategorieProduit=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, code);
+            prs.setInt(1, codeProduitParCode);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {

@@ -8,6 +8,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 import com.cecilsoftwares.reussoftbackend.dao.ProfilUtilisateurDao;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -31,4 +32,11 @@ public class ProfilUtilisateurService {
         return ProfilUtilisateurDao.getInstance().enregistrerProfilUtilisateur(profilUtilisateur);
     }
 
+    public List<ProfilUtilisateur> listerTousLesProfilUtilisateurs() throws ClassNotFoundException, SQLException {
+        return ProfilUtilisateurDao.getInstance().listerTousLesProfilUtilisateurs();
+    }
+
+    public ProfilUtilisateur selectionnerProfilUtilisateurParCode(int codeProfilUtilisateur) throws ClassNotFoundException, SQLException {
+        return ProfilUtilisateurDao.getInstance().selectionnerProfilUtilisateurParCode(codeProfilUtilisateur);
+    }
 }

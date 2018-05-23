@@ -33,7 +33,8 @@ public class CollaborateurDao {
         return uniqueInstance;
     }
 
-    public List<Collaborateur> lister() throws ClassNotFoundException, SQLException {
+    //valide
+    public List<Collaborateur> listerTousLesCollaborateurs() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<Collaborateur> listeCollaborateurs;
@@ -87,7 +88,8 @@ public class CollaborateurDao {
         return listeCollaborateurs;
     }
 
-    public Collaborateur selectionner(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+    //valide
+    public Collaborateur selectionnerCollaborateurParCode(int codeCollaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 

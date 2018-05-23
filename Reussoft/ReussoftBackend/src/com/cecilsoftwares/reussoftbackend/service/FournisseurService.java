@@ -8,6 +8,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 import com.cecilsoftwares.reussoftbackend.dao.FournisseurDao;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -31,4 +32,11 @@ public class FournisseurService {
         return FournisseurDao.getInstance().enregistrerFournisseur(fournisseur);
     }
 
+    public List<Fournisseur> listerTousLesFournisseurs() throws ClassNotFoundException, SQLException {
+        return FournisseurDao.getInstance().listerTousLesFournisseurs();
+    }
+
+    public Fournisseur selectionnerFournisseurParCode(int codeFournisseur) throws ClassNotFoundException, SQLException {
+        return FournisseurDao.getInstance().selectionnerFournisseurParCode(codeFournisseur);
+    }
 }
