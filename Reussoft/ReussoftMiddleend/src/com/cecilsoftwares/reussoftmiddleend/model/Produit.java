@@ -1,7 +1,5 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
-import java.math.BigDecimal;
-
 /**
  * @author Plamedi L. Lusembo
  */
@@ -10,8 +8,6 @@ public class Produit {
     private final int code;
     private final Reseau reseau;
     private final String description;
-    private final BigDecimal prixAchatUSD;
-    private final BigDecimal prixAchatFC;
     private final CategorieProduit categorieProduit;
     private final String observation;
     private final boolean active;
@@ -20,8 +16,6 @@ public class Produit {
         code = produitBuilder.code;
         reseau = produitBuilder.reseau;
         description = produitBuilder.description;
-        prixAchatUSD = produitBuilder.prixAchatUSD;
-        prixAchatFC = produitBuilder.prixAchatFC;
         categorieProduit = produitBuilder.categorieProduit;
         observation = produitBuilder.observation;
         active = produitBuilder.active;
@@ -37,14 +31,6 @@ public class Produit {
 
     public String getDescription() {
         return description;
-    }
-
-    public BigDecimal getPrixAchatUSD() {
-        return prixAchatUSD;
-    }
-
-    public BigDecimal getPrixAchatFC() {
-        return prixAchatFC;
     }
 
     public CategorieProduit getCategorieProduit() {
@@ -64,8 +50,6 @@ public class Produit {
         private int code;
         private Reseau reseau;
         private String description;
-        private BigDecimal prixAchatUSD;
-        private BigDecimal prixAchatFC;
         private CategorieProduit categorieProduit;
         private String observation;
         private boolean active;
@@ -81,16 +65,6 @@ public class Produit {
 
         public ProduitBuilder description(String description) {
             this.description = description;
-            return this;
-        }
-
-        public ProduitBuilder prixAchatUSD(BigDecimal prixAchatUSD) {
-            this.prixAchatUSD = prixAchatUSD;
-            return this;
-        }
-
-        public ProduitBuilder prixAchatFC(BigDecimal prixAchatFC) {
-            this.prixAchatFC = prixAchatFC;
             return this;
         }
 

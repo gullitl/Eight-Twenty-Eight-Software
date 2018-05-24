@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.CategorieProduitDao;
@@ -11,7 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
  * @author Plamedi L. Lusembo
  */
 public class CategorieProduitService {
@@ -28,8 +22,12 @@ public class CategorieProduitService {
         return uniqueInstance;
     }
 
-    public int selectionnerCodeCategorieProduitSubsequent() throws ClassNotFoundException, SQLException {
-        return CategorieProduitDao.getInstance().selectionnerCodeCategorieProduitSubsequent();
+    public List<CategorieProduit> listerTousLesCategorieProduits() throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().listerTousLesCategorieProduits();
+    }
+
+    public CategorieProduit selectionnerCategorieProduitParCode(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().selectionnerCategorieProduitParCode(codeCategorieProduit);
     }
 
     public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
@@ -40,11 +38,8 @@ public class CategorieProduitService {
         return CategorieProduitDao.getInstance().actualiserCategorieProduit(categorieProduit);
     }
 
-    public List<CategorieProduit> listerTousLesCategorieProduits() throws ClassNotFoundException, SQLException {
-        return CategorieProduitDao.getInstance().listerTousLesCategorieProduits();
+    public int selectionnerCodeCategorieProduitSubsequent() throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().selectionnerCodeCategorieProduitSubsequent();
     }
 
-    public CategorieProduit selectionnerCategorieProduitParCode(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
-        return CategorieProduitDao.getInstance().selectionnerCategorieProduitParCode(codeCategorieProduit);
-    }
 }

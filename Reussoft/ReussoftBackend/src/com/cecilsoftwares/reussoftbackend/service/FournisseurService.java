@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.FournisseurDao;
@@ -11,7 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
  * @author Plamedi L. Lusembo
  */
 public class FournisseurService {
@@ -28,6 +22,10 @@ public class FournisseurService {
         return uniqueInstance;
     }
 
+    public Fournisseur selectionnerFournisseurParCode(int codeFournisseur) throws ClassNotFoundException, SQLException {
+        return FournisseurDao.getInstance().selectionnerFournisseurParCode(codeFournisseur);
+    }
+
     public boolean enregistrerFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
         return FournisseurDao.getInstance().enregistrerFournisseur(fournisseur);
     }
@@ -36,7 +34,12 @@ public class FournisseurService {
         return FournisseurDao.getInstance().listerTousLesFournisseurs();
     }
 
-    public Fournisseur selectionnerFournisseurParCode(int codeFournisseur) throws ClassNotFoundException, SQLException {
-        return FournisseurDao.getInstance().selectionnerFournisseurParCode(codeFournisseur);
+    public boolean actualiserFournisseur(Fournisseur client) throws ClassNotFoundException, SQLException {
+        return FournisseurDao.getInstance().actualiserFournisseur(client);
     }
+
+    public int selectionnerCodeFournisseurSubsequent() throws ClassNotFoundException, SQLException {
+        return FournisseurDao.getInstance().selectionnerCodeFournisseurSubsequent();
+    }
+
 }

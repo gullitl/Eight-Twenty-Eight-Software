@@ -22,16 +22,24 @@ public class ShopService {
         return uniqueInstance;
     }
 
-    public boolean enregistrerShop(Shop shop) throws ClassNotFoundException, SQLException {
-        return ShopDao.getInstance().enregistrerShop(shop);
-    }
-
     public List<Shop> listerTousLesShops() throws ClassNotFoundException, SQLException {
         return ShopDao.getInstance().listerTousLesShops();
     }
 
     public Shop selectionnerShopParCode(int codeShop) throws ClassNotFoundException, SQLException {
         return ShopDao.getInstance().selectionnerShopParCode(codeShop);
+    }
+
+    public boolean enregistrerShop(Shop shop) throws ClassNotFoundException, SQLException {
+        return ShopDao.getInstance().enregistrerShop(shop);
+    }
+
+    public boolean actualiserShop(Shop shop) throws ClassNotFoundException, SQLException {
+        return ShopDao.getInstance().actualiserShop(shop);
+    }
+
+    public int selectionnerCodeShopSubsequent() throws ClassNotFoundException, SQLException {
+        return ShopDao.getInstance().selectionnerCodeShopSubsequent();
     }
 
 }

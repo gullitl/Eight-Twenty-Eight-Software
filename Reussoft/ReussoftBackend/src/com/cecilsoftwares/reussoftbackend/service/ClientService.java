@@ -22,10 +22,6 @@ public class ClientService {
         return uniqueInstance;
     }
 
-    public boolean enregistrerClient(Client client) throws ClassNotFoundException, SQLException {
-        return ClientDao.getInstance().enregistrerClient(client);
-    }
-
     public List<Client> listerTousLesClients() throws ClassNotFoundException, SQLException {
         return ClientDao.getInstance().listerTousLesClients();
     }
@@ -33,4 +29,17 @@ public class ClientService {
     public Client selectionnerClientParCode(int codeClient) throws ClassNotFoundException, SQLException {
         return ClientDao.getInstance().selectionnerClientParCode(codeClient);
     }
+
+    public boolean enregistrerClient(Client client) throws ClassNotFoundException, SQLException {
+        return ClientDao.getInstance().enregistrerClient(client);
+    }
+
+    public boolean actualiserClient(Client client) throws ClassNotFoundException, SQLException {
+        return ClientDao.getInstance().actualiserClient(client);
+    }
+
+    public int selectionnerCodeClientSubsequent() throws ClassNotFoundException, SQLException {
+        return ClientDao.getInstance().selectionnerCodeClientSubsequent();
+    }
+
 }

@@ -28,15 +28,23 @@ public class ReseauService {
         return uniqueInstance;
     }
 
-    public boolean enregistrerReseau(Reseau reseau) throws ClassNotFoundException, SQLException {
-        return ReseauDao.getInstance().enregistrerReseau(reseau);
-    }
-
     public List<Reseau> listerTousLesReseaus() throws ClassNotFoundException, SQLException {
         return ReseauDao.getInstance().listerTousLesReseaus();
     }
 
     public Reseau selectionnerReseauParCode(int codeReseau) throws ClassNotFoundException, SQLException {
         return ReseauDao.getInstance().selectionnerReseauParCode(codeReseau);
+    }
+
+    public boolean enregistrerReseau(Reseau reseau) throws ClassNotFoundException, SQLException {
+        return ReseauDao.getInstance().enregistrerReseau(reseau);
+    }
+
+    public boolean actualiserReseau(Reseau reseau) throws ClassNotFoundException, SQLException {
+        return ReseauDao.getInstance().actualiserReseau(reseau);
+    }
+
+    public int selectionnerCodeReseauSubsequent() throws ClassNotFoundException, SQLException {
+        return ReseauDao.getInstance().selectionnerCodeReseauSubsequent();
     }
 }

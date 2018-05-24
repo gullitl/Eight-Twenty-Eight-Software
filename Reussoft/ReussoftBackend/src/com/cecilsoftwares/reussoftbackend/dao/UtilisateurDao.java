@@ -38,17 +38,17 @@ public class UtilisateurDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse,");
-            scriptSQL.append(" profilutilisateur.code, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
-            scriptSQL.append(" collaborateur.code, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
-            scriptSQL.append(" shop.code, shop.nom, shop.adresse");
+            scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse, utilisateur.observation,");
+            scriptSQL.append(" utilisateur.idProfilUtilisateur, profilutilisateur.description, profilutilisateur.descriptionAbregee, profilutilisateur.observation");
+            scriptSQL.append(" utilisateur.idCollaborateur, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
+            scriptSQL.append(" collaborateur.observation, collaborateur.active");
+            scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
             scriptSQL.append(" FROM utilisateur");
             scriptSQL.append(" LEFT JOIN profilutilisateur");
             scriptSQL.append(" ON utilisateur.idProfilUtilisateur = profilutilisateur.code");
             scriptSQL.append(" LEFT JOIN collaborateur");
             scriptSQL.append(" ON utilisateur.idCollaborateur = collaborateur.code");
-            scriptSQL.append(" LEFT JOIN shop");
-            scriptSQL.append(" ON collaborateur.idShop = shop.code");
+            scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
             scriptSQL.append(" WHERE utilizateur.nom=? AND utilizateur.motDePasse=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -57,11 +57,6 @@ public class UtilisateurDao {
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
-
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(4))
-                            .description(res.getString(5))
-                            .descriptionAbregee(res.getString(6))
-                            .build();
 
                     Shop shop = new ShopBuilder(res.getInt(12))
                             .nom(res.getString(13))
@@ -74,6 +69,11 @@ public class UtilisateurDao {
                             .postnom(res.getString(10))
                             .surnom(res.getString(11))
                             .shop(shop)
+                            .build();
+
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(4))
+                            .description(res.getString(5))
+                            .descriptionAbregee(res.getString(6))
                             .build();
 
                     Utilisateur utilisateur = new UtilisateurBuilder(res.getInt(1))
@@ -95,7 +95,6 @@ public class UtilisateurDao {
         }
         return null;
     }
-//valide
 
     public List<Utilisateur> listerTousLesUtilisateurs() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
@@ -103,18 +102,17 @@ public class UtilisateurDao {
         List<Utilisateur> listeUtilisateurs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse,");
-            scriptSQL.append(" profilutilisateur.code, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
-            scriptSQL.append(" collaborateur.code, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
-            scriptSQL.append(" shop.code, shop.nom, shop.adresse");
+            scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse, utilisateur.observation,");
+            scriptSQL.append(" utilisateur.idProfilUtilisateur, profilutilisateur.description, profilutilisateur.descriptionAbregee, profilutilisateur.observation");
+            scriptSQL.append(" utilisateur.idCollaborateur, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
+            scriptSQL.append(" collaborateur.observation, collaborateur.active");
+            scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
             scriptSQL.append(" FROM utilisateur");
             scriptSQL.append(" LEFT JOIN profilutilisateur");
             scriptSQL.append(" ON utilisateur.idProfilUtilisateur = profilutilisateur.code");
             scriptSQL.append(" LEFT JOIN collaborateur");
             scriptSQL.append(" ON utilisateur.idCollaborateur = collaborateur.code");
-            scriptSQL.append(" LEFT JOIN shop");
-            scriptSQL.append(" ON collaborateur.idShop = shop.code");
-            scriptSQL.append(" WHERE utilizateur.nom=? AND utilizateur.motDePasse=?");
+            scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -122,11 +120,6 @@ public class UtilisateurDao {
             listeUtilisateurs = new ArrayList();
             if (res != null) {
                 while (res.next()) {
-
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(4))
-                            .description(res.getString(5))
-                            .descriptionAbregee(res.getString(6))
-                            .build();
 
                     Shop shop = new ShopBuilder(res.getInt(12))
                             .nom(res.getString(13))
@@ -141,12 +134,20 @@ public class UtilisateurDao {
                             .shop(shop)
                             .build();
 
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(4))
+                            .description(res.getString(5))
+                            .descriptionAbregee(res.getString(6))
+                            .build();
+
                     Utilisateur utilisateur = new UtilisateurBuilder(res.getInt(1))
                             .nom(res.getString(2))
                             .motDePasse(res.getString(3))
                             .profilUtilisateur(profilUtilisateur)
                             .collaborateur(collaborateur)
                             .build();
+
+                    res.close();
+                    conexao.close();
 
                     listeUtilisateurs.add(utilisateur);
                 }
@@ -158,35 +159,29 @@ public class UtilisateurDao {
         return listeUtilisateurs;
     }
 
-    //Valide
-    public Utilisateur selectionnerUtilisateurParCode(int code) throws ClassNotFoundException, SQLException {
+    public Utilisateur selectionnerUtilisateurParCode(int codeUtilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse,");
-            scriptSQL.append(" profilutilisateur.code, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
-            scriptSQL.append(" collaborateur.code, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
-            scriptSQL.append(" shop.code, shop.nom, shop.adresse");
+            scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse, utilisateur.observation,");
+            scriptSQL.append(" utilisateur.idProfilUtilisateur, profilutilisateur.description, profilutilisateur.descriptionAbregee, profilutilisateur.observation");
+            scriptSQL.append(" utilisateur.idCollaborateur, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
+            scriptSQL.append(" collaborateur.observation, collaborateur.active");
+            scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
             scriptSQL.append(" FROM utilisateur");
             scriptSQL.append(" LEFT JOIN profilutilisateur");
             scriptSQL.append(" ON utilisateur.idProfilUtilisateur = profilutilisateur.code");
             scriptSQL.append(" LEFT JOIN collaborateur");
             scriptSQL.append(" ON utilisateur.idCollaborateur = collaborateur.code");
-            scriptSQL.append(" LEFT JOIN shop");
-            scriptSQL.append(" ON collaborateur.idShop = shop.code");
-            scriptSQL.append(" WHERE utilizateur.nom=? AND utilizateur.motDePasse=?");
+            scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
+            scriptSQL.append(" WHERE utilizateur.code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, code);
+            prs.setInt(1, codeUtilisateur);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
-
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(4))
-                            .description(res.getString(5))
-                            .descriptionAbregee(res.getString(6))
-                            .build();
 
                     Shop shop = new ShopBuilder(res.getInt(12))
                             .nom(res.getString(13))
@@ -201,6 +196,11 @@ public class UtilisateurDao {
                             .shop(shop)
                             .build();
 
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(4))
+                            .description(res.getString(5))
+                            .descriptionAbregee(res.getString(6))
+                            .build();
+
                     Utilisateur utilisateur = new UtilisateurBuilder(res.getInt(1))
                             .nom(res.getString(2))
                             .motDePasse(res.getString(3))
@@ -208,7 +208,6 @@ public class UtilisateurDao {
                             .collaborateur(collaborateur)
                             .build();
 
-                    prs.close();
                     res.close();
                     conexao.close();
 
@@ -259,8 +258,8 @@ public class UtilisateurDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO utilisateur(");
-            scriptSQL.append(" code, idProfilUtilisateur, idCollaborateur, nom, motDePasse)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+            scriptSQL.append(" code, idProfilUtilisateur, idCollaborateur, nom, motDePasse, observation)");
+            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
@@ -269,6 +268,7 @@ public class UtilisateurDao {
             prs.setInt(3, utilisateur.getCollaborateur().getCode());
             prs.setString(4, utilisateur.getNom());
             prs.setString(5, utilisateur.getMotDePasse());
+            prs.setString(6, utilisateur.getObservation());
 
             prs.execute();
             prs.close();
@@ -277,27 +277,23 @@ public class UtilisateurDao {
         return true;
     }
 
-    public boolean actualiser(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
+    public boolean actualiserUtilisateur(Utilisateur utilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("UPDATE utilisateur(");
-            scriptSQL.append(" SET idProfilUtilisateur=?, idCollaborateur=?, nom, motDePasse)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
-
-            scriptSQL = new StringBuilder("UPDATE collaborateur");
-            scriptSQL.append(" SET preNom=?, nom=?, postnom=?, surnom=?, utilisateur=?,");
-            scriptSQL.append(" idProfilUtilisateur=?, motDePasse=?, idShop=?");
-            scriptSQL.append(" WHERE codeCollaborateur=?");
+            scriptSQL.append(" SET idProfilUtilisateur=?, idCollaborateur=?, nom=?, motDePasse=?, observation=?)");
+            scriptSQL.append(" WHERE code=?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, collaborateur.getCode());
-            prs.setString(2, collaborateur.getPrenom());
-            prs.setString(3, collaborateur.getNom());
-            prs.setString(4, collaborateur.getPostnom());
-            prs.setString(5, collaborateur.getSurnom());
+            prs.setInt(1, utilisateur.getProfilUtilisateur().getCode());
+            prs.setInt(2, utilisateur.getCollaborateur().getCode());
+            prs.setString(3, utilisateur.getNom());
+            prs.setString(4, utilisateur.getMotDePasse());
+            prs.setString(5, utilisateur.getObservation());
+            prs.setInt(6, utilisateur.getCode());
 
             prs.execute();
             prs.close();
@@ -306,28 +302,12 @@ public class UtilisateurDao {
         return true;
     }
 
-    public boolean exclure(int codeCollaborateur) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM collaborateur WHERE codeCollaborateur=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCollaborateur);
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    public int selectionnerCodeCollaborateurSubsequent() throws ClassNotFoundException, SQLException {
+    public int selectionnerCodeUtilisateurSubsequent() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(codeCollaborateur)+1 FROM collaborateur");
+            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM utilisateur");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {

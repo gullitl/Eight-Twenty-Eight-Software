@@ -14,7 +14,7 @@ public class Dispatch {
     private final Shop shopDestinataire;
     private final BigDecimal quantiteProduit;
     private final Date dateHeure;
-    private final boolean valide;
+    private final boolean active;
     private final String observation;
 
     public Dispatch(DispatchBuilder dispatchBuilder) {
@@ -24,7 +24,7 @@ public class Dispatch {
         shopDestinataire = dispatchBuilder.shopDestinataire;
         quantiteProduit = dispatchBuilder.quantiteProduit;
         dateHeure = dispatchBuilder.dateHeure;
-        valide = dispatchBuilder.valide;
+        active = dispatchBuilder.active;
         observation = dispatchBuilder.observation;
     }
 
@@ -52,8 +52,8 @@ public class Dispatch {
         return dateHeure;
     }
 
-    public boolean isValide() {
-        return valide;
+    public boolean isActive() {
+        return active;
     }
 
     public String getObservation() {
@@ -68,7 +68,7 @@ public class Dispatch {
         private Shop shopDestinataire;
         private BigDecimal quantiteProduit;
         private Date dateHeure;
-        private boolean valide;
+        private boolean active;
         private String observation;
 
         public DispatchBuilder(int code) {
@@ -100,8 +100,8 @@ public class Dispatch {
             return this;
         }
 
-        public DispatchBuilder valide(boolean valide) {
-            this.valide = valide;
+        public DispatchBuilder active(boolean active) {
+            this.active = active;
             return this;
         }
 

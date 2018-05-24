@@ -10,7 +10,6 @@ import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -236,8 +235,6 @@ public class RegistreProduit extends JInternalFrame {
                 .description(tfdDescription.getText())
                 .reseau(reseau)
                 .categorieProduit(categorieProduit)
-                .prixAchatUSD(new BigDecimal(tfdPrixAchatUSD.getText()))
-                .prixAchatFC(new BigDecimal(tfdPrixAchatFC.getText()))
                 .observation(txaObservation.getText())
                 .active(true)
                 .build();
@@ -276,8 +273,6 @@ public class RegistreProduit extends JInternalFrame {
         tfdDescription.setText(produit.getDescription());
         tfdIdReseau.setText(String.valueOf(produit.getReseau().getCode()));
         lblDescriptionReseau.setText(produit.getReseau().getNom());
-        tfdPrixAchatUSD.setText(produit.getPrixAchatUSD().toString());
-        tfdPrixAchatFC.setText(produit.getPrixAchatFC().toString());
         tfdIdCategorieproduit.setText(String.valueOf(produit.getCategorieProduit().getCode()));
         lblDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
     }

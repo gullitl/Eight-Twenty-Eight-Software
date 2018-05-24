@@ -22,9 +22,8 @@ public class UtilisateurService {
         return uniqueInstance;
     }
 
-    public boolean enregistrerUtilisateur(Utilisateur utilisateur)
-            throws ClassNotFoundException, SQLException {
-        return UtilisateurDao.getInstance().enregistrerUtilisateur(utilisateur);
+    public Utilisateur login(String nomUtilisateur, String motDePasse) throws ClassNotFoundException, SQLException {
+        return UtilisateurDao.getInstance().login(nomUtilisateur, motDePasse);
     }
 
     public List<Utilisateur> listerTousLesUtilisateurs() throws ClassNotFoundException, SQLException {
@@ -33,6 +32,22 @@ public class UtilisateurService {
 
     public Utilisateur selectionnerUtilisateurParCode(int codeUtilisateur) throws ClassNotFoundException, SQLException {
         return UtilisateurDao.getInstance().selectionnerUtilisateurParCode(codeUtilisateur);
+    }
+
+    public boolean estUtilisateurDejaExistant(Utilisateur utilisateur, boolean modeEdition) throws ClassNotFoundException, SQLException {
+        return UtilisateurDao.getInstance().estUtilisateurDejaExistant(utilisateur, modeEdition);
+    }
+
+    public boolean enregistrerUtilisateur(Utilisateur utilisateur) throws ClassNotFoundException, SQLException {
+        return UtilisateurDao.getInstance().enregistrerUtilisateur(utilisateur);
+    }
+
+    public boolean actualiserUtilisateur(Utilisateur utilisateur) throws ClassNotFoundException, SQLException {
+        return UtilisateurDao.getInstance().actualiserUtilisateur(utilisateur);
+    }
+
+    public int selectionnerCodeUtilisateurSubsequent() throws ClassNotFoundException, SQLException {
+        return UtilisateurDao.getInstance().selectionnerCodeUtilisateurSubsequent();
     }
 
 }

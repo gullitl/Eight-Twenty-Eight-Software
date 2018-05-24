@@ -33,22 +33,22 @@ public class CollaborateurDao {
         return uniqueInstance;
     }
 
-    //valide
+    //valide = true
     public List<Collaborateur> listerTousLesCollaborateurs() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<Collaborateur> listeCollaborateurs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
-            scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
-            scriptSQL.append(" profilutilisateur.codeProfilUtilizateur, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
-            scriptSQL.append(" shop.codeShop, shop.nom, shop.adresse");
+            scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.active,");
+            scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom, collaborateur.observation,");
+            scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.observation, shop.active,");
+            scriptSQL.append(" collaborateur.idUtilisateur, utilisateur.nom, utilisateur.motDePasse, utilisateur.observation, utilisateur.active");
+            scriptSQL.append(" utilisateur.idProfilUtilisateur, profilUtilisateur.description, profilUtilisateur.descriptionAbregee, profilUtilisateur.observation");
             scriptSQL.append(" FROM collaborateur");
-            scriptSQL.append(" LEFT JOIN profilutilisateur");
-            scriptSQL.append(" ON collaborateur.idProfilUtilisateur = profilutilisateur.codeProfilUtilizateur");
-            scriptSQL.append(" LEFT JOIN shop");
-            scriptSQL.append(" ON collaborateur.idShop = shop.codeShop");
+            scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
+            scriptSQL.append(" LEFT JOIN utilisateur ON collaborateur.idUtilisateur = utilisateur.code");
+            scriptSQL.append(" LEFT JOIN profilutilisateur ON utilisateur.idProfilUtilisateur = utilisateur.code");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -57,25 +57,36 @@ public class CollaborateurDao {
             if (res != null) {
                 while (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(8))
-                            .description(res.getString(9))
-                            .descriptionAbregee(res.getString(10))
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(18))
+                            .description(res.getString(19))
+                            .descriptionAbregee(res.getString(20))
+                            .observation(res.getString(21))
                             .build();
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Utilisateur utilisateur = new UtilisateurBuilder(res.getInt(13))
+                            .nom(res.getString(14))
+                            .motDePasse(res.getString(15))
+                            .observation(res.getString(16))
+                            .active(res.getInt(17) == 1)
+                            .profilUtilisateur(profilUtilisateur)
                             .build();
 
-                    Utilisateur utilisateur = new UtilisateurBuilder(0).build();
+                    Shop shop = new ShopBuilder(res.getInt(8))
+                            .nom(res.getString(9))
+                            .adresse(res.getString(10))
+                            .observation(res.getString(11))
+                            .active(res.getInt(12) == 1)
+                            .build();
 
                     Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .utilisateur(utilisateur)
-                            .prenom(res.getString(4))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
+                            .active(res.getInt(2) == 1)
+                            .prenom(res.getString(3))
+                            .nom(res.getString(4))
+                            .postnom(res.getString(5))
+                            .surnom(res.getString(6))
+                            .observation(res.getString(7))
                             .shop(shop)
+                            .utilisateur(utilisateur)
                             .build();
 
                     listeCollaborateurs.add(collaborateur);
@@ -88,49 +99,61 @@ public class CollaborateurDao {
         return listeCollaborateurs;
     }
 
-    //valide
+    //valide = true
     public Collaborateur selectionnerCollaborateurParCode(int codeCollaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
-            scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
-            scriptSQL.append(" profilutilisateur.codeProfilUtilizateur, profilutilisateur.description, profilutilisateur.descriptionAbregee,");
-            scriptSQL.append(" shop.codeShop, shop.nom, shop.adresse");
+            scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.active,");
+            scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom, collaborateur.observation,");
+            scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.observation, shop.active,");
+            scriptSQL.append(" collaborateur.idUtilisateur, utilisateur.nom, utilisateur.motDePasse, utilisateur.observation, utilisateur.active");
+            scriptSQL.append(" utilisateur.idProfilUtilisateur, profilUtilisateur.description, profilUtilisateur.descriptionAbregee, profilUtilisateur.observation");
             scriptSQL.append(" FROM collaborateur");
-            scriptSQL.append(" LEFT JOIN profilutilisateur");
-            scriptSQL.append(" ON collaborateur.idProfilUtilisateur = profilutilisateur.codeProfilUtilizateur");
-            scriptSQL.append(" LEFT JOIN shop");
-            scriptSQL.append(" ON collaborateur.idShop = shop.codeShop");
-            scriptSQL.append(" WHERE collaborateur.codeCollaborateur=?");
+            scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
+            scriptSQL.append(" LEFT JOIN utilisateur ON collaborateur.idUtilisateur = utilisateur.code");
+            scriptSQL.append(" LEFT JOIN profilutilisateur ON utilisateur.idProfilUtilisateur = utilisateur.code");
+            scriptSQL.append(" WHERE collaborateur.code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, codeCollaborateur);
             res = prs.executeQuery();
+
             if (res != null) {
                 if (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(8))
-                            .description(res.getString(9))
-                            .descriptionAbregee(res.getString(10))
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(18))
+                            .description(res.getString(19))
+                            .descriptionAbregee(res.getString(20))
+                            .observation(res.getString(21))
                             .build();
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Utilisateur utilisateur = new UtilisateurBuilder(res.getInt(13))
+                            .nom(res.getString(14))
+                            .motDePasse(res.getString(15))
+                            .observation(res.getString(16))
+                            .active(res.getInt(17) == 1)
+                            .profilUtilisateur(profilUtilisateur)
+                            .build();
+
+                    Shop shop = new ShopBuilder(res.getInt(8))
+                            .nom(res.getString(9))
+                            .adresse(res.getString(10))
+                            .observation(res.getString(11))
+                            .active(res.getInt(12) == 1)
                             .build();
 
                     Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
+                            .active(res.getInt(2) == 1)
+                            .prenom(res.getString(3))
+                            .nom(res.getString(4))
+                            .postnom(res.getString(5))
+                            .surnom(res.getString(6))
+                            .observation(res.getString(7))
                             .shop(shop)
+                            .utilisateur(utilisateur)
                             .build();
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
 
                     return collaborateur;
                 }
@@ -142,42 +165,14 @@ public class CollaborateurDao {
         return null;
     }
 
-    public boolean estUtilisateurExistant(Collaborateur collaborateur, boolean modeEdition) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT codeCollaborateur FROM collaborateur");
-            scriptSQL.append(" WHERE utilizateur=?");
-            if (!modeEdition) {
-                prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            } else {
-                scriptSQL.append(" and codeCollaborateur<>?");
-                prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-                prs.setInt(2, collaborateur.getCode());
-            }
-
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    conexao.close();
-                    return true;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return false;
-    }
-
+    //valide: true
     public boolean enregistrerCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
-            scriptSQL.append(" codeCollaborateur, preNom, nom, postnom, surnom,");
-            scriptSQL.append(" utilisateur, idProfilUtilisateur, motDePasse, idShop )");
+            scriptSQL.append(" code, prenom, nom, postnom, surnom, observation, active,");
+            scriptSQL.append(" idShop, idUtilisateur )");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -187,6 +182,10 @@ public class CollaborateurDao {
             prs.setString(3, collaborateur.getNom());
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
+            prs.setString(6, collaborateur.getObservation());
+            prs.setInt(7, collaborateur.isActive() ? 1 : 0);
+            prs.setInt(8, collaborateur.getShop().getCode());
+            prs.setInt(9, collaborateur.getUtilisateur().getCode());
 
             prs.execute();
             prs.close();
@@ -195,22 +194,27 @@ public class CollaborateurDao {
         return true;
     }
 
-    public boolean actualiser(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
+    //valide: true
+    public boolean actualiserCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("UPDATE collaborateur");
-            scriptSQL.append(" SET preNom=?, nom=?, postnom=?, surnom=?, utilisateur=?,");
-            scriptSQL.append(" idProfilUtilisateur=?, motDePasse=?, idShop=?");
-            scriptSQL.append(" WHERE codeCollaborateur=?");
+            scriptSQL.append(" SET prenom=?, nom=?, postnom=?, surnom=?, observation=?, active=?,");
+            scriptSQL.append(" idUtilisateur=?, idShop=?");
+            scriptSQL.append(" WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, collaborateur.getCode());
+            prs.setInt(1, collaborateur.getUtilisateur().getCode());
             prs.setString(2, collaborateur.getPrenom());
             prs.setString(3, collaborateur.getNom());
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
+            prs.setString(6, collaborateur.getObservation());
+            prs.setInt(7, collaborateur.isActive() ? 1 : 0);
+            prs.setInt(8, collaborateur.getShop().getCode());
+            prs.setInt(9, collaborateur.getCode());
 
             prs.execute();
             prs.close();
@@ -219,28 +223,13 @@ public class CollaborateurDao {
         return true;
     }
 
-    public boolean exclure(int codeCollaborateur) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM collaborateur WHERE codeCollaborateur=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCollaborateur);
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
+    //valide: true
     public int selectionnerCodeCollaborateurSubsequent() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(codeCollaborateur)+1 FROM collaborateur");
+            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM collaborateur");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {

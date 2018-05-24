@@ -28,15 +28,23 @@ public class ProfilUtilisateurService {
         return uniqueInstance;
     }
 
-    public boolean enregistrerProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
-        return ProfilUtilisateurDao.getInstance().enregistrerProfilUtilisateur(profilUtilisateur);
-    }
-
     public List<ProfilUtilisateur> listerTousLesProfilUtilisateurs() throws ClassNotFoundException, SQLException {
         return ProfilUtilisateurDao.getInstance().listerTousLesProfilUtilisateurs();
     }
 
     public ProfilUtilisateur selectionnerProfilUtilisateurParCode(int codeProfilUtilisateur) throws ClassNotFoundException, SQLException {
         return ProfilUtilisateurDao.getInstance().selectionnerProfilUtilisateurParCode(codeProfilUtilisateur);
+    }
+
+    public boolean enregistrerProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
+        return ProfilUtilisateurDao.getInstance().enregistrerProfilUtilisateur(profilUtilisateur);
+    }
+
+    public boolean actualiserProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
+        return ProfilUtilisateurDao.getInstance().actualiserProfilUtilisateur(profilUtilisateur);
+    }
+
+    public int selectionnerCodeProfilUtilisateurSubsequent() throws ClassNotFoundException, SQLException {
+        return ProfilUtilisateurDao.getInstance().selectionnerCodeProfilUtilisateurSubsequent();
     }
 }
