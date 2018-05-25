@@ -6,6 +6,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +42,9 @@ public class ProduitDao {
             listeProduits = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.observation,");
-            scriptSQL.append(" produit.idCategorieProduit, categorieProduit.description, categorieProduit.descriptionAbregee, categorieProduit.observation,");
+            scriptSQL.append(" produit.prixAchatUSD, produit.prixAchatFC,");
+            scriptSQL.append(" produit.idCategorieProduit, categorieProduit.description, categorieProduit.descriptionAbregee,");
+            scriptSQL.append("  categorieProduit.observation,");
             scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege, reseau.observation,");
             scriptSQL.append(" FROM produit");
             scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.code");
@@ -67,6 +70,8 @@ public class ProduitDao {
                     Produit produit = new ProduitBuilder(res.getInt(1))
                             .description(res.getString(2))
                             .observation(res.getString(3))
+                            .prixAchatUSD(new BigDecimal(res.getString(4)))
+                            .prixAchatFC(new BigDecimal(res.getString(5)))
                             .reseau(reseau)
                             .categorieProduit(categorieProduit)
                             .build();
@@ -89,7 +94,9 @@ public class ProduitDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.observation,");
-            scriptSQL.append(" produit.idCategorieProduit, categorieProduit.description, categorieProduit.descriptionAbregee, categorieProduit.observation,");
+            scriptSQL.append(" produit.prixAchatUSD, produit.prixAchatFC,");
+            scriptSQL.append(" produit.idCategorieProduit, categorieProduit.description, categorieProduit.descriptionAbregee,");
+            scriptSQL.append("  categorieProduit.observation,");
             scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege, reseau.observation,");
             scriptSQL.append(" FROM produit");
             scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.code");
@@ -118,9 +125,15 @@ public class ProduitDao {
                     Produit produit = new ProduitBuilder(res.getInt(1))
                             .description(res.getString(2))
                             .observation(res.getString(3))
+                            .prixAchatUSD(new BigDecimal(res.getString(4)))
+                            .prixAchatFC(new BigDecimal(res.getString(5)))
                             .reseau(reseau)
                             .categorieProduit(categorieProduit)
                             .build();
+
+                    prs.close();
+                    res.close();
+                    conexao.close();
 
                     return produit;
                 }
@@ -138,8 +151,8 @@ public class ProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO produit(");
-            scriptSQL.append(" code, description, idCategorieProduit, idReseau, observation");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+            scriptSQL.append(" code, description, idCategorieProduit, idReseau, prixAchatUSD, prixAchatFC, observation");
+            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
@@ -147,7 +160,9 @@ public class ProduitDao {
             prs.setString(2, produit.getDescription());
             prs.setInt(3, produit.getCategorieProduit().getCode());
             prs.setInt(4, produit.getReseau().getCode());
-            prs.setString(5, produit.getObservation());
+            prs.setBigDecimal(5, produit.getPrixAchatUSD());
+            prs.setBigDecimal(6, produit.getPrixAchatFC());
+            prs.setString(7, produit.getObservation());
 
             prs.execute();
             prs.close();
@@ -162,7 +177,7 @@ public class ProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("UPDATE produit");
-            scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, observation=?");
+            scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, prixAchatUSD=?, prixAchatFC=?, observation=?");
             scriptSQL.append(" WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -170,8 +185,10 @@ public class ProduitDao {
             prs.setString(1, produit.getDescription());
             prs.setInt(2, produit.getCategorieProduit().getCode());
             prs.setInt(3, produit.getReseau().getCode());
-            prs.setString(4, produit.getObservation());
-            prs.setInt(5, produit.getCode());
+            prs.setBigDecimal(4, produit.getPrixAchatUSD());
+            prs.setBigDecimal(5, produit.getPrixAchatFC());
+            prs.setString(6, produit.getObservation());
+            prs.setInt(7, produit.getCode());
 
             prs.execute();
             prs.close();

@@ -117,6 +117,10 @@ public class PrixVenteProduitDao {
                             .observation(res.getString(3))
                             .build();
 
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
                     return prixVenteProduit;
                 }
             }

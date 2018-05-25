@@ -84,6 +84,10 @@ public class ShopDao {
                             .active(res.getInt(5) == 1)
                             .build();
 
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
                     return shop;
                 }
             }

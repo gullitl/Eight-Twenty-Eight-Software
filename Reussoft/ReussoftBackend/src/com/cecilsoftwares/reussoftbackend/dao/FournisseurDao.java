@@ -84,6 +84,10 @@ public class FournisseurDao {
                             .observation(res.getString(5))
                             .build();
 
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
                     return fournisseur;
                 }
             }

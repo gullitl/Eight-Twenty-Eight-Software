@@ -82,6 +82,10 @@ public class ReseauDao {
                             .observation(res.getString(4))
                             .build();
 
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
                     return reseau;
                 }
             }

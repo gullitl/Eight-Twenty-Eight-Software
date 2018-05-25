@@ -105,6 +105,10 @@ public class ClientDao {
                             .shop(shop)
                             .build();
 
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
                     return client;
                 }
             }

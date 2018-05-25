@@ -84,6 +84,10 @@ public class ProfilUtilisateurDao {
                             .observation(res.getString(4))
                             .build();
 
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
                     return profilUtilisateur;
                 }
             }

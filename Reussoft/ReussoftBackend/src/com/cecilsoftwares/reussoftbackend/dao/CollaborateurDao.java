@@ -155,6 +155,10 @@ public class CollaborateurDao {
                             .utilisateur(utilisateur)
                             .build();
 
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
                     return collaborateur;
                 }
             }

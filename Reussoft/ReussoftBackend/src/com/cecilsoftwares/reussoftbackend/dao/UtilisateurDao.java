@@ -208,6 +208,7 @@ public class UtilisateurDao {
                             .collaborateur(collaborateur)
                             .build();
 
+                    prs.close();
                     res.close();
                     conexao.close();
 

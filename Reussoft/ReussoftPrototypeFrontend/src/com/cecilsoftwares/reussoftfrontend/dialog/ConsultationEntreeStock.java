@@ -32,7 +32,7 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
         dataRows = new Object[2];
 
         try {
-            entreeStocks = EntreeStockService.getInstance().listerTousLesEntreeStocks();
+            entreeStocks = EntreeStockService.getInstance().listerToutesLesEntreeStocks();
             listerEntreeStocks(entreeStocks);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConsultationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);

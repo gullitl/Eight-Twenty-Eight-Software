@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +119,10 @@ public class SessionUtilisateurDao {
                             .collaborateur(collaborateur)
                             .build();
 
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
                     return sessionutilisateur;
                 }
             }
@@ -139,7 +144,7 @@ public class SessionUtilisateurDao {
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setInt(1, sessionUtilisateur.getCode());
-            prs.setTimestamp(2, sessionUtilisateur.getDateHeure());
+            prs.setTimestamp(2, new Timestamp(sessionUtilisateur.getDateHeure().getTime()));
             prs.setString(3, sessionUtilisateur.getLog());
             prs.setString(4, sessionUtilisateur.getObservation());
 
@@ -160,7 +165,7 @@ public class SessionUtilisateurDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setTimestamp(1, sessionUtilisateur.getDateHeure());
+            prs.setTimestamp(1, new Timestamp(sessionUtilisateur.getDateHeure().getTime()));
             prs.setString(2, sessionUtilisateur.getLog());
             prs.setString(3, sessionUtilisateur.getObservation());
             prs.setInt(4, sessionUtilisateur.getCode());
