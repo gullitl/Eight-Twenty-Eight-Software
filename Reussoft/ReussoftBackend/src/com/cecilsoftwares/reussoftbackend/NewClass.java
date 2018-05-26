@@ -26,7 +26,6 @@ public class NewClass {
 //        } catch (Exception e) {
 //            System.out.println(e);
 //        }
-
         String var1 = "A1;A2";
         String var2 = var1 + ";A3";
 

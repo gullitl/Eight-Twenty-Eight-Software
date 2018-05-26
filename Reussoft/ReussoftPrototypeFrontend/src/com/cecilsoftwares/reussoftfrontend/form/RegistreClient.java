@@ -38,6 +38,11 @@ public class RegistreClient extends JInternalFrame {
         btnConsulterClient = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         tfdTelephone = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter telefone = new javax.swing.text.MaskFormatter("(##) ####-####");
+            tfdTelephone = new javax.swing.JFormattedTextField(telefone);
+        }catch(Exception e){
+        }
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);

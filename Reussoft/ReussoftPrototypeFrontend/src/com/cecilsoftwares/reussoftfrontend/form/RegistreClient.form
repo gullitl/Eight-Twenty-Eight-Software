@@ -170,6 +170,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfdTelephone">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xd;&#xa; javax.swing.text.MaskFormatter telefone = new javax.swing.text.MaskFormatter(&quot;(##) ####-####&quot;);&#xd;&#xa; tfdTelephone = new javax.swing.JFormattedTextField(telefone);&#xd;&#xa; }catch(Exception e){&#xd;&#xa;}"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

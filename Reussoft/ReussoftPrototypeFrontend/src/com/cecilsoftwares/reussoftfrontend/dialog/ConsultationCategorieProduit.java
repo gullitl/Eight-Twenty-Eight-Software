@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCategorieProduit;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
+import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -152,6 +153,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
 
     private void tblCategorieProduitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategorieProduitMouseClicked
         if (evt.getClickCount() == 2) {
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             if (getFrameAncetre() != null) {
                 try {
                     int row = tblCategorieProduit.getSelectedRow();
@@ -169,6 +171,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
                 }
             }
             dispose();
+            this.setCursor(Cursor.getDefaultCursor());
         }
 
     }//GEN-LAST:event_tblCategorieProduitMouseClicked

@@ -67,7 +67,7 @@ public class CategorieProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee, observation");
-            scriptSQL.append("FROM categorieproduit WHERE codeCategorieProduit=?");
+            scriptSQL.append(" FROM categorieproduit WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, codeProduitParCode);
