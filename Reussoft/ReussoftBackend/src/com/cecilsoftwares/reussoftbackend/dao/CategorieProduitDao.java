@@ -27,7 +27,6 @@ public class CategorieProduitDao {
         return uniqueInstance;
     }
 
-    //valide = true
     public List<CategorieProduit> listerTousLesCategorieProduits() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -60,7 +59,6 @@ public class CategorieProduitDao {
         return listeCategoriesProduit;
     }
 
-    //valide = true
     public CategorieProduit selectionnerCategorieProduitParCode(int codeProduitParCode) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -95,37 +93,21 @@ public class CategorieProduitDao {
         return null;
     }
 
-    //Valide = true
     public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO categorieproduit(");
-            scriptSQL.append(" code, description, descriptionAbregee, observation )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            if (categorieProduit.getCode() == 0) {
 
-            prs.setInt(1, categorieProduit.getCode());
-            prs.setString(2, categorieProduit.getDescription());
-            prs.setString(3, categorieProduit.getDescriptionAbregee());
-            prs.setString(4, categorieProduit.getObservation());
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    //valide = true
-    public boolean actualiserCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE categorieproduit");
-            scriptSQL.append(" SET description=?, descriptionAbregee=?, observation=?");
-            scriptSQL.append(" WHERE code=?");
+                scriptSQL = new StringBuilder("INSERT INTO categorieproduit(");
+                scriptSQL.append(" description, descriptionAbregee, observation, code )");
+                scriptSQL.append(" VALUES (?, ?, ?, ?)");
+            } else {
+                scriptSQL = new StringBuilder("UPDATE categorieproduit");
+                scriptSQL.append(" SET description=?, descriptionAbregee=?, observation=?");
+                scriptSQL.append(" WHERE code=?");
+            }
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
@@ -141,31 +123,4 @@ public class CategorieProduitDao {
         return true;
     }
 
-    //valide = true
-    public int selectionnerCodeCategorieProduitSubsequent()
-            throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM categorieproduit");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
-    }
 }

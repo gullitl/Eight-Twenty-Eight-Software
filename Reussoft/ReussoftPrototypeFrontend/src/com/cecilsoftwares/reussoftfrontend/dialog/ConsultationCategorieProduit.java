@@ -77,8 +77,8 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
     private void listerCategorieProduits(List<CategorieProduit> categoriesProduits) {
         defaultTableModel.setRowCount(0);
         categoriesProduits.forEach(cp -> {
-            dataRows[0] = cp.getCode();
-            dataRows[1] = cp.getDescription();
+            dataRows[0] = cp.getDescription();
+            dataRows[1] = cp.getDescriptionAbregee();
             defaultTableModel.addRow(dataRows);
         });
 
@@ -119,11 +119,11 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Description"
+                "Description", "Description Abregée"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -150,8 +150,8 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblCategorieProduit);
         if (tblCategorieProduit.getColumnModel().getColumnCount() > 0) {
             tblCategorieProduit.getColumnModel().getColumn(0).setResizable(false);
+            tblCategorieProduit.getColumnModel().getColumn(0).setPreferredWidth(250);
             tblCategorieProduit.getColumnModel().getColumn(1).setResizable(false);
-            tblCategorieProduit.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
         lblNombreCategorieProduit.setText("Chargement...");
@@ -175,7 +175,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdRechercheDescriptionCategorieProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
