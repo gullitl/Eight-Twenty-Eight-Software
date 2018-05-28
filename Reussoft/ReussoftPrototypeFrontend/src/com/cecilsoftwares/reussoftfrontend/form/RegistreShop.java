@@ -17,7 +17,7 @@ public class RegistreShop extends JInternalFrame {
 
     public RegistreShop() {
         initComponents();
-        annulerEnregistrement();
+        effacerFormulaire();
     }
 
     @SuppressWarnings("unchecked")
@@ -223,7 +223,7 @@ public class RegistreShop extends JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
-        annulerEnregistrement();
+        effacerFormulaire();
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
@@ -243,7 +243,7 @@ public class RegistreShop extends JInternalFrame {
 
         try {
             if (ShopService.getInstance().enregistrerShop(shop)) {
-                annulerEnregistrement();
+                effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {
@@ -275,7 +275,7 @@ public class RegistreShop extends JInternalFrame {
         chbActiver.setSelected(shop.isActive());
     }
 
-    private void annulerEnregistrement() {
+    private void effacerFormulaire() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdNom.setText("");

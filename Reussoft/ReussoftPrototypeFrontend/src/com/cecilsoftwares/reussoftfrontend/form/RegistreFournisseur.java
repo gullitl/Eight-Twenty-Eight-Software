@@ -17,7 +17,7 @@ public class RegistreFournisseur extends JInternalFrame {
 
     public RegistreFournisseur() {
         initComponents();
-        annulerEnregistrement();
+        effacerFormulaire();
     }
 
     @SuppressWarnings("unchecked")
@@ -141,7 +141,7 @@ public class RegistreFournisseur extends JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
-        annulerEnregistrement();
+        effacerFormulaire();
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
@@ -154,7 +154,7 @@ public class RegistreFournisseur extends JInternalFrame {
 
         try {
             if (FournisseurService.getInstance().enregistrerFournisseur(fournisseur)) {
-                annulerEnregistrement();
+                effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {
@@ -177,7 +177,7 @@ public class RegistreFournisseur extends JInternalFrame {
         txaObservation.setText(fournisseur.getObservation());
     }
 
-    private void annulerEnregistrement() {
+    private void effacerFormulaire() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         txaObservation.setText("");

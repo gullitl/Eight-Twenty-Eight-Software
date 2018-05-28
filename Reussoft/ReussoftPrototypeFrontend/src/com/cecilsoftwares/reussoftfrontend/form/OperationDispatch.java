@@ -17,7 +17,7 @@ public class OperationDispatch extends JInternalFrame {
 
     public OperationDispatch() {
         initComponents();
-        annulerEnregistrement();
+        effacerFormulaire();
     }
 
     @SuppressWarnings("unchecked")
@@ -323,7 +323,7 @@ public class OperationDispatch extends JInternalFrame {
 
         try {
             if (EntreeStockService.getInstance().enregistrerEntreeStock(entreeStock)) {
-                annulerEnregistrement();
+                effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {
@@ -333,14 +333,14 @@ public class OperationDispatch extends JInternalFrame {
     }//GEN-LAST:event_btnDispatcherActionPerformed
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
-        annulerEnregistrement();
+        effacerFormulaire();
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void annulerEnregistrement() {
+    private void effacerFormulaire() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         lblDate.setText("");
