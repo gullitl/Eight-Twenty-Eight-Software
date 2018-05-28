@@ -23,7 +23,7 @@ public class RegistreProduit extends JInternalFrame {
 
     public RegistreProduit() {
         initComponents();
-        annulerEnregistrement();
+        effacerFormulaire();
     }
 
     @SuppressWarnings("unchecked")
@@ -223,7 +223,7 @@ public class RegistreProduit extends JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
-        annulerEnregistrement();
+        effacerFormulaire();
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
@@ -241,7 +241,7 @@ public class RegistreProduit extends JInternalFrame {
 
         try {
             if (ProduitService.getInstance().enregistrerProduit(produit)) {
-                annulerEnregistrement();
+                effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {
@@ -287,7 +287,7 @@ public class RegistreProduit extends JInternalFrame {
         lblDescriptionCategorieProduit.setText(categorieProduit.getDescription());
     }
 
-    private void annulerEnregistrement() {
+    private void effacerFormulaire() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdDescription.setText("");

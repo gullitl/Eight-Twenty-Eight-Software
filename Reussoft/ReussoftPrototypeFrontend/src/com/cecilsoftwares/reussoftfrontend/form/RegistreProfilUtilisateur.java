@@ -17,7 +17,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
     public RegistreProfilUtilisateur() {
         initComponents();
-        annulerEnregistrement();
+        effacerFormulaire();
     }
 
     @SuppressWarnings("unchecked")
@@ -131,7 +131,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
-        annulerEnregistrement();
+        effacerFormulaire();
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
@@ -143,7 +143,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
         try {
             if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {
-                annulerEnregistrement();
+                effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {
@@ -158,7 +158,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         consultationProfilUtilisateur.setVisible(true);
     }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
 
-    private void annulerEnregistrement() {
+    private void effacerFormulaire() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdDescription.setText("");

@@ -24,7 +24,7 @@ public class RegistreCollaborateur extends JInternalFrame {
 
     public RegistreCollaborateur() {
         initComponents();
-        annulerEnregistrement();
+        effacerFormulaire();
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -237,7 +237,7 @@ public class RegistreCollaborateur extends JInternalFrame {
     }
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
-        annulerEnregistrement();
+        effacerFormulaire();
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
@@ -256,7 +256,7 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         try {
             if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
-                annulerEnregistrement();
+                effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
             }
         } catch (ClassNotFoundException | SQLException ex) {
@@ -307,7 +307,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         consultationShop.setVisible(true);
     }//GEN-LAST:event_btnConsulterShopActionPerformed
 
-    private void annulerEnregistrement() {
+    private void effacerFormulaire() {
         tfdCode.setText("");
         tfdCode.requestFocus();
         tfdPrenom.setText("");

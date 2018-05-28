@@ -101,7 +101,7 @@ public class CategorieProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO categorieproduit(");
-            scriptSQL.append(" code, description, descriptionAbregee, observation");
+            scriptSQL.append(" code, description, descriptionAbregee, observation )");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));

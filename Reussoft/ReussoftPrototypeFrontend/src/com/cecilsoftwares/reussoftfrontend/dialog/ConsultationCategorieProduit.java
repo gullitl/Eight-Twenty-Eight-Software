@@ -5,6 +5,9 @@ import com.cecilsoftwares.reussoftfrontend.form.RegistreCategorieProduit;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
 import java.awt.Cursor;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +22,8 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultationCategorieProduit extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
-    private List<CategorieProduit> categorieProduits;
+    private CategorieProduit categorieProduit;
+    private List<CategorieProduit> categoriesProduits;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
@@ -30,26 +34,56 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
     public ConsultationCategorieProduit(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        enFermantDialog();
+
         defaultTableModel = (DefaultTableModel) tblCategorieProduit.getModel();
         dataRows = new Object[2];
 
-        try {
-            categorieProduits = CategorieProduitService.getInstance().listerTousLesCategorieProduits();
-            listerCategorieProduits(categorieProduits);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        chargementProduit();
     }
 
-    private void listerCategorieProduits(List<CategorieProduit> categorieProduits) {
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (getFrameAncetre() instanceof RegistreCategorieProduit) {
+                    RegistreCategorieProduit registreCategorieProduit = (RegistreCategorieProduit) getFrameAncetre();
+                    registreCategorieProduit.categorieProduitSelectionne(categorieProduit);
+                } else if (getFrameAncetre() instanceof RegistreProduit) {
+                    RegistreProduit registreProduit = (RegistreProduit) getFrameAncetre();
+                    registreProduit.categorieProduitSelectionne(categorieProduit);
+                }
+            }
+        });
+    }
+
+    private void chargementProduit() {
+        new Thread() {
+            @Override
+            public void run() {
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                try {
+                    categoriesProduits = CategorieProduitService.getInstance().listerTousLesCategorieProduits();
+                    listerCategorieProduits(categoriesProduits);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                setCursor(Cursor.getDefaultCursor());
+
+            }
+        }.start();
+    }
+
+    private void listerCategorieProduits(List<CategorieProduit> categoriesProduits) {
         defaultTableModel.setRowCount(0);
-        for (CategorieProduit categorieProduit : categorieProduits) {
-            dataRows[0] = categorieProduit.getCode();
-            dataRows[1] = categorieProduit.getDescription();
+        categoriesProduits.forEach(cp -> {
+            dataRows[0] = cp.getCode();
+            dataRows[1] = cp.getDescription();
             defaultTableModel.addRow(dataRows);
-        }
-        String formeNombre = categorieProduits.size() > 1 ? "CategorieProduits" : "CategorieProduit";
-        lblNombreCategorieProduit.setText(categorieProduits.size() + " " + formeNombre);
+        });
+
+        String formeNombre = categoriesProduits.size() > 1 ? "CategorieProduits" : "CategorieProduit";
+        lblNombreCategorieProduit.setText(categoriesProduits.size() + " " + formeNombre);
     }
 
     public JInternalFrame getFrameAncetre() {
@@ -108,6 +142,11 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
                 tblCategorieProduitMouseClicked(evt);
             }
         });
+        tblCategorieProduit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblCategorieProduitKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblCategorieProduit);
         if (tblCategorieProduit.getColumnModel().getColumnCount() > 0) {
             tblCategorieProduit.getColumnModel().getColumn(0).setResizable(false);
@@ -115,7 +154,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
             tblCategorieProduit.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
-        lblNombreCategorieProduit.setText("jLabel1");
+        lblNombreCategorieProduit.setText("Chargement...");
 
         jLabel1.setText("Description:");
 
@@ -153,40 +192,39 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
 
     private void tblCategorieProduitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategorieProduitMouseClicked
         if (evt.getClickCount() == 2) {
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            if (getFrameAncetre() != null) {
-                try {
-                    int row = tblCategorieProduit.getSelectedRow();
-                    CategorieProduit categorieProduit = CategorieProduitService.getInstance()
-                            .selectionnerCategorieProduitParCode((int) defaultTableModel.getValueAt(row, 0));
-                    if (getFrameAncetre() instanceof RegistreCategorieProduit) {
-                        RegistreCategorieProduit registreCategorieProduit = (RegistreCategorieProduit) getFrameAncetre();
-                        registreCategorieProduit.categorieProduitSelectionne(categorieProduit);
-                    } else if (getFrameAncetre() instanceof RegistreProduit) {
-                        RegistreProduit registreProduit = (RegistreProduit) getFrameAncetre();
-                        registreProduit.categorieProduitSelectionne(categorieProduit);
-                    }
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            selectionnerCategorieProduit();
             dispose();
-            this.setCursor(Cursor.getDefaultCursor());
         }
 
     }//GEN-LAST:event_tblCategorieProduitMouseClicked
 
+    private void selectionnerCategorieProduit() {
+        if (getFrameAncetre() != null) {
+            int row = tblCategorieProduit.getSelectedRow();
+
+            categorieProduit = categoriesProduits.stream()
+                    .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                    .findFirst().orElse(null);
+        }
+    }
+
     private void tfdRechercheDescriptionCategorieProduitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDescriptionCategorieProduitKeyReleased
         List<CategorieProduit> listeCategorieProduits = new ArrayList();
-        for (CategorieProduit categorieProduit : categorieProduits) {
-            if (categorieProduit.getDescription().toUpperCase()
-                    .startsWith(tfdRechercheDescriptionCategorieProduit.getText().toUpperCase())) {
-                listeCategorieProduits.add(categorieProduit);
-            }
-        }
+
+        categoriesProduits.stream().filter((cp) -> (cp.getDescription().toUpperCase()
+                .startsWith(tfdRechercheDescriptionCategorieProduit.getText().toUpperCase())))
+                .forEachOrdered((cp) -> {
+                    listeCategorieProduits.add(cp);
+                });
 
         listerCategorieProduits(listeCategorieProduits);
     }//GEN-LAST:event_tfdRechercheDescriptionCategorieProduitKeyReleased
+
+    private void tblCategorieProduitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblCategorieProduitKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            selectionnerCategorieProduit();
+        }
+    }//GEN-LAST:event_tblCategorieProduitKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
