@@ -123,4 +123,8 @@ public class CategorieProduitDao {
         return true;
     }
 
+    public boolean exclureCategorieProduit(int codeCategorieProduit) {
+        return false;
+    }
+
 }

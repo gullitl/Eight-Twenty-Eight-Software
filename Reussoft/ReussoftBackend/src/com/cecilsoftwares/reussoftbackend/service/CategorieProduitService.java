@@ -34,4 +34,8 @@ public class CategorieProduitService {
         return CategorieProduitDao.getInstance().enregistrerCategorieProduit(categorieProduit);
     }
 
+    public boolean exclureCategorieProduit(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().exclureCategorieProduit(codeCategorieProduit);
+    }
+
 }

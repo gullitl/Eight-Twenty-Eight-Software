@@ -4,7 +4,6 @@ import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCategorieProduit;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -37,7 +36,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         enFermantDialog();
 
         defaultTableModel = (DefaultTableModel) tblCategorieProduit.getModel();
-        dataRows = new Object[2];
+        dataRows = new Object[3];
 
         chargementProduit();
     }
@@ -58,27 +57,20 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
     }
 
     private void chargementProduit() {
-        new Thread() {
-            @Override
-            public void run() {
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                try {
-                    categoriesProduits = CategorieProduitService.getInstance().listerTousLesCategorieProduits();
-                    listerCategorieProduits(categoriesProduits);
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                setCursor(Cursor.getDefaultCursor());
-
-            }
-        }.start();
+        try {
+            categoriesProduits = CategorieProduitService.getInstance().listerTousLesCategorieProduits();
+            listerCategorieProduits(categoriesProduits);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void listerCategorieProduits(List<CategorieProduit> categoriesProduits) {
         defaultTableModel.setRowCount(0);
         categoriesProduits.forEach(cp -> {
-            dataRows[0] = cp.getDescription();
-            dataRows[1] = cp.getDescriptionAbregee();
+            dataRows[0] = cp.getCode();
+            dataRows[1] = cp.getDescription();
+            dataRows[2] = cp.getDescriptionAbregee();
             defaultTableModel.addRow(dataRows);
         });
 
@@ -119,14 +111,14 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Description", "Description Abregée"
+                "code", "Description", "Description Abregée"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -150,8 +142,10 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblCategorieProduit);
         if (tblCategorieProduit.getColumnModel().getColumnCount() > 0) {
             tblCategorieProduit.getColumnModel().getColumn(0).setResizable(false);
-            tblCategorieProduit.getColumnModel().getColumn(0).setPreferredWidth(250);
             tblCategorieProduit.getColumnModel().getColumn(1).setResizable(false);
+            tblCategorieProduit.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblCategorieProduit.getColumnModel().getColumn(2).setResizable(false);
+            tblCategorieProduit.getColumnModel().getColumn(2).setPreferredWidth(150);
         }
 
         lblNombreCategorieProduit.setText("Chargement...");
@@ -164,13 +158,12 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1)
                     .addComponent(lblNombreCategorieProduit)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(tfdRechercheDescriptionCategorieProduit)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                    .addComponent(tfdRechercheDescriptionCategorieProduit, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
