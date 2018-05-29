@@ -47,4 +47,9 @@ public class ReseauService {
     public int selectionnerCodeReseauSubsequent() throws ClassNotFoundException, SQLException {
         return ReseauDao.getInstance().selectionnerCodeReseauSubsequent();
     }
+
+    public boolean exclureReseau(int codeReseau) throws ClassNotFoundException, SQLException {
+        return ReseauDao.getInstance().exclureReseau(codeReseau);
+    }
+
 }

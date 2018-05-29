@@ -35,7 +35,7 @@
                       <Group type="102" attributes="0">
                           <Component id="btnEnregistrer" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" pref="99" max="-2" attributes="0"/>
+                          <Component id="btnExclure" min="-2" pref="99" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnAnnuler" min="-2" pref="90" max="-2" attributes="0"/>
                       </Group>
@@ -73,7 +73,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnAnnuler" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="btnEnregistrer" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="btnExclure" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="41" max="32767" attributes="0"/>
           </Group>
@@ -138,15 +138,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsulterCategorieProduitActionPerformed"/>
-        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="btnConsulterCategorieProduitKeyReleased"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnExclure">
       <Properties>
         <Property name="text" type="java.lang.String" value="EXCLURE"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExclureActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftbackend.service.ReseauService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationReseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
+import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,13 @@ import javax.swing.JOptionPane;
  */
 public class RegistreReseau extends JInternalFrame {
 
+    private int codeReseau;
+    private boolean modeEdition;
+    private boolean btnConsulterReseauClickable;
+    private boolean btnEnregistrerClickable;
+    private boolean btnExclureClickable;
+    private boolean btnAnnulerClickable;
+
     public RegistreReseau() {
         initComponents();
         effacerFormulaire();
@@ -24,11 +32,9 @@ public class RegistreReseau extends JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        tfdCode = new javax.swing.JTextField();
         btnConsulterReseau = new javax.swing.JButton();
         tfdNom = new javax.swing.JTextField();
         tfdNomAbrege = new javax.swing.JTextField();
@@ -37,12 +43,11 @@ public class RegistreReseau extends JInternalFrame {
         chbActiver = new javax.swing.JCheckBox();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
+        btnExclure = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registre de Reseau");
-
-        jLabel1.setText("Code:");
 
         jLabel2.setText("Nom:");
 
@@ -77,45 +82,48 @@ public class RegistreReseau extends JInternalFrame {
             }
         });
 
+        btnExclure.setText("EXLURE");
+        btnExclure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExclureActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(chbActiver)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(chbActiver)
                         .addComponent(jLabel4)
                         .addComponent(jLabel3)
                         .addComponent(jLabel2)
-                        .addComponent(jLabel1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnConsulterReseau))
-                        .addComponent(tfdNom)
                         .addComponent(tfdNomAbrege, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnEnregistrer)
+                        .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnConsulterReseau))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterReseau))
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterReseau))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -126,11 +134,12 @@ public class RegistreReseau extends JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(chbActiver)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22))
+                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -141,7 +150,10 @@ public class RegistreReseau extends JInternalFrame {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-        Reseau reseau = new ReseauBuilder(Integer.parseInt(tfdCode.getText()))
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        Reseau reseau = new ReseauBuilder(codeReseau)
                 .nom(tfdNom.getText())
                 .nomAbrege(tfdNomAbrege.getText())
                 .observation(txaObservation.getText())
@@ -150,23 +162,73 @@ public class RegistreReseau extends JInternalFrame {
 
         try {
             if (ReseauService.getInstance().enregistrerReseau(reseau)) {
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                 effacerFormulaire();
-                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+                JOptionPane.showMessageDialog(null, notification);
             }
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Reseau");
             Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        setCursor(Cursor.getDefaultCursor());
+
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterReseauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterReseauActionPerformed
+        if (!btnConsulterReseauClickable) {
+            return;
+        }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        consulterShop();
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_btnConsulterReseauActionPerformed
+
+    private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
+        Object[] options = {"Exlure", "Annuler"};
+        int n = JOptionPane.showOptionDialog(this,
+                "Would you like green eggs and ham?",
+                "A Silly Question",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, //do not use a custom Icon
+                options, //the titles of buttons
+                options[0]); //default button title
+
+        if (n == 1) {
+            try {
+                ReseauService.getInstance().exclureReseau(codeReseau);
+                String notification = "Exclusion effectuée avec succès";
+                effacerFormulaire();
+                JOptionPane.showMessageDialog(null, notification);
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion du Reseau");
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnExclureActionPerformed
+
+    private void habiliterComposantFormulaire(boolean hcf) {
+        tfdNom.setEditable(hcf);
+        tfdNomAbrege.setEditable(hcf);
+        txaObservation.setEditable(hcf);
+        btnConsulterReseauClickable = hcf;
+        btnEnregistrerClickable = hcf;
+        btnAnnulerClickable = hcf;
+    }
+
+    private void consulterShop() {
         ConsultationReseau consultationReseau = new ConsultationReseau(null, true);
         consultationReseau.setFrameAncetre(this);
         consultationReseau.setVisible(true);
-    }//GEN-LAST:event_btnConsulterReseauActionPerformed
+    }
 
     public void reseauSelectionne(Reseau reseau) {
-        tfdCode.setText(String.valueOf(reseau.getCode()));
+        codeReseau = reseau.getCode();
         tfdNom.setText(reseau.getNom());
         tfdNomAbrege.setText(reseau.getNomAbrege());
         txaObservation.setText(reseau.getObservation());
@@ -175,8 +237,7 @@ public class RegistreReseau extends JInternalFrame {
     }
 
     private void effacerFormulaire() {
-        tfdCode.setText("");
-        tfdCode.requestFocus();
+        codeReseau = 0;
         tfdNom.setText("");
         tfdNomAbrege.setText("");
         txaObservation.setText("");
@@ -188,13 +249,12 @@ public class RegistreReseau extends JInternalFrame {
     private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterReseau;
     private javax.swing.JButton btnEnregistrer;
+    private javax.swing.JButton btnExclure;
     private javax.swing.JCheckBox chbActiver;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField tfdCode;
     private javax.swing.JTextField tfdNom;
     private javax.swing.JTextField tfdNomAbrege;
     private javax.swing.JTextArea txaObservation;

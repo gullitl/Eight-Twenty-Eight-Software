@@ -171,4 +171,22 @@ public class ShopDao {
         }
         return 0;
     }
+
+    public boolean exclureShop(int codeShop) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM shop WHERE code=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setInt(1, codeShop);
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+
+        return true;
+    }
+
 }

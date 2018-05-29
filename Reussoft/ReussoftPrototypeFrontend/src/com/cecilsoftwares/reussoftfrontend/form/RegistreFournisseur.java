@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationFournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur.FournisseurBuilder;
+import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,13 @@ import javax.swing.JOptionPane;
  */
 public class RegistreFournisseur extends JInternalFrame {
 
+    private int codeFournisseur;
+    private boolean modeEdition;
+    private boolean btnConsulterFournisseurClickable;
+    private boolean btnEnregistrerClickable;
+    private boolean btnExclureClickable;
+    private boolean btnAnnulerClickable;
+
     public RegistreFournisseur() {
         initComponents();
         effacerFormulaire();
@@ -24,12 +32,10 @@ public class RegistreFournisseur extends JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        tfdCode = new javax.swing.JTextField();
         btnConsulterFournisseur = new javax.swing.JButton();
         tfdEntreprise = new javax.swing.JTextField();
         tfdResponsable = new javax.swing.JTextField();
@@ -38,12 +44,11 @@ public class RegistreFournisseur extends JInternalFrame {
         txaObservation = new javax.swing.JTextArea();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registre de Fournisseur");
-
-        jLabel1.setText("Code:");
 
         jLabel2.setText("Entreprise:");
 
@@ -78,46 +83,45 @@ public class RegistreFournisseur extends JInternalFrame {
             }
         });
 
+        jButton1.setText("EXCLURE");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEnregistrer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel5)
                         .addComponent(jLabel4)
                         .addComponent(jLabel3)
                         .addComponent(jLabel2)
-                        .addComponent(jLabel1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnConsulterFournisseur))
-                        .addComponent(tfdEntreprise)
                         .addComponent(tfdResponsable)
                         .addComponent(tfdTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(tfdEntreprise, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnConsulterFournisseur)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterFournisseur))
-                .addGap(18, 18, 18)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdEntreprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfdEntreprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterFournisseur))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -130,10 +134,11 @@ public class RegistreFournisseur extends JInternalFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
@@ -145,7 +150,10 @@ public class RegistreFournisseur extends JInternalFrame {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-        Fournisseur fournisseur = new FournisseurBuilder(Integer.parseInt(tfdCode.getText()))
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        Fournisseur fournisseur = new FournisseurBuilder(codeFournisseur)
                 .entreprise(tfdEntreprise.getText())
                 .responsable(tfdResponsable.getText())
                 .telephone(tfdTelephone.getText())
@@ -154,14 +162,28 @@ public class RegistreFournisseur extends JInternalFrame {
 
         try {
             if (FournisseurService.getInstance().enregistrerFournisseur(fournisseur)) {
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                 effacerFormulaire();
-                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+                JOptionPane.showMessageDialog(null, notification);
             }
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Fournisseur");
             Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        setCursor(Cursor.getDefaultCursor());
+
     }//GEN-LAST:event_btnEnregistrerActionPerformed
+
+    private void habiliterComposantFormulaire(boolean hcf) {
+        tfdEntreprise.setEditable(hcf);
+        tfdResponsable.setEditable(hcf);
+        tfdTelephone.setEditable(hcf);
+        txaObservation.setEditable(hcf);
+        btnConsulterFournisseurClickable = hcf;
+        btnEnregistrerClickable = hcf;
+        btnAnnulerClickable = hcf;
+    }
 
     private void btnConsulterFournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterFournisseurActionPerformed
         ConsultationFournisseur consultationFournisseur = new ConsultationFournisseur(null, true);
@@ -170,7 +192,7 @@ public class RegistreFournisseur extends JInternalFrame {
     }//GEN-LAST:event_btnConsulterFournisseurActionPerformed
 
     public void fournisseurSelectionne(Fournisseur fournisseur) {
-        tfdCode.setText(String.valueOf(fournisseur.getCode()));
+        codeFournisseur = fournisseur.getCode();
         tfdResponsable.setText(fournisseur.getResponsable());
         tfdTelephone.setText(fournisseur.getTelephone());
         tfdEntreprise.setText(fournisseur.getEntreprise());
@@ -178,8 +200,7 @@ public class RegistreFournisseur extends JInternalFrame {
     }
 
     private void effacerFormulaire() {
-        tfdCode.setText("");
-        tfdCode.requestFocus();
+        codeFournisseur = 0;
         txaObservation.setText("");
         tfdResponsable.setText("");
         tfdTelephone.setText("");
@@ -190,13 +211,12 @@ public class RegistreFournisseur extends JInternalFrame {
     private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterFournisseur;
     private javax.swing.JButton btnEnregistrer;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField tfdCode;
     private javax.swing.JTextField tfdEntreprise;
     private javax.swing.JTextField tfdResponsable;
     private javax.swing.JTextField tfdTelephone;

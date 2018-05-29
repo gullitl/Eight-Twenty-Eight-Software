@@ -4,6 +4,8 @@ import com.cecilsoftwares.reussoftbackend.service.ReseauService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreReseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultationReseau extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
+    private Reseau reseau;
     private List<Reseau> reseaux;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
@@ -29,9 +32,31 @@ public class ConsultationReseau extends javax.swing.JDialog {
     public ConsultationReseau(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        enFermantDialog();
+
         defaultTableModel = (DefaultTableModel) tblReseau.getModel();
         dataRows = new Object[2];
 
+        chargementReseaux();
+
+    }
+
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (frameAncetre instanceof RegistreReseau) {
+                    RegistreReseau registreCategorieProduit = (RegistreReseau) frameAncetre;
+                    registreCategorieProduit.reseauSelectionne(reseau);
+                } else if (frameAncetre instanceof RegistreProduit) {
+                    RegistreProduit registreProduit = (RegistreProduit) frameAncetre;
+                    registreProduit.reseauSelectionne(reseau);
+                }
+            }
+        });
+    }
+
+    private void chargementReseaux() {
         try {
             reseaux = ReseauService.getInstance().listerTousLesReseaus();
             listerReseaux(reseaux);
@@ -49,14 +74,6 @@ public class ConsultationReseau extends javax.swing.JDialog {
         }
         String formeNombre = reseaus.size() > 1 ? "Reseaus" : "Reseau";
         lblNombreReseau.setText(reseaus.size() + " " + formeNombre);
-    }
-
-    public JInternalFrame getFrameAncetre() {
-        return frameAncetre;
-    }
-
-    public void setFrameAncetre(JInternalFrame frameAncetre) {
-        this.frameAncetre = frameAncetre;
     }
 
     @SuppressWarnings("unchecked")
@@ -154,38 +171,42 @@ public class ConsultationReseau extends javax.swing.JDialog {
 
     private void tblReseauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReseauMouseClicked
         if (evt.getClickCount() == 2) {
-            if (getFrameAncetre() != null) {
-                try {
-                    int row = tblReseau.getSelectedRow();
-                    Reseau reseau = ReseauService.getInstance()
-                            .selectionnerReseauParCode((int) defaultTableModel.getValueAt(row, 0));
-                    if (getFrameAncetre() instanceof RegistreReseau) {
-                        RegistreReseau registreReseau = (RegistreReseau) getFrameAncetre();
-                        registreReseau.reseauSelectionne(reseau);
-                    } else if (getFrameAncetre() instanceof RegistreProduit) {
-                        RegistreProduit registreProduit = (RegistreProduit) getFrameAncetre();
-                        registreProduit.reseauSelectionne(reseau);
-                    }
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationReseau.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            selectionnerReseau();
             dispose();
         }
 
     }//GEN-LAST:event_tblReseauMouseClicked
 
-    private void tfdRechercheNomReseauKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomReseauKeyReleased
-        List<Reseau> listeReseaus = new ArrayList();
-        for (Reseau reseau : reseaux) {
-            if (reseau.getNom().toUpperCase()
-                    .startsWith(tfdRechercheNomReseau.getText().toUpperCase())) {
-                listeReseaus.add(reseau);
-            }
-        }
+    private void selectionnerReseau() {
+        if (frameAncetre != null) {
+            int row = tblReseau.getSelectedRow();
 
-        listerReseaux(listeReseaus);
+            reseau = reseaux.stream()
+                    .filter(r -> r.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                    .findFirst().orElse(null);
+
+        }
+    }
+
+    private void tfdRechercheNomReseauKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomReseauKeyReleased
+        List<Reseau> listeReseaux = new ArrayList();
+
+        reseaux.stream().filter((r) -> (r.getNom().toUpperCase()
+                .startsWith(tfdRechercheNomReseau.getText().toUpperCase())))
+                .forEachOrdered((cp) -> {
+                    listeReseaux.add(cp);
+                });
+
+        listerReseaux(listeReseaux);
     }//GEN-LAST:event_tfdRechercheNomReseauKeyReleased
+
+    public JInternalFrame getFrameAncetre() {
+        return frameAncetre;
+    }
+
+    public void setFrameAncetre(JInternalFrame frameAncetre) {
+        this.frameAncetre = frameAncetre;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

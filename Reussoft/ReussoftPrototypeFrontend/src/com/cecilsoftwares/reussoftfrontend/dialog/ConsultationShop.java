@@ -4,6 +4,8 @@ import com.cecilsoftwares.reussoftbackend.service.ShopService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreShop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultationShop extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
+    private Shop shop;
     private List<Shop> shops;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
@@ -29,9 +32,31 @@ public class ConsultationShop extends javax.swing.JDialog {
     public ConsultationShop(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        enFermantDialog();
+
         defaultTableModel = (DefaultTableModel) tblShop.getModel();
         dataRows = new Object[2];
 
+        chargementShops();
+
+    }
+
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (frameAncetre instanceof RegistreShop) {
+                    RegistreShop registreShop = (RegistreShop) frameAncetre;
+                    registreShop.shopSelectionne(shop);
+                } else if (frameAncetre instanceof RegistreCollaborateur) {
+                    RegistreCollaborateur registreCollaborateur = (RegistreCollaborateur) getFrameAncetre();
+                    registreCollaborateur.shopSelectionne(shop);
+                }
+            }
+        });
+    }
+
+    private void chargementShops() {
         try {
             shops = ShopService.getInstance().listerTousLesShops();
             listerShops(shops);
@@ -49,14 +74,6 @@ public class ConsultationShop extends javax.swing.JDialog {
         }
         String formeNombre = shops.size() > 1 ? "Shops" : "Shop";
         lblNombreShop.setText(shops.size() + " " + formeNombre);
-    }
-
-    public JInternalFrame getFrameAncetre() {
-        return frameAncetre;
-    }
-
-    public void setFrameAncetre(JInternalFrame frameAncetre) {
-        this.frameAncetre = frameAncetre;
     }
 
     @SuppressWarnings("unchecked")
@@ -154,38 +171,41 @@ public class ConsultationShop extends javax.swing.JDialog {
 
     private void tblShopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblShopMouseClicked
         if (evt.getClickCount() == 2) {
-            if (getFrameAncetre() != null) {
-                try {
-                    int row = tblShop.getSelectedRow();
-                    Shop shop = ShopService.getInstance()
-                            .selectionnerShopParCode((int) defaultTableModel.getValueAt(row, 0));
-                    if (getFrameAncetre() instanceof RegistreShop) {
-                        RegistreShop registreShop = (RegistreShop) getFrameAncetre();
-                        registreShop.shopSelectionne(shop);
-                    } else if (getFrameAncetre() instanceof RegistreCollaborateur) {
-                        RegistreCollaborateur registreCollaborateur = (RegistreCollaborateur) getFrameAncetre();
-                        registreCollaborateur.shopSelectionne(shop);
-                    }
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationShop.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            selectionnerShop();
             dispose();
         }
 
     }//GEN-LAST:event_tblShopMouseClicked
 
+    private void selectionnerShop() {
+        if (frameAncetre != null) {
+            int row = tblShop.getSelectedRow();
+
+            shop = shops.stream()
+                    .filter(s -> s.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                    .findFirst().orElse(null);
+        }
+    }
+
     private void tfdRechercheNomShopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomShopKeyReleased
         List<Shop> listeShops = new ArrayList();
-        for (Shop shop : shops) {
-            if (shop.getNom().toUpperCase()
-                    .startsWith(tfdRechercheNomShop.getText().toUpperCase())) {
-                listeShops.add(shop);
-            }
-        }
+
+        shops.stream().filter((s) -> (s.getNom().toUpperCase()
+                .startsWith(tfdRechercheNomShop.getText().toUpperCase())))
+                .forEachOrdered((s) -> {
+                    listeShops.add(s);
+                });
 
         listerShops(listeShops);
     }//GEN-LAST:event_tfdRechercheNomShopKeyReleased
+
+    public JInternalFrame getFrameAncetre() {
+        return frameAncetre;
+    }
+
+    public void setFrameAncetre(JInternalFrame frameAncetre) {
+        this.frameAncetre = frameAncetre;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

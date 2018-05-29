@@ -4,7 +4,6 @@ import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCategorieProduit;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -38,25 +37,25 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         defaultTableModel = (DefaultTableModel) tblCategorieProduit.getModel();
         dataRows = new Object[3];
 
-        chargementProduit();
+        chargementProduits();
     }
 
     private void enFermantDialog() {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                if (getFrameAncetre() instanceof RegistreCategorieProduit) {
-                    RegistreCategorieProduit registreCategorieProduit = (RegistreCategorieProduit) getFrameAncetre();
+                if (frameAncetre instanceof RegistreCategorieProduit) {
+                    RegistreCategorieProduit registreCategorieProduit = (RegistreCategorieProduit) frameAncetre;
                     registreCategorieProduit.categorieProduitSelectionne(categorieProduit);
-                } else if (getFrameAncetre() instanceof RegistreProduit) {
-                    RegistreProduit registreProduit = (RegistreProduit) getFrameAncetre();
+                } else if (frameAncetre instanceof RegistreProduit) {
+                    RegistreProduit registreProduit = (RegistreProduit) frameAncetre;
                     registreProduit.categorieProduitSelectionne(categorieProduit);
                 }
             }
         });
     }
 
-    private void chargementProduit() {
+    private void chargementProduits() {
         try {
             categoriesProduits = CategorieProduitService.getInstance().listerTousLesCategorieProduits();
             listerCategorieProduits(categoriesProduits);
@@ -76,14 +75,6 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
 
         String formeNombre = categoriesProduits.size() > 1 ? "CategorieProduits" : "CategorieProduit";
         lblNombreCategorieProduit.setText(categoriesProduits.size() + " " + formeNombre);
-    }
-
-    public JInternalFrame getFrameAncetre() {
-        return frameAncetre;
-    }
-
-    public void setFrameAncetre(JInternalFrame frameAncetre) {
-        this.frameAncetre = frameAncetre;
     }
 
     @SuppressWarnings("unchecked")
@@ -132,11 +123,6 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         tblCategorieProduit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblCategorieProduitMouseClicked(evt);
-            }
-        });
-        tblCategorieProduit.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblCategorieProduitKeyReleased(evt);
             }
         });
         jScrollPane2.setViewportView(tblCategorieProduit);
@@ -192,7 +178,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
     }//GEN-LAST:event_tblCategorieProduitMouseClicked
 
     private void selectionnerCategorieProduit() {
-        if (getFrameAncetre() != null) {
+        if (frameAncetre != null) {
             int row = tblCategorieProduit.getSelectedRow();
 
             categorieProduit = categoriesProduits.stream()
@@ -213,11 +199,13 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         listerCategorieProduits(listeCategorieProduits);
     }//GEN-LAST:event_tfdRechercheDescriptionCategorieProduitKeyReleased
 
-    private void tblCategorieProduitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblCategorieProduitKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            selectionnerCategorieProduit();
-        }
-    }//GEN-LAST:event_tblCategorieProduitKeyReleased
+    public JInternalFrame getFrameAncetre() {
+        return frameAncetre;
+    }
+
+    public void setFrameAncetre(JInternalFrame frameAncetre) {
+        this.frameAncetre = frameAncetre;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

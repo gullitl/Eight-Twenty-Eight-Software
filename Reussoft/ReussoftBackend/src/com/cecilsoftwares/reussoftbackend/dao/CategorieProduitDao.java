@@ -123,8 +123,21 @@ public class CategorieProduitDao {
         return true;
     }
 
-    public boolean exclureCategorieProduit(int codeCategorieProduit) {
-        return false;
+    public boolean exclureCategorieProduit(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM categorieproduit WHERE code=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setInt(1, codeCategorieProduit);
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+
+        return true;
     }
 
 }

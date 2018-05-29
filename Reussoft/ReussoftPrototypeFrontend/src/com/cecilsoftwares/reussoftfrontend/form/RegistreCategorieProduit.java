@@ -5,7 +5,6 @@ import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit.CategorieProduitBuilder;
 import java.awt.Cursor;
-import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +20,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
     private boolean modeEdition;
     private boolean btnConsulterCategorieProduitClickable;
     private boolean btnEnregistrerClickable;
+    private boolean btnExclureClickable;
     private boolean btnAnnulerClickable;
 
     public RegistreCategorieProduit() {
@@ -42,7 +42,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnConsulterCategorieProduit = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnExclure = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -79,16 +79,11 @@ public class RegistreCategorieProduit extends JInternalFrame {
                 btnConsulterCategorieProduitActionPerformed(evt);
             }
         });
-        btnConsulterCategorieProduit.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                btnConsulterCategorieProduitKeyReleased(evt);
-            }
-        });
 
-        jButton1.setText("EXCLURE");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnExclure.setText("EXCLURE");
+        btnExclure.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnExclureActionPerformed(evt);
             }
         });
 
@@ -107,7 +102,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(btnEnregistrer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +133,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -153,7 +148,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
-        CategorieProduit categorieProduit = new CategorieProduitBuilder(getCodeCategorieProduit())
+        CategorieProduit categorieProduit = new CategorieProduitBuilder(codeCategorieProduit)
                 .description(tfdDescription.getText())
                 .descriptionAbregee(tfdDescriptionAbregee.getText())
                 .observation(txaObservation.getText())
@@ -161,7 +156,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
 
         try {
             if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
-                String notification = isModeEdition() ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, notification);
             }
@@ -174,7 +169,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterCategorieProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCategorieProduitActionPerformed
-        if (!isBtnConsulterCategorieProduitClickable()) {
+        if (!btnConsulterCategorieProduitClickable) {
             return;
         }
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -187,16 +182,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
 
     }//GEN-LAST:event_btnConsulterCategorieProduitActionPerformed
 
-    private void btnConsulterCategorieProduitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnConsulterCategorieProduitKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (!isBtnConsulterCategorieProduitClickable()) {
-                return;
-            }
-            consulterCategorieProduit();
-        }
-    }//GEN-LAST:event_btnConsulterCategorieProduitKeyReleased
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exlure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
                 "Would you like green eggs and ham?",
@@ -209,7 +195,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
 
         if (n == 1) {
             try {
-                CategorieProduitService.getInstance().exclureCategorieProduit(getCodeCategorieProduit());
+                CategorieProduitService.getInstance().exclureCategorieProduit(codeCategorieProduit);
                 String notification = "Exclusion effectuée avec succès";
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, notification);
@@ -218,7 +204,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnExclureActionPerformed
 
     private void consulterCategorieProduit() {
         ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true);
@@ -231,8 +217,8 @@ public class RegistreCategorieProduit extends JInternalFrame {
             return;
         }
 
-        setModeEdition(true);
-        setCodeCategorieProduit(categorieProduit.getCode());
+        modeEdition = true;
+        codeCategorieProduit = categorieProduit.getCode();
         tfdDescription.setText(categorieProduit.getDescription());
         tfdDescriptionAbregee.setText(categorieProduit.getDescriptionAbregee());
         txaObservation.setText(categorieProduit.getObservation());
@@ -240,12 +226,12 @@ public class RegistreCategorieProduit extends JInternalFrame {
     }
 
     private void effacerFormulaire() {
-        setCodeCategorieProduit(0);
+        codeCategorieProduit = 0;
         tfdDescription.setText("");
         tfdDescriptionAbregee.setText("");
         txaObservation.setText("");
         btnEnregistrer.setText("ENREGISTRER");
-        setModeEdition(false);
+        modeEdition = false;
         habiliterComposantFormulaire(true);
     }
 
@@ -253,56 +239,16 @@ public class RegistreCategorieProduit extends JInternalFrame {
         tfdDescription.setEditable(hcf);
         tfdDescriptionAbregee.setEditable(hcf);
         txaObservation.setEditable(hcf);
-        setBtnConsulterCategorieProduitClickable(hcf);
-        setBtnEnregistrerClickable(hcf);
-        setBtnAnnulerClickable(hcf);
-    }
-
-    public boolean isModeEdition() {
-        return modeEdition;
-    }
-
-    public void setModeEdition(boolean modeEdition) {
-        this.modeEdition = modeEdition;
-    }
-
-    public boolean isBtnConsulterCategorieProduitClickable() {
-        return btnConsulterCategorieProduitClickable;
-    }
-
-    public void setBtnConsulterCategorieProduitClickable(boolean btnConsulterCategorieProduitClickable) {
-        this.btnConsulterCategorieProduitClickable = btnConsulterCategorieProduitClickable;
-    }
-
-    public boolean isBtnEnregistrerClickable() {
-        return btnEnregistrerClickable;
-    }
-
-    public void setBtnEnregistrerClickable(boolean btnEnregistrerClickable) {
-        this.btnEnregistrerClickable = btnEnregistrerClickable;
-    }
-
-    public boolean isBtnAnnulerClickable() {
-        return btnAnnulerClickable;
-    }
-
-    public void setBtnAnnulerClickable(boolean btnAnnulerClickable) {
-        this.btnAnnulerClickable = btnAnnulerClickable;
-    }
-
-    public int getCodeCategorieProduit() {
-        return codeCategorieProduit;
-    }
-
-    public void setCodeCategorieProduit(int codeCategorieProduit) {
-        this.codeCategorieProduit = codeCategorieProduit;
+        btnConsulterCategorieProduitClickable = hcf;
+        btnEnregistrerClickable = hcf;
+        btnAnnulerClickable = hcf;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterCategorieProduit;
     private javax.swing.JButton btnEnregistrer;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnExclure;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

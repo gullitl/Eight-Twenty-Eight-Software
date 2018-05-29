@@ -42,4 +42,8 @@ public class ShopService {
         return ShopDao.getInstance().selectionnerCodeShopSubsequent();
     }
 
+    public boolean exclureShop(int codeShop) throws ClassNotFoundException, SQLException {
+        return ShopDao.getInstance().exclureShop(codeShop);
+    }
+
 }
