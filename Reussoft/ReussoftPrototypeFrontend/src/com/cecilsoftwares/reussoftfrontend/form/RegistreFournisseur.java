@@ -44,7 +44,7 @@ public class RegistreFournisseur extends JInternalFrame {
         txaObservation = new javax.swing.JTextArea();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnExclure = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -83,7 +83,12 @@ public class RegistreFournisseur extends JInternalFrame {
             }
         });
 
-        jButton1.setText("EXCLURE");
+        btnExclure.setText("EXCLURE");
+        btnExclure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExclureActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,10 +110,9 @@ public class RegistreFournisseur extends JInternalFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnConsulterFournisseur)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
                         .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(46, Short.MAX_VALUE))
@@ -138,7 +142,7 @@ public class RegistreFournisseur extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
@@ -191,6 +195,10 @@ public class RegistreFournisseur extends JInternalFrame {
         consultationFournisseur.setVisible(true);
     }//GEN-LAST:event_btnConsulterFournisseurActionPerformed
 
+    private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExclureActionPerformed
+
     public void fournisseurSelectionne(Fournisseur fournisseur) {
         codeFournisseur = fournisseur.getCode();
         tfdResponsable.setText(fournisseur.getResponsable());
@@ -211,7 +219,7 @@ public class RegistreFournisseur extends JInternalFrame {
     private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterFournisseur;
     private javax.swing.JButton btnEnregistrer;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnExclure;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
