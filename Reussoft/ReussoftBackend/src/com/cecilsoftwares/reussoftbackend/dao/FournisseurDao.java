@@ -172,4 +172,22 @@ public class FournisseurDao {
         }
         return 0;
     }
+
+    public boolean exclureFournisseur(int codeFournisseur) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM fournisseur WHERE code=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setInt(1, codeFournisseur);
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+
+        return true;
+    }
+
 }

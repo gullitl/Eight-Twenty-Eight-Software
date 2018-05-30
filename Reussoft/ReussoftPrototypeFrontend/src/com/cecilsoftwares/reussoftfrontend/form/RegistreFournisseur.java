@@ -190,13 +190,47 @@ public class RegistreFournisseur extends JInternalFrame {
     }
 
     private void btnConsulterFournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterFournisseurActionPerformed
+
+        if (!btnConsulterFournisseurClickable) {
+            return;
+        }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        consulterFournisseur();
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_btnConsulterFournisseurActionPerformed
+
+    private void consulterFournisseur() {
         ConsultationFournisseur consultationFournisseur = new ConsultationFournisseur(null, true);
         consultationFournisseur.setFrameAncetre(this);
         consultationFournisseur.setVisible(true);
-    }//GEN-LAST:event_btnConsulterFournisseurActionPerformed
+    }
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
-        // TODO add your handling code here:
+        Object[] options = {"Exlure", "Annuler"};
+        int n = JOptionPane.showOptionDialog(this,
+                "Would you like green eggs and ham?",
+                "A Silly Question",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, //do not use a custom Icon
+                options, //the titles of buttons
+                options[0]); //default button title
+
+        if (n == 1) {
+            try {
+                FournisseurService.getInstance().exclureFournisseur(codeFournisseur);
+                String notification = "Exclusion effectuée avec succès";
+                effacerFormulaire();
+                JOptionPane.showMessageDialog(null, notification);
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnExclureActionPerformed
 
     public void fournisseurSelectionne(Fournisseur fournisseur) {
