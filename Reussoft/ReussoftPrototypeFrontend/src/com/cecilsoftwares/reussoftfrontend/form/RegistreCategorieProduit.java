@@ -182,6 +182,12 @@ public class RegistreCategorieProduit extends JInternalFrame {
 
     }//GEN-LAST:event_btnConsulterCategorieProduitActionPerformed
 
+    private void consulterCategorieProduit() {
+        ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true);
+        consultationCategorieProduit.setFrameAncetre(this);
+        consultationCategorieProduit.setVisible(true);
+    }
+
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exlure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
@@ -209,18 +215,14 @@ public class RegistreCategorieProduit extends JInternalFrame {
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 
-    private void consulterCategorieProduit() {
-        ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true);
-        consultationCategorieProduit.setFrameAncetre(this);
-        consultationCategorieProduit.setVisible(true);
-    }
-
     public void categorieProduitSelectionne(CategorieProduit categorieProduit) {
         if (categorieProduit == null) {
             return;
         }
 
         modeEdition = true;
+        btnExclure.setEnabled(true);
+
         codeCategorieProduit = categorieProduit.getCode();
         tfdDescription.setText(categorieProduit.getDescription());
         tfdDescriptionAbregee.setText(categorieProduit.getDescriptionAbregee());
@@ -236,6 +238,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
         btnEnregistrer.setText("ENREGISTRER");
         modeEdition = false;
         habiliterComposantFormulaire(true);
+        btnExclure.setEnabled(false);
     }
 
     private void habiliterComposantFormulaire(boolean hcf) {
@@ -245,7 +248,6 @@ public class RegistreCategorieProduit extends JInternalFrame {
         btnConsulterCategorieProduitClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
-        btnExclure.setEnabled(!hcf);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

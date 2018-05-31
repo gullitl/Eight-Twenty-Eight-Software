@@ -27,6 +27,7 @@ public class RegistreShop extends JInternalFrame {
     public RegistreShop() {
         initComponents();
         effacerFormulaire();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -329,7 +330,6 @@ public class RegistreShop extends JInternalFrame {
         btnConsulterShopClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
-        btnExclure.setEnabled(!hcf);
 
     }
 
@@ -339,6 +339,8 @@ public class RegistreShop extends JInternalFrame {
         }
 
         modeEdition = true;
+        btnExclure.setEnabled(true);
+
         codeShop = shop.getCode();
         tfdNom.setText(shop.getNom());
 
@@ -368,6 +370,7 @@ public class RegistreShop extends JInternalFrame {
         chbActiver.setVisible(false);
         chbActiver.setSelected(true);
         habiliterComposantFormulaire(true);
+        btnExclure.setEnabled(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

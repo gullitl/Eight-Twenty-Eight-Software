@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultationClient extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
+    private Client client;
     private List<Client> clients;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
@@ -83,7 +84,7 @@ public class ConsultationClient extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Entreprise"
+                "Code", "Nom"
             }
         ) {
             Class[] types = new Class [] {
@@ -134,7 +135,7 @@ public class ConsultationClient extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdRechercheEntrepriseClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

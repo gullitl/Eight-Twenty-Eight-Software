@@ -169,30 +169,21 @@ public class ClientDao {
         return true;
     }
 
-    //valide = true
-    public int selectionnerCodeClientSubsequent() throws ClassNotFoundException, SQLException {
+    public boolean exclureClient(int codeClient) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
-        ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM client");
+            scriptSQL = new StringBuilder("DELETE FROM client WHERE code=?");
+
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
+            prs.setInt(1, codeClient);
 
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
+            prs.execute();
             prs.close();
-            res.close();
             conexao.close();
         }
-        return 0;
+
+        return true;
     }
+
 }

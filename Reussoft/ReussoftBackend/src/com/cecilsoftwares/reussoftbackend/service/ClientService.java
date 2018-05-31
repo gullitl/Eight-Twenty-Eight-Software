@@ -38,8 +38,8 @@ public class ClientService {
         return ClientDao.getInstance().actualiserClient(client);
     }
 
-    public int selectionnerCodeClientSubsequent() throws ClassNotFoundException, SQLException {
-        return ClientDao.getInstance().selectionnerCodeClientSubsequent();
+    public boolean exclureClient(int codeClient) throws ClassNotFoundException, SQLException {
+        return ClientDao.getInstance().exclureClient(codeClient);
     }
 
 }

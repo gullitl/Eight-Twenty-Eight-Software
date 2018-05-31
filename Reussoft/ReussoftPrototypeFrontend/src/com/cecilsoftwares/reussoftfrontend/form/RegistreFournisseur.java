@@ -188,7 +188,6 @@ public class RegistreFournisseur extends JInternalFrame {
         btnConsulterFournisseurClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
-        btnExclure.setEnabled(!hcf);
     }
 
     private void btnConsulterFournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterFournisseurActionPerformed
@@ -244,6 +243,8 @@ public class RegistreFournisseur extends JInternalFrame {
         }
 
         modeEdition = true;
+        btnExclure.setEnabled(true);
+
         codeFournisseur = fournisseur.getCode();
         tfdResponsable.setText(fournisseur.getResponsable());
         tfdTelephone.setText(fournisseur.getTelephone());
@@ -259,6 +260,7 @@ public class RegistreFournisseur extends JInternalFrame {
         tfdTelephone.setText("");
         txaObservation.setText("");
         habiliterComposantFormulaire(true);
+        btnExclure.setEnabled(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

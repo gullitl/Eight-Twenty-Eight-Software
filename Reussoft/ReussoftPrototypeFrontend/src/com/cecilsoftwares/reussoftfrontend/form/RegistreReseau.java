@@ -223,7 +223,6 @@ public class RegistreReseau extends JInternalFrame {
         btnConsulterReseauClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
-        btnExclure.setEnabled(!hcf);
     }
 
     private void consulterShop() {
@@ -238,6 +237,7 @@ public class RegistreReseau extends JInternalFrame {
         }
 
         modeEdition = true;
+        btnExclure.setEnabled(true);
         codeReseau = reseau.getCode();
         tfdNom.setText(reseau.getNom());
         tfdNomAbrege.setText(reseau.getNomAbrege());
@@ -255,6 +255,7 @@ public class RegistreReseau extends JInternalFrame {
         chbActiver.setVisible(false);
         chbActiver.setSelected(true);
         habiliterComposantFormulaire(true);
+        btnExclure.setEnabled(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
