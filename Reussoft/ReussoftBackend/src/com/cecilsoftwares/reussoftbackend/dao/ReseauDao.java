@@ -26,7 +26,6 @@ public class ReseauDao {
         }
         return uniqueInstance;
     }
-//valide = true
 
     public List<Reseau> listerTousLesReseaus() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
@@ -60,7 +59,6 @@ public class ReseauDao {
         return listeReseaus;
     }
 
-    //valide = true
     public Reseau selectionnerReseauParCode(int codeReseau) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -96,15 +94,21 @@ public class ReseauDao {
         return null;
     }
 
-    //Valide = true
     public boolean enregistrerReseau(Reseau reseau) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO reseau(");
-            scriptSQL.append(" code, nom, nomAbrege, observation)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+            if (reseau.getCode() == 0) {
 
+                scriptSQL = new StringBuilder("INSERT INTO reseau(");
+                scriptSQL.append(" nom, nomAbrege, observation, code)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?)");
+            } else {
+
+                scriptSQL = new StringBuilder("UPDATE reseau");
+                scriptSQL.append(" SET nom=?, nomAbrege=?, observation=?");
+                scriptSQL.append(" WHERE code=?");
+            }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setInt(1, reseau.getCode());
@@ -117,56 +121,6 @@ public class ReseauDao {
             conexao.close();
         }
         return true;
-    }
-
-    //valide = true
-    public boolean actualiserReseau(Reseau reseau) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE reseau");
-            scriptSQL.append(" SET nom=?, nomAbrege=?, observation=?");
-            scriptSQL.append(" WHERE code=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setString(1, reseau.getNom());
-            prs.setString(2, reseau.getNomAbrege());
-            prs.setString(3, reseau.getObservation());
-            prs.setInt(6, reseau.getCode());
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    //valide = true
-    public int selectionnerCodeReseauSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM reseau");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
     }
 
     public boolean exclureReseau(int codeReseau) throws ClassNotFoundException, SQLException {

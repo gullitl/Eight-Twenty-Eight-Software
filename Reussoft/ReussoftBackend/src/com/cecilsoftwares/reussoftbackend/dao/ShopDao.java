@@ -27,7 +27,6 @@ public class ShopDao {
         return uniqueInstance;
     }
 
-    //valide = true
     public List<Shop> listerTousLesShops() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -61,7 +60,6 @@ public class ShopDao {
         return listeShops;
     }
 
-    //valide = true
     public Shop selectionnerShopParCode(int codeShop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -98,14 +96,21 @@ public class ShopDao {
         return null;
     }
 
-    //Valide = true
     public boolean enregistrerShop(Shop shop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO shop(");
-            scriptSQL.append(" code, nom, adresse, observation, active)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+            if (shop.getCode() == 0) {
+
+                scriptSQL = new StringBuilder("INSERT INTO shop(");
+                scriptSQL.append(" nom, adresse, observation, active, code)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+            } else {
+
+                scriptSQL = new StringBuilder("UPDATE shop");
+                scriptSQL.append(" SET nom=?, adresse=?, observation=?, active=?");
+                scriptSQL.append(" WHERE code=?");
+            }
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
@@ -120,56 +125,6 @@ public class ShopDao {
             conexao.close();
         }
         return true;
-    }
-
-    //valide = true
-    public boolean actualiserShop(Shop shop) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE shop");
-            scriptSQL.append(" SET nom=?, adresse=?, observation=?, active=?");
-            scriptSQL.append(" WHERE code=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setString(1, shop.getNom());
-            prs.setString(2, shop.getAdresse());
-            prs.setString(3, shop.getObservation());
-            prs.setInt(4, shop.getCode());
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    //valide = true
-    public int selectionnerCodeShopSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM shop");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
     }
 
     public boolean exclureShop(int codeShop) throws ClassNotFoundException, SQLException {

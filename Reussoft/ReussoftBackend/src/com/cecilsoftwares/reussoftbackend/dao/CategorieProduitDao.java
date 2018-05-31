@@ -104,6 +104,7 @@ public class CategorieProduitDao {
                 scriptSQL.append(" description, descriptionAbregee, observation, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
             } else {
+
                 scriptSQL = new StringBuilder("UPDATE categorieproduit");
                 scriptSQL.append(" SET description=?, descriptionAbregee=?, observation=?");
                 scriptSQL.append(" WHERE code=?");

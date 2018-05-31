@@ -34,14 +34,6 @@ public class ShopService {
         return ShopDao.getInstance().enregistrerShop(shop);
     }
 
-    public boolean actualiserShop(Shop shop) throws ClassNotFoundException, SQLException {
-        return ShopDao.getInstance().actualiserShop(shop);
-    }
-
-    public int selectionnerCodeShopSubsequent() throws ClassNotFoundException, SQLException {
-        return ShopDao.getInstance().selectionnerCodeShopSubsequent();
-    }
-
     public boolean exclureShop(int codeShop) throws ClassNotFoundException, SQLException {
         return ShopDao.getInstance().exclureShop(codeShop);
     }

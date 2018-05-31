@@ -40,14 +40,6 @@ public class ReseauService {
         return ReseauDao.getInstance().enregistrerReseau(reseau);
     }
 
-    public boolean actualiserReseau(Reseau reseau) throws ClassNotFoundException, SQLException {
-        return ReseauDao.getInstance().actualiserReseau(reseau);
-    }
-
-    public int selectionnerCodeReseauSubsequent() throws ClassNotFoundException, SQLException {
-        return ReseauDao.getInstance().selectionnerCodeReseauSubsequent();
-    }
-
     public boolean exclureReseau(int codeReseau) throws ClassNotFoundException, SQLException {
         return ReseauDao.getInstance().exclureReseau(codeReseau);
     }
