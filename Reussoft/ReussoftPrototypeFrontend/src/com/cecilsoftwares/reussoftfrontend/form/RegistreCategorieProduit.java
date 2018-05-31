@@ -185,15 +185,17 @@ public class RegistreCategorieProduit extends JInternalFrame {
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exlure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
-                "Would you like green eggs and ham?",
-                "A Silly Question",
+                "Êtes-vous sûr de vouloir exclure définitivement cette categorie de produit?",
+                "Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null, //do not use a custom Icon
                 options, //the titles of buttons
                 options[0]); //default button title
 
-        if (n == 1) {
+        if (n == 0) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
             try {
                 CategorieProduitService.getInstance().exclureCategorieProduit(codeCategorieProduit);
                 String notification = "Exclusion effectuée avec succès";
@@ -203,6 +205,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
+            setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 
@@ -242,6 +245,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
         btnConsulterCategorieProduitClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
+        btnExclure.setEnabled(!hcf);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

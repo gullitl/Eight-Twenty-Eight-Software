@@ -56,6 +56,7 @@ public class RegistreReseau extends JInternalFrame {
         jLabel4.setText("Observation:");
 
         btnConsulterReseau.setText("...");
+        btnConsulterReseau.setFocusable(false);
         btnConsulterReseau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulterReseauActionPerformed(evt);
@@ -191,15 +192,17 @@ public class RegistreReseau extends JInternalFrame {
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exlure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
-                "Would you like green eggs and ham?",
-                "A Silly Question",
+                "Êtes-vous sûr de vouloir exclure définitivement ce reseau?",
+                "Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null, //do not use a custom Icon
                 options, //the titles of buttons
                 options[0]); //default button title
 
-        if (n == 1) {
+        if (n == 0) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
             try {
                 ReseauService.getInstance().exclureReseau(codeReseau);
                 String notification = "Exclusion effectuée avec succès";
@@ -209,6 +212,7 @@ public class RegistreReseau extends JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion du Reseau");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
+            setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 
@@ -219,6 +223,7 @@ public class RegistreReseau extends JInternalFrame {
         btnConsulterReseauClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
+        btnExclure.setEnabled(!hcf);
     }
 
     private void consulterShop() {
@@ -228,12 +233,18 @@ public class RegistreReseau extends JInternalFrame {
     }
 
     public void reseauSelectionne(Reseau reseau) {
+        if (reseau == null) {
+            return;
+        }
+
+        modeEdition = true;
         codeReseau = reseau.getCode();
         tfdNom.setText(reseau.getNom());
         tfdNomAbrege.setText(reseau.getNomAbrege());
         txaObservation.setText(reseau.getObservation());
         chbActiver.setVisible(true);
         chbActiver.setSelected(reseau.isActive());
+        btnEnregistrer.setText("ACTUALISER");
     }
 
     private void effacerFormulaire() {
@@ -243,6 +254,7 @@ public class RegistreReseau extends JInternalFrame {
         txaObservation.setText("");
         chbActiver.setVisible(false);
         chbActiver.setSelected(true);
+        habiliterComposantFormulaire(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -22,7 +22,7 @@ public class RegistreShop extends JInternalFrame {
     private boolean btnEnregistrerClickable;
     private boolean btnExclureClickable;
     private boolean btnAnnulerClickable;
-    private final static String separateurAdresse = "@#$%&*";
+    private final String separateurAdresse = "@#$%&*";
 
     public RegistreShop() {
         initComponents();
@@ -166,6 +166,7 @@ public class RegistreShop extends JInternalFrame {
         });
 
         btnConsulterShop.setText("...");
+        btnConsulterShop.setFocusable(false);
         btnConsulterShop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulterShopActionPerformed(evt);
@@ -264,7 +265,7 @@ public class RegistreShop extends JInternalFrame {
             JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le nouveau Shop");
             Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
@@ -285,15 +286,17 @@ public class RegistreShop extends JInternalFrame {
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exlure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
-                "Would you like green eggs and ham?",
-                "A Silly Question",
+                "Êtes-vous sûr de vouloir exclure définitivement ce shop?",
+                "Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null, //do not use a custom Icon
                 options, //the titles of buttons
                 options[0]); //default button title
 
-        if (n == 1) {
+        if (n == 0) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
             try {
                 ShopService.getInstance().exclureShop(codeShop);
                 String notification = "Exclusion effectuée avec succès";
@@ -303,6 +306,7 @@ public class RegistreShop extends JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
+            setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 
@@ -325,9 +329,16 @@ public class RegistreShop extends JInternalFrame {
         btnConsulterShopClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
+        btnExclure.setEnabled(!hcf);
+
     }
 
     public void shopSelectionne(Shop shop) {
+        if (shop == null) {
+            return;
+        }
+
+        modeEdition = true;
         codeShop = shop.getCode();
         tfdNom.setText(shop.getNom());
 
@@ -341,6 +352,7 @@ public class RegistreShop extends JInternalFrame {
 
         chbActiver.setVisible(true);
         chbActiver.setSelected(shop.isActive());
+        btnEnregistrer.setText("ACTUALISER");
     }
 
     private void effacerFormulaire() {
@@ -355,6 +367,7 @@ public class RegistreShop extends JInternalFrame {
         txaObservation.setText("");
         chbActiver.setVisible(false);
         chbActiver.setSelected(true);
+        habiliterComposantFormulaire(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

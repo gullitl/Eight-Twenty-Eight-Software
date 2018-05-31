@@ -59,6 +59,7 @@ public class RegistreFournisseur extends JInternalFrame {
         jLabel5.setText("Observation:");
 
         btnConsulterFournisseur.setText("...");
+        btnConsulterFournisseur.setFocusable(false);
         btnConsulterFournisseur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulterFournisseurActionPerformed(evt);
@@ -187,6 +188,7 @@ public class RegistreFournisseur extends JInternalFrame {
         btnConsulterFournisseurClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
+        btnExclure.setEnabled(!hcf);
     }
 
     private void btnConsulterFournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterFournisseurActionPerformed
@@ -212,15 +214,17 @@ public class RegistreFournisseur extends JInternalFrame {
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exlure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
-                "Would you like green eggs and ham?",
-                "A Silly Question",
+                "Êtes-vous sûr de vouloir exclure définitivement ce fournisseur?",
+                "Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null, //do not use a custom Icon
                 options, //the titles of buttons
                 options[0]); //default button title
 
-        if (n == 1) {
+        if (n == 0) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
             try {
                 FournisseurService.getInstance().exclureFournisseur(codeFournisseur);
                 String notification = "Exclusion effectuée avec succès";
@@ -230,15 +234,22 @@ public class RegistreFournisseur extends JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
+            setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 
     public void fournisseurSelectionne(Fournisseur fournisseur) {
+        if (fournisseur == null) {
+            return;
+        }
+
+        modeEdition = true;
         codeFournisseur = fournisseur.getCode();
         tfdResponsable.setText(fournisseur.getResponsable());
         tfdTelephone.setText(fournisseur.getTelephone());
         tfdEntreprise.setText(fournisseur.getEntreprise());
         txaObservation.setText(fournisseur.getObservation());
+        btnEnregistrer.setText("ACTUALISER");
     }
 
     private void effacerFormulaire() {
@@ -247,6 +258,7 @@ public class RegistreFournisseur extends JInternalFrame {
         tfdResponsable.setText("");
         tfdTelephone.setText("");
         txaObservation.setText("");
+        habiliterComposantFormulaire(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,10 +1,10 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
 import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
-import com.cecilsoftwares.reussoftbackend.service.ShopService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreFournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,8 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultationFournisseur extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
-    private List<Shop> shops;
+    private Fournisseur fournisseur;
+    private List<Fournisseur> fournisseurs;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
@@ -30,26 +31,46 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
     public ConsultationFournisseur(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        defaultTableModel = (DefaultTableModel) tblFournisseur.getModel();
-        dataRows = new Object[2];
+        enFermantDialog();
 
+        defaultTableModel = (DefaultTableModel) tblFournisseur.getModel();
+        dataRows = new Object[3];
+
+        chargementShops();
+
+    }
+
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (frameAncetre instanceof RegistreFournisseur) {
+                    RegistreFournisseur registreFournisseur = (RegistreFournisseur) frameAncetre;
+                    registreFournisseur.fournisseurSelectionne(fournisseur);
+                }
+            }
+        });
+    }
+
+    private void chargementShops() {
         try {
-            shops = ShopService.getInstance().listerTousLesShops();
-            listerShops(shops);
+            fournisseurs = FournisseurService.getInstance().listerTousLesFournisseurs();
+            listerFournisseur(fournisseurs);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void listerShops(List<Shop> shops) {
+    private void listerFournisseur(List<Fournisseur> fournisseurs) {
         defaultTableModel.setRowCount(0);
-        for (Shop shop : shops) {
-            dataRows[0] = shop.getCode();
-            dataRows[1] = shop.getNom();
+        fournisseurs.forEach(f -> {
+            dataRows[0] = f.getCode();
+            dataRows[1] = f.getEntreprise();
+            dataRows[2] = f.getResponsable();
             defaultTableModel.addRow(dataRows);
-        }
-        String formeNombre = shops.size() > 1 ? "Shops" : "Shop";
-        lblNombreFournisseur.setText(shops.size() + " " + formeNombre);
+        });
+        String formeNombre = fournisseurs.size() > 1 ? "Shops" : "Shop";
+        lblNombreFournisseur.setText(fournisseurs.size() + " " + formeNombre);
     }
 
     public JInternalFrame getFrameAncetre() {
@@ -85,14 +106,14 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Fournisseur"
+                "Code", "Entreprise", "Responsable"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -112,12 +133,14 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
         if (tblFournisseur.getColumnModel().getColumnCount() > 0) {
             tblFournisseur.getColumnModel().getColumn(0).setResizable(false);
             tblFournisseur.getColumnModel().getColumn(1).setResizable(false);
-            tblFournisseur.getColumnModel().getColumn(1).setPreferredWidth(300);
+            tblFournisseur.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblFournisseur.getColumnModel().getColumn(2).setResizable(false);
+            tblFournisseur.getColumnModel().getColumn(2).setPreferredWidth(200);
         }
 
         lblNombreFournisseur.setText("jLabel1");
 
-        jLabel1.setText("Fournisseur:");
+        jLabel1.setText("Entreprise:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,34 +176,32 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
 
     private void tblFournisseurMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFournisseurMouseClicked
         if (evt.getClickCount() == 2) {
-            if (getFrameAncetre() != null) {
-                try {
-                    int row = tblFournisseur.getSelectedRow();
-                    Fournisseur fournisseur = FournisseurService.getInstance()
-                            .selectionnerFournisseurParCode((int) defaultTableModel.getValueAt(row, 0));
-                    if (getFrameAncetre() instanceof RegistreFournisseur) {
-                        RegistreFournisseur registreFournisseur = (RegistreFournisseur) getFrameAncetre();
-                        registreFournisseur.fournisseurSelectionne(fournisseur);
-                    }
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            selectionnerFournisseur();
             dispose();
         }
 
     }//GEN-LAST:event_tblFournisseurMouseClicked
 
-    private void tfdRechercheEntrepriseFournisseurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheEntrepriseFournisseurKeyReleased
-        List<Shop> listeShops = new ArrayList();
-        for (Shop shop : shops) {
-            if (shop.getNom().toUpperCase()
-                    .startsWith(tfdRechercheEntrepriseFournisseur.getText().toUpperCase())) {
-                listeShops.add(shop);
-            }
-        }
+    private void selectionnerFournisseur() {
+        if (frameAncetre != null) {
+            int row = tblFournisseur.getSelectedRow();
 
-        listerShops(listeShops);
+            fournisseur = fournisseurs.stream()
+                    .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                    .findFirst().orElse(null);
+        }
+    }
+
+    private void tfdRechercheEntrepriseFournisseurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheEntrepriseFournisseurKeyReleased
+        List<Fournisseur> listeFournisseurs = new ArrayList();
+
+        fournisseurs.stream().filter((cp) -> (cp.getEntreprise().toUpperCase()
+                .startsWith(tfdRechercheEntrepriseFournisseur.getText().toUpperCase())))
+                .forEachOrdered((cp) -> {
+                    listeFournisseurs.add(cp);
+                });
+
+        listerFournisseur(listeFournisseurs);
     }//GEN-LAST:event_tfdRechercheEntrepriseFournisseurKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
