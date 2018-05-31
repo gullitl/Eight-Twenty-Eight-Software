@@ -34,8 +34,4 @@ public class SessionUtilisateurService {
         return SessionUtilisateurDao.getInstance().sauvegarderSessionUtilisateur(sessionUtilisateur);
     }
 
-    public boolean actualiserSessionUtilisateur(SessionUtilisateur sessionUtilisateur) throws ClassNotFoundException, SQLException {
-        return SessionUtilisateurDao.getInstance().actualiserSessionUtilisateur(sessionUtilisateur);
-    }
-
 }

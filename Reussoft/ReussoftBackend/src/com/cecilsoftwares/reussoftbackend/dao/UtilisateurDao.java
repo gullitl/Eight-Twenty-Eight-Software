@@ -258,9 +258,16 @@ public class UtilisateurDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO utilisateur(");
-            scriptSQL.append(" code, idProfilUtilisateur, idCollaborateur, nom, motDePasse, observation)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
+
+            if (utilisateur.getCode() == 0) {
+                scriptSQL = new StringBuilder("INSERT INTO utilisateur(");
+                scriptSQL.append(" idProfilUtilisateur, idCollaborateur, nom, motDePasse, observation, code)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
+            } else {
+                scriptSQL = new StringBuilder("UPDATE utilisateur(");
+                scriptSQL.append(" SET idProfilUtilisateur=?, idCollaborateur=?, nom=?, motDePasse=?, observation=?)");
+                scriptSQL.append(" WHERE code=?)");
+            }
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
@@ -278,54 +285,21 @@ public class UtilisateurDao {
         return true;
     }
 
-    public boolean actualiserUtilisateur(Utilisateur utilisateur) throws ClassNotFoundException, SQLException {
+    public boolean exclureUtilisateur(int codeUtilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-
-            scriptSQL = new StringBuilder("UPDATE utilisateur(");
-            scriptSQL.append(" SET idProfilUtilisateur=?, idCollaborateur=?, nom=?, motDePasse=?, observation=?)");
-            scriptSQL.append(" WHERE code=?)");
+            scriptSQL = new StringBuilder("DELETE FROM utilisateur WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setInt(1, utilisateur.getProfilUtilisateur().getCode());
-            prs.setInt(2, utilisateur.getCollaborateur().getCode());
-            prs.setString(3, utilisateur.getNom());
-            prs.setString(4, utilisateur.getMotDePasse());
-            prs.setString(5, utilisateur.getObservation());
-            prs.setInt(6, utilisateur.getCode());
+            prs.setInt(1, codeUtilisateur);
 
             prs.execute();
             prs.close();
             conexao.close();
         }
+
         return true;
     }
 
-    public int selectionnerCodeUtilisateurSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM utilisateur");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
-    }
 }

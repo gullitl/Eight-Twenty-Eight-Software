@@ -41,13 +41,4 @@ public class UtilisateurService {
     public boolean enregistrerUtilisateur(Utilisateur utilisateur) throws ClassNotFoundException, SQLException {
         return UtilisateurDao.getInstance().enregistrerUtilisateur(utilisateur);
     }
-
-    public boolean actualiserUtilisateur(Utilisateur utilisateur) throws ClassNotFoundException, SQLException {
-        return UtilisateurDao.getInstance().actualiserUtilisateur(utilisateur);
-    }
-
-    public int selectionnerCodeUtilisateurSubsequent() throws ClassNotFoundException, SQLException {
-        return UtilisateurDao.getInstance().selectionnerCodeUtilisateurSubsequent();
-    }
-
 }

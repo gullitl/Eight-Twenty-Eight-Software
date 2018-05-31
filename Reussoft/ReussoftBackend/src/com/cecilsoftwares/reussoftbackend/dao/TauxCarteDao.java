@@ -119,9 +119,16 @@ public class TauxCarteDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
-            scriptSQL.append(" code, dateheure, valeur, observateur )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+
+            if (tauxCarte.getCode() == 0) {
+                scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
+                scriptSQL.append(" dateheure, valeur, observateur, code )");
+                scriptSQL.append(" VALUES (?, ?, ?, ?)");
+            } else {
+                scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
+                scriptSQL.append(" SET dateheure=?, valeur=?, observateur=?,");
+                scriptSQL.append(" WHERE code=?");
+            }
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
@@ -137,25 +144,21 @@ public class TauxCarteDao {
         return true;
     }
 
-    public boolean actualiserTauxCarte(TauxCarte tauxCarte) throws ClassNotFoundException, SQLException {
+    public boolean exclureTauxCarte(int codeTauxCarte) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
-            scriptSQL.append(" SET dateheure=?, valeur=?, observateur=?,");
-            scriptSQL.append(" WHERE code=?");
+            scriptSQL = new StringBuilder("DELETE FROM tauxcarte WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setTimestamp(1, new Timestamp(tauxCarte.getDateHeure().getTime()));
-            prs.setBigDecimal(2, tauxCarte.getValeur());
-            prs.setString(3, tauxCarte.getObservation());
-            prs.setInt(4, tauxCarte.getCode());
+            prs.setInt(1, codeTauxCarte);
 
             prs.execute();
             prs.close();
             conexao.close();
         }
+
         return true;
     }
+
 }

@@ -34,14 +34,6 @@ public class FournisseurService {
         return FournisseurDao.getInstance().listerTousLesFournisseurs();
     }
 
-    public boolean actualiserFournisseur(Fournisseur client) throws ClassNotFoundException, SQLException {
-        return FournisseurDao.getInstance().actualiserFournisseur(client);
-    }
-
-    public int selectionnerCodeFournisseurSubsequent() throws ClassNotFoundException, SQLException {
-        return FournisseurDao.getInstance().selectionnerCodeFournisseurSubsequent();
-    }
-
     public boolean exclureFournisseur(int codeFournisseur) throws ClassNotFoundException, SQLException {
         return FournisseurDao.getInstance().exclureFournisseur(codeFournisseur);
     }

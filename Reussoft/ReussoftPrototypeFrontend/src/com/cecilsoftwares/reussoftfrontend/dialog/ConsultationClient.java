@@ -3,6 +3,8 @@ package com.cecilsoftwares.reussoftfrontend.dialog;
 import com.cecilsoftwares.reussoftbackend.service.ClientService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreClient;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +31,28 @@ public class ConsultationClient extends javax.swing.JDialog {
     public ConsultationClient(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        enFermantDialog();
+
         defaultTableModel = (DefaultTableModel) tblClient.getModel();
         dataRows = new Object[2];
 
+        chargementProduits();
+
+    }
+
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (frameAncetre instanceof RegistreClient) {
+                    RegistreClient registreClient = (RegistreClient) frameAncetre;
+                    registreClient.clientSelectionne(client);
+                }
+            }
+        });
+    }
+
+    private void chargementProduits() {
         try {
             clients = ClientService.getInstance().listerTousLesClients();
             listerClients(clients);
@@ -42,11 +63,12 @@ public class ConsultationClient extends javax.swing.JDialog {
 
     private void listerClients(List<Client> clients) {
         defaultTableModel.setRowCount(0);
-        for (Client client : clients) {
+        clients.forEach(cp -> {
             dataRows[0] = client.getCode();
-            dataRows[1] = client.getEntreprise();
+            dataRows[1] = client.getNom();
             defaultTableModel.addRow(dataRows);
-        }
+        });
+
         String formeNombre = clients.size() > 1 ? "Clients" : "Client";
         lblNombreClient.setText(clients.size() + " " + formeNombre);
     }
@@ -152,23 +174,23 @@ public class ConsultationClient extends javax.swing.JDialog {
 
     private void tblClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientMouseClicked
         if (evt.getClickCount() == 2) {
-            if (getFrameAncetre() != null) {
-                try {
-                    int row = tblClient.getSelectedRow();
-                    Client client = ClientService.getInstance()
-                            .selectionnerClientParCode((int) defaultTableModel.getValueAt(row, 0));
-                    if (getFrameAncetre() instanceof RegistreClient) {
-                        RegistreClient registreClient = (RegistreClient) getFrameAncetre();
-                        registreClient.clientSelectionne(client);
-                    }
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationClient.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            selectionnerClient();
             dispose();
         }
 
     }//GEN-LAST:event_tblClientMouseClicked
+
+    private void selectionnerClient() {
+
+        if (frameAncetre != null) {
+            int row = tblClient.getSelectedRow();
+
+            client = clients.stream()
+                    .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                    .findFirst().orElse(null);
+        }
+
+    }
 
     private void tfdRechercheEntrepriseClientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheEntrepriseClientKeyReleased
         List<Client> listeClients = new ArrayList();

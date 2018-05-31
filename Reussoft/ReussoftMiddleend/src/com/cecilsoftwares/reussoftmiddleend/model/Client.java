@@ -6,16 +6,16 @@ package com.cecilsoftwares.reussoftmiddleend.model;
 public class Client {
 
     private final int code;
+    private final String nom;
     private final String entreprise;
-    private final String responsable;
     private final String telephone;
     private final String observation;
     private final Shop shop;
 
     public Client(ClientBuilder clientBuilder) {
         code = clientBuilder.code;
+        nom = clientBuilder.nom;
         entreprise = clientBuilder.entreprise;
-        responsable = clientBuilder.responsable;
         telephone = clientBuilder.telephone;
         observation = clientBuilder.observation;
         shop = clientBuilder.shop;
@@ -25,12 +25,12 @@ public class Client {
         return code;
     }
 
-    public String getEntreprise() {
-        return entreprise;
+    public String getNom() {
+        return nom;
     }
 
-    public String getResponsable() {
-        return responsable;
+    public String getEntreprise() {
+        return entreprise;
     }
 
     public String getTelephone() {
@@ -48,8 +48,8 @@ public class Client {
     public static class ClientBuilder {
 
         private int code;
+        private String nom;
         private String entreprise;
-        private String responsable;
         private String telephone;
         private String observation;
         private Shop shop;
@@ -58,13 +58,13 @@ public class Client {
             this.code = code;
         }
 
-        public ClientBuilder entreprise(String entreprise) {
-            this.entreprise = entreprise;
+        public ClientBuilder nom(String nom) {
+            this.nom = nom;
             return this;
         }
 
-        public ClientBuilder responsable(String responsable) {
-            this.responsable = responsable;
+        public ClientBuilder entreprise(String entreprise) {
+            this.entreprise = entreprise;
             return this;
         }
 

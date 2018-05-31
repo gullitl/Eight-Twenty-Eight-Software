@@ -38,8 +38,4 @@ public class PrixVenteProduitService {
         return PrixVenteProduitDao.getInstance().actualiserPrixVenteProduit(prixVenteProduit);
     }
 
-    public int selectionnerCodePrixVenteProduitSubsequent() throws ClassNotFoundException, SQLException {
-        return PrixVenteProduitDao.getInstance().selectionnerCodePrixVenteProduitSubsequent();
-    }
-
 }

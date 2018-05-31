@@ -29,14 +29,13 @@ public class ClientDao {
         return uniqueInstance;
     }
 
-    //valide = true
     public List<Client> listerTousLesClients() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<Client> listeClients;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.code, client.responsable, client.entreprise, client.telephone, client.observation");
+            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, client.observation");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
             scriptSQL.append(" FROM client LEFT JOIN shop ON client.shopId = shop.code");
 
@@ -55,7 +54,7 @@ public class ClientDao {
                             .build();
 
                     Client client = new ClientBuilder(res.getInt(1))
-                            .responsable(res.getString(2))
+                            .nom(res.getString(2))
                             .entreprise(res.getString(3))
                             .telephone(res.getString(4))
                             .observation(res.getString(5))
@@ -72,13 +71,12 @@ public class ClientDao {
         return listeClients;
     }
 
-    //valide = true
     public Client selectionnerClientParCode(int codeClient) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.code, client.responsable, client.entreprise, client.telephone, client.observation");
+            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, client.observation");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
             scriptSQL.append(" FROM client LEFT JOIN shop ON client.shopId = shop.code");
             scriptSQL.append(" WHERE client.code=?");
@@ -98,7 +96,7 @@ public class ClientDao {
                             .build();
 
                     Client client = new ClientBuilder(res.getInt(1))
-                            .responsable(res.getString(2))
+                            .nom(res.getString(2))
                             .entreprise(res.getString(3))
                             .telephone(res.getString(4))
                             .observation(res.getString(5))
@@ -119,48 +117,28 @@ public class ClientDao {
         return null;
     }
 
-    //Valide = true
     public boolean enregistrerClient(Client client) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO client(");
-            scriptSQL.append(" code, responsable, entreprise, telephone, observation, idShop)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
 
+            if (client.getCode() == 0) {
+                scriptSQL = new StringBuilder("INSERT INTO client(");
+                scriptSQL.append(" nom, entreprise, telephone, observation, idShop, code )");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
+            } else {
+                scriptSQL = new StringBuilder("UPDATE client");
+                scriptSQL.append(" SET nom=?, entreprise=?, telephone=?, observation=?, idShop=?");
+                scriptSQL.append(" WHERE codeClient=?");
+            }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setInt(1, client.getCode());
-            prs.setString(2, client.getResponsable());
+            prs.setString(2, client.getNom());
             prs.setString(3, client.getEntreprise());
             prs.setString(4, client.getTelephone());
             prs.setString(5, client.getObservation());
             prs.setInt(6, client.getShop().getCode());
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    //valide = true
-    public boolean actualiserClient(Client client) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE client");
-            scriptSQL.append(" SET responsable=?, entreprise=?, telephone=?, observation=?, idShop=?");
-            scriptSQL.append(" WHERE codeClient=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setString(1, client.getResponsable());
-            prs.setString(2, client.getEntreprise());
-            prs.setString(3, client.getTelephone());
-            prs.setString(4, client.getObservation());
-            prs.setInt(5, client.getShop().getCode());
-            prs.setInt(6, client.getCode());
 
             prs.execute();
             prs.close();

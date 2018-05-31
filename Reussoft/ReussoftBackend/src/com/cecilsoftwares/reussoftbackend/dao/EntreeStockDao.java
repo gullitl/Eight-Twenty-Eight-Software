@@ -164,11 +164,19 @@ public class EntreeStockDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO entreestock(");
-            scriptSQL.append(" code, dateHeure, prixAchatUSD, prixAchatFC, quantiteProduit, observation,");
-            scriptSQL.append("  idFournisseur, idProduit, idTauxCarte)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
+            if (entreeStock.getCode() == 0) {
+
+                scriptSQL = new StringBuilder("INSERT INTO entreestock(");
+                scriptSQL.append(" dateHeure, prixAchatUSD, prixAchatFC, quantiteProduit, observation,");
+                scriptSQL.append("  idFournisseur, idProduit, idTauxCarte, code)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            } else {
+                scriptSQL = new StringBuilder("UPDATE entreestock");
+                scriptSQL.append(" SET dateHeure=?, prixAchatUSD=?, prixAchatFC=?, quantiteProduit=?, observation=?,");
+                scriptSQL.append(" idFournisseur=?, idProduit=?, idTauxCarte=?)");
+                scriptSQL.append(" WHERE code=?");
+            }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setInt(1, entreeStock.getCode());
@@ -188,57 +196,21 @@ public class EntreeStockDao {
         return true;
     }
 
-    public boolean actualiserEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
+    public boolean exclureEntreeStock(int codeEntreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE entreestock");
-            scriptSQL.append(" SET dateHeure=?, prixAchatUSD=?, prixAchatFC=?, quantiteProduit=?, observation=?,");
-            scriptSQL.append(" idFournisseur=?, idProduit=?, idTauxCarte=?)");
-            scriptSQL.append(" WHERE code=?");
+            scriptSQL = new StringBuilder("DELETE FROM entreestock WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setTimestamp(1, new Timestamp(entreeStock.getDateHeure().getTime()));
-            prs.setBigDecimal(2, entreeStock.getPrixAchatUSD());
-            prs.setBigDecimal(3, entreeStock.getPrixAchatFC());
-            prs.setBigDecimal(4, entreeStock.getQuantiteProduit());
-            prs.setString(5, entreeStock.getObservation());
-            prs.setInt(6, entreeStock.getFournisseur().getCode());
-            prs.setInt(7, entreeStock.getProduit().getCode());
-            prs.setInt(8, entreeStock.getTauxCarte().getCode());
-            prs.setInt(9, entreeStock.getCode());
+            prs.setInt(1, codeEntreeStock);
 
             prs.execute();
             prs.close();
             conexao.close();
         }
+
         return true;
     }
 
-    public int selectionnerCodeEntreeStockSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM entreestock");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
-    }
 }

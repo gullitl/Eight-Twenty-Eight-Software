@@ -34,8 +34,4 @@ public class TauxMonnaieService {
         return TauxMonnaieDao.getInstance().sauvegarderTauxMonnaie(sessionUtilisateur);
     }
 
-    public boolean actualiserTauxMonnaie(TauxMonnaie sessionUtilisateur) throws ClassNotFoundException, SQLException {
-        return TauxMonnaieDao.getInstance().actualiserTauxMonnaie(sessionUtilisateur);
-    }
-
 }

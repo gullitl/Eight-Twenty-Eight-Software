@@ -34,12 +34,4 @@ public class CollaborateurService {
         return CollaborateurDao.getInstance().enregistrerCollaborateur(collaborateur);
     }
 
-    public boolean actualiserCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
-        return CollaborateurDao.getInstance().actualiserCollaborateur(collaborateur);
-    }
-
-    public int selectionnerCodeCollaborateurSubsequent() throws ClassNotFoundException, SQLException {
-        return CollaborateurDao.getInstance().selectionnerCodeCollaborateurSubsequent();
-    }
-
 }

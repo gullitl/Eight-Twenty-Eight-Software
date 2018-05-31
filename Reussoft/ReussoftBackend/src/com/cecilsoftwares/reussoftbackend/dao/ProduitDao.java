@@ -32,7 +32,6 @@ public class ProduitDao {
         return uniqueInstance;
     }
 
-    //valide = true
     public List<Produit> listerTousLesProduits() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -86,7 +85,6 @@ public class ProduitDao {
         return listeProduits;
     }
 
-    //valide = true
     public Produit selectionnerProduitParCode(int codeProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -145,14 +143,22 @@ public class ProduitDao {
         return null;
     }
 
-    //valide = true
     public boolean enregistrerProduit(Produit produit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO produit(");
-            scriptSQL.append(" code, description, idCategorieProduit, idReseau, prixAchatUSD, prixAchatFC, observation");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?)");
+            if (produit.getCode() == 0) {
+
+                scriptSQL = new StringBuilder("INSERT INTO produit(");
+                scriptSQL.append(" description, idCategorieProduit, idReseau, prixAchatUSD, prixAchatFC, observation, code");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+            } else {
+
+                scriptSQL = new StringBuilder("UPDATE produit");
+                scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, prixAchatUSD=?, prixAchatFC=?, observation=?");
+                scriptSQL.append(" WHERE code=?");
+            }
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
@@ -171,55 +177,20 @@ public class ProduitDao {
         return true;
     }
 
-    //valide = true
-    public boolean actualiserProduit(Produit produit) throws ClassNotFoundException, SQLException {
+    public boolean exclureProduit(int codeProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE produit");
-            scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, prixAchatUSD=?, prixAchatFC=?, observation=?");
-            scriptSQL.append(" WHERE code=?");
+            scriptSQL = new StringBuilder("DELETE FROM produit WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setString(1, produit.getDescription());
-            prs.setInt(2, produit.getCategorieProduit().getCode());
-            prs.setInt(3, produit.getReseau().getCode());
-            prs.setBigDecimal(4, produit.getPrixAchatUSD());
-            prs.setBigDecimal(5, produit.getPrixAchatFC());
-            prs.setString(6, produit.getObservation());
-            prs.setInt(7, produit.getCode());
+            prs.setInt(1, codeProduit);
 
             prs.execute();
             prs.close();
             conexao.close();
         }
+
         return true;
-    }
-
-    public int selectionnerCodeProduitSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(codeProduit)+1 FROM produit");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
     }
 }

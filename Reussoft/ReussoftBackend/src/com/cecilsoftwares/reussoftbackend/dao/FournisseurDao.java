@@ -27,7 +27,6 @@ public class FournisseurDao {
         return uniqueInstance;
     }
 
-    //valide = true
     public List<Fournisseur> listerTousLesFournisseurs() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -61,7 +60,6 @@ public class FournisseurDao {
         return listeFournisseurs;
     }
 
-    //valide = true
     public Fournisseur selectionnerFournisseurParCode(int codeFournisseur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -98,15 +96,20 @@ public class FournisseurDao {
         return null;
     }
 
-    //Valide = true
     public boolean enregistrerFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO fournisseur(");
-            scriptSQL.append(" code, responsable, entreprise, telephone, observation)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+            if (fournisseur.getCode() == 0) {
 
+                scriptSQL = new StringBuilder("INSERT INTO fournisseur(");
+                scriptSQL.append(" responsable, entreprise, telephone, observation, code )");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+            } else {
+                scriptSQL = new StringBuilder("UPDATE fournisseur");
+                scriptSQL.append(" SET responsable=?, entreprise=?, telephone=?, observation=?");
+                scriptSQL.append(" WHERE codeFournisseur=?");
+            }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setInt(1, fournisseur.getCode());
@@ -120,57 +123,6 @@ public class FournisseurDao {
             conexao.close();
         }
         return true;
-    }
-
-    //valide = true
-    public boolean actualiserFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE fournisseur");
-            scriptSQL.append(" SET responsable=?, entreprise=?, telephone=?, observation=?");
-            scriptSQL.append(" WHERE codeFournisseur=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setString(1, fournisseur.getResponsable());
-            prs.setString(2, fournisseur.getEntreprise());
-            prs.setString(3, fournisseur.getTelephone());
-            prs.setString(4, fournisseur.getObservation());
-            prs.setInt(5, fournisseur.getCode());
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    //valide = true
-    public int selectionnerCodeFournisseurSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM fournisseur");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
     }
 
     public boolean exclureFournisseur(int codeFournisseur) throws ClassNotFoundException, SQLException {

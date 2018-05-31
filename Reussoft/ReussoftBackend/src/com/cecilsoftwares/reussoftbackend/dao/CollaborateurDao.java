@@ -33,7 +33,6 @@ public class CollaborateurDao {
         return uniqueInstance;
     }
 
-    //valide = true
     public List<Collaborateur> listerTousLesCollaborateurs() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -99,7 +98,6 @@ public class CollaborateurDao {
         return listeCollaborateurs;
     }
 
-    //valide = true
     public Collaborateur selectionnerCollaborateurParCode(int codeCollaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -169,15 +167,24 @@ public class CollaborateurDao {
         return null;
     }
 
-    //valide: true
     public boolean enregistrerCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
-            scriptSQL.append(" code, prenom, nom, postnom, surnom, observation, active,");
-            scriptSQL.append(" idShop, idUtilisateur )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            if (collaborateur.getCode() == 0) {
+                scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
+                scriptSQL.append(" prenom, nom, postnom, surnom, observation, active,");
+                scriptSQL.append(" idShop, idUtilisateur, code )");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            } else {
+
+                scriptSQL = new StringBuilder("UPDATE collaborateur");
+                scriptSQL.append(" SET prenom=?, nom=?, postnom=?, surnom=?, observation=?, active=?,");
+                scriptSQL.append(" idUtilisateur=?, idShop=?");
+                scriptSQL.append(" WHERE code=?");
+            }
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
@@ -198,59 +205,21 @@ public class CollaborateurDao {
         return true;
     }
 
-    //valide: true
-    public boolean actualiserCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
+    public boolean exclureCollaborateur(int codeCollaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE collaborateur");
-            scriptSQL.append(" SET prenom=?, nom=?, postnom=?, surnom=?, observation=?, active=?,");
-            scriptSQL.append(" idUtilisateur=?, idShop=?");
-            scriptSQL.append(" WHERE code=?");
+            scriptSQL = new StringBuilder("DELETE FROM collaborateur WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setInt(1, collaborateur.getUtilisateur().getCode());
-            prs.setString(2, collaborateur.getPrenom());
-            prs.setString(3, collaborateur.getNom());
-            prs.setString(4, collaborateur.getPostnom());
-            prs.setString(5, collaborateur.getSurnom());
-            prs.setString(6, collaborateur.getObservation());
-            prs.setInt(7, collaborateur.isActive() ? 1 : 0);
-            prs.setInt(8, collaborateur.getShop().getCode());
-            prs.setInt(9, collaborateur.getCode());
+            prs.setInt(1, codeCollaborateur);
 
             prs.execute();
             prs.close();
             conexao.close();
         }
+
         return true;
     }
 
-    //valide: true
-    public int selectionnerCodeCollaborateurSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM collaborateur");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
-    }
 }

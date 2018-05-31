@@ -39,12 +39,4 @@ public class ProfilUtilisateurService {
     public boolean enregistrerProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
         return ProfilUtilisateurDao.getInstance().enregistrerProfilUtilisateur(profilUtilisateur);
     }
-
-    public boolean actualiserProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
-        return ProfilUtilisateurDao.getInstance().actualiserProfilUtilisateur(profilUtilisateur);
-    }
-
-    public int selectionnerCodeProfilUtilisateurSubsequent() throws ClassNotFoundException, SQLException {
-        return ProfilUtilisateurDao.getInstance().selectionnerCodeProfilUtilisateurSubsequent();
-    }
 }

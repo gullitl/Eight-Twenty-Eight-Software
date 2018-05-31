@@ -34,11 +34,4 @@ public class ProduitService {
         return ProduitDao.getInstance().enregistrerProduit(produit);
     }
 
-    public boolean actualiserProduit(Produit produit) throws ClassNotFoundException, SQLException {
-        return ProduitDao.getInstance().actualiserProduit(produit);
-    }
-
-    public int selectionnerCodeProduitSubsequent() throws ClassNotFoundException, SQLException {
-        return ProduitDao.getInstance().selectionnerCodeProduitSubsequent();
-    }
 }

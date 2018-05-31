@@ -223,4 +223,22 @@ public class StockDao {
         }
         return 0;
     }
+
+    public boolean exclureStock(int codeStock) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM stock WHERE code=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setInt(1, codeStock);
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+
+        return true;
+    }
+
 }

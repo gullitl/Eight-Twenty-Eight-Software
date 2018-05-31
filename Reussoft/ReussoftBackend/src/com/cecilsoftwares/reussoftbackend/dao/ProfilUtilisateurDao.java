@@ -27,7 +27,6 @@ public class ProfilUtilisateurDao {
         return uniqueInstance;
     }
 
-    //valide = true
     public List<ProfilUtilisateur> listerTousLesProfilUtilisateurs()
             throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
@@ -61,7 +60,6 @@ public class ProfilUtilisateurDao {
         return profilUtilisateurs;
     }
 
-    //valide = true
     public ProfilUtilisateur selectionnerProfilUtilisateurParCode(int codeProfilUtilisateur)
             throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
@@ -98,14 +96,21 @@ public class ProfilUtilisateurDao {
         return null;
     }
 
-    //valide = true
     public boolean enregistrerProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO profilutilisateur(");
-            scriptSQL.append(" code, description, descriptionAbregee, observation");
-            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+            if (profilUtilisateur.getCode() == 0) {
+
+                scriptSQL = new StringBuilder("INSERT INTO profilutilisateur(");
+                scriptSQL.append(" description, descriptionAbregee, observation, code");
+                scriptSQL.append(" VALUES (?, ?, ?, ?)");
+
+            } else {
+                scriptSQL = new StringBuilder("UPDATE profilutilisateur");
+                scriptSQL.append(" SET description=?, descriptionAbregee=?, observation=?");
+                scriptSQL.append(" WHERE code=?");
+            }
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
@@ -121,52 +126,4 @@ public class ProfilUtilisateurDao {
         return true;
     }
 
-    //valide = true
-    public boolean actualiserProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE profilutilisateur");
-            scriptSQL.append(" SET description=?, descriptionAbregee=?, observation=?");
-            scriptSQL.append(" WHERE code=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setString(1, profilUtilisateur.getDescription());
-            prs.setString(2, profilUtilisateur.getDescriptionAbregee());
-            prs.setString(3, profilUtilisateur.getObservation());
-            prs.setInt(4, profilUtilisateur.getCode());
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    public int selectionnerCodeProfilUtilisateurSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM profilutilisateur");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
-    }
 }

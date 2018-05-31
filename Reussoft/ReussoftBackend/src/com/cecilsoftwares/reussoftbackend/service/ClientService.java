@@ -34,10 +34,6 @@ public class ClientService {
         return ClientDao.getInstance().enregistrerClient(client);
     }
 
-    public boolean actualiserClient(Client client) throws ClassNotFoundException, SQLException {
-        return ClientDao.getInstance().actualiserClient(client);
-    }
-
     public boolean exclureClient(int codeClient) throws ClassNotFoundException, SQLException {
         return ClientDao.getInstance().exclureClient(codeClient);
     }

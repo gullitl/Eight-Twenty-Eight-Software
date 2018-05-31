@@ -31,7 +31,6 @@ public class PrixVenteProduitDao {
         return uniqueInstance;
     }
 
-    //valide = true
     public List<PrixVenteProduit> listerTousLesPrixVenteProduits() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -79,7 +78,6 @@ public class PrixVenteProduitDao {
         return listePrixVenteProduits;
     }
 
-    //valide = true
     public PrixVenteProduit selectionnerPrixVenteProduitParCode(int codePrixVenteProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
@@ -131,7 +129,6 @@ public class PrixVenteProduitDao {
         return null;
     }
 
-    //Valide = true
     public boolean enregistrerPrixVenteProduit(PrixVenteProduit prixVenteProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
@@ -155,7 +152,6 @@ public class PrixVenteProduitDao {
         return true;
     }
 
-    //valide = true
     public boolean actualiserPrixVenteProduit(PrixVenteProduit prixVenteProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
@@ -179,30 +175,4 @@ public class PrixVenteProduitDao {
         return true;
     }
 
-    //valide = true
-    public int selectionnerCodePrixVenteProduitSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM prixVenteProduit");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
-    }
 }
