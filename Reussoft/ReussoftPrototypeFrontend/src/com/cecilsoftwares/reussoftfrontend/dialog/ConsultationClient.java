@@ -73,19 +73,11 @@ public class ConsultationClient extends javax.swing.JDialog {
         lblNombreClient.setText(clients.size() + " " + formeNombre);
     }
 
-    public JInternalFrame getFrameAncetre() {
-        return frameAncetre;
-    }
-
-    public void setFrameAncetre(JInternalFrame frameAncetre) {
-        this.frameAncetre = frameAncetre;
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tfdRechercheEntrepriseClient = new javax.swing.JTextField();
+        tfdRechercheNomClient = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblClient = new javax.swing.JTable();
         lblNombreClient = new javax.swing.JLabel();
@@ -95,9 +87,9 @@ public class ConsultationClient extends javax.swing.JDialog {
         setTitle("Clients");
         setResizable(false);
 
-        tfdRechercheEntrepriseClient.addKeyListener(new java.awt.event.KeyAdapter() {
+        tfdRechercheNomClient.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfdRechercheEntrepriseClientKeyReleased(evt);
+                tfdRechercheNomClientKeyReleased(evt);
             }
         });
 
@@ -150,7 +142,7 @@ public class ConsultationClient extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(lblNombreClient)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(tfdRechercheEntrepriseClient)
+                        .addComponent(tfdRechercheNomClient)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
@@ -160,7 +152,7 @@ public class ConsultationClient extends javax.swing.JDialog {
                 .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdRechercheEntrepriseClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfdRechercheNomClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -192,23 +184,31 @@ public class ConsultationClient extends javax.swing.JDialog {
 
     }
 
-    private void tfdRechercheEntrepriseClientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheEntrepriseClientKeyReleased
+    private void tfdRechercheNomClientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomClientKeyReleased
         List<Client> listeClients = new ArrayList();
-        for (Client client : clients) {
-            if (client.getEntreprise().toUpperCase()
-                    .startsWith(tfdRechercheEntrepriseClient.getText().toUpperCase())) {
-                listeClients.add(client);
-            }
-        }
+
+        clients.stream().filter((cp) -> (cp.getNom().toUpperCase()
+                .startsWith(tfdRechercheNomClient.getText().toUpperCase())))
+                .forEachOrdered((cp) -> {
+                    listeClients.add(cp);
+                });
 
         listerClients(listeClients);
-    }//GEN-LAST:event_tfdRechercheEntrepriseClientKeyReleased
+    }//GEN-LAST:event_tfdRechercheNomClientKeyReleased
+
+    public JInternalFrame getFrameAncetre() {
+        return frameAncetre;
+    }
+
+    public void setFrameAncetre(JInternalFrame frameAncetre) {
+        this.frameAncetre = frameAncetre;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblNombreClient;
     private javax.swing.JTable tblClient;
-    private javax.swing.JTextField tfdRechercheEntrepriseClient;
+    private javax.swing.JTextField tfdRechercheNomClient;
     // End of variables declaration//GEN-END:variables
 }

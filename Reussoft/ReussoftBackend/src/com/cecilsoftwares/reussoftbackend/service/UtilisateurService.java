@@ -34,6 +34,10 @@ public class UtilisateurService {
         return UtilisateurDao.getInstance().selectionnerUtilisateurParCode(codeUtilisateur);
     }
 
+    public Utilisateur selectionnerUtilisateurParCodeCollaborateur(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+        return UtilisateurDao.getInstance().selectionnerUtilisateurParCodeCollaborateur(codeCollaborateur);
+    }
+
     public boolean estUtilisateurDejaExistant(Utilisateur utilisateur, boolean modeEdition) throws ClassNotFoundException, SQLException {
         return UtilisateurDao.getInstance().estUtilisateurDejaExistant(utilisateur, modeEdition);
     }

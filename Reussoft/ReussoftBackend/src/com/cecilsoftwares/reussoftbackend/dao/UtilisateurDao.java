@@ -222,6 +222,69 @@ public class UtilisateurDao {
         return null;
     }
 
+    public Utilisateur selectionnerUtilisateurParCodeCollaborateur(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("SELECT utilisateur.code, utilisateur.nom, utilisateur.motDePasse, utilisateur.observation,");
+            scriptSQL.append(" utilisateur.idProfilUtilisateur, profilutilisateur.description, profilutilisateur.descriptionAbregee, profilutilisateur.observation");
+            scriptSQL.append(" utilisateur.idCollaborateur, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
+            scriptSQL.append(" collaborateur.observation, collaborateur.active");
+            scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
+            scriptSQL.append(" FROM utilisateur");
+            scriptSQL.append(" LEFT JOIN profilutilisateur");
+            scriptSQL.append(" ON utilisateur.idProfilUtilisateur = profilutilisateur.code");
+            scriptSQL.append(" LEFT JOIN collaborateur");
+            scriptSQL.append(" ON utilisateur.idCollaborateur = collaborateur.code");
+            scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
+            scriptSQL.append(" WHERE collaborateur.code=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setInt(1, codeCollaborateur);
+            res = prs.executeQuery();
+            if (res != null) {
+                if (res.next()) {
+
+                    Shop shop = new ShopBuilder(res.getInt(12))
+                            .nom(res.getString(13))
+                            .adresse(res.getString(14))
+                            .build();
+
+                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(7))
+                            .prenom(res.getString(8))
+                            .nom(res.getString(9))
+                            .postnom(res.getString(10))
+                            .surnom(res.getString(11))
+                            .shop(shop)
+                            .build();
+
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(4))
+                            .description(res.getString(5))
+                            .descriptionAbregee(res.getString(6))
+                            .build();
+
+                    Utilisateur utilisateur = new UtilisateurBuilder(res.getInt(1))
+                            .nom(res.getString(2))
+                            .motDePasse(res.getString(3))
+                            .profilUtilisateur(profilUtilisateur)
+                            .collaborateur(collaborateur)
+                            .build();
+
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
+                    return utilisateur;
+                }
+            }
+            prs.close();
+            res.close();
+            conexao.close();
+        }
+        return null;
+    }
+
     public boolean estUtilisateurDejaExistant(Utilisateur utilisateur, boolean modeEdition) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;

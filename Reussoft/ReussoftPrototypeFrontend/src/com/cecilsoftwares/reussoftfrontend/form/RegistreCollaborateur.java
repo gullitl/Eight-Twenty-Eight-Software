@@ -9,6 +9,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBui
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur;
+import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,15 @@ import javax.swing.JOptionPane;
  */
 public class RegistreCollaborateur extends JInternalFrame {
 
+    private int codeCollaborateur;
     private Utilisateur utilisateur;
+    private boolean modeEdition;
+    private boolean btnConsulterCollaborateurClickable;
+    private boolean btnConsulterShopClickable;
+    private boolean btnCreerUtilisateurClickable;
+    private boolean btnEnregistrerClickable;
+    private boolean btnExclureClickable;
+    private boolean btnAnnulerClickable;
 
     public RegistreCollaborateur() {
         initComponents();
@@ -29,12 +38,10 @@ public class RegistreCollaborateur extends JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        tfdCode = new javax.swing.JTextField();
         btnConsulterCollaborateur = new javax.swing.JButton();
         tfdPrenom = new javax.swing.JTextField();
         tfdNom = new javax.swing.JTextField();
@@ -54,12 +61,11 @@ public class RegistreCollaborateur extends JInternalFrame {
         tfdIdShop = new javax.swing.JTextField();
         btnConsulterShop = new javax.swing.JButton();
         lblDescriptionShop = new javax.swing.JLabel();
+        btnExclure = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registre de Collaborateur");
-
-        jLabel1.setText("Code:");
 
         jLabel2.setText("Prénom:");
 
@@ -124,22 +130,24 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         lblDescriptionShop.setText("jLabel10");
 
+        btnExclure.setText("EXCLURE");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(tfdIdShop, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnConsulterShop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDescriptionShop))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(chbActiver)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chbActiver)
                             .addComponent(jLabel9)
                             .addComponent(jLabel7)
                             .addGroup(layout.createSequentialGroup()
@@ -154,12 +162,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnConsulterCollaborateur))
-                                    .addComponent(tfdPrenom))
+                                    .addComponent(tfdPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,24 +170,22 @@ public class RegistreCollaborateur extends JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
-                                    .addComponent(tfdPostnom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane1))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(52, Short.MAX_VALUE))
+                                    .addComponent(tfdPostnom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnConsulterCollaborateur))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterCollaborateur))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -193,7 +194,8 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfdPostnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdPostnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterCollaborateur))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -219,54 +221,102 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .addGap(27, 27, 27)
                 .addComponent(chbActiver)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
         effacerFormulaire();
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
 
         Shop shop = new ShopBuilder(Integer.parseInt(tfdIdShop.getText())).build();
-        Collaborateur collaborateur = new CollaborateurBuilder(Integer.parseInt(tfdCode.getText()))
+        Collaborateur collaborateur = new CollaborateurBuilder(codeCollaborateur)
                 .prenom(tfdPrenom.getText())
                 .nom(tfdNom.getText())
                 .postnom(tfdPostnom.getText())
                 .surnom(tfdSurnom.getText())
                 .shop(shop)
-                .utilisateur(this.utilisateur)
+                .utilisateur(utilisateur)
                 .observation(txaObservation.getText())
                 .active(true)
                 .build();
 
         try {
             if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                 effacerFormulaire();
-                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+                JOptionPane.showMessageDialog(null, notification);
             }
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Collaborateur");
             Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
         }
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
+    private void btnCreerUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreerUtilisateurActionPerformed
+        if (!btnCreerUtilisateurClickable) {
+            return;
+        }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        creerUtilisateur();
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
+
+    }//GEN-LAST:event_btnCreerUtilisateurActionPerformed
+
+    private void creerUtilisateur() {
+        RegistreUtilisateur registreUtilisateur = new RegistreUtilisateur(null, true);
+        registreUtilisateur.setRegistreCollaborateur(this);
+        registreUtilisateur.setUtilisateur(utilisateur);
+        registreUtilisateur.setVisible(true);
+    }
+
+    public void utilisateurCreeSelectionne(Utilisateur utilisateur) {
+        if (utilisateur != null) {
+            this.utilisateur = utilisateur;
+
+            tfdIdUtilisateur.setText(String.valueOf(this.utilisateur.getCode()));
+            lblNomUtilisateur.setText(this.utilisateur.getNom());
+        }
+    }
+
+    private void btnConsulterCollaborateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCollaborateurActionPerformed
+
+        if (!btnConsulterCollaborateurClickable) {
+            return;
+        }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        consulterCollaborateur();
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_btnConsulterCollaborateurActionPerformed
+
+    private void consulterCollaborateur() {
+        ConsultationCollaborateur consultationCollaborateur = new ConsultationCollaborateur(null, true);
+        consultationCollaborateur.setFrameAncetre(this);
+        consultationCollaborateur.setVisible(true);
+    }
+
     public void collaborateurSelectionne(Collaborateur collaborateur) {
-        tfdCode.setText(String.valueOf(collaborateur.getCode()));
+        codeCollaborateur = collaborateur.getCode();
         tfdPrenom.setText(collaborateur.getPrenom());
         tfdNom.setText(collaborateur.getNom());
         tfdPostnom.setText(collaborateur.getPostnom());
@@ -280,36 +330,32 @@ public class RegistreCollaborateur extends JInternalFrame {
         chbActiver.setSelected(collaborateur.isActive());
     }
 
+    private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
+        if (!btnConsulterShopClickable) {
+            return;
+        }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        consulterShop();
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_btnConsulterShopActionPerformed
+
+    private void consulterShop() {
+        ConsultationShop consultationShop = new ConsultationShop(null, true);
+        consultationShop.setFrameAncetre(this);
+        consultationShop.setVisible(true);
+    }
+
     public void shopSelectionne(Shop shop) {
         tfdIdShop.setText(String.valueOf(shop.getCode()));
         lblDescriptionShop.setText(shop.getNom());
     }
-    private void btnCreerUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreerUtilisateurActionPerformed
-        RegistreUtilisateur registreUtilisateur = new RegistreUtilisateur(null, true);
-        registreUtilisateur.setRegistreCollaborateur(this);
-        registreUtilisateur.setUtilisateur(getUtilisateur());
-        registreUtilisateur.setVisible(true);
-        if (this.utilisateur != null) {
-            tfdIdUtilisateur.setText(String.valueOf(this.utilisateur.getCode()));
-            lblNomUtilisateur.setText(this.utilisateur.getNom());
-        }
-    }//GEN-LAST:event_btnCreerUtilisateurActionPerformed
-
-    private void btnConsulterCollaborateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCollaborateurActionPerformed
-        ConsultationCollaborateur consultationCollaborateur = new ConsultationCollaborateur(null, true);
-        consultationCollaborateur.setFrameAncetre(this);
-        consultationCollaborateur.setVisible(true);
-    }//GEN-LAST:event_btnConsulterCollaborateurActionPerformed
-
-    private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
-        ConsultationShop consultationShop = new ConsultationShop(null, true);
-        consultationShop.setFrameAncetre(this);
-        consultationShop.setVisible(true);
-    }//GEN-LAST:event_btnConsulterShopActionPerformed
 
     private void effacerFormulaire() {
-        tfdCode.setText("");
-        tfdCode.requestFocus();
+        codeCollaborateur = 0;
         tfdPrenom.setText("");
         tfdNom.setText("");
         tfdPostnom.setText("");
@@ -321,6 +367,25 @@ public class RegistreCollaborateur extends JInternalFrame {
         txaObservation.setText("");
         chbActiver.setVisible(false);
         chbActiver.setSelected(true);
+        habiliterComposantFormulaire(true);
+        btnExclure.setEnabled(false);
+    }
+
+    private void habiliterComposantFormulaire(boolean hcf) {
+        tfdPrenom.setEditable(hcf);
+        tfdNom.setEditable(hcf);
+        tfdPostnom.setEditable(hcf);
+        tfdSurnom.setEditable(hcf);
+        tfdIdShop.setEditable(hcf);
+        tfdIdUtilisateur.setEditable(hcf);
+        txaObservation.setEditable(hcf);
+        chbActiver.setEnabled(hcf);
+        btnConsulterCollaborateurClickable = hcf;
+        btnConsulterShopClickable = hcf;
+        btnCreerUtilisateurClickable = hcf;
+        btnEnregistrerClickable = hcf;
+        btnExclureClickable = hcf;
+        btnAnnulerClickable = hcf;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -329,8 +394,8 @@ public class RegistreCollaborateur extends JInternalFrame {
     private javax.swing.JButton btnConsulterShop;
     private javax.swing.JButton btnCreerUtilisateur;
     private javax.swing.JButton btnEnregistrer;
+    private javax.swing.JButton btnExclure;
     private javax.swing.JCheckBox chbActiver;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -341,7 +406,6 @@ public class RegistreCollaborateur extends JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDescriptionShop;
     private javax.swing.JLabel lblNomUtilisateur;
-    private javax.swing.JTextField tfdCode;
     private javax.swing.JTextField tfdIdShop;
     private javax.swing.JTextField tfdIdUtilisateur;
     private javax.swing.JTextField tfdNom;
