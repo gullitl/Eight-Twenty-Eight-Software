@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
+import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,13 @@ import javax.swing.JOptionPane;
  */
 public class RegistreProfilUtilisateur extends JInternalFrame {
 
+    private int codeProfilUtilisateur;
+    private boolean modeEdition;
+    private boolean btnConsulterProfilUtilisateurClickable;
+    private boolean btnEnregistrerClickable;
+    private boolean btnExclureClickable;
+    private boolean btnAnnulerClickable;
+
     public RegistreProfilUtilisateur() {
         initComponents();
         effacerFormulaire();
@@ -24,28 +32,25 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tfdCode = new javax.swing.JTextField();
         tfdDescription = new javax.swing.JTextField();
         tfdDescriptionAbregee = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaObservation = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
+        btnExclure = new javax.swing.JButton();
         btnConsulterProfilUtilisateur = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre de Catégorie de Produit");
+        setTitle("Registre de Profil d'utilisateur");
 
         txaObservation.setColumns(20);
         txaObservation.setRows(5);
         jScrollPane1.setViewportView(txaObservation);
-
-        jLabel1.setText("Code:");
 
         jLabel2.setText("Description:");
 
@@ -67,6 +72,13 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             }
         });
 
+        btnExclure.setText("EXCLURE");
+        btnExclure.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExclureActionPerformed(evt);
+            }
+        });
+
         btnConsulterProfilUtilisateur.setText("...");
         btnConsulterProfilUtilisateur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,39 +91,36 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel3)
+                        .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tfdDescription)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnConsulterProfilUtilisateur))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel4)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnConsulterProfilUtilisateur))
-                        .addComponent(jLabel3)
-                        .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(2, 2, 2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterProfilUtilisateur))
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterProfilUtilisateur))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -120,11 +129,12 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39))
+                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -135,7 +145,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(Integer.parseInt(tfdCode.getText()))
+        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(codeProfilUtilisateur)
                 .description(tfdDescription.getText())
                 .descriptionAbregee(tfdDescriptionAbregee.getText())
                 .observation(txaObservation.getText())
@@ -143,8 +153,9 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
         try {
             if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                 effacerFormulaire();
-                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+                JOptionPane.showMessageDialog(null, notification);
             }
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
@@ -153,37 +164,90 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterProfilUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProfilUtilisateurActionPerformed
+        if (btnConsulterProfilUtilisateurClickable) {
+
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
+
+            consulterProfilUtilisateur();
+
+            habiliterComposantFormulaire(true);
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
+
+    private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
+        Object[] options = {"Exclure", "Annuler"};
+        int n = JOptionPane.showOptionDialog(this,
+                "Êtes-vous sûr de vouloir exclure définitivement cette categorie de produit?",
+                "Question",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, //do not use a custom Icon
+                options, //the titles of buttons
+                options[0]); //default button title
+
+        if (n == 0) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
+            try {
+                ProfilUtilisateurService.getInstance().exclureProfilUtilisateur(codeProfilUtilisateur);
+                effacerFormulaire();
+                JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }//GEN-LAST:event_btnExclureActionPerformed
+
+    private void consulterProfilUtilisateur() {
         ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true);
         consultationProfilUtilisateur.setFrameAncetre(this);
         consultationProfilUtilisateur.setVisible(true);
-    }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
+    }
+
+    public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
+        if (profilUtilisateur != null) {
+
+            modeEdition = true;
+            btnExclure.setEnabled(true);
+
+            codeProfilUtilisateur = profilUtilisateur.getCode();
+            tfdDescription.setText(profilUtilisateur.getDescription());
+            tfdDescriptionAbregee.setText(profilUtilisateur.getDescriptionAbregee());
+            txaObservation.setText(profilUtilisateur.getObservation());
+            btnEnregistrer.setText("ACTUALISER");
+        }
+    }
 
     private void effacerFormulaire() {
-        tfdCode.setText("");
-        tfdCode.requestFocus();
+        codeProfilUtilisateur = 0;
         tfdDescription.setText("");
         tfdDescriptionAbregee.setText("");
         txaObservation.setText("");
     }
 
-    public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
-        tfdCode.setText(String.valueOf(profilUtilisateur.getCode()));
-        tfdDescription.setText(profilUtilisateur.getDescription());
-        tfdDescriptionAbregee.setText(profilUtilisateur.getDescriptionAbregee());
-        txaObservation.setText(profilUtilisateur.getObservation());
-
+    private void habiliterComposantFormulaire(boolean hcf) {
+        tfdDescription.setEditable(hcf);
+        tfdDescriptionAbregee.setEditable(hcf);
+        txaObservation.setEditable(hcf);
+        btnConsulterProfilUtilisateurClickable = hcf;
+        btnEnregistrerClickable = hcf;
+        btnExclureClickable = hcf;
+        btnAnnulerClickable = hcf;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterProfilUtilisateur;
     private javax.swing.JButton btnEnregistrer;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnExclure;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField tfdCode;
     private javax.swing.JTextField tfdDescription;
     private javax.swing.JTextField tfdDescriptionAbregee;
     private javax.swing.JTextArea txaObservation;

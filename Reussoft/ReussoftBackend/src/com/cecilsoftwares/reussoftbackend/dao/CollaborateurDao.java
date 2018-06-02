@@ -6,8 +6,6 @@ import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Utilisateur.UtilisateurBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,14 +38,14 @@ public class CollaborateurDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.active,");
-            scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom, collaborateur.observation,");
+            scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
+            scriptSQL.append(" collaborateur.nomUtilisateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.observation, shop.active,");
-            scriptSQL.append(" collaborateur.idUtilisateur, utilisateur.nom, utilisateur.motDePasse, utilisateur.observation, utilisateur.active");
-            scriptSQL.append(" utilisateur.idProfilUtilisateur, profilUtilisateur.description, profilUtilisateur.descriptionAbregee, profilUtilisateur.observation");
+            scriptSQL.append(" collaborateur.idProfilUtilisateur, profilUtilisateur.description,");
+            scriptSQL.append(" profilUtilisateur.descriptionAbregee, profilUtilisateur.observation");
             scriptSQL.append(" FROM collaborateur");
             scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
-            scriptSQL.append(" LEFT JOIN utilisateur ON collaborateur.idUtilisateur = utilisateur.code");
-            scriptSQL.append(" LEFT JOIN profilutilisateur ON utilisateur.idProfilUtilisateur = utilisateur.code");
+            scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = utilisateur.code");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -60,14 +58,6 @@ public class CollaborateurDao {
                             .description(res.getString(19))
                             .descriptionAbregee(res.getString(20))
                             .observation(res.getString(21))
-                            .build();
-
-                    Utilisateur utilisateur = new UtilisateurBuilder(res.getInt(13))
-                            .nom(res.getString(14))
-                            .motDePasse(res.getString(15))
-                            .observation(res.getString(16))
-                            .active(res.getInt(17) == 1)
-                            .profilUtilisateur(profilUtilisateur)
                             .build();
 
                     Shop shop = new ShopBuilder(res.getInt(8))
@@ -83,9 +73,8 @@ public class CollaborateurDao {
                             .nom(res.getString(4))
                             .postnom(res.getString(5))
                             .surnom(res.getString(6))
-                            .observation(res.getString(7))
                             .shop(shop)
-                            .utilisateur(utilisateur)
+                            .profilUtilisateur(profilUtilisateur)
                             .build();
 
                     listeCollaborateurs.add(collaborateur);
@@ -104,14 +93,14 @@ public class CollaborateurDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.active,");
-            scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom, collaborateur.observation,");
+            scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
+            scriptSQL.append(" collaborateur.nomUtilisateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.observation, shop.active,");
-            scriptSQL.append(" collaborateur.idUtilisateur, utilisateur.nom, utilisateur.motDePasse, utilisateur.observation, utilisateur.active");
-            scriptSQL.append(" utilisateur.idProfilUtilisateur, profilUtilisateur.description, profilUtilisateur.descriptionAbregee, profilUtilisateur.observation");
+            scriptSQL.append(" collaborateur.idProfilUtilisateur, profilUtilisateur.description,");
+            scriptSQL.append(" profilUtilisateur.descriptionAbregee, profilUtilisateur.observation");
             scriptSQL.append(" FROM collaborateur");
             scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
-            scriptSQL.append(" LEFT JOIN utilisateur ON collaborateur.idUtilisateur = utilisateur.code");
-            scriptSQL.append(" LEFT JOIN profilutilisateur ON utilisateur.idProfilUtilisateur = utilisateur.code");
+            scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = utilisateur.code");
             scriptSQL.append(" WHERE collaborateur.code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -127,14 +116,6 @@ public class CollaborateurDao {
                             .observation(res.getString(21))
                             .build();
 
-                    Utilisateur utilisateur = new UtilisateurBuilder(res.getInt(13))
-                            .nom(res.getString(14))
-                            .motDePasse(res.getString(15))
-                            .observation(res.getString(16))
-                            .active(res.getInt(17) == 1)
-                            .profilUtilisateur(profilUtilisateur)
-                            .build();
-
                     Shop shop = new ShopBuilder(res.getInt(8))
                             .nom(res.getString(9))
                             .adresse(res.getString(10))
@@ -148,9 +129,8 @@ public class CollaborateurDao {
                             .nom(res.getString(4))
                             .postnom(res.getString(5))
                             .surnom(res.getString(6))
-                            .observation(res.getString(7))
                             .shop(shop)
-                            .utilisateur(utilisateur)
+                            .profilUtilisateur(profilUtilisateur)
                             .build();
 
                     prs.close();
@@ -174,14 +154,14 @@ public class CollaborateurDao {
 
             if (collaborateur.getCode() == 0) {
                 scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
-                scriptSQL.append(" prenom, nom, postnom, surnom, observation, active,");
+                scriptSQL.append(" prenom, nom, postnom, surnom, nomUtilisateur, motDePasse, active,");
                 scriptSQL.append(" idShop, idUtilisateur, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE collaborateur");
-                scriptSQL.append(" SET prenom=?, nom=?, postnom=?, surnom=?, observation=?, active=?,");
+                scriptSQL.append(" SET prenom=?, nom=?, postnom=?, surnom=?, nomUtilisateur=?, motDePasse=?, active=?,");
                 scriptSQL.append(" idUtilisateur=?, idShop=?");
                 scriptSQL.append(" WHERE code=?");
             }
@@ -193,10 +173,11 @@ public class CollaborateurDao {
             prs.setString(3, collaborateur.getNom());
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
-            prs.setString(6, collaborateur.getObservation());
-            prs.setInt(7, collaborateur.isActive() ? 1 : 0);
-            prs.setInt(8, collaborateur.getShop().getCode());
-            prs.setInt(9, collaborateur.getUtilisateur().getCode());
+            prs.setString(6, collaborateur.getNomUtilisateur());
+            prs.setString(7, collaborateur.getMotDePasse());
+            prs.setInt(8, collaborateur.isActive() ? 1 : 0);
+            prs.setInt(9, collaborateur.getShop().getCode());
+            prs.setInt(10, collaborateur.getProfilUtilisateur().getCode());
 
             prs.execute();
             prs.close();

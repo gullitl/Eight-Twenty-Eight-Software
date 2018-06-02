@@ -11,9 +11,10 @@ public class Collaborateur {
     private final String postnom;
     private final String surnom;
     private final Shop shop;
-    private final Utilisateur utilisateur;
+    private final ProfilUtilisateur profilUtilisateur;
     private final boolean active;
-    private final String observation;
+    private final String nomUtilisateur;
+    private final String motDePasse;
 
     public Collaborateur(CollaborateurBuilder collaborateurBuilder) {
         code = collaborateurBuilder.code;
@@ -21,10 +22,11 @@ public class Collaborateur {
         nom = collaborateurBuilder.nom;
         postnom = collaborateurBuilder.prenom;
         surnom = collaborateurBuilder.surnom;
-        utilisateur = collaborateurBuilder.utilisateur;
+        profilUtilisateur = collaborateurBuilder.profilUtilisateur;
         shop = collaborateurBuilder.shop;
         active = collaborateurBuilder.active;
-        observation = collaborateurBuilder.observation;
+        nomUtilisateur = collaborateurBuilder.nomUtilisateur;
+        motDePasse = collaborateurBuilder.motDePasse;
     }
 
     public int getCode() {
@@ -47,8 +49,8 @@ public class Collaborateur {
         return surnom;
     }
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
+    public ProfilUtilisateur getProfilUtilisateur() {
+        return profilUtilisateur;
     }
 
     public Shop getShop() {
@@ -59,8 +61,12 @@ public class Collaborateur {
         return active;
     }
 
-    public String getObservation() {
-        return observation;
+    public String getNomUtilisateur() {
+        return nomUtilisateur;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
     }
 
     public static class CollaborateurBuilder {
@@ -70,10 +76,11 @@ public class Collaborateur {
         private String nom;
         private String postnom;
         private String surnom;
-        private Utilisateur utilisateur;
+        private ProfilUtilisateur profilUtilisateur;
         private Shop shop;
         private boolean active;
-        private String observation;
+        private String nomUtilisateur;
+        private String motDePasse;
 
         public CollaborateurBuilder(int code) {
             this.code = code;
@@ -99,8 +106,8 @@ public class Collaborateur {
             return this;
         }
 
-        public CollaborateurBuilder utilisateur(Utilisateur utilisateur) {
-            this.utilisateur = utilisateur;
+        public CollaborateurBuilder profilUtilisateur(ProfilUtilisateur profilUtilisateur) {
+            this.profilUtilisateur = profilUtilisateur;
             return this;
         }
 
@@ -114,8 +121,13 @@ public class Collaborateur {
             return this;
         }
 
-        public CollaborateurBuilder observation(String observation) {
-            this.observation = observation;
+        public CollaborateurBuilder nomUtilisateur(String nomUtilisateur) {
+            this.nomUtilisateur = nomUtilisateur;
+            return this;
+        }
+
+        public CollaborateurBuilder motDePasse(String motDePasse) {
+            this.motDePasse = motDePasse;
             return this;
         }
 

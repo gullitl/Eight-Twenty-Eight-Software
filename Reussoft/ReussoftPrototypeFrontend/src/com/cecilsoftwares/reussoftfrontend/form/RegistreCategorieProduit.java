@@ -169,17 +169,16 @@ public class RegistreCategorieProduit extends JInternalFrame {
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterCategorieProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCategorieProduitActionPerformed
-        if (!btnConsulterCategorieProduitClickable) {
-            return;
+        if (btnConsulterCategorieProduitClickable) {
+
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
+
+            consulterCategorieProduit();
+
+            habiliterComposantFormulaire(true);
+            setCursor(Cursor.getDefaultCursor());
         }
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
-
-        consulterCategorieProduit();
-
-        habiliterComposantFormulaire(true);
-        setCursor(Cursor.getDefaultCursor());
-
     }//GEN-LAST:event_btnConsulterCategorieProduitActionPerformed
 
     private void consulterCategorieProduit() {
@@ -188,8 +187,22 @@ public class RegistreCategorieProduit extends JInternalFrame {
         consultationCategorieProduit.setVisible(true);
     }
 
+    public void categorieProduitSelectionne(CategorieProduit categorieProduit) {
+        if (categorieProduit != null) {
+
+            modeEdition = true;
+            btnExclure.setEnabled(true);
+
+            codeCategorieProduit = categorieProduit.getCode();
+            tfdDescription.setText(categorieProduit.getDescription());
+            tfdDescriptionAbregee.setText(categorieProduit.getDescriptionAbregee());
+            txaObservation.setText(categorieProduit.getObservation());
+            btnEnregistrer.setText("ACTUALISER");
+        }
+    }
+
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
-        Object[] options = {"Exlure", "Annuler"};
+        Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
                 "Êtes-vous sûr de vouloir exclure définitivement cette categorie de produit?",
                 "Question",
@@ -204,9 +217,8 @@ public class RegistreCategorieProduit extends JInternalFrame {
             habiliterComposantFormulaire(false);
             try {
                 CategorieProduitService.getInstance().exclureCategorieProduit(codeCategorieProduit);
-                String notification = "Exclusion effectuée avec succès";
                 effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+                JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
@@ -214,21 +226,6 @@ public class RegistreCategorieProduit extends JInternalFrame {
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
-
-    public void categorieProduitSelectionne(CategorieProduit categorieProduit) {
-        if (categorieProduit == null) {
-            return;
-        }
-
-        modeEdition = true;
-        btnExclure.setEnabled(true);
-
-        codeCategorieProduit = categorieProduit.getCode();
-        tfdDescription.setText(categorieProduit.getDescription());
-        tfdDescriptionAbregee.setText(categorieProduit.getDescriptionAbregee());
-        txaObservation.setText(categorieProduit.getObservation());
-        btnEnregistrer.setText("ACTUALISER");
-    }
 
     private void effacerFormulaire() {
         codeCategorieProduit = 0;
@@ -247,6 +244,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
         txaObservation.setEditable(hcf);
         btnConsulterCategorieProduitClickable = hcf;
         btnEnregistrerClickable = hcf;
+        btnExclureClickable = hcf;
         btnAnnulerClickable = hcf;
     }
 

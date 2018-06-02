@@ -213,7 +213,7 @@ public class RegistreClient extends JInternalFrame {
     }//GEN-LAST:event_btnConsulterClientActionPerformed
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
-        Object[] options = {"Exlure", "Annuler"};
+        Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
                 "Êtes-vous sûr de vouloir exclure définitivement cette categorie de produit?",
                 "Question",
@@ -228,9 +228,8 @@ public class RegistreClient extends JInternalFrame {
             habiliterComposantFormulaire(false);
             try {
                 ClientService.getInstance().exclureClient(codeClient);
-                String notification = "Exclusion effectuée avec succès";
                 effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+                JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);

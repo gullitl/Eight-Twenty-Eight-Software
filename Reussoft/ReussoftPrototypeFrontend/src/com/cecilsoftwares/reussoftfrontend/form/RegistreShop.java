@@ -270,22 +270,47 @@ public class RegistreShop extends JInternalFrame {
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
+        if (btnConsulterShopClickable) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
 
-        if (!btnConsulterShopClickable) {
-            return;
+            consulterShop();
+
+            habiliterComposantFormulaire(true);
+            setCursor(Cursor.getDefaultCursor());
         }
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
-
-        consulterShop();
-
-        habiliterComposantFormulaire(true);
-        setCursor(Cursor.getDefaultCursor());
-
     }//GEN-LAST:event_btnConsulterShopActionPerformed
 
+    private void consulterShop() {
+        ConsultationShop consultationShop = new ConsultationShop(null, true);
+        consultationShop.setFrameAncetre(this);
+        consultationShop.setVisible(true);
+    }
+
+    public void shopSelectionne(Shop shop) {
+        if (shop != null) {
+            modeEdition = true;
+            btnExclure.setEnabled(true);
+
+            codeShop = shop.getCode();
+            tfdNom.setText(shop.getNom());
+
+            String[] adresse = shop.getAdresse().split(separateurAdresse);
+            tfdAvenue.setText(adresse[0]);
+            tfdNumero.setText(adresse[1]);
+            tfdQuartier.setText(adresse[2]);
+            tfdCommune.setText(adresse[3]);
+            cbxProvince.setSelectedIndex(0);
+            tfdDistrict.setText(adresse[5]);
+
+            chbActiver.setVisible(true);
+            chbActiver.setSelected(shop.isActive());
+            btnEnregistrer.setText("ACTUALISER");
+        }
+    }
+
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
-        Object[] options = {"Exlure", "Annuler"};
+        Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
                 "Êtes-vous sûr de vouloir exclure définitivement ce shop?",
                 "Question",
@@ -300,9 +325,8 @@ public class RegistreShop extends JInternalFrame {
             habiliterComposantFormulaire(false);
             try {
                 ShopService.getInstance().exclureShop(codeShop);
-                String notification = "Exclusion effectuée avec succès";
                 effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+                JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
@@ -310,12 +334,6 @@ public class RegistreShop extends JInternalFrame {
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
-
-    private void consulterShop() {
-        ConsultationShop consultationShop = new ConsultationShop(null, true);
-        consultationShop.setFrameAncetre(this);
-        consultationShop.setVisible(true);
-    }
 
     private void habiliterComposantFormulaire(boolean hcf) {
         tfdNom.setEditable(hcf);
@@ -331,30 +349,6 @@ public class RegistreShop extends JInternalFrame {
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
 
-    }
-
-    public void shopSelectionne(Shop shop) {
-        if (shop == null) {
-            return;
-        }
-
-        modeEdition = true;
-        btnExclure.setEnabled(true);
-
-        codeShop = shop.getCode();
-        tfdNom.setText(shop.getNom());
-
-        String[] adresse = shop.getAdresse().split(separateurAdresse);
-        tfdAvenue.setText(adresse[0]);
-        tfdNumero.setText(adresse[1]);
-        tfdQuartier.setText(adresse[2]);
-        tfdCommune.setText(adresse[3]);
-        cbxProvince.setSelectedIndex(0);
-        tfdDistrict.setText(adresse[5]);
-
-        chbActiver.setVisible(true);
-        chbActiver.setSelected(shop.isActive());
-        btnEnregistrer.setText("ACTUALISER");
     }
 
     private void effacerFormulaire() {

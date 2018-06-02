@@ -177,20 +177,39 @@ public class RegistreReseau extends JInternalFrame {
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterReseauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterReseauActionPerformed
-        if (!btnConsulterReseauClickable) {
-            return;
+        if (btnConsulterReseauClickable) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
+
+            consulterReseau();
+
+            habiliterComposantFormulaire(true);
+            setCursor(Cursor.getDefaultCursor());
         }
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
-
-        consulterShop();
-
-        habiliterComposantFormulaire(true);
-        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterReseauActionPerformed
 
+    private void consulterReseau() {
+        ConsultationReseau consultationReseau = new ConsultationReseau(null, true);
+        consultationReseau.setFrameAncetre(this);
+        consultationReseau.setVisible(true);
+    }
+
+    public void reseauSelectionne(Reseau reseau) {
+        if (reseau != null) {
+            modeEdition = true;
+            btnExclure.setEnabled(true);
+            codeReseau = reseau.getCode();
+            tfdNom.setText(reseau.getNom());
+            tfdNomAbrege.setText(reseau.getNomAbrege());
+            txaObservation.setText(reseau.getObservation());
+            chbActiver.setVisible(true);
+            chbActiver.setSelected(reseau.isActive());
+            btnEnregistrer.setText("ACTUALISER");
+        }
+    }
+
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
-        Object[] options = {"Exlure", "Annuler"};
+        Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
                 "Êtes-vous sûr de vouloir exclure définitivement ce reseau?",
                 "Question",
@@ -205,9 +224,8 @@ public class RegistreReseau extends JInternalFrame {
             habiliterComposantFormulaire(false);
             try {
                 ReseauService.getInstance().exclureReseau(codeReseau);
-                String notification = "Exclusion effectuée avec succès";
                 effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+                JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion du Reseau");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
@@ -223,28 +241,6 @@ public class RegistreReseau extends JInternalFrame {
         btnConsulterReseauClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
-    }
-
-    private void consulterShop() {
-        ConsultationReseau consultationReseau = new ConsultationReseau(null, true);
-        consultationReseau.setFrameAncetre(this);
-        consultationReseau.setVisible(true);
-    }
-
-    public void reseauSelectionne(Reseau reseau) {
-        if (reseau == null) {
-            return;
-        }
-
-        modeEdition = true;
-        btnExclure.setEnabled(true);
-        codeReseau = reseau.getCode();
-        tfdNom.setText(reseau.getNom());
-        tfdNomAbrege.setText(reseau.getNomAbrege());
-        txaObservation.setText(reseau.getObservation());
-        chbActiver.setVisible(true);
-        chbActiver.setSelected(reseau.isActive());
-        btnEnregistrer.setText("ACTUALISER");
     }
 
     private void effacerFormulaire() {

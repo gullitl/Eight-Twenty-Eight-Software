@@ -191,17 +191,16 @@ public class RegistreFournisseur extends JInternalFrame {
     }
 
     private void btnConsulterFournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterFournisseurActionPerformed
+        if (btnConsulterFournisseurClickable) {
 
-        if (!btnConsulterFournisseurClickable) {
-            return;
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
+
+            consulterFournisseur();
+
+            habiliterComposantFormulaire(true);
+            setCursor(Cursor.getDefaultCursor());
         }
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
-
-        consulterFournisseur();
-
-        habiliterComposantFormulaire(true);
-        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterFournisseurActionPerformed
 
     private void consulterFournisseur() {
@@ -210,8 +209,22 @@ public class RegistreFournisseur extends JInternalFrame {
         consultationFournisseur.setVisible(true);
     }
 
+    public void fournisseurSelectionne(Fournisseur fournisseur) {
+        if (fournisseur != null) {
+            modeEdition = true;
+            btnExclure.setEnabled(true);
+
+            codeFournisseur = fournisseur.getCode();
+            tfdResponsable.setText(fournisseur.getResponsable());
+            tfdTelephone.setText(fournisseur.getTelephone());
+            tfdEntreprise.setText(fournisseur.getEntreprise());
+            txaObservation.setText(fournisseur.getObservation());
+            btnEnregistrer.setText("ACTUALISER");
+        }
+    }
+
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
-        Object[] options = {"Exlure", "Annuler"};
+        Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
                 "Êtes-vous sûr de vouloir exclure définitivement ce fournisseur?",
                 "Question",
@@ -226,9 +239,8 @@ public class RegistreFournisseur extends JInternalFrame {
             habiliterComposantFormulaire(false);
             try {
                 FournisseurService.getInstance().exclureFournisseur(codeFournisseur);
-                String notification = "Exclusion effectuée avec succès";
                 effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+                JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException | ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
@@ -236,22 +248,6 @@ public class RegistreFournisseur extends JInternalFrame {
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
-
-    public void fournisseurSelectionne(Fournisseur fournisseur) {
-        if (fournisseur == null) {
-            return;
-        }
-
-        modeEdition = true;
-        btnExclure.setEnabled(true);
-
-        codeFournisseur = fournisseur.getCode();
-        tfdResponsable.setText(fournisseur.getResponsable());
-        tfdTelephone.setText(fournisseur.getTelephone());
-        tfdEntreprise.setText(fournisseur.getEntreprise());
-        txaObservation.setText(fournisseur.getObservation());
-        btnEnregistrer.setText("ACTUALISER");
-    }
 
     private void effacerFormulaire() {
         codeFournisseur = 0;

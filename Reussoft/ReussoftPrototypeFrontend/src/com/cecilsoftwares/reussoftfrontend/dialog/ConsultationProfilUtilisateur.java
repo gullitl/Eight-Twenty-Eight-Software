@@ -1,10 +1,11 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
 import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
-import com.cecilsoftwares.reussoftbackend.service.ShopService;
+import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,8 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
-    private List<Shop> shops;
+    private ProfilUtilisateur profilUtilisateur;
+    private List<ProfilUtilisateur> profilsUtilisateur;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
@@ -30,26 +32,49 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
     public ConsultationProfilUtilisateur(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        enFermantDialog();
+
         defaultTableModel = (DefaultTableModel) tblProfilUtilisateur.getModel();
         dataRows = new Object[2];
 
+        chargementProfilsUtilisateur();
+    }
+
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (frameAncetre instanceof RegistreProfilUtilisateur) {
+                    RegistreProfilUtilisateur registreProfilUtilisateur = (RegistreProfilUtilisateur) frameAncetre;
+                    registreProfilUtilisateur.profilUtilisateurSelectionne(profilUtilisateur);
+                } else if (frameAncetre instanceof RegistreCollaborateur) {
+                    RegistreCollaborateur registreCollaborateur = (RegistreCollaborateur) frameAncetre;
+                    registreCollaborateur.profilUtilisateurSelectionne(profilUtilisateur);
+                }
+            }
+        });
+    }
+
+    private void chargementProfilsUtilisateur() {
         try {
-            shops = ShopService.getInstance().listerTousLesShops();
-            listerShops(shops);
+            profilsUtilisateur = ProfilUtilisateurService.getInstance().listerTousLesProfilUtilisateurs();
+            listerProfilsUtilisateur(profilsUtilisateur);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void listerShops(List<Shop> shops) {
+    private void listerProfilsUtilisateur(List<ProfilUtilisateur> profilsUtilisateur) {
         defaultTableModel.setRowCount(0);
-        for (Shop shop : shops) {
-            dataRows[0] = shop.getCode();
-            dataRows[1] = shop.getNom();
+
+        profilsUtilisateur.forEach(pu -> {
+            dataRows[0] = pu.getCode();
+            dataRows[1] = pu.getDescription();
             defaultTableModel.addRow(dataRows);
-        }
-        String formeNombre = shops.size() > 1 ? "Shops" : "Shop";
-        lblNombreProfilUtilisateur.setText(shops.size() + " " + formeNombre);
+        });
+
+        String formeNombre = profilsUtilisateur.size() > 1 ? "Shops" : "Shop";
+        lblNombreProfilUtilisateur.setText(profilsUtilisateur.size() + " " + formeNombre);
     }
 
     public JInternalFrame getFrameAncetre() {
@@ -117,7 +142,7 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
 
         lblNombreProfilUtilisateur.setText("jLabel1");
 
-        jLabel1.setText("Nom");
+        jLabel1.setText("Description:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,34 +178,32 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
 
     private void tblProfilUtilisateurMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProfilUtilisateurMouseClicked
         if (evt.getClickCount() == 2) {
-            if (getFrameAncetre() != null) {
-                try {
-                    int row = tblProfilUtilisateur.getSelectedRow();
-                    ProfilUtilisateur profilUtilisateur = ProfilUtilisateurService.getInstance()
-                            .selectionnerProfilUtilisateurParCode((int) defaultTableModel.getValueAt(row, 0));
-                    if (getFrameAncetre() instanceof RegistreProfilUtilisateur) {
-                        RegistreProfilUtilisateur registreProfilUtilisateur = (RegistreProfilUtilisateur) getFrameAncetre();
-                        registreProfilUtilisateur.profilUtilisateurSelectionne(profilUtilisateur);
-                    }
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            selectionnerProfilUtilisateur();
             dispose();
         }
 
     }//GEN-LAST:event_tblProfilUtilisateurMouseClicked
 
-    private void tfdRechercheDescriptionProfilUtilisateurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDescriptionProfilUtilisateurKeyReleased
-        List<Shop> listeShops = new ArrayList();
-        for (Shop shop : shops) {
-            if (shop.getNom().toUpperCase()
-                    .startsWith(tfdRechercheDescriptionProfilUtilisateur.getText().toUpperCase())) {
-                listeShops.add(shop);
-            }
-        }
+    private void selectionnerProfilUtilisateur() {
+        if (frameAncetre != null) {
+            int row = tblProfilUtilisateur.getSelectedRow();
 
-        listerShops(listeShops);
+            profilUtilisateur = profilsUtilisateur.stream()
+                    .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                    .findFirst().orElse(null);
+        }
+    }
+
+    private void tfdRechercheDescriptionProfilUtilisateurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDescriptionProfilUtilisateurKeyReleased
+        List<ProfilUtilisateur> listeProfilsUtilisateur = new ArrayList();
+
+        profilsUtilisateur.stream().filter((cp) -> (cp.getDescription().toUpperCase()
+                .startsWith(tfdRechercheDescriptionProfilUtilisateur.getText().toUpperCase())))
+                .forEachOrdered((cp) -> {
+                    listeProfilsUtilisateur.add(cp);
+                });
+
+        listerProfilsUtilisateur(listeProfilsUtilisateur);
     }//GEN-LAST:event_tfdRechercheDescriptionProfilUtilisateurKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

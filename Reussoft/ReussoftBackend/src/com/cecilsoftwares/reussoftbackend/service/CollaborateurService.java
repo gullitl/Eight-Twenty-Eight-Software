@@ -34,4 +34,8 @@ public class CollaborateurService {
         return CollaborateurDao.getInstance().enregistrerCollaborateur(collaborateur);
     }
 
+    public boolean exclureCollaborateur(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+        return CollaborateurDao.getInstance().exclureCollaborateur(codeCollaborateur);
+    }
+
 }
