@@ -33,7 +33,7 @@ public class ReseauDao {
         List<Reseau> listeReseaus;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, nom, nomAbrege, observation");
+            scriptSQL = new StringBuilder("SELECT code, nom, nomAbrege, active, observation");
             scriptSQL.append(" FROM reseau");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -46,7 +46,8 @@ public class ReseauDao {
                     Reseau reseau = new ReseauBuilder(res.getInt(1))
                             .nom(res.getString(2))
                             .nomAbrege(res.getString(3))
-                            .observation(res.getString(4))
+                            .active(res.getInt(4) == 1)
+                            .observation(res.getString(5))
                             .build();
 
                     listeReseaus.add(reseau);
@@ -64,7 +65,7 @@ public class ReseauDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, nom, nomAbrege, observation");
+            scriptSQL = new StringBuilder("SELECT code, nom, nomAbrege, active, observation");
             scriptSQL.append(" FROM reseau WHERE reseau.code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -77,7 +78,8 @@ public class ReseauDao {
                     Reseau reseau = new ReseauBuilder(res.getInt(1))
                             .nom(res.getString(2))
                             .nomAbrege(res.getString(3))
-                            .observation(res.getString(4))
+                            .active(res.getInt(4) == 1)
+                            .observation(res.getString(5))
                             .build();
 
                     prs.close();
@@ -101,20 +103,21 @@ public class ReseauDao {
             if (reseau.getCode() == 0) {
 
                 scriptSQL = new StringBuilder("INSERT INTO reseau(");
-                scriptSQL.append(" nom, nomAbrege, observation, code)");
-                scriptSQL.append(" VALUES (?, ?, ?, ?)");
+                scriptSQL.append(" nom, nomAbrege, active, observation, code)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE reseau");
-                scriptSQL.append(" SET nom=?, nomAbrege=?, observation=?");
+                scriptSQL.append(" SET nom=?, nomAbrege=?, active=?, observation=?");
                 scriptSQL.append(" WHERE code=?");
             }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, reseau.getCode());
-            prs.setString(2, reseau.getNom());
-            prs.setString(3, reseau.getNomAbrege());
+            prs.setString(1, reseau.getNom());
+            prs.setString(2, reseau.getNomAbrege());
+            prs.setInt(3, reseau.isActive() ? 1 : 0);
             prs.setString(4, reseau.getObservation());
+            prs.setInt(5, reseau.getCode());
 
             prs.execute();
             prs.close();

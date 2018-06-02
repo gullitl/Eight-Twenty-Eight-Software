@@ -168,9 +168,8 @@ public class CollaborateurDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, collaborateur.getCode());
-            prs.setString(2, collaborateur.getPrenom());
-            prs.setString(3, collaborateur.getNom());
+            prs.setString(1, collaborateur.getPrenom());
+            prs.setString(2, collaborateur.getNom());
             prs.setString(4, collaborateur.getPostnom());
             prs.setString(5, collaborateur.getSurnom());
             prs.setString(6, collaborateur.getNomUtilisateur());
@@ -178,6 +177,7 @@ public class CollaborateurDao {
             prs.setInt(8, collaborateur.isActive() ? 1 : 0);
             prs.setInt(9, collaborateur.getShop().getCode());
             prs.setInt(10, collaborateur.getProfilUtilisateur().getCode());
+            prs.setInt(11, collaborateur.getCode());
 
             prs.execute();
             prs.close();

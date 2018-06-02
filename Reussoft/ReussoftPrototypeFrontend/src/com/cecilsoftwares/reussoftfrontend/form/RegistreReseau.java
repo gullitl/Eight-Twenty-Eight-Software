@@ -137,9 +137,9 @@ public class RegistreReseau extends JInternalFrame {
                 .addComponent(chbActiver)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27))
         );
 
@@ -158,7 +158,7 @@ public class RegistreReseau extends JInternalFrame {
                 .nom(tfdNom.getText())
                 .nomAbrege(tfdNomAbrege.getText())
                 .observation(txaObservation.getText())
-                .active(true)
+                .active(modeEdition ? chbActiver.isSelected() : true)
                 .build();
 
         try {
@@ -181,18 +181,14 @@ public class RegistreReseau extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            consulterReseau();
+            ConsultationReseau consultationReseau = new ConsultationReseau(null, true);
+            consultationReseau.setFrameAncetre(this);
+            consultationReseau.setVisible(true);
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterReseauActionPerformed
-
-    private void consulterReseau() {
-        ConsultationReseau consultationReseau = new ConsultationReseau(null, true);
-        consultationReseau.setFrameAncetre(this);
-        consultationReseau.setVisible(true);
-    }
 
     public void reseauSelectionne(Reseau reseau) {
         if (reseau != null) {
@@ -211,7 +207,7 @@ public class RegistreReseau extends JInternalFrame {
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
-                "Êtes-vous sûr de vouloir exclure définitivement ce reseau?",
+                "Êtes-vous sûr de vouloir exclure définitivement ce réseau?",
                 "Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -246,10 +242,13 @@ public class RegistreReseau extends JInternalFrame {
     private void effacerFormulaire() {
         codeReseau = 0;
         tfdNom.setText("");
+        tfdNom.requestFocus();
         tfdNomAbrege.setText("");
         txaObservation.setText("");
         chbActiver.setVisible(false);
         chbActiver.setSelected(true);
+        modeEdition = false;
+        btnEnregistrer.setText("ENREGISTRER");
         habiliterComposantFormulaire(true);
         btnExclure.setEnabled(false);
     }

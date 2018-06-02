@@ -125,15 +125,15 @@ public class TauxMonnaieDao {
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
             } else {
                 scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
-                scriptSQL.append(" SET dateheure=?, valeur=?, observateur=?,");
+                scriptSQL.append(" SET dateheure=?, valeur=?, observateur=?");
                 scriptSQL.append(" WHERE code=?");
             }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, tauxMonnaie.getCode());
-            prs.setTimestamp(2, new Timestamp(tauxMonnaie.getDateHeure().getTime()));
-            prs.setBigDecimal(3, tauxMonnaie.getValeur());
-            prs.setString(4, tauxMonnaie.getObservation());
+            prs.setTimestamp(1, new Timestamp(tauxMonnaie.getDateHeure().getTime()));
+            prs.setBigDecimal(2, tauxMonnaie.getValeur());
+            prs.setString(3, tauxMonnaie.getObservation());
+            prs.setInt(4, tauxMonnaie.getCode());
 
             prs.execute();
             prs.close();

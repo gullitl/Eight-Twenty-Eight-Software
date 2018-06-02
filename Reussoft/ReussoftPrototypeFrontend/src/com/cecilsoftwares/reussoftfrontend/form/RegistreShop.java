@@ -225,10 +225,10 @@ public class RegistreShop extends JInternalFrame {
                 .addComponent(chbActiver)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -274,18 +274,14 @@ public class RegistreShop extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            consulterShop();
+            ConsultationShop consultationShop = new ConsultationShop(null, true);
+            consultationShop.setFrameAncetre(this);
+            consultationShop.setVisible(true);
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterShopActionPerformed
-
-    private void consulterShop() {
-        ConsultationShop consultationShop = new ConsultationShop(null, true);
-        consultationShop.setFrameAncetre(this);
-        consultationShop.setVisible(true);
-    }
 
     public void shopSelectionne(Shop shop) {
         if (shop != null) {
@@ -354,6 +350,7 @@ public class RegistreShop extends JInternalFrame {
     private void effacerFormulaire() {
         codeShop = 0;
         tfdNom.setText("");
+        tfdNom.requestFocus();
         tfdAvenue.setText("");
         tfdNumero.setText("");
         tfdQuartier.setText("");
@@ -363,6 +360,8 @@ public class RegistreShop extends JInternalFrame {
         txaObservation.setText("");
         chbActiver.setVisible(false);
         chbActiver.setSelected(true);
+        modeEdition = false;
+        btnEnregistrer.setText("ENREGISTRER");
         habiliterComposantFormulaire(true);
         btnExclure.setEnabled(false);
     }

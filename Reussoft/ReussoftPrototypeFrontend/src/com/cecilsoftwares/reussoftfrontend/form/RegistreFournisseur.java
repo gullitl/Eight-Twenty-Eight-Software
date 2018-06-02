@@ -40,6 +40,11 @@ public class RegistreFournisseur extends JInternalFrame {
         tfdEntreprise = new javax.swing.JTextField();
         tfdResponsable = new javax.swing.JTextField();
         tfdTelephone = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter telefone = new javax.swing.text.MaskFormatter("(##) ####-####");
+            tfdTelephone = new javax.swing.JFormattedTextField(telefone);
+        }catch(Exception e){
+        }
         jScrollPane1 = new javax.swing.JScrollPane();
         txaObservation = new javax.swing.JTextArea();
         btnAnnuler = new javax.swing.JButton();
@@ -104,12 +109,12 @@ public class RegistreFournisseur extends JInternalFrame {
                         .addComponent(jLabel3)
                         .addComponent(jLabel2)
                         .addComponent(tfdResponsable)
-                        .addComponent(tfdTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jScrollPane1)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(tfdEntreprise, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnConsulterFournisseur)))
+                            .addComponent(btnConsulterFournisseur))
+                        .addComponent(tfdTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -141,9 +146,9 @@ public class RegistreFournisseur extends JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
@@ -196,18 +201,14 @@ public class RegistreFournisseur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            consulterFournisseur();
+            ConsultationFournisseur consultationFournisseur = new ConsultationFournisseur(null, true);
+            consultationFournisseur.setFrameAncetre(this);
+            consultationFournisseur.setVisible(true);
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterFournisseurActionPerformed
-
-    private void consulterFournisseur() {
-        ConsultationFournisseur consultationFournisseur = new ConsultationFournisseur(null, true);
-        consultationFournisseur.setFrameAncetre(this);
-        consultationFournisseur.setVisible(true);
-    }
 
     public void fournisseurSelectionne(Fournisseur fournisseur) {
         if (fournisseur != null) {
@@ -251,10 +252,13 @@ public class RegistreFournisseur extends JInternalFrame {
 
     private void effacerFormulaire() {
         codeFournisseur = 0;
-        txaObservation.setText("");
+        tfdEntreprise.setText("");
+        tfdEntreprise.requestFocus();
         tfdResponsable.setText("");
         tfdTelephone.setText("");
         txaObservation.setText("");
+        modeEdition = false;
+        btnEnregistrer.setText("ENREGISTRER");
         habiliterComposantFormulaire(true);
         btnExclure.setEnabled(false);
     }

@@ -142,7 +142,7 @@ public class MDI extends javax.swing.JFrame {
         });
         jMenu3.add(jmiRegistreClient);
 
-        jmiRegistreProfilUtilisateur.setText("Profil utilisateur");
+        jmiRegistreProfilUtilisateur.setText("Profil d'utilisateur");
         jmiRegistreProfilUtilisateur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiRegistreProfilUtilisateurActionPerformed(evt);

@@ -174,18 +174,14 @@ public class RegistreCategorieProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            consulterCategorieProduit();
+            ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true);
+            consultationCategorieProduit.setFrameAncetre(this);
+            consultationCategorieProduit.setVisible(true);
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterCategorieProduitActionPerformed
-
-    private void consulterCategorieProduit() {
-        ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true);
-        consultationCategorieProduit.setFrameAncetre(this);
-        consultationCategorieProduit.setVisible(true);
-    }
 
     public void categorieProduitSelectionne(CategorieProduit categorieProduit) {
         if (categorieProduit != null) {
@@ -230,6 +226,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
     private void effacerFormulaire() {
         codeCategorieProduit = 0;
         tfdDescription.setText("");
+        tfdDescription.requestFocus();
         tfdDescriptionAbregee.setText("");
         txaObservation.setText("");
         btnEnregistrer.setText("ENREGISTRER");

@@ -162,13 +162,13 @@ public class ProduitDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, produit.getCode());
-            prs.setString(2, produit.getDescription());
-            prs.setInt(3, produit.getCategorieProduit().getCode());
-            prs.setInt(4, produit.getReseau().getCode());
-            prs.setBigDecimal(5, produit.getPrixAchatUSD());
-            prs.setBigDecimal(6, produit.getPrixAchatFC());
-            prs.setString(7, produit.getObservation());
+            prs.setString(1, produit.getDescription());
+            prs.setInt(2, produit.getCategorieProduit().getCode());
+            prs.setInt(3, produit.getReseau().getCode());
+            prs.setBigDecimal(4, produit.getPrixAchatUSD());
+            prs.setBigDecimal(5, produit.getPrixAchatFC());
+            prs.setString(6, produit.getObservation());
+            prs.setInt(7, produit.getCode());
 
             prs.execute();
             prs.close();

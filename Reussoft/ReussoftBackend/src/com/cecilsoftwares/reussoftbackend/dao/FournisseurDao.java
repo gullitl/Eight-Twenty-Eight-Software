@@ -112,11 +112,11 @@ public class FournisseurDao {
             }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, fournisseur.getCode());
-            prs.setString(2, fournisseur.getResponsable());
-            prs.setString(3, fournisseur.getEntreprise());
-            prs.setString(4, fournisseur.getTelephone());
-            prs.setString(5, fournisseur.getObservation());
+            prs.setString(1, fournisseur.getResponsable());
+            prs.setString(2, fournisseur.getEntreprise());
+            prs.setString(3, fournisseur.getTelephone());
+            prs.setString(4, fournisseur.getObservation());
+            prs.setInt(5, fournisseur.getCode());
 
             prs.execute();
             prs.close();

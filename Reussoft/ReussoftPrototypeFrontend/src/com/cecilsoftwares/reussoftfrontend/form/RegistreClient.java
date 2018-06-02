@@ -37,10 +37,8 @@ public class RegistreClient extends JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        tfdCode = new javax.swing.JTextField();
         tfdEntreprise = new javax.swing.JTextField();
-        tfdResponsable = new javax.swing.JTextField();
+        tfdNom = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaObservation = new javax.swing.JTextArea();
         btnConsulterClient = new javax.swing.JButton();
@@ -77,13 +75,12 @@ public class RegistreClient extends JInternalFrame {
             }
         });
 
-        jLabel1.setText("Code:");
-
         txaObservation.setColumns(20);
         txaObservation.setRows(5);
         jScrollPane1.setViewportView(txaObservation);
 
         btnConsulterClient.setText("...");
+        btnConsulterClient.setFocusable(false);
         btnConsulterClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulterClientActionPerformed(evt);
@@ -104,51 +101,40 @@ public class RegistreClient extends JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(jLabel3)
+                    .addComponent(tfdEntreprise, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterClient))
-                            .addComponent(jLabel1))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(tfdTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(49, 49, 49)
+                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfdResponsable, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(tfdEntreprise, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(tfdTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(49, 49, 49)
-                                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnExclure, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 35, Short.MAX_VALUE))))
+                        .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnConsulterClient)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterClient))
-                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdResponsable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterClient))
+                .addGap(16, 16, 16)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdEntreprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,7 +151,7 @@ public class RegistreClient extends JInternalFrame {
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
@@ -179,9 +165,9 @@ public class RegistreClient extends JInternalFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
-        Client client = new ClientBuilder(Integer.parseInt(tfdCode.getText()))
+        Client client = new ClientBuilder(codeClient)
                 .entreprise(tfdEntreprise.getText())
-                .nom(tfdResponsable.getText())
+                .nom(tfdNom.getText())
                 .telephone(tfdTelephone.getText())
                 .observation(txaObservation.getText())
                 .build();
@@ -215,7 +201,7 @@ public class RegistreClient extends JInternalFrame {
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
-                "Êtes-vous sûr de vouloir exclure définitivement cette categorie de produit?",
+                "Êtes-vous sûr de vouloir exclure définitivement ce client?",
                 "Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -253,26 +239,27 @@ public class RegistreClient extends JInternalFrame {
         btnExclure.setEnabled(true);
 
         codeClient = client.getCode();
-        tfdResponsable.setText(client.getNom());
+        tfdNom.setText(client.getNom());
         tfdEntreprise.setText(client.getEntreprise());
         txaObservation.setText(client.getObservation());
         btnEnregistrer.setText("ACTUALISER");
     }
 
     private void effacerFormulaire() {
-        tfdCode.setText("");
-        tfdCode.requestFocus();
-        txaObservation.setText("");
-        tfdResponsable.setText("");
+        codeClient = 0;
+        tfdNom.setText("");
+        tfdNom.requestFocus();
         tfdTelephone.setText("");
         txaObservation.setText("");
+        modeEdition = false;
+        btnEnregistrer.setText("ENREGISTRER");
         habiliterComposantFormulaire(true);
         btnExclure.setEnabled(false);
     }
 
     private void habiliterComposantFormulaire(boolean hcf) {
         tfdEntreprise.setEditable(hcf);
-        tfdResponsable.setEditable(hcf);
+        tfdNom.setEditable(hcf);
         txaObservation.setEditable(hcf);
         btnConsulterClientClickable = hcf;
         btnEnregistrerClickable = hcf;
@@ -284,15 +271,13 @@ public class RegistreClient extends JInternalFrame {
     private javax.swing.JButton btnConsulterClient;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField tfdCode;
     private javax.swing.JTextField tfdEntreprise;
-    private javax.swing.JTextField tfdResponsable;
+    private javax.swing.JTextField tfdNom;
     private javax.swing.JTextField tfdTelephone;
     private javax.swing.JTextArea txaObservation;
     // End of variables declaration//GEN-END:variables

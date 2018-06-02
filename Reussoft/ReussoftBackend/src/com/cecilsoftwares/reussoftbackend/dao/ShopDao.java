@@ -114,11 +114,11 @@ public class ShopDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, shop.getCode());
-            prs.setString(2, shop.getNom());
-            prs.setString(3, shop.getAdresse());
-            prs.setString(4, shop.getObservation());
-            prs.setInt(5, shop.isActive() ? 1 : 0);
+            prs.setString(1, shop.getNom());
+            prs.setString(2, shop.getAdresse());
+            prs.setString(3, shop.getObservation());
+            prs.setInt(4, shop.isActive() ? 1 : 0);
+            prs.setInt(5, shop.getCode());
 
             prs.execute();
             prs.close();

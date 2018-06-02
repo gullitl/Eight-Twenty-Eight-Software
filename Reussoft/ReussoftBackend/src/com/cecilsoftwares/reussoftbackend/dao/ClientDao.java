@@ -35,9 +35,9 @@ public class ClientDao {
         List<Client> listeClients;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, client.observation");
+            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, client.observation, ");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
-            scriptSQL.append(" FROM client LEFT JOIN shop ON client.shopId = shop.code");
+            scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.code");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -76,9 +76,9 @@ public class ClientDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, client.observation");
+            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, client.observation, ");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
-            scriptSQL.append(" FROM client LEFT JOIN shop ON client.shopId = shop.code");
+            scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.code");
             scriptSQL.append(" WHERE client.code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -133,12 +133,12 @@ public class ClientDao {
             }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, client.getCode());
-            prs.setString(2, client.getNom());
-            prs.setString(3, client.getEntreprise());
-            prs.setString(4, client.getTelephone());
-            prs.setString(5, client.getObservation());
-            prs.setInt(6, client.getShop().getCode());
+            prs.setString(1, client.getNom());
+            prs.setString(2, client.getEntreprise());
+            prs.setString(3, client.getTelephone());
+            prs.setString(4, client.getObservation());
+            prs.setInt(5, client.getShop().getCode());
+            prs.setInt(6, client.getCode());
 
             prs.execute();
             prs.close();

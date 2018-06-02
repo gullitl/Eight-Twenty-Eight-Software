@@ -80,6 +80,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         });
 
         btnConsulterProfilUtilisateur.setText("...");
+        btnConsulterProfilUtilisateur.setFocusable(false);
         btnConsulterProfilUtilisateur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulterProfilUtilisateurActionPerformed(evt);
@@ -105,9 +106,9 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                                 .addComponent(btnConsulterProfilUtilisateur))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(55, Short.MAX_VALUE))
@@ -131,10 +132,10 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -145,6 +146,10 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
         ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(codeProfilUtilisateur)
                 .description(tfdDescription.getText())
                 .descriptionAbregee(tfdDescriptionAbregee.getText())
@@ -161,6 +166,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
             Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
         }
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterProfilUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProfilUtilisateurActionPerformed
@@ -169,7 +175,9 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            consulterProfilUtilisateur();
+            ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true);
+            consultationProfilUtilisateur.setFrameAncetre(this);
+            consultationProfilUtilisateur.setVisible(true);
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
@@ -179,7 +187,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
-                "Êtes-vous sûr de vouloir exclure définitivement cette categorie de produit?",
+                "Êtes-vous sûr de vouloir exclure définitivement ce profil d'utilisateur?",
                 "Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -202,12 +210,6 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 
-    private void consulterProfilUtilisateur() {
-        ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true);
-        consultationProfilUtilisateur.setFrameAncetre(this);
-        consultationProfilUtilisateur.setVisible(true);
-    }
-
     public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
         if (profilUtilisateur != null) {
 
@@ -225,8 +227,14 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     private void effacerFormulaire() {
         codeProfilUtilisateur = 0;
         tfdDescription.setText("");
+        tfdDescription.requestFocus();
         tfdDescriptionAbregee.setText("");
         txaObservation.setText("");
+        modeEdition = false;
+        btnEnregistrer.setText("ENREGISTRER");
+        habiliterComposantFormulaire(true);
+        btnExclure.setEnabled(false);
+
     }
 
     private void habiliterComposantFormulaire(boolean hcf) {

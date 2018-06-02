@@ -103,7 +103,7 @@ public class ProfilUtilisateurDao {
             if (profilUtilisateur.getCode() == 0) {
 
                 scriptSQL = new StringBuilder("INSERT INTO profilutilisateur(");
-                scriptSQL.append(" description, descriptionAbregee, observation, code");
+                scriptSQL.append(" description, descriptionAbregee, observation, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             } else {
@@ -114,10 +114,10 @@ public class ProfilUtilisateurDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, profilUtilisateur.getCode());
-            prs.setString(2, profilUtilisateur.getDescription());
-            prs.setString(3, profilUtilisateur.getDescriptionAbregee());
-            prs.setString(4, profilUtilisateur.getObservation());
+            prs.setString(1, profilUtilisateur.getDescription());
+            prs.setString(2, profilUtilisateur.getDescriptionAbregee());
+            prs.setString(3, profilUtilisateur.getObservation());
+            prs.setInt(4, profilUtilisateur.getCode());
 
             prs.execute();
             prs.close();

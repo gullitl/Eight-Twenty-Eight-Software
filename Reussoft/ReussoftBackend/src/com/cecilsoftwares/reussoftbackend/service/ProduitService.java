@@ -34,4 +34,8 @@ public class ProduitService {
         return ProduitDao.getInstance().enregistrerProduit(produit);
     }
 
+    public boolean exclureProduit(int codeProduit) throws ClassNotFoundException, SQLException {
+        return ProduitDao.getInstance().exclureProduit(codeProduit);
+    }
+
 }

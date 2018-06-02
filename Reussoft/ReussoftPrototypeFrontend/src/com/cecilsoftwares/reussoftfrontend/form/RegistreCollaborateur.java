@@ -79,6 +79,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         jLabel5.setText("Shop:");
 
         btnConsulterCollaborateur.setText("...");
+        btnConsulterCollaborateur.setFocusable(false);
         btnConsulterCollaborateur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulterCollaborateurActionPerformed(evt);
@@ -106,6 +107,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         tfdIdShop.setEditable(false);
 
         btnConsulterShop.setText("...");
+        btnConsulterShop.setFocusable(false);
         btnConsulterShop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulterShopActionPerformed(evt);
@@ -129,7 +131,10 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         jLabel8.setText("Confirmer mot de passe:");
 
+        tfdIdProfilUtilisateur.setEditable(false);
+
         btnConsulterProfilUtilisateur.setText("...");
+        btnConsulterProfilUtilisateur.setFocusable(false);
         btnConsulterProfilUtilisateur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulterProfilUtilisateurActionPerformed(evt);
@@ -254,14 +259,15 @@ public class RegistreCollaborateur extends JInternalFrame {
                     .addComponent(lblDescriptionShop))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(chbActiver)
-                .addGap(9, 9, 9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(chbActiver)
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnAnnuler, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(76, 76, 76))
         );
 
@@ -306,21 +312,20 @@ public class RegistreCollaborateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            consulterCollaborateur();
+            ConsultationCollaborateur consultationCollaborateur = new ConsultationCollaborateur(null, true);
+            consultationCollaborateur.setFrameAncetre(this);
+            consultationCollaborateur.setVisible(true);
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterCollaborateurActionPerformed
 
-    private void consulterCollaborateur() {
-        ConsultationCollaborateur consultationCollaborateur = new ConsultationCollaborateur(null, true);
-        consultationCollaborateur.setFrameAncetre(this);
-        consultationCollaborateur.setVisible(true);
-    }
-
     public void collaborateurSelectionne(Collaborateur collaborateur) {
         if (collaborateur != null) {
+            modeEdition = true;
+            btnExclure.setEnabled(true);
+
             codeCollaborateur = collaborateur.getCode();
             tfdPrenom.setText(collaborateur.getPrenom());
             tfdNom.setText(collaborateur.getNom());
@@ -332,6 +337,7 @@ public class RegistreCollaborateur extends JInternalFrame {
             lblDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getDescription());
             chbActiver.setVisible(true);
             chbActiver.setSelected(collaborateur.isActive());
+            btnEnregistrer.setText("ACTUALISER");
         }
     }
 
@@ -340,18 +346,14 @@ public class RegistreCollaborateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            consulterShop();
+            ConsultationShop consultationShop = new ConsultationShop(null, true);
+            consultationShop.setFrameAncetre(this);
+            consultationShop.setVisible(true);
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterShopActionPerformed
-
-    private void consulterShop() {
-        ConsultationShop consultationShop = new ConsultationShop(null, true);
-        consultationShop.setFrameAncetre(this);
-        consultationShop.setVisible(true);
-    }
 
     public void shopSelectionne(Shop shop) {
         if (shop != null) {
@@ -365,18 +367,14 @@ public class RegistreCollaborateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            consulterProfilUtilisateur();
+            ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true);
+            consultationProfilUtilisateur.setFrameAncetre(this);
+            consultationProfilUtilisateur.setVisible(true);
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
-
-    private void consulterProfilUtilisateur() {
-        ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true);
-        consultationProfilUtilisateur.setFrameAncetre(this);
-        consultationProfilUtilisateur.setVisible(true);
-    }
 
     public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
         if (profilUtilisateur != null) {
@@ -388,7 +386,7 @@ public class RegistreCollaborateur extends JInternalFrame {
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
-                "Êtes-vous sûr de vouloir exclure définitivement cette categorie de produit?",
+                "Êtes-vous sûr de vouloir exclure définitivement ce collaborateur?",
                 "Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -414,6 +412,7 @@ public class RegistreCollaborateur extends JInternalFrame {
     private void effacerFormulaire() {
         codeCollaborateur = 0;
         tfdPrenom.setText("");
+        tfdPrenom.requestFocus();
         tfdNom.setText("");
         tfdPostnom.setText("");
         tfdSurnom.setText("");
@@ -425,6 +424,8 @@ public class RegistreCollaborateur extends JInternalFrame {
         tfdIdProfilUtilisateur.setText("");
         lblDescriptionProfilUtilisateur.setText("");
         chbActiver.setVisible(false);
+        modeEdition = false;
+        btnEnregistrer.setText("ENREGISTRER");
         habiliterComposantFormulaire(true);
         btnExclure.setEnabled(false);
     }
