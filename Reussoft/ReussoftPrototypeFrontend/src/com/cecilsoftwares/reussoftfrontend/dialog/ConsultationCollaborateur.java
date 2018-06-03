@@ -43,7 +43,10 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
         defaultTableModel.setRowCount(0);
         for (Collaborateur collaborateur : collaborateurs) {
             dataRows[0] = collaborateur.getCode();
-            dataRows[1] = collaborateur.getNom();
+            dataRows[1] = new StringBuilder(collaborateur.getPrenom())
+                    .append(" ").append(collaborateur.getNom())
+                    .append(" ").append(collaborateur.getPostnom())
+                    .append(" ").append(collaborateur.getSurnom());
             defaultTableModel.addRow(dataRows);
         }
         String formeNombre = collaborateurs.size() > 1 ? "Collaborateurs" : "Collaborateur";

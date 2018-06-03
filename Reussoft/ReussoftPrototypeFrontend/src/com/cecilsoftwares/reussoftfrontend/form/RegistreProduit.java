@@ -255,7 +255,7 @@ public class RegistreProduit extends JInternalFrame {
                 .reseau(reseau)
                 .categorieProduit(categorieProduit)
                 .observation(txaObservation.getText())
-                .active(true)
+                .active(modeEdition ? chbActiver.isSelected() : true)
                 .build();
 
         try {

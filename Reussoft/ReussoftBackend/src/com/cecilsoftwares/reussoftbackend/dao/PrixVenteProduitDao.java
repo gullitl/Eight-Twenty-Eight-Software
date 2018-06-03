@@ -39,7 +39,7 @@ public class PrixVenteProduitDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT prixVenteProduit.prixUSD, prixVenteProduit.prixFC, prixVenteProduit.observation");
             scriptSQL.append(" prixVenteProduit.idProduit, produit.Description,");
-            scriptSQL.append(" prixVenteProduit.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
+            scriptSQL.append(" prixVenteProduit.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM prixVenteProduit");
             scriptSQL.append(" LEFT JOIN produit ON prixVenteProduit.idProduit = produit.code");
             scriptSQL.append(" LEFT JOIN shop ON prixVenteProduit.idShop = shop.code");
@@ -54,8 +54,7 @@ public class PrixVenteProduitDao {
                     Shop shop = new ShopBuilder(res.getInt(6))
                             .nom(res.getString(7))
                             .adresse(res.getString(8))
-                            .observation(res.getString(9))
-                            .active(res.getInt(10) == 0)
+                            .active(res.getInt(9) == 0)
                             .build();
 
                     Produit produit = new ProduitBuilder(res.getInt(4))
@@ -85,7 +84,7 @@ public class PrixVenteProduitDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT prixVenteProduit.prixUSD, prixVenteProduit.prixFC, prixVenteProduit.observation");
             scriptSQL.append(" prixVenteProduit.idProduit, produit.Description,");
-            scriptSQL.append(" prixVenteProduit.idShop, shop.nom, shop.adresse, shop.observation, shop.active");
+            scriptSQL.append(" prixVenteProduit.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM prixVenteProduit");
             scriptSQL.append(" LEFT JOIN produit ON prixVenteProduit.idProduit = produit.code");
             scriptSQL.append(" LEFT JOIN shop ON prixVenteProduit.idShop = shop.code");
@@ -101,8 +100,7 @@ public class PrixVenteProduitDao {
                     Shop shop = new ShopBuilder(res.getInt(6))
                             .nom(res.getString(7))
                             .adresse(res.getString(8))
-                            .observation(res.getString(9))
-                            .active(res.getInt(10) == 0)
+                            .active(res.getInt(9) == 0)
                             .build();
 
                     Produit produit = new ProduitBuilder(res.getInt(4))

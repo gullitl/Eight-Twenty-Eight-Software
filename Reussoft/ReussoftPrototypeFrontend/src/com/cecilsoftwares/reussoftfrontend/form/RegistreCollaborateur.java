@@ -291,7 +291,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .surnom(tfdSurnom.getText())
                 .shop(shop)
                 .profilUtilisateur(profilUtilisateur)
-                .active(true)
+                .active(modeEdition ? chbActiver.isSelected() : true)
                 .build();
 
         try {
@@ -435,11 +435,9 @@ public class RegistreCollaborateur extends JInternalFrame {
         tfdNom.setEditable(hcf);
         tfdPostnom.setEditable(hcf);
         tfdSurnom.setEditable(hcf);
-        tfdIdShop.setEditable(hcf);
         tfdNomUtilisateur.setEditable(hcf);
         pwfMotDePasse.setEditable(hcf);
         pwfConfirmerMotDePasse.setEditable(hcf);
-        tfdIdProfilUtilisateur.setEditable(hcf);
         chbActiver.setEnabled(hcf);
         btnConsulterCollaborateurClickable = hcf;
         btnConsulterShopClickable = hcf;

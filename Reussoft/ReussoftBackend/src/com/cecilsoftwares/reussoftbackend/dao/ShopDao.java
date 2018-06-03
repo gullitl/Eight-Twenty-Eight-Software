@@ -33,7 +33,7 @@ public class ShopDao {
         List<Shop> listeShops;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, nom, adresse, observation, active");
+            scriptSQL = new StringBuilder("SELECT code, nom, adresse, active");
             scriptSQL.append(" FROM shop");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -46,8 +46,7 @@ public class ShopDao {
                     Shop shop = new ShopBuilder(res.getInt(1))
                             .nom(res.getString(2))
                             .adresse(res.getString(3))
-                            .observation(res.getString(4))
-                            .active(res.getInt(5) == 1)
+                            .active(res.getInt(4) == 1)
                             .build();
 
                     listeShops.add(shop);
@@ -65,7 +64,7 @@ public class ShopDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, nom, adresse, observation, active");
+            scriptSQL = new StringBuilder("SELECT code, nom, adresse, active");
             scriptSQL.append(" FROM shop WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -78,8 +77,7 @@ public class ShopDao {
                     Shop shop = new ShopBuilder(res.getInt(1))
                             .nom(res.getString(2))
                             .adresse(res.getString(3))
-                            .observation(res.getString(4))
-                            .active(res.getInt(5) == 1)
+                            .active(res.getInt(4) == 1)
                             .build();
 
                     prs.close();
@@ -103,12 +101,12 @@ public class ShopDao {
             if (shop.getCode() == 0) {
 
                 scriptSQL = new StringBuilder("INSERT INTO shop(");
-                scriptSQL.append(" nom, adresse, observation, active, code)");
-                scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+                scriptSQL.append(" nom, adresse, active, code)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?)");
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE shop");
-                scriptSQL.append(" SET nom=?, adresse=?, observation=?, active=?");
+                scriptSQL.append(" SET nom=?, adresse=?, active=?");
                 scriptSQL.append(" WHERE code=?");
             }
 
@@ -116,9 +114,8 @@ public class ShopDao {
 
             prs.setString(1, shop.getNom());
             prs.setString(2, shop.getAdresse());
-            prs.setString(3, shop.getObservation());
-            prs.setInt(4, shop.isActive() ? 1 : 0);
-            prs.setInt(5, shop.getCode());
+            prs.setInt(3, shop.isActive() ? 1 : 0);
+            prs.setInt(4, shop.getCode());
 
             prs.execute();
             prs.close();
