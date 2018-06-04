@@ -3,6 +3,8 @@ package com.cecilsoftwares.reussoftfrontend.dialog;
 import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultationCollaborateur extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
+    private Collaborateur collaborateur;
     private List<Collaborateur> collaborateurs;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
@@ -28,9 +31,28 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
     public ConsultationCollaborateur(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        enFermantDialog();
+
         defaultTableModel = (DefaultTableModel) tblCollaborateur.getModel();
         dataRows = new Object[2];
 
+        chargementCollaborateurs();
+
+    }
+
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (frameAncetre instanceof RegistreCollaborateur) {
+                    RegistreCollaborateur registreCollaborateur = (RegistreCollaborateur) frameAncetre;
+                    registreCollaborateur.collaborateurSelectionne(collaborateur);
+                }
+            }
+        });
+    }
+
+    private void chargementCollaborateurs() {
         try {
             collaborateurs = CollaborateurService.getInstance().listerTousLesCollaborateurs();
             listerCollaborateurs(collaborateurs);
@@ -41,24 +63,17 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
 
     private void listerCollaborateurs(List<Collaborateur> collaborateurs) {
         defaultTableModel.setRowCount(0);
-        for (Collaborateur collaborateur : collaborateurs) {
-            dataRows[0] = collaborateur.getCode();
-            dataRows[1] = new StringBuilder(collaborateur.getPrenom())
-                    .append(" ").append(collaborateur.getNom())
-                    .append(" ").append(collaborateur.getPostnom())
-                    .append(" ").append(collaborateur.getSurnom());
+        collaborateurs.forEach(c -> {
+            dataRows[0] = c.getCode();
+            dataRows[1] = new StringBuilder(c.getPrenom())
+                    .append(" ").append(c.getNom())
+                    .append(" ").append(c.getPostnom())
+                    .append(" ").append(c.getSurnom());
             defaultTableModel.addRow(dataRows);
-        }
+        });
+
         String formeNombre = collaborateurs.size() > 1 ? "Collaborateurs" : "Collaborateur";
         lblNombreCollaborateur.setText(collaborateurs.size() + " " + formeNombre);
-    }
-
-    public JInternalFrame getFrameAncetre() {
-        return frameAncetre;
-    }
-
-    public void setFrameAncetre(JInternalFrame frameAncetre) {
-        this.frameAncetre = frameAncetre;
     }
 
     @SuppressWarnings("unchecked")
@@ -156,35 +171,44 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
 
     private void tblCollaborateurMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCollaborateurMouseClicked
         if (evt.getClickCount() == 2) {
-            if (getFrameAncetre() != null) {
-                try {
-                    int row = tblCollaborateur.getSelectedRow();
-                    Collaborateur collaborateur = CollaborateurService.getInstance()
-                            .selectionnerCollaborateurParCode((int) defaultTableModel.getValueAt(row, 0));
-                    if (getFrameAncetre() instanceof RegistreCollaborateur) {
-                        RegistreCollaborateur registreCollaborateur = (RegistreCollaborateur) getFrameAncetre();
-                        registreCollaborateur.collaborateurSelectionne(collaborateur);
-                    }
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationCollaborateur.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            selectionnerCollaborateur();
             dispose();
         }
 
     }//GEN-LAST:event_tblCollaborateurMouseClicked
 
+    private void selectionnerCollaborateur() {
+        if (frameAncetre != null) {
+            int row = tblCollaborateur.getSelectedRow();
+
+            collaborateur = collaborateurs.stream()
+                    .filter(c -> c.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                    .findFirst().orElse(null);
+        }
+    }
+
     private void tfdRechercheNomCollaborateurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomCollaborateurKeyReleased
         List<Collaborateur> listeCollaborateurs = new ArrayList();
-        for (Collaborateur collaborateur : collaborateurs) {
-            if (collaborateur.getNom().toUpperCase()
-                    .startsWith(tfdRechercheNomCollaborateur.getText().toUpperCase())) {
-                listeCollaborateurs.add(collaborateur);
-            }
-        }
+
+        collaborateurs.stream().filter((c) -> (new StringBuilder(c.getPrenom().toUpperCase())
+                .append(" ").append(c.getNom().toUpperCase())
+                .append(" ").append(c.getPostnom().toUpperCase())
+                .append(" ").append(c.getSurnom().toUpperCase()).toString()
+                .startsWith(tfdRechercheNomCollaborateur.getText().toUpperCase())))
+                .forEachOrdered((c) -> {
+                    listeCollaborateurs.add(c);
+                });
 
         listerCollaborateurs(listeCollaborateurs);
     }//GEN-LAST:event_tfdRechercheNomCollaborateurKeyReleased
+
+    public JInternalFrame getFrameAncetre() {
+        return frameAncetre;
+    }
+
+    public void setFrameAncetre(JInternalFrame frameAncetre) {
+        this.frameAncetre = frameAncetre;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
