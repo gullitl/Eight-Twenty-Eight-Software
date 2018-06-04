@@ -157,7 +157,7 @@ public class CollaborateurDao {
             if (collaborateur.getCode() == 0) {
                 scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
                 scriptSQL.append(" prenom, nom, postnom, surnom, nomUtilisateur, motDePasse, active,");
-                scriptSQL.append(" idShop, idProfilUtilisateur, code )");
+                scriptSQL.append(" idProfilUtilisateur, idShop, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             } else {
@@ -177,8 +177,8 @@ public class CollaborateurDao {
             prs.setString(5, collaborateur.getNomUtilisateur());
             prs.setString(6, collaborateur.getMotDePasse());
             prs.setInt(7, collaborateur.isActive() ? 1 : 0);
-            prs.setInt(8, collaborateur.getShop().getCode());
-            prs.setInt(9, collaborateur.getProfilUtilisateur().getCode());
+            prs.setInt(8, collaborateur.getProfilUtilisateur().getCode());
+            prs.setInt(9, collaborateur.getShop().getCode());
             prs.setInt(10, collaborateur.getCode());
 
             prs.execute();

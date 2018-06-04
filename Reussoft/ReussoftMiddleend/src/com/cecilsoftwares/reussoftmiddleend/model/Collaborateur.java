@@ -20,7 +20,7 @@ public class Collaborateur {
         code = collaborateurBuilder.code;
         prenom = collaborateurBuilder.prenom;
         nom = collaborateurBuilder.nom;
-        postnom = collaborateurBuilder.prenom;
+        postnom = collaborateurBuilder.postnom;
         surnom = collaborateurBuilder.surnom;
         profilUtilisateur = collaborateurBuilder.profilUtilisateur;
         shop = collaborateurBuilder.shop;

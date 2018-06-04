@@ -283,17 +283,18 @@ public class RegistreCollaborateur extends JInternalFrame {
         habiliterComposantFormulaire(false);
 
         Shop shop = new ShopBuilder(Integer.parseInt(tfdIdShop.getText())).build();
-        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(Integer.parseInt(tfdIdShop.getText())).build();
+        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(Integer.parseInt(tfdIdProfilUtilisateur.getText())).build();
         Collaborateur collaborateur = new CollaborateurBuilder(codeCollaborateur)
                 .prenom(tfdPrenom.getText())
                 .nom(tfdNom.getText())
                 .postnom(tfdPostnom.getText())
                 .surnom(tfdSurnom.getText())
+                .nomUtilisateur(tfdNomUtilisateur.getText())
+                .motDePasse(pwfMotDePasse.getPassword().toString())
                 .shop(shop)
                 .profilUtilisateur(profilUtilisateur)
                 .active(modeEdition ? chbActiver.isSelected() : true)
                 .build();
-
         try {
             if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
                 String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
@@ -333,6 +334,9 @@ public class RegistreCollaborateur extends JInternalFrame {
             tfdSurnom.setText(collaborateur.getSurnom());
             tfdIdShop.setText(String.valueOf(collaborateur.getShop().getCode()));
             lblDescriptionShop.setText(collaborateur.getShop().getNom());
+            tfdNomUtilisateur.setText(collaborateur.getNomUtilisateur());
+            pwfMotDePasse.setText(collaborateur.getMotDePasse());
+            pwfConfirmerMotDePasse.setText(collaborateur.getMotDePasse());
             tfdIdProfilUtilisateur.setText(String.valueOf(collaborateur.getProfilUtilisateur().getCode()));
             lblDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getDescription());
             chbActiver.setVisible(true);
