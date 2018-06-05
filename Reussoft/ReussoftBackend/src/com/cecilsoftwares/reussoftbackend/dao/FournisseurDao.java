@@ -108,7 +108,7 @@ public class FournisseurDao {
             } else {
                 scriptSQL = new StringBuilder("UPDATE fournisseur");
                 scriptSQL.append(" SET responsable=?, entreprise=?, telephone=?, observation=?");
-                scriptSQL.append(" WHERE codeFournisseur=?");
+                scriptSQL.append(" WHERE code=?");
             }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 

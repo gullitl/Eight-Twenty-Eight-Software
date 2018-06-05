@@ -65,9 +65,8 @@ public class SessionUtilisateurDao {
 
                     SessionUtilisateur sessionutilisateur = new SessionUtilisateurBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(2))
-                            .log(res.getString(3))
+                            .action(res.getString(3))
                             .observation(res.getString(4))
-                            .shop(shop)
                             .collaborateur(collaborateur)
                             .build();
 
@@ -113,9 +112,8 @@ public class SessionUtilisateurDao {
 
                     SessionUtilisateur sessionutilisateur = new SessionUtilisateurBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(2))
-                            .log(res.getString(3))
+                            .action(res.getString(3))
                             .observation(res.getString(4))
-                            .shop(shop)
                             .collaborateur(collaborateur)
                             .build();
 
@@ -145,7 +143,7 @@ public class SessionUtilisateurDao {
 
             prs.setInt(1, sessionUtilisateur.getCode());
             prs.setTimestamp(2, new Timestamp(sessionUtilisateur.getDateHeure().getTime()));
-            prs.setString(3, sessionUtilisateur.getLog());
+            prs.setString(3, sessionUtilisateur.getAction());
             prs.setString(4, sessionUtilisateur.getObservation());
 
             prs.execute();

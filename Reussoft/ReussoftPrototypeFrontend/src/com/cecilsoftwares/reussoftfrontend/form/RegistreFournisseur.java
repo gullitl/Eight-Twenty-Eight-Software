@@ -166,7 +166,7 @@ public class RegistreFournisseur extends JInternalFrame {
         Fournisseur fournisseur = new FournisseurBuilder(codeFournisseur)
                 .entreprise(tfdEntreprise.getText())
                 .responsable(tfdResponsable.getText())
-                .telephone(tfdTelephone.getText())
+                .telephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""))
                 .observation(txaObservation.getText())
                 .build();
 

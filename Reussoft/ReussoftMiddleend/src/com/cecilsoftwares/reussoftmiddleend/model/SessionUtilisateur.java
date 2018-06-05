@@ -9,16 +9,14 @@ public class SessionUtilisateur {
 
     private final int code;
     private final Collaborateur collaborateur;
-    private final Shop shop;
-    private final String log;
+    private final String action;
     private final Date dateHeure;
     private final String observation;
 
     public SessionUtilisateur(SessionUtilisateurBuilder sessionUtilisateurBuilder) {
         code = sessionUtilisateurBuilder.code;
         collaborateur = sessionUtilisateurBuilder.collaborateur;
-        shop = sessionUtilisateurBuilder.shop;
-        log = sessionUtilisateurBuilder.log;
+        action = sessionUtilisateurBuilder.action;
         dateHeure = sessionUtilisateurBuilder.dateHeure;
         observation = sessionUtilisateurBuilder.observation;
     }
@@ -31,12 +29,8 @@ public class SessionUtilisateur {
         return collaborateur;
     }
 
-    public Shop getShop() {
-        return shop;
-    }
-
-    public String getLog() {
-        return log;
+    public String getAction() {
+        return action;
     }
 
     public Date getDateHeure() {
@@ -51,8 +45,7 @@ public class SessionUtilisateur {
 
         private int code;
         private Collaborateur collaborateur;
-        private Shop shop;
-        private String log;
+        private String action;
         private Date dateHeure;
         private String observation;
 
@@ -65,13 +58,8 @@ public class SessionUtilisateur {
             return this;
         }
 
-        public SessionUtilisateurBuilder shop(Shop shop) {
-            this.shop = shop;
-            return this;
-        }
-
-        public SessionUtilisateurBuilder log(String log) {
-            this.log = log;
+        public SessionUtilisateurBuilder action(String action) {
+            this.action = action;
             return this;
         }
 

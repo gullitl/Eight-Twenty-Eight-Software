@@ -127,7 +127,7 @@ public class ClientDao {
             } else {
                 scriptSQL = new StringBuilder("UPDATE client");
                 scriptSQL.append(" SET nom=?, entreprise=?, telephone=?, idShop=?, observation=?");
-                scriptSQL.append(" WHERE codeClient=?");
+                scriptSQL.append(" WHERE code=?");
             }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
