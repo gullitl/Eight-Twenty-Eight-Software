@@ -301,10 +301,26 @@ public class RegistreCollaborateur extends JInternalFrame {
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, notification);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Collaborateur");
+        } catch (SQLException ex) {
+            StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");
+            switch (ex.getErrorCode()) {
+                case 1062:
+                    notification.append("\n\nLe nom d'utilisateur de ce collaborateur est déjà utilisé!");
+                    tfdNomUtilisateur.selectAll();
+                    break;
+                default:
+                    break;
+            }
+            JOptionPane.showMessageDialog(null, notification);
+            habiliterComposantFormulaire(true);
             Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le collaborateur :(");
+            habiliterComposantFormulaire(true);
+        } finally {
+            setCursor(Cursor.getDefaultCursor());
         }
+
         setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
@@ -405,11 +421,24 @@ public class RegistreCollaborateur extends JInternalFrame {
                 CollaborateurService.getInstance().exclureCollaborateur(codeCollaborateur);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
-            } catch (SQLException | ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
+            } catch (SQLException ex) {
+                StringBuilder notification = new StringBuilder("Une faille est survenue lors de l'exclusion du collaborateur :(");
+                switch (ex.getErrorCode()) {
+                    case 1451:
+                        notification.append("\n\n Ce collaborateur est utilisé par un autre registre!");
+                        break;
+                    default:
+                        break;
+                }
+                JOptionPane.showMessageDialog(null, notification);
+                habiliterComposantFormulaire(true);
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion du collaborateur :(");
+                habiliterComposantFormulaire(true);
+            } finally {
+                setCursor(Cursor.getDefaultCursor());
             }
-            setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 

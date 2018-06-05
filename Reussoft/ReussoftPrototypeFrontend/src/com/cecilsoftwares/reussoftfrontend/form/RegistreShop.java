@@ -323,15 +323,23 @@ public class RegistreShop extends JInternalFrame {
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, new StringBuilder("Une faille est survenue lors de l'exclusion de la catégorie de produit!")
-                        .append(ex.getErrorCode() == 1451 ? "\n\n Cette catégorie de produit est utilisée par un autre registre." : ""));
-                effacerFormulaire();
+                StringBuilder notification = new StringBuilder("Une faille est survenue lors de l'exclusion du shop :(");
+                switch (ex.getErrorCode()) {
+                    case 1451:
+                        notification.append("\n\nCe shop est utilisé par un autre registre!");
+                        break;
+                    default:
+                        break;
+                }
+                JOptionPane.showMessageDialog(null, notification);
+                habiliterComposantFormulaire(true);
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
+                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit :(");
+                habiliterComposantFormulaire(true);
+            } finally {
+                setCursor(Cursor.getDefaultCursor());
             }
-            setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 

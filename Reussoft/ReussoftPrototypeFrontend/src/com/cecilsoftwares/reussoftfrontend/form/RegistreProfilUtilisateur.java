@@ -202,11 +202,24 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 ProfilUtilisateurService.getInstance().exclureProfilUtilisateur(codeProfilUtilisateur);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
-            } catch (SQLException | ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit");
+            } catch (SQLException ex) {
+                StringBuilder notification = new StringBuilder("Une faille est survenue lors de l'exclusion du profil d'utilisateur :(");
+                switch (ex.getErrorCode()) {
+                    case 1451:
+                        notification.append("\n\nCe profil d'utilisateur est utilisé par un autre registre!");
+                        break;
+                    default:
+                        break;
+                }
+                JOptionPane.showMessageDialog(null, notification);
+                habiliterComposantFormulaire(true);
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion du profil d'utilisateur :(");
+                habiliterComposantFormulaire(true);
+            } finally {
+                setCursor(Cursor.getDefaultCursor());
             }
-            setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 
