@@ -1,11 +1,10 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoftbackend.AppConfigKS;
+import com.cecilsoftwares.reussoftmiddleend.ks.AppConfigKS;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JOptionPane;
 
 /**
  * @author Plamedi L. Lusembo

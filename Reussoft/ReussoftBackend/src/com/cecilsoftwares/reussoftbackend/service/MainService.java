@@ -1,7 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
-import com.cecilsoftwares.reussoftbackend.AppConfigKS;
 import com.cecilsoftwares.reussoftbackend.dao.ConnectionFactory;
+import com.cecilsoftwares.reussoftmiddleend.ks.AppConfigKS;
 import com.cecilsoftwares.reussoftmiddleend.model.AppConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

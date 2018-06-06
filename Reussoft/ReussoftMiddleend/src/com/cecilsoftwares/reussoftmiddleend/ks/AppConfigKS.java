@@ -1,4 +1,4 @@
-package com.cecilsoftwares.reussoftbackend;
+package com.cecilsoftwares.reussoftmiddleend.ks;
 
 import com.cecilsoftwares.reussoftmiddleend.model.AppConfig;
 

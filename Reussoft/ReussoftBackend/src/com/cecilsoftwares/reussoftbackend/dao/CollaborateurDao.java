@@ -4,8 +4,6 @@ import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur.SessionUtilisateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
@@ -13,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,7 +31,7 @@ public class CollaborateurDao {
         return uniqueInstance;
     }
 
-    public SessionUtilisateur login(String nomUtilisateur, String motDePasse) throws ClassNotFoundException, SQLException {
+    public Collaborateur login(String nomUtilisateur, String motDePasse) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -80,18 +77,11 @@ public class CollaborateurDao {
                             .profilUtilisateur(profilUtilisateur)
                             .build();
 
-                    SessionUtilisateur sessionUtilisateur = new SessionUtilisateurBuilder(0)
-                            .collaborateur(collaborateur)
-                            .action("ENTRÉE")
-                            .dateHeure(new Date())
-                            .observation("")
-                            .build();
-
                     prs.close();
                     res.close();
                     conexao.close();
 
-                    return sessionUtilisateur;
+                    return collaborateur;
                 }
             }
 
