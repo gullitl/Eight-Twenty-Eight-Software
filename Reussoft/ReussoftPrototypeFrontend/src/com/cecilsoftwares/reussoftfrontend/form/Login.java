@@ -1,9 +1,5 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
-import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -96,21 +92,27 @@ public class Login extends javax.swing.JFrame {
 
     private void btnEntrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrerActionPerformed
 
-        try {
-            if (CollaborateurService.getInstance().login(tfdUtilisateur.getText(), pwfMotDePasse.getPassword().toString())) {
-                java.awt.EventQueue.invokeLater(() -> {
-                    MDI mdi = new MDI();
-                    mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    mdi.setVisible(true);
-                    this.dispose();
-                });
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            if (CollaborateurService.getInstance().login(tfdUtilisateur.getText(), pwfMotDePasse.getPassword().toString())) {
+//                java.awt.EventQueue.invokeLater(() -> {
+//                    MDI mdi = new MDI();
+//                    mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//                    mdi.setVisible(true);
+//                    this.dispose();
+//                });
+//            }
+//
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        java.awt.EventQueue.invokeLater(() -> {
+            MDI mdi = new MDI();
+            mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            mdi.setVisible(true);
+            this.dispose();
+        });
 
     }//GEN-LAST:event_btnEntrerActionPerformed
 

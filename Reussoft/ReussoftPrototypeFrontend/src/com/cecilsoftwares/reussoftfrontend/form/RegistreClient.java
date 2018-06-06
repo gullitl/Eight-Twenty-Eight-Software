@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftbackend.service.ClientService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationClient;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
 import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -168,7 +169,8 @@ public class RegistreClient extends JInternalFrame {
         Client client = new ClientBuilder(codeClient)
                 .entreprise(tfdEntreprise.getText())
                 .nom(tfdNom.getText())
-                .telephone(tfdTelephone.getText())
+                .telephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""))
+                .shop(new ShopBuilder(2).build())
                 .observation(txaObservation.getText())
                 .build();
 
