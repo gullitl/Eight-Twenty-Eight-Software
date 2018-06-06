@@ -63,9 +63,9 @@ public class ConsultationClient extends javax.swing.JDialog {
 
     private void listerClients(List<Client> clients) {
         defaultTableModel.setRowCount(0);
-        clients.forEach(cp -> {
-            dataRows[0] = client.getCode();
-            dataRows[1] = client.getNom();
+        clients.forEach(c -> {
+            dataRows[0] = c.getCode();
+            dataRows[1] = c.getNom();
             defaultTableModel.addRow(dataRows);
         });
 

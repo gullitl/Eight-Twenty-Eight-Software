@@ -256,6 +256,7 @@ public class RegistreClient extends JInternalFrame {
         codeClient = client.getCode();
         tfdNom.setText(client.getNom());
         tfdEntreprise.setText(client.getEntreprise());
+        tfdTelephone.setText(client.getTelephone());
         txaObservation.setText(client.getObservation());
         btnEnregistrer.setText("ACTUALISER");
     }
@@ -264,6 +265,7 @@ public class RegistreClient extends JInternalFrame {
         codeClient = 0;
         tfdNom.setText("");
         tfdNom.requestFocus();
+        tfdEntreprise.setText("");
         tfdTelephone.setText("");
         txaObservation.setText("");
         modeEdition = false;
