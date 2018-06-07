@@ -171,22 +171,18 @@ public class ConsultationReseau extends javax.swing.JDialog {
 
     private void tblReseauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReseauMouseClicked
         if (evt.getClickCount() == 2) {
-            selectionnerReseau();
+            if (frameAncetre != null) {
+                int row = tblReseau.getSelectedRow();
+
+                reseau = reseaux.stream()
+                        .filter(r -> r.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                        .findFirst().orElse(null);
+
+            }
             dispose();
         }
 
     }//GEN-LAST:event_tblReseauMouseClicked
-
-    private void selectionnerReseau() {
-        if (frameAncetre != null) {
-            int row = tblReseau.getSelectedRow();
-
-            reseau = reseaux.stream()
-                    .filter(r -> r.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
-
-        }
-    }
 
     private void tfdRechercheNomReseauKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomReseauKeyReleased
         List<Reseau> listeReseaux = new ArrayList();

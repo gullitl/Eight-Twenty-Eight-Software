@@ -171,21 +171,17 @@ public class ConsultationShop extends javax.swing.JDialog {
 
     private void tblShopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblShopMouseClicked
         if (evt.getClickCount() == 2) {
-            selectionnerShop();
+            if (frameAncetre != null) {
+                int row = tblShop.getSelectedRow();
+
+                shop = shops.stream()
+                        .filter(s -> s.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                        .findFirst().orElse(null);
+            }
             dispose();
         }
 
     }//GEN-LAST:event_tblShopMouseClicked
-
-    private void selectionnerShop() {
-        if (frameAncetre != null) {
-            int row = tblShop.getSelectedRow();
-
-            shop = shops.stream()
-                    .filter(s -> s.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
-        }
-    }
 
     private void tfdRechercheNomShopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomShopKeyReleased
         List<Shop> listeShops = new ArrayList();

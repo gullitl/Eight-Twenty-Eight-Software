@@ -10,8 +10,11 @@ import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
+import com.cecilsoftwares.reussoftmiddleend.util.DecimalFormatter;
 import java.awt.Cursor;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
@@ -244,6 +247,10 @@ public class RegistreProduit extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
+        if (!isInformationObligatoiresRemplies()) {
+            return;
+        }
+
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
@@ -254,6 +261,8 @@ public class RegistreProduit extends JInternalFrame {
                 .description(tfdDescription.getText())
                 .reseau(reseau)
                 .categorieProduit(categorieProduit)
+                .prixAchatFC(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatFC.getText()))
+                .prixAchatUSD(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatUSD.getText()))
                 .observation(txaObservation.getText())
                 .active(modeEdition ? chbActiver.isSelected() : true)
                 .build();
@@ -365,9 +374,11 @@ public class RegistreProduit extends JInternalFrame {
             lblDescriptionReseau.setText(produit.getReseau().getNom());
             tfdIdCategorieProduit.setText(String.valueOf(produit.getCategorieProduit().getCode()));
             lblDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
-            tfdPrixAchatUSD.setText(produit.getPrixAchatUSD().toString());
-            tfdPrixAchatFC.setText(produit.getPrixAchatFC().toString());
+            tfdPrixAchatFC.setText(DecimalFormatter.getInstance().formattedValue(produit.getPrixAchatUSD()));
+            tfdPrixAchatUSD.setText(DecimalFormatter.getInstance().formattedValue(produit.getPrixAchatUSD()));
             txaObservation.setText(produit.getObservation());
+            chbActiver.setVisible(true);
+            chbActiver.setSelected(produit.isActive());
             btnEnregistrer.setText("ACTUALISER");
         }
     }
@@ -407,16 +418,70 @@ public class RegistreProduit extends JInternalFrame {
 
     private void habiliterComposantFormulaire(boolean hcf) {
         tfdDescription.setEditable(hcf);
-        tfdIdReseau.setEditable(hcf);
         tfdPrixAchatUSD.setEditable(hcf);
         tfdPrixAchatFC.setEditable(hcf);
-        tfdIdCategorieProduit.setEditable(hcf);
         btnConsulterProduitClickable = hcf;
         btnConsulterReseauClickable = hcf;
         btnConsulterCategorieProduitClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnExclureClickable = hcf;
         btnAnnulerClickable = hcf;
+    }
+
+    private boolean isInformationObligatoiresRemplies() {
+
+        StringBuilder notification = new StringBuilder();
+        Queue<Integer> nio = new LinkedList<Integer>();
+
+        if (tfdDescription.getText().isEmpty()) {
+            notification.append("\nDescription");
+            nio.add(1);
+        }
+        if (tfdIdReseau.getText().isEmpty()) {
+            notification.append("\nRéseau");
+            nio.add(2);
+        }
+        if (tfdIdCategorieProduit.getText().isEmpty()) {
+            notification.append("\nCatégorie de Produit");
+            nio.add(3);
+        }
+
+        if (tfdPrixAchatUSD.getText().isEmpty()) {
+            notification.append("\nPrix d'achat USD");
+            nio.add(4);
+        }
+        if (tfdPrixAchatFC.getText().isEmpty()) {
+            notification.append("\nPrix d'achat FC");
+            nio.add(5);
+        }
+
+        if (notification.toString().isEmpty()) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, new StringBuilder(nio.size() > 1 ? "Informations obligatoires:" : "Information obligatoire:")
+                    .append(notification));
+            switch (nio.poll()) {
+                case 1:
+                    tfdDescription.requestFocus();
+                    break;
+
+                case 2:
+                    tfdIdReseau.requestFocus();
+                    break;
+                case 3:
+                    tfdIdCategorieProduit.requestFocus();
+                    break;
+
+                case 4:
+                    tfdPrixAchatUSD.requestFocus();
+                    break;
+                case 5:
+                    tfdPrixAchatFC.requestFocus();
+                    break;
+                default:
+            }
+            return false;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

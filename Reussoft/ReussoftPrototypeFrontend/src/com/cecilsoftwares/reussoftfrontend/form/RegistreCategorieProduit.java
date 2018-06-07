@@ -6,6 +6,8 @@ import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit.CategorieProduitBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
@@ -145,6 +147,11 @@ public class RegistreCategorieProduit extends JInternalFrame {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
+
+        if (!isInformationObligatoiresRemplies()) {
+            return;
+        }
+
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
@@ -256,6 +263,40 @@ public class RegistreCategorieProduit extends JInternalFrame {
         btnEnregistrerClickable = hcf;
         btnExclureClickable = hcf;
         btnAnnulerClickable = hcf;
+    }
+
+    private boolean isInformationObligatoiresRemplies() {
+
+        StringBuilder notification = new StringBuilder();
+        Queue<Integer> nio = new LinkedList<Integer>();
+
+        if (tfdDescription.getText().isEmpty()) {
+            notification.append("\nDescription");
+            nio.add(1);
+        }
+        if (tfdDescriptionAbregee.getText().isEmpty()) {
+            notification.append("\nDescription Abrégée");
+            nio.add(2);
+        }
+
+        if (notification.toString().isEmpty()) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, new StringBuilder(nio.size() > 1 ? "Informations obligatoires:" : "Information obligatoire:")
+                    .append(notification));
+            switch (nio.poll()) {
+                case 1:
+                    tfdDescription.requestFocus();
+                    break;
+
+                case 2:
+                    tfdDescriptionAbregee.requestFocus();
+                    break;
+
+                default:
+            }
+            return false;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

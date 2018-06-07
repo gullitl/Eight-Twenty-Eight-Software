@@ -178,21 +178,17 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
 
     private void tblProfilUtilisateurMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProfilUtilisateurMouseClicked
         if (evt.getClickCount() == 2) {
-            selectionnerProfilUtilisateur();
+            if (frameAncetre != null) {
+                int row = tblProfilUtilisateur.getSelectedRow();
+
+                profilUtilisateur = profilsUtilisateur.stream()
+                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                        .findFirst().orElse(null);
+            }
             dispose();
         }
 
     }//GEN-LAST:event_tblProfilUtilisateurMouseClicked
-
-    private void selectionnerProfilUtilisateur() {
-        if (frameAncetre != null) {
-            int row = tblProfilUtilisateur.getSelectedRow();
-
-            profilUtilisateur = profilsUtilisateur.stream()
-                    .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
-        }
-    }
 
     private void tfdRechercheDescriptionProfilUtilisateurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDescriptionProfilUtilisateurKeyReleased
         List<ProfilUtilisateur> listeProfilsUtilisateur = new ArrayList();

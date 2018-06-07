@@ -37,7 +37,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         defaultTableModel = (DefaultTableModel) tblCategorieProduit.getModel();
         dataRows = new Object[3];
 
-        chargementProduits();
+        chargementCategoriesProduit();
     }
 
     private void enFermantDialog() {
@@ -55,16 +55,16 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         });
     }
 
-    private void chargementProduits() {
+    private void chargementCategoriesProduit() {
         try {
             categoriesProduits = CategorieProduitService.getInstance().listerTousLesCategorieProduits();
-            listerCategorieProduits(categoriesProduits);
+            listerCategoriesProduit(categoriesProduits);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void listerCategorieProduits(List<CategorieProduit> categoriesProduits) {
+    private void listerCategoriesProduit(List<CategorieProduit> categoriesProduits) {
         defaultTableModel.setRowCount(0);
         categoriesProduits.forEach(cp -> {
             dataRows[0] = cp.getCode();
@@ -171,21 +171,17 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
 
     private void tblCategorieProduitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategorieProduitMouseClicked
         if (evt.getClickCount() == 2) {
-            selectionnerCategorieProduit();
+            if (frameAncetre != null) {
+                int row = tblCategorieProduit.getSelectedRow();
+
+                categorieProduit = categoriesProduits.stream()
+                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                        .findFirst().orElse(null);
+            }
             dispose();
         }
 
     }//GEN-LAST:event_tblCategorieProduitMouseClicked
-
-    private void selectionnerCategorieProduit() {
-        if (frameAncetre != null) {
-            int row = tblCategorieProduit.getSelectedRow();
-
-            categorieProduit = categoriesProduits.stream()
-                    .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
-        }
-    }
 
     private void tfdRechercheDescriptionCategorieProduitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDescriptionCategorieProduitKeyReleased
         List<CategorieProduit> listeCategorieProduits = new ArrayList();
@@ -196,7 +192,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
                     listeCategorieProduits.add(cp);
                 });
 
-        listerCategorieProduits(listeCategorieProduits);
+        listerCategoriesProduit(listeCategorieProduits);
     }//GEN-LAST:event_tfdRechercheDescriptionCategorieProduitKeyReleased
 
     public JInternalFrame getFrameAncetre() {
