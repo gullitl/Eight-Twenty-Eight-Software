@@ -1,23 +1,13 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
-import com.cecilsoftwares.reussoftbackend.service.EntreeStockService;
-import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationEntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
-import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock.EntreeStockBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
-import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur.FournisseurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.MouvementStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.Cursor;
-import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 
 /**
  * @author Plamedi L. Lusembo
@@ -128,14 +118,15 @@ public class OperationEntreeStock extends JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterFournisseur)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
                         .addComponent(lblEntrepriseFournisseur)
                         .addComponent(jLabel6)
-                        .addComponent(lblResponsableFournisseur)))
+                        .addComponent(lblResponsableFournisseur))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfdIdFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnConsulterFournisseur)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -376,22 +367,22 @@ public class OperationEntreeStock extends JInternalFrame {
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
         Produit produit = new Produit.ProduitBuilder(Integer.parseInt(tfdIdProduit.getText())).build();
 
-        EntreeStock entreeStock = new EntreeStock.EntreeStockBuilder(Integer.parseInt(tfdCode.getText()))
-                .produit(produit)
-                .prixAchatUSD(new BigDecimal(tfdPrixAchatUSD.getText()))
-                .prixAchatFC(new BigDecimal(tfdPrixAchatFC.getText()))
-                .quantiteProduit(new BigDecimal(spnQuantiteProduit.getToolTipText()))
-                .build();
-
-        try {
-            if (EntreeStockService.getInstance().enregistrerEntreeStock(entreeStock)) {
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant l'Entree de Stock");
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        EntreeStock entreeStock = new EntreeStock.EntreeStockBuilder(Integer.parseInt(tfdCode.getText()))
+//                .produit(produit)
+//                .prixAchatUSD(new BigDecimal(tfdPrixAchatUSD.getText()))
+//                .prixAchatFC(new BigDecimal(tfdPrixAchatFC.getText()))
+//                .quantiteProduit(new BigDecimal(spnQuantiteProduit.getToolTipText()))
+//                .build();
+//
+//        try {
+//            if (EntreeStockService.getInstance().enregistrerEntreeStock(entreeStock)) {
+//                effacerFormulaire();
+//                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+//            }
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant l'Entree de Stock");
+//            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     public void mouvementStockSelectionne(MouvementStock entreeStock) {
@@ -402,28 +393,28 @@ public class OperationEntreeStock extends JInternalFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
-        Fournisseur fournisseur = new FournisseurBuilder(Integer.parseInt(tfdIdFournisseur.getText())).build();
-        Produit produit = new ProduitBuilder(Integer.parseInt(tfdIdProduit.getText())).build();
-        EntreeStock shop = new EntreeStockBuilder(codeEntreeStock)
-                .fournisseur(fournisseur)
-                .produit(produit)
-                .prixAchatFC(new BigDecimal(tfdPrixAchatFC.getText()))
-                .prixAchatUSD(new BigDecimal(tfdPrixAchatUSD.getText()))
-                .nom(tfdNom.getText())
-                .adresse(adresse)
-                .active(modeEdition ? chbActiver.isSelected() : true)
-                .build();
-
-        try {
-            if (ShopService.getInstance().enregistrerShop(shop)) {
-                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le nouveau Shop");
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        Fournisseur fournisseur = new FournisseurBuilder(Integer.parseInt(tfdIdFournisseur.getText())).build();
+//        Produit produit = new ProduitBuilder(Integer.parseInt(tfdIdProduit.getText())).build();
+//        EntreeStock shop = new EntreeStockBuilder(codeEntreeStock)
+//                .fournisseur(fournisseur)
+//                .produit(produit)
+//                .prixAchatFC(new BigDecimal(tfdPrixAchatFC.getText()))
+//                .prixAchatUSD(new BigDecimal(tfdPrixAchatUSD.getText()))
+//                .nom(tfdNom.getText())
+//                .adresse(adresse)
+//                .active(modeEdition ? chbActiver.isSelected() : true)
+//                .build();
+//
+//        try {
+//            if (ShopService.getInstance().enregistrerShop(shop)) {
+//                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+//                effacerFormulaire();
+//                JOptionPane.showMessageDialog(null, notification);
+//            }
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le nouveau Shop");
+//            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         setCursor(Cursor.getDefaultCursor());
     }
 
@@ -436,141 +427,141 @@ public class OperationEntreeStock extends JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnConsulterEntreeStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterEntreeStockActionPerformed
-        if (btnConsulterEntreeStockClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            ConsultationEntreeStock consultationEntreeStock = new ConsultationEntreeStock(null, true);
-            consultationEntreeStock.setFrameAncetre(this);
-            consultationEntreeStock.setVisible(true);
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
-        }
+//        if (btnConsulterEntreeStockClickable) {
+//            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//            habiliterComposantFormulaire(false);
+//
+//            ConsultationEntreeStock consultationEntreeStock = new ConsultationEntreeStock(null, true);
+//            consultationEntreeStock.setFrameAncetre(this);
+//            consultationEntreeStock.setVisible(true);
+//
+//            habiliterComposantFormulaire(true);
+//            setCursor(Cursor.getDefaultCursor());
+//        }
     }//GEN-LAST:event_btnConsulterEntreeStockActionPerformed
 
     public void EntreeStockSelectionnee(EntreeStock EntreeStock) {
-        if (shop != null) {
-            modeEdition = true;
-            btnExclure.setEnabled(true);
-
-            codeShop = shop.getCode();
-            tfdNom.setText(shop.getNom());
-
-            String[] adresse = shop.getAdresse().split("@");
-            tfdAvenue.setText(adresse[0]);
-            tfdNumero.setText(adresse[1]);
-            tfdQuartier.setText(adresse[2]);
-            tfdCommune.setText(adresse[3]);
-            switch (adresse[4]) {
-                case "Kinshasa":
-                    cbxProvince.setSelectedIndex(0);
-                    break;
-                case "Kasaï":
-                    cbxProvince.setSelectedIndex(1);
-                    break;
-                case "Kongo-Central":
-                    cbxProvince.setSelectedIndex(2);
-                    break;
-            }
-            tfdDistrict.setText(adresse[5]);
-
-            chbActiver.setVisible(true);
-            chbActiver.setSelected(shop.isActive());
-            btnEnregistrer.setText("ACTUALISER");
-        }
+//        if (shop != null) {
+//            modeEdition = true;
+//            btnExclure.setEnabled(true);
+//
+//            codeShop = shop.getCode();
+//            tfdNom.setText(shop.getNom());
+//
+//            String[] adresse = shop.getAdresse().split("@");
+//            tfdAvenue.setText(adresse[0]);
+//            tfdNumero.setText(adresse[1]);
+//            tfdQuartier.setText(adresse[2]);
+//            tfdCommune.setText(adresse[3]);
+//            switch (adresse[4]) {
+//                case "Kinshasa":
+//                    cbxProvince.setSelectedIndex(0);
+//                    break;
+//                case "Kasaï":
+//                    cbxProvince.setSelectedIndex(1);
+//                    break;
+//                case "Kongo-Central":
+//                    cbxProvince.setSelectedIndex(2);
+//                    break;
+//            }
+//            tfdDistrict.setText(adresse[5]);
+//
+//            chbActiver.setVisible(true);
+//            chbActiver.setSelected(shop.isActive());
+//            btnEnregistrer.setText("ACTUALISER");
+//        }
     }
 
     private void btnConsulterFournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterFournisseurActionPerformed
-        if (btnConsulterShopClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            ConsultationShop consultationShop = new ConsultationShop(null, true);
-            consultationShop.setFrameAncetre(this);
-            consultationShop.setVisible(true);
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
-        }
+//        if (btnConsulterShopClickable) {
+//            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//            habiliterComposantFormulaire(false);
+//
+//            ConsultationShop consultationShop = new ConsultationShop(null, true);
+//            consultationShop.setFrameAncetre(this);
+//            consultationShop.setVisible(true);
+//
+//            habiliterComposantFormulaire(true);
+//            setCursor(Cursor.getDefaultCursor());
+//        }
     }//GEN-LAST:event_btnConsulterFournisseurActionPerformed
 
     public void shopSelectionne(Shop shop) {
-        if (shop != null) {
-            modeEdition = true;
-            btnExclure.setEnabled(true);
-
-            codeShop = shop.getCode();
-            tfdNom.setText(shop.getNom());
-
-            String[] adresse = shop.getAdresse().split("@");
-            tfdAvenue.setText(adresse[0]);
-            tfdNumero.setText(adresse[1]);
-            tfdQuartier.setText(adresse[2]);
-            tfdCommune.setText(adresse[3]);
-            switch (adresse[4]) {
-                case "Kinshasa":
-                    cbxProvince.setSelectedIndex(0);
-                    break;
-                case "Kasaï":
-                    cbxProvince.setSelectedIndex(1);
-                    break;
-                case "Kongo-Central":
-                    cbxProvince.setSelectedIndex(2);
-                    break;
-            }
-            tfdDistrict.setText(adresse[5]);
-
-            chbActiver.setVisible(true);
-            chbActiver.setSelected(shop.isActive());
-            btnEnregistrer.setText("ACTUALISER");
-        }
+//        if (shop != null) {
+//            modeEdition = true;
+//            btnExclure.setEnabled(true);
+//
+//            codeShop = shop.getCode();
+//            tfdNom.setText(shop.getNom());
+//
+//            String[] adresse = shop.getAdresse().split("@");
+//            tfdAvenue.setText(adresse[0]);
+//            tfdNumero.setText(adresse[1]);
+//            tfdQuartier.setText(adresse[2]);
+//            tfdCommune.setText(adresse[3]);
+//            switch (adresse[4]) {
+//                case "Kinshasa":
+//                    cbxProvince.setSelectedIndex(0);
+//                    break;
+//                case "Kasaï":
+//                    cbxProvince.setSelectedIndex(1);
+//                    break;
+//                case "Kongo-Central":
+//                    cbxProvince.setSelectedIndex(2);
+//                    break;
+//            }
+//            tfdDistrict.setText(adresse[5]);
+//
+//            chbActiver.setVisible(true);
+//            chbActiver.setSelected(shop.isActive());
+//            btnEnregistrer.setText("ACTUALISER");
+//        }
     }
 
     private void btnConsulterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProduitActionPerformed
-        if (btnConsulterShopClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            ConsultationShop consultationShop = new ConsultationShop(null, true);
-            consultationShop.setFrameAncetre(this);
-            consultationShop.setVisible(true);
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
-        }
+//        if (btnConsulterShopClickable) {
+//            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//            habiliterComposantFormulaire(false);
+//
+//            ConsultationShop consultationShop = new ConsultationShop(null, true);
+//            consultationShop.setFrameAncetre(this);
+//            consultationShop.setVisible(true);
+//
+//            habiliterComposantFormulaire(true);
+//            setCursor(Cursor.getDefaultCursor());
+//        }
     }//GEN-LAST:event_btnConsulterProduitActionPerformed
 
-    public void shopSelectionne(Shop shop) {
-        if (shop != null) {
-            modeEdition = true;
-            btnExclure.setEnabled(true);
-
-            codeShop = shop.getCode();
-            tfdNom.setText(shop.getNom());
-
-            String[] adresse = shop.getAdresse().split("@");
-            tfdAvenue.setText(adresse[0]);
-            tfdNumero.setText(adresse[1]);
-            tfdQuartier.setText(adresse[2]);
-            tfdCommune.setText(adresse[3]);
-            switch (adresse[4]) {
-                case "Kinshasa":
-                    cbxProvince.setSelectedIndex(0);
-                    break;
-                case "Kasaï":
-                    cbxProvince.setSelectedIndex(1);
-                    break;
-                case "Kongo-Central":
-                    cbxProvince.setSelectedIndex(2);
-                    break;
-            }
-            tfdDistrict.setText(adresse[5]);
-
-            chbActiver.setVisible(true);
-            chbActiver.setSelected(shop.isActive());
-            btnEnregistrer.setText("ACTUALISER");
-        }
+    public void shopSeelectionne(Shop shop) {
+//        if (shop != null) {
+//            modeEdition = true;
+//            btnExclure.setEnabled(true);
+//
+//            codeShop = shop.getCode();
+//            tfdNom.setText(shop.getNom());
+//
+//            String[] adresse = shop.getAdresse().split("@");
+//            tfdAvenue.setText(adresse[0]);
+//            tfdNumero.setText(adresse[1]);
+//            tfdQuartier.setText(adresse[2]);
+//            tfdCommune.setText(adresse[3]);
+//            switch (adresse[4]) {
+//                case "Kinshasa":
+//                    cbxProvince.setSelectedIndex(0);
+//                    break;
+//                case "Kasaï":
+//                    cbxProvince.setSelectedIndex(1);
+//                    break;
+//                case "Kongo-Central":
+//                    cbxProvince.setSelectedIndex(2);
+//                    break;
+//            }
+//            tfdDistrict.setText(adresse[5]);
+//
+//            chbActiver.setVisible(true);
+//            chbActiver.setSelected(shop.isActive());
+//            btnEnregistrer.setText("ACTUALISER");
+//        }
     }
 
     private void effacerFormulaire() {
@@ -590,15 +581,15 @@ public class OperationEntreeStock extends JInternalFrame {
     }
 
     private void habiliterComposantFormulaire(boolean hcf) {
-        tfdNom.setEditable(hcf);
-        tfdAvenue.setEditable(hcf);
-        tfdNumero.setEditable(hcf);
-        tfdQuartier.setEditable(hcf);
-        tfdCommune.setEditable(hcf);
-        tfdDistrict.setEditable(hcf);
-        chbActiver.setEnabled(hcf);
-        cbxProvince.setEnabled(hcf);
-        btnConsulterShopClickable = hcf;
+//        tfdNom.setEditable(hcf);
+//        tfdAvenue.setEditable(hcf);
+//        tfdNumero.setEditable(hcf);
+//        tfdQuartier.setEditable(hcf);
+//        tfdCommune.setEditable(hcf);
+//        tfdDistrict.setEditable(hcf);
+//        chbActiver.setEnabled(hcf);
+//        cbxProvince.setEnabled(hcf);
+//        btnConsulterShopClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
     }
@@ -608,55 +599,56 @@ public class OperationEntreeStock extends JInternalFrame {
         StringBuilder notification = new StringBuilder();
         Queue<Integer> nio = new LinkedList<>();
 
-        if (tfdNom.getText().isEmpty()) {
-            notification.append("\nNom");
-            nio.add(1);
-        }
-        if (tfdAvenue.getText().isEmpty()) {
-            notification.append("\nAvenue");
-            nio.add(2);
-        }
-        if (tfdNumero.getText().isEmpty()) {
-            notification.append("\nNuméro");
-            nio.add(3);
-        }
-
-        if (tfdQuartier.getText().isEmpty()) {
-            notification.append("\nQuartier");
-            nio.add(4);
-        }
-        if (tfdCommune.getText().isEmpty()) {
-            notification.append("\nCommune");
-            nio.add(5);
-        }
-
-        if (notification.toString().isEmpty()) {
-            return true;
-        } else {
-            JOptionPane.showMessageDialog(null, new StringBuilder(nio.size() > 1 ? "Informations obligatoires:" : "Information obligatoire:")
-                    .append(notification));
-            switch (nio.poll()) {
-                case 1:
-                    tfdNom.requestFocus();
-                    break;
-
-                case 2:
-                    tfdAvenue.requestFocus();
-                    break;
-                case 3:
-                    tfdNumero.requestFocus();
-                    break;
-
-                case 4:
-                    tfdQuartier.requestFocus();
-                    break;
-                case 5:
-                    tfdCommune.requestFocus();
-                    break;
-                default:
-            }
-            return false;
-        }
+//        if (tfdNom.getText().isEmpty()) {
+//            notification.append("\nNom");
+//            nio.add(1);
+//        }
+//        if (tfdAvenue.getText().isEmpty()) {
+//            notification.append("\nAvenue");
+//            nio.add(2);
+//        }
+//        if (tfdNumero.getText().isEmpty()) {
+//            notification.append("\nNuméro");
+//            nio.add(3);
+//        }
+//
+//        if (tfdQuartier.getText().isEmpty()) {
+//            notification.append("\nQuartier");
+//            nio.add(4);
+//        }
+//        if (tfdCommune.getText().isEmpty()) {
+//            notification.append("\nCommune");
+//            nio.add(5);
+//        }
+//
+//        if (notification.toString().isEmpty()) {
+//            return true;
+//        } else {
+//            JOptionPane.showMessageDialog(null, new StringBuilder(nio.size() > 1 ? "Informations obligatoires:" : "Information obligatoire:")
+//                    .append(notification));
+//            switch (nio.poll()) {
+//                case 1:
+//                    tfdNom.requestFocus();
+//                    break;
+//
+//                case 2:
+//                    tfdAvenue.requestFocus();
+//                    break;
+//                case 3:
+//                    tfdNumero.requestFocus();
+//                    break;
+//
+//                case 4:
+//                    tfdQuartier.requestFocus();
+//                    break;
+//                case 5:
+//                    tfdCommune.requestFocus();
+//                    break;
+//                default:
+//            }
+//            return false;
+//        }
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

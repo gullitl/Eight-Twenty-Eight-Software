@@ -1,14 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
-import com.cecilsoftwares.reussoftbackend.service.EntreeStockService;
-import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 
 /**
  * @author Plamedi L. Lusembo
@@ -316,20 +309,19 @@ public class OperationDispatch extends JInternalFrame {
     private void btnDispatcherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDispatcherActionPerformed
         Produit produit = new Produit.ProduitBuilder(Integer.parseInt(tfdIdProduit.getText())).build();
 
-        EntreeStock entreeStock = new EntreeStock.EntreeStockBuilder(Integer.parseInt(tfdCode.getText()))
-                .produit(produit)
-                .quantiteProduit(new BigDecimal(spnQuantiteProduit.getToolTipText()))
-                .build();
-
-        try {
-            if (EntreeStockService.getInstance().enregistrerEntreeStock(entreeStock)) {
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant l'Entree de Stock");
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        EntreeStock entreeStock = new EntreeStock.EntreeStockBuilder(Integer.parseInt(tfdCode.getText()))
+//                .produit(produit)
+//                .quantiteProduit(new BigDecimal(spnQuantiteProduit.getToolTipText()))
+//                .build();
+//        try {
+//            if (EntreeStockService.getInstance().enregistrerEntreeStock(entreeStock)) {
+//                effacerFormulaire();
+//                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+//            }
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant l'Entree de Stock");
+//            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnDispatcherActionPerformed
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
