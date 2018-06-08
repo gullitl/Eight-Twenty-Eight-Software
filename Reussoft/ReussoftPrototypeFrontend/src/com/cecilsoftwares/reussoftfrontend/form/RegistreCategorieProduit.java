@@ -190,7 +190,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
         }
     }//GEN-LAST:event_btnConsulterCategorieProduitActionPerformed
 
-    public void categorieProduitSelectionne(CategorieProduit categorieProduit) {
+    public void categorieProduitSelectionnee(CategorieProduit categorieProduit) {
         if (categorieProduit != null) {
 
             modeEdition = true;

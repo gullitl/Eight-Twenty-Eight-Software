@@ -3,16 +3,12 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCollaborateur;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
-import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationShop;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -44,7 +40,6 @@ public class RegistreCollaborateur extends JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         btnConsulterCollaborateur = new javax.swing.JButton();
         tfdPrenom = new javax.swing.JTextField();
         tfdNom = new javax.swing.JTextField();
@@ -54,9 +49,6 @@ public class RegistreCollaborateur extends JInternalFrame {
         chbActiver = new javax.swing.JCheckBox();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
-        tfdIdShop = new javax.swing.JTextField();
-        btnConsulterShop = new javax.swing.JButton();
-        lblDescriptionShop = new javax.swing.JLabel();
         btnExclure = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         tfdNomUtilisateur = new javax.swing.JTextField();
@@ -68,6 +60,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         lblDescriptionProfilUtilisateur = new javax.swing.JLabel();
         pwfMotDePasse = new javax.swing.JPasswordField();
         pwfConfirmerMotDePasse = new javax.swing.JPasswordField();
+        jLabel9 = new javax.swing.JLabel();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -78,8 +71,6 @@ public class RegistreCollaborateur extends JInternalFrame {
         jLabel3.setText("Nom:");
 
         jLabel4.setText("Surnom:");
-
-        jLabel5.setText("Shop:");
 
         btnConsulterCollaborateur.setText("...");
         btnConsulterCollaborateur.setFocusable(false);
@@ -106,18 +97,6 @@ public class RegistreCollaborateur extends JInternalFrame {
                 btnEnregistrerActionPerformed(evt);
             }
         });
-
-        tfdIdShop.setEditable(false);
-
-        btnConsulterShop.setText("...");
-        btnConsulterShop.setFocusable(false);
-        btnConsulterShop.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConsulterShopActionPerformed(evt);
-            }
-        });
-
-        lblDescriptionShop.setText("jLabel10");
 
         btnExclure.setText("EXCLURE");
         btnExclure.addActionListener(new java.awt.event.ActionListener() {
@@ -146,30 +125,35 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         lblDescriptionProfilUtilisateur.setText("jLabel9");
 
+        jLabel9.setText("Profil d'utilisateur:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfdNomUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(tfdIdProfilUtilisateur)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnConsulterProfilUtilisateur)))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(pwfMotDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfdNomUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(tfdIdProfilUtilisateur)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnConsulterProfilUtilisateur)))
                         .addGap(18, 18, 18)
-                        .addComponent(pwfConfirmerMotDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(145, 145, 145)
-                        .addComponent(jLabel8))
-                    .addComponent(lblDescriptionProfilUtilisateur))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(pwfMotDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pwfConfirmerMotDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(145, 145, 145)
+                                .addComponent(jLabel8))
+                            .addComponent(lblDescriptionProfilUtilisateur)))
+                    .addComponent(jLabel9))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -185,12 +169,14 @@ public class RegistreCollaborateur extends JInternalFrame {
                     .addComponent(tfdNomUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pwfMotDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pwfConfirmerMotDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdIdProfilUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsulterProfilUtilisateur)
                     .addComponent(lblDescriptionProfilUtilisateur))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -210,15 +196,8 @@ public class RegistreCollaborateur extends JInternalFrame {
                         .addComponent(chbActiver)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfdIdShop, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterShop)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblDescriptionShop))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tfdSurnom)
-                                    .addComponent(jLabel5)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel2)
                                     .addComponent(tfdPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -253,16 +232,9 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdSurnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterShop)
-                    .addComponent(lblDescriptionShop))
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(chbActiver)
@@ -271,7 +243,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                             .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(76, 76, 76))
+                .addGap(38, 38, 38))
         );
 
         pack();
@@ -294,7 +266,6 @@ public class RegistreCollaborateur extends JInternalFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
-        Shop shop = new ShopBuilder(Integer.parseInt(tfdIdShop.getText())).build();
         ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(Integer.parseInt(tfdIdProfilUtilisateur.getText())).build();
         Collaborateur collaborateur = new CollaborateurBuilder(codeCollaborateur)
                 .prenom(tfdPrenom.getText())
@@ -302,8 +273,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .postnom(tfdPostnom.getText())
                 .surnom(tfdSurnom.getText())
                 .nomUtilisateur(tfdNomUtilisateur.getText())
-                .motDePasse(Arrays.toString(pwfMotDePasse.getPassword()))
-                .shop(shop)
+                .motDePasse(pwfMotDePasse.getText())
                 .profilUtilisateur(profilUtilisateur)
                 .active(modeEdition ? chbActiver.isSelected() : true)
                 .build();
@@ -360,8 +330,6 @@ public class RegistreCollaborateur extends JInternalFrame {
             tfdNom.setText(collaborateur.getNom());
             tfdPostnom.setText(collaborateur.getPostnom());
             tfdSurnom.setText(collaborateur.getSurnom());
-            tfdIdShop.setText(String.valueOf(collaborateur.getShop().getCode()));
-            lblDescriptionShop.setText(collaborateur.getShop().getNom());
             tfdNomUtilisateur.setText(collaborateur.getNomUtilisateur());
             pwfMotDePasse.setText(collaborateur.getMotDePasse());
             pwfConfirmerMotDePasse.setText(collaborateur.getMotDePasse());
@@ -370,27 +338,6 @@ public class RegistreCollaborateur extends JInternalFrame {
             chbActiver.setVisible(true);
             chbActiver.setSelected(collaborateur.isActive());
             btnEnregistrer.setText("ACTUALISER");
-        }
-    }
-
-    private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
-        if (btnConsulterShopClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            ConsultationShop consultationShop = new ConsultationShop(null, true);
-            consultationShop.setFrameAncetre(this);
-            consultationShop.setVisible(true);
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
-        }
-    }//GEN-LAST:event_btnConsulterShopActionPerformed
-
-    public void shopSelectionne(Shop shop) {
-        if (shop != null) {
-            tfdIdShop.setText(String.valueOf(shop.getCode()));
-            lblDescriptionShop.setText(shop.getNom());
         }
     }
 
@@ -461,8 +408,6 @@ public class RegistreCollaborateur extends JInternalFrame {
         tfdNom.setText("");
         tfdPostnom.setText("");
         tfdSurnom.setText("");
-        tfdIdShop.setText("");
-        lblDescriptionShop.setText("");
         tfdNomUtilisateur.setText("");
         pwfMotDePasse.setText("");
         pwfConfirmerMotDePasse.setText("");
@@ -493,7 +438,7 @@ public class RegistreCollaborateur extends JInternalFrame {
     }
 
     private boolean isMotdePasseConfirme() {
-        if (Arrays.equals(pwfMotDePasse.getPassword(), pwfConfirmerMotDePasse.getPassword())) {
+        if (pwfMotDePasse.getText().equals(pwfConfirmerMotDePasse.getText())) {
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Le mot de passe ne correspond pas!");
@@ -523,16 +468,18 @@ public class RegistreCollaborateur extends JInternalFrame {
             notification.append("\nSurnom");
             nio.add(4);
         }
-        if (tfdIdShop.getText().isEmpty()) {
-            notification.append("\nShop");
-            nio.add(5);
-        }
+
         if (tfdNomUtilisateur.getText().isEmpty()) {
             notification.append("\nnom d'utilisateur");
+            nio.add(5);
+        }
+        if (pwfMotDePasse.getText().isEmpty()) {
+            notification.append("\nMot de passe");
             nio.add(6);
         }
-        if (Arrays.toString(pwfMotDePasse.getPassword()).isEmpty()) {
-            notification.append("\nMot de passe");
+
+        if (tfdIdProfilUtilisateur.getText().isEmpty()) {
+            notification.append("\nprofil d'utilisateur");
             nio.add(7);
         }
 
@@ -557,10 +504,10 @@ public class RegistreCollaborateur extends JInternalFrame {
                     tfdSurnom.requestFocus();
                     break;
                 case 5:
-                    tfdIdShop.requestFocus();
+                    tfdNomUtilisateur.requestFocus();
                     break;
                 case 6:
-                    tfdNomUtilisateur.requestFocus();
+                    pwfMotDePasse.requestFocus();
                     break;
                 case 7:
                     pwfMotDePasse.requestFocus();
@@ -575,7 +522,6 @@ public class RegistreCollaborateur extends JInternalFrame {
     private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterCollaborateur;
     private javax.swing.JButton btnConsulterProfilUtilisateur;
-    private javax.swing.JButton btnConsulterShop;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;
     private javax.swing.JCheckBox chbActiver;
@@ -583,17 +529,15 @@ public class RegistreCollaborateur extends JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblDescriptionProfilUtilisateur;
-    private javax.swing.JLabel lblDescriptionShop;
     private javax.swing.JPasswordField pwfConfirmerMotDePasse;
     private javax.swing.JPasswordField pwfMotDePasse;
     private javax.swing.JTextField tfdIdProfilUtilisateur;
-    private javax.swing.JTextField tfdIdShop;
     private javax.swing.JTextField tfdNom;
     private javax.swing.JTextField tfdNomUtilisateur;
     private javax.swing.JTextField tfdPostnom;

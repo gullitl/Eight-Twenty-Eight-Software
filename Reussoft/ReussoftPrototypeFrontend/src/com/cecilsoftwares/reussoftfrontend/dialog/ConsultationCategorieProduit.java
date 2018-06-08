@@ -46,7 +46,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
             public void windowClosed(WindowEvent e) {
                 if (frameAncetre instanceof RegistreCategorieProduit) {
                     RegistreCategorieProduit registreCategorieProduit = (RegistreCategorieProduit) frameAncetre;
-                    registreCategorieProduit.categorieProduitSelectionne(categorieProduit);
+                    registreCategorieProduit.categorieProduitSelectionnee(categorieProduit);
                 } else if (frameAncetre instanceof RegistreProduit) {
                     RegistreProduit registreProduit = (RegistreProduit) frameAncetre;
                     registreProduit.categorieProduitSelectionne(categorieProduit);
@@ -154,7 +154,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdRechercheDescriptionCategorieProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

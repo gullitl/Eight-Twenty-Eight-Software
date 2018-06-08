@@ -3,6 +3,9 @@ package com.cecilsoftwares.reussoftfrontend.dialog;
 import com.cecilsoftwares.reussoftbackend.service.EntreeStockService;
 import com.cecilsoftwares.reussoftfrontend.form.OperationEntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
+import com.cecilsoftwares.reussoftmiddleend.model.MouvementStock;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +17,12 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author Plamedi L. Lusembo
  */
-public class ConsultationEntreeStock extends javax.swing.JDialog {
+public class ConsultationMouvementStock extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
-    private List<EntreeStock> entreeStocks;
+
+    private MouvementStock mouvementStock;
+    private List<MouvementStock> mouvementsStock;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
@@ -25,15 +30,33 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public ConsultationEntreeStock(java.awt.Frame parent, boolean modal) {
+    public ConsultationMouvementStock(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        enFermantDialog();
+
         defaultTableModel = (DefaultTableModel) tblEntreeStock.getModel();
         dataRows = new Object[2];
 
+        chargementEntreesStock();
+    }
+
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (frameAncetre instanceof OperationEntreeStock) {
+                    OperationEntreeStock operationEntreeStock = (OperationEntreeStock) frameAncetre;
+                    operationEntreeStock.entreeStockSelectionne(mouvementStock);
+                }
+            }
+        });
+    }
+
+    private void chargementEntreesStock() {
         try {
-            entreeStocks = EntreeStockService.getInstance().listerToutesLesEntreeStocks();
-            listerEntreeStocks(entreeStocks);
+            mouvementsStock = EntreeStockService.getInstance().listerToutesLesEntreeStocks();
+            listerEntreeStocks(mouvementsStock);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConsultationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -41,9 +64,23 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
 
     private void listerEntreeStocks(List<EntreeStock> entreeStocks) {
         defaultTableModel.setRowCount(0);
+        entreeStocks.forEach(es -> {
+            dataRows[0] = es.getMouvementStock().getCode();
+            dataRows[1] = es.getDescription();
+            dataRows[2] = es.getDescriptionAbregee();
+            defaultTableModel.addRow(dataRows);
+        });
+
+        String formeNombre = entreeStocks.size() > 1 ? "Entrees Stocks" : "Entree Stock";
+        lblNombreEntreeStock.setText(entreeStocks.size() + " " + formeNombre);
+    }
+
+    private void listerEntreeStocks(List<EntreeStock> entreeStocks) {
+        defaultTableModel.setRowCount(0);
         for (EntreeStock entreeStock : entreeStocks) {
             dataRows[0] = entreeStock.getCode();
             dataRows[1] = entreeStock.getProduit().getDescription();
+            dataRows[2] = entreeStock.getProduit().getDescription();
             defaultTableModel.addRow(dataRows);
         }
         String formeNombre = entreeStocks.size() > 1 ? "EntreeStocks" : "EntreeStock";
@@ -83,14 +120,14 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Fournisseur"
+                "Code", "Fournisseur", "Date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -110,7 +147,9 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
         if (tblEntreeStock.getColumnModel().getColumnCount() > 0) {
             tblEntreeStock.getColumnModel().getColumn(0).setResizable(false);
             tblEntreeStock.getColumnModel().getColumn(1).setResizable(false);
-            tblEntreeStock.getColumnModel().getColumn(1).setPreferredWidth(300);
+            tblEntreeStock.getColumnModel().getColumn(1).setPreferredWidth(250);
+            tblEntreeStock.getColumnModel().getColumn(2).setResizable(false);
+            tblEntreeStock.getColumnModel().getColumn(2).setPreferredWidth(100);
         }
 
         lblNombreEntreeStock.setText("jLabel1");
@@ -134,7 +173,7 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdRechercheEntrepriseFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -171,7 +210,7 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
 
     private void tfdRechercheEntrepriseFournisseurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheEntrepriseFournisseurKeyReleased
         List<EntreeStock> listeEntreeStocks = new ArrayList();
-        for (EntreeStock entreeStock : entreeStocks) {
+        for (EntreeStock entreeStock : mouvementsStock) {
             if (entreeStock.getFournisseur().getEntreprise().toUpperCase()
                     .startsWith(tfdRechercheEntrepriseFournisseur.getText().toUpperCase())) {
                 listeEntreeStocks.add(entreeStock);
