@@ -285,7 +285,7 @@ public class RegistreFournisseur extends JInternalFrame {
     private boolean isInformationObligatoiresRemplies() {
 
         StringBuilder notification = new StringBuilder();
-        Queue<Integer> nio = new LinkedList<Integer>();
+        Queue<Integer> nio = new LinkedList<>();
 
         if (tfdEntreprise.getText().isEmpty()) {
             notification.append("\nEntreprise");

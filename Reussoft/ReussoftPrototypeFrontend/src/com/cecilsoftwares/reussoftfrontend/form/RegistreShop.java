@@ -385,7 +385,7 @@ public class RegistreShop extends JInternalFrame {
     private boolean isInformationObligatoiresRemplies() {
 
         StringBuilder notification = new StringBuilder();
-        Queue<Integer> nio = new LinkedList<Integer>();
+        Queue<Integer> nio = new LinkedList<>();
 
         if (tfdNom.getText().isEmpty()) {
             notification.append("\nNom");

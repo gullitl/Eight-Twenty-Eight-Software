@@ -12,6 +12,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -301,7 +302,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .postnom(tfdPostnom.getText())
                 .surnom(tfdSurnom.getText())
                 .nomUtilisateur(tfdNomUtilisateur.getText())
-                .motDePasse(pwfMotDePasse.getPassword().toString())
+                .motDePasse(Arrays.toString(pwfMotDePasse.getPassword()))
                 .shop(shop)
                 .profilUtilisateur(profilUtilisateur)
                 .active(modeEdition ? chbActiver.isSelected() : true)
@@ -492,7 +493,7 @@ public class RegistreCollaborateur extends JInternalFrame {
     }
 
     private boolean isMotdePasseConfirme() {
-        if (pwfMotDePasse.getPassword().equals(pwfConfirmerMotDePasse.getPassword())) {
+        if (Arrays.equals(pwfMotDePasse.getPassword(), pwfConfirmerMotDePasse.getPassword())) {
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Le mot de passe ne correspond pas!");
@@ -503,7 +504,7 @@ public class RegistreCollaborateur extends JInternalFrame {
     private boolean isInformationObligatoiresRemplies() {
 
         StringBuilder notification = new StringBuilder();
-        Queue<Integer> nio = new LinkedList<Integer>();
+        Queue<Integer> nio = new LinkedList<>();
 
         if (tfdPrenom.getText().isEmpty()) {
             notification.append("\nPrénom");
@@ -530,7 +531,7 @@ public class RegistreCollaborateur extends JInternalFrame {
             notification.append("\nnom d'utilisateur");
             nio.add(6);
         }
-        if (pwfMotDePasse.getPassword().toString().isEmpty()) {
+        if (Arrays.toString(pwfMotDePasse.getPassword()).isEmpty()) {
             notification.append("\nMot de passe");
             nio.add(7);
         }

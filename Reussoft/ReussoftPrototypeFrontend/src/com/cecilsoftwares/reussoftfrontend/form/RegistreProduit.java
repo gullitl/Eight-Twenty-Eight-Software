@@ -431,7 +431,7 @@ public class RegistreProduit extends JInternalFrame {
     private boolean isInformationObligatoiresRemplies() {
 
         StringBuilder notification = new StringBuilder();
-        Queue<Integer> nio = new LinkedList<Integer>();
+        Queue<Integer> nio = new LinkedList<>();
 
         if (tfdDescription.getText().isEmpty()) {
             notification.append("\nDescription");
