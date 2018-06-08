@@ -166,23 +166,17 @@ public class ConsultationClient extends javax.swing.JDialog {
 
     private void tblClientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientMouseClicked
         if (evt.getClickCount() == 2) {
-            selectionnerClient();
+            if (frameAncetre != null) {
+                int row = tblClient.getSelectedRow();
+
+                client = clients.stream()
+                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                        .findFirst().orElse(null);
+            }
             dispose();
         }
 
     }//GEN-LAST:event_tblClientMouseClicked
-
-    private void selectionnerClient() {
-
-        if (frameAncetre != null) {
-            int row = tblClient.getSelectedRow();
-
-            client = clients.stream()
-                    .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
-        }
-
-    }
 
     private void tfdRechercheNomClientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomClientKeyReleased
         List<Client> listeClients = new ArrayList();

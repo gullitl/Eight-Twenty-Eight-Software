@@ -12,6 +12,8 @@ import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
@@ -279,6 +281,15 @@ public class RegistreCollaborateur extends JInternalFrame {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
+
+        if (!isInformationObligatoiresRemplies()) {
+            return;
+        }
+
+        if (!isMotdePasseConfirme()) {
+            return;
+        }
+
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
@@ -478,6 +489,85 @@ public class RegistreCollaborateur extends JInternalFrame {
         btnEnregistrerClickable = hcf;
         btnExclureClickable = hcf;
         btnAnnulerClickable = hcf;
+    }
+
+    private boolean isMotdePasseConfirme() {
+        if (pwfMotDePasse.getPassword().equals(pwfConfirmerMotDePasse.getPassword())) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Le mot de passe ne correspond pas!");
+            return false;
+        }
+    }
+
+    private boolean isInformationObligatoiresRemplies() {
+
+        StringBuilder notification = new StringBuilder();
+        Queue<Integer> nio = new LinkedList<Integer>();
+
+        if (tfdPrenom.getText().isEmpty()) {
+            notification.append("\nPrénom");
+            nio.add(1);
+        }
+        if (tfdNom.getText().isEmpty()) {
+            notification.append("\nNom");
+            nio.add(2);
+        }
+        if (tfdPostnom.getText().isEmpty()) {
+            notification.append("\nPostnom");
+            nio.add(3);
+        }
+
+        if (tfdSurnom.getText().isEmpty()) {
+            notification.append("\nSurnom");
+            nio.add(4);
+        }
+        if (tfdIdShop.getText().isEmpty()) {
+            notification.append("\nShop");
+            nio.add(5);
+        }
+        if (tfdNomUtilisateur.getText().isEmpty()) {
+            notification.append("\nnom d'utilisateur");
+            nio.add(6);
+        }
+        if (pwfMotDePasse.getPassword().toString().isEmpty()) {
+            notification.append("\nMot de passe");
+            nio.add(7);
+        }
+
+        if (notification.toString().isEmpty()) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, new StringBuilder(nio.size() > 1 ? "Informations obligatoires:" : "Information obligatoire:")
+                    .append(notification));
+            switch (nio.poll()) {
+                case 1:
+                    tfdPrenom.requestFocus();
+                    break;
+
+                case 2:
+                    tfdNom.requestFocus();
+                    break;
+                case 3:
+                    tfdPostnom.requestFocus();
+                    break;
+
+                case 4:
+                    tfdSurnom.requestFocus();
+                    break;
+                case 5:
+                    tfdIdShop.requestFocus();
+                    break;
+                case 6:
+                    tfdNomUtilisateur.requestFocus();
+                    break;
+                case 7:
+                    pwfMotDePasse.requestFocus();
+                    break;
+                default:
+            }
+            return false;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

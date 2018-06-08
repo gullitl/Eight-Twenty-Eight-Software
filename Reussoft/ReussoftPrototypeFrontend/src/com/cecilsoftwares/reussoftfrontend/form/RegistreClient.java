@@ -7,6 +7,8 @@ import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
@@ -163,6 +165,11 @@ public class RegistreClient extends JInternalFrame {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
+
+        if (!isInformationObligatoiresRemplies()) {
+            return;
+        }
+
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
@@ -281,6 +288,47 @@ public class RegistreClient extends JInternalFrame {
         btnConsulterClientClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
+    }
+
+    private boolean isInformationObligatoiresRemplies() {
+
+        StringBuilder notification = new StringBuilder();
+        Queue<Integer> nio = new LinkedList<Integer>();
+
+        if (tfdNom.getText().isEmpty()) {
+            notification.append("\nNom");
+            nio.add(1);
+        }
+        if (tfdEntreprise.getText().isEmpty()) {
+            notification.append("\nEntreprise");
+            nio.add(2);
+        }
+        if (tfdTelephone.getText().isEmpty()) {
+            notification.append("\nTéléphone");
+            nio.add(3);
+        }
+
+        if (notification.toString().isEmpty()) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, new StringBuilder(nio.size() > 1 ? "Informations obligatoires:" : "Information obligatoire:")
+                    .append(notification));
+            switch (nio.poll()) {
+                case 1:
+                    tfdNom.requestFocus();
+                    break;
+
+                case 2:
+                    tfdEntreprise.requestFocus();
+                    break;
+                case 3:
+                    tfdTelephone.requestFocus();
+                    break;
+
+                default:
+            }
+            return false;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

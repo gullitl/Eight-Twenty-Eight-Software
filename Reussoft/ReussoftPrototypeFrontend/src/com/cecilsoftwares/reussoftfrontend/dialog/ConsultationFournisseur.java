@@ -176,21 +176,17 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
 
     private void tblFournisseurMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFournisseurMouseClicked
         if (evt.getClickCount() == 2) {
-            selectionnerFournisseur();
+            if (frameAncetre != null) {
+                int row = tblFournisseur.getSelectedRow();
+
+                fournisseur = fournisseurs.stream()
+                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                        .findFirst().orElse(null);
+            }
             dispose();
         }
 
     }//GEN-LAST:event_tblFournisseurMouseClicked
-
-    private void selectionnerFournisseur() {
-        if (frameAncetre != null) {
-            int row = tblFournisseur.getSelectedRow();
-
-            fournisseur = fournisseurs.stream()
-                    .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
-        }
-    }
 
     private void tfdRechercheEntrepriseFournisseurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheEntrepriseFournisseurKeyReleased
         List<Fournisseur> listeFournisseurs = new ArrayList();

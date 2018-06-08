@@ -1,10 +1,10 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
-import com.cecilsoftwares.reussoftbackend.service.ShopService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,8 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultationProduit extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
-    private List<Shop> shops;
+    private Produit produit;
+    private List<Produit> produits;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
@@ -30,34 +31,46 @@ public class ConsultationProduit extends javax.swing.JDialog {
     public ConsultationProduit(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        enFermantDialog();
+
         defaultTableModel = (DefaultTableModel) tblProduit.getModel();
         dataRows = new Object[2];
 
+        chargementProduits();
+
+    }
+
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (frameAncetre instanceof RegistreProduit) {
+                    RegistreProduit registreProduit = (RegistreProduit) frameAncetre;
+                    registreProduit.produitSelectionne(produit);
+                }
+            }
+        });
+    }
+
+    private void chargementProduits() {
         try {
-            shops = ShopService.getInstance().listerTousLesShops();
-            listerShops(shops);
+            produits = ProduitService.getInstance().listerTousLesProduits();
+            listerProduits(produits);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConsultationProduit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void listerShops(List<Shop> shops) {
+    private void listerProduits(List<Produit> produits) {
         defaultTableModel.setRowCount(0);
-        for (Shop shop : shops) {
-            dataRows[0] = shop.getCode();
-            dataRows[1] = shop.getNom();
+        produits.forEach(p -> {
+            dataRows[0] = p.getCode();
+            dataRows[1] = p.getDescription();
             defaultTableModel.addRow(dataRows);
-        }
-        String formeNombre = shops.size() > 1 ? "Shops" : "Shop";
-        lblNombreProduit.setText(shops.size() + " " + formeNombre);
-    }
+        });
 
-    public JInternalFrame getFrameAncetre() {
-        return frameAncetre;
-    }
-
-    public void setFrameAncetre(JInternalFrame frameAncetre) {
-        this.frameAncetre = frameAncetre;
+        String formeNombre = produits.size() > 1 ? "Shops" : "Shop";
+        lblNombreProduit.setText(produits.size() + " " + formeNombre);
     }
 
     @SuppressWarnings("unchecked")
@@ -153,35 +166,37 @@ public class ConsultationProduit extends javax.swing.JDialog {
 
     private void tblProduitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProduitMouseClicked
         if (evt.getClickCount() == 2) {
-            if (getFrameAncetre() != null) {
-                try {
-                    int row = tblProduit.getSelectedRow();
-                    Produit produit = ProduitService.getInstance()
-                            .selectionnerProduitParCode((int) defaultTableModel.getValueAt(row, 0));
-                    if (getFrameAncetre() instanceof RegistreProduit) {
-                        RegistreProduit registreProduit = (RegistreProduit) getFrameAncetre();
-                        registreProduit.produitSelectionne(produit);
-                    }
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(ConsultationProduit.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            if (frameAncetre != null) {
+                int row = tblProduit.getSelectedRow();
+
+                produit = produits.stream()
+                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                        .findFirst().orElse(null);
             }
             dispose();
-        }
 
+        }
     }//GEN-LAST:event_tblProduitMouseClicked
 
     private void tfdRechercheDescriptionProduitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDescriptionProduitKeyReleased
-        List<Shop> listeShops = new ArrayList();
-        for (Shop shop : shops) {
-            if (shop.getNom().toUpperCase()
-                    .startsWith(tfdRechercheDescriptionProduit.getText().toUpperCase())) {
-                listeShops.add(shop);
-            }
-        }
+        List<Produit> listeProduits = new ArrayList();
 
-        listerShops(listeShops);
+        produits.stream().filter((cp) -> (cp.getDescription().toUpperCase()
+                .startsWith(tfdRechercheDescriptionProduit.getText().toUpperCase())))
+                .forEachOrdered((cp) -> {
+                    listeProduits.add(cp);
+                });
+
+        listerProduits(listeProduits);
     }//GEN-LAST:event_tfdRechercheDescriptionProduitKeyReleased
+
+    public JInternalFrame getFrameAncetre() {
+        return frameAncetre;
+    }
+
+    public void setFrameAncetre(JInternalFrame frameAncetre) {
+        this.frameAncetre = frameAncetre;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

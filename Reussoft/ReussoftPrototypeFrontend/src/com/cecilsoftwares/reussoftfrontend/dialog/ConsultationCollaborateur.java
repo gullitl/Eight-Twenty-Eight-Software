@@ -171,21 +171,17 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
 
     private void tblCollaborateurMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCollaborateurMouseClicked
         if (evt.getClickCount() == 2) {
-            selectionnerCollaborateur();
+            if (frameAncetre != null) {
+                int row = tblCollaborateur.getSelectedRow();
+
+                collaborateur = collaborateurs.stream()
+                        .filter(c -> c.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                        .findFirst().orElse(null);
+            }
             dispose();
         }
 
     }//GEN-LAST:event_tblCollaborateurMouseClicked
-
-    private void selectionnerCollaborateur() {
-        if (frameAncetre != null) {
-            int row = tblCollaborateur.getSelectedRow();
-
-            collaborateur = collaborateurs.stream()
-                    .filter(c -> c.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
-        }
-    }
 
     private void tfdRechercheNomCollaborateurKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheNomCollaborateurKeyReleased
         List<Collaborateur> listeCollaborateurs = new ArrayList();
