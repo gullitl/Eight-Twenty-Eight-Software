@@ -1,16 +1,12 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftbackend.service.ReseauService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreReseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,15 +17,16 @@ public class ConsultationReseau extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
     private Reseau reseau;
-    private List<Reseau> reseaux;
+    private final List<Reseau> reseaux;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
     /**
      * @param parent
      * @param modal
+     * @param reseaux
      */
-    public ConsultationReseau(java.awt.Frame parent, boolean modal) {
+    public ConsultationReseau(java.awt.Frame parent, boolean modal, List<Reseau> reseaux) {
         super(parent, modal);
         initComponents();
         enFermantDialog();
@@ -37,7 +34,8 @@ public class ConsultationReseau extends javax.swing.JDialog {
         defaultTableModel = (DefaultTableModel) tblReseau.getModel();
         dataRows = new Object[2];
 
-        chargementReseaux();
+        this.reseaux = reseaux;
+        listerReseaux(this.reseaux);
 
     }
 
@@ -56,24 +54,16 @@ public class ConsultationReseau extends javax.swing.JDialog {
         });
     }
 
-    private void chargementReseaux() {
-        try {
-            reseaux = ReseauService.getInstance().listerTousLesReseaus();
-            listerReseaux(reseaux);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationReseau.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void listerReseaux(List<Reseau> reseaus) {
+    private void listerReseaux(List<Reseau> reseaux) {
         defaultTableModel.setRowCount(0);
-        for (Reseau reseau : reseaus) {
-            dataRows[0] = reseau.getCode();
-            dataRows[1] = reseau.getNom();
+        reseaux.forEach(r -> {
+            dataRows[0] = r.getCode();
+            dataRows[1] = r.getNom();
             defaultTableModel.addRow(dataRows);
-        }
-        String formeNombre = reseaus.size() > 1 ? "Reseaus" : "Reseau";
-        lblNombreReseau.setText(reseaus.size() + " " + formeNombre);
+        });
+
+        String formeNombre = reseaux.size() > 1 ? "Reseaus" : "Reseau";
+        lblNombreReseau.setText(reseaux.size() + " " + formeNombre);
     }
 
     @SuppressWarnings("unchecked")

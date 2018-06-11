@@ -1,15 +1,11 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftbackend.service.ShopService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreShop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,15 +16,16 @@ public class ConsultationShop extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
     private Shop shop;
-    private List<Shop> shops;
+    private final List<Shop> shops;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
     /**
      * @param parent
      * @param modal
+     * @param shops
      */
-    public ConsultationShop(java.awt.Frame parent, boolean modal) {
+    public ConsultationShop(java.awt.Frame parent, boolean modal, List<Shop> shops) {
         super(parent, modal);
         initComponents();
         enFermantDialog();
@@ -36,7 +33,8 @@ public class ConsultationShop extends javax.swing.JDialog {
         defaultTableModel = (DefaultTableModel) tblShop.getModel();
         dataRows = new Object[2];
 
-        chargementShops();
+        this.shops = shops;
+        listerShops(this.shops);
 
     }
 
@@ -52,22 +50,14 @@ public class ConsultationShop extends javax.swing.JDialog {
         });
     }
 
-    private void chargementShops() {
-        try {
-            shops = ShopService.getInstance().listerTousLesShops();
-            listerShops(shops);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationShop.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     private void listerShops(List<Shop> shops) {
         defaultTableModel.setRowCount(0);
-        for (Shop shop : shops) {
-            dataRows[0] = shop.getCode();
-            dataRows[1] = shop.getNom();
+        shops.forEach(s -> {
+            dataRows[0] = s.getCode();
+            dataRows[1] = s.getNom();
             defaultTableModel.addRow(dataRows);
-        }
+        });
+
         String formeNombre = shops.size() > 1 ? "Shops" : "Shop";
         lblNombreShop.setText(shops.size() + " " + formeNombre);
     }

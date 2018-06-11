@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
+import com.cecilsoftwares.reussoftbackend.service.ReseauService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProduit;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationReseau;
@@ -300,9 +301,14 @@ public class RegistreProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ConsultationReseau consultationReseau = new ConsultationReseau(null, true);
-            consultationReseau.setFrameAncetre(this);
-            consultationReseau.setVisible(true);
+            ConsultationReseau consultationReseau;
+            try {
+                consultationReseau = new ConsultationReseau(null, true, ReseauService.getInstance().listerTousLesReseaux());
+                consultationReseau.setFrameAncetre(this);
+                consultationReseau.setVisible(true);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(RegistreProduit.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());

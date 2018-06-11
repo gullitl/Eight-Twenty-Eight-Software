@@ -28,7 +28,7 @@ public class ReseauService {
         return uniqueInstance;
     }
 
-    public List<Reseau> listerTousLesReseaus() throws ClassNotFoundException, SQLException {
+    public List<Reseau> listerTousLesReseaux() throws ClassNotFoundException, SQLException {
         return ReseauDao.getInstance().listerTousLesReseaus();
     }
 

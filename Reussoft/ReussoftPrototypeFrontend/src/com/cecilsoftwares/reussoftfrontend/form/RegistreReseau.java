@@ -188,9 +188,14 @@ public class RegistreReseau extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ConsultationReseau consultationReseau = new ConsultationReseau(null, true);
-            consultationReseau.setFrameAncetre(this);
-            consultationReseau.setVisible(true);
+            ConsultationReseau consultationReseau;
+            try {
+                consultationReseau = new ConsultationReseau(null, true, ReseauService.getInstance().listerTousLesReseaux());
+                consultationReseau.setFrameAncetre(this);
+                consultationReseau.setVisible(true);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(RegistreReseau.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());

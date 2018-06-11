@@ -269,9 +269,15 @@ public class RegistreShop extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ConsultationShop consultationShop = new ConsultationShop(null, true);
-            consultationShop.setFrameAncetre(this);
-            consultationShop.setVisible(true);
+            try {
+
+                ConsultationShop consultationShop = new ConsultationShop(null, true, ShopService.getInstance().listerTousLesShops());
+                consultationShop.setFrameAncetre(this);
+                consultationShop.setVisible(true);
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(ConsultationShop.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());

@@ -4,9 +4,9 @@ package com.cecilsoftwares.reussoftmiddleend.enumarable;
  * @author Plamedi L. Lusembo
  */
 public enum TypeMouvementStockEnum {
-    BAS_UELE(1, "Entreé Stock"),
-    EQUATEUR(2, "Sortie Stock"),
-    HAUT_KATANGA(3, "Dispatch");
+    ENTREE_STOCK(1, "Entreé Stock"),
+    SORTIE_STOCK(2, "Sortie Stock"),
+    DISPATCH(3, "Dispatch");
 
     private final int code;
     private final String decription;
