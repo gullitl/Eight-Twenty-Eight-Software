@@ -13,12 +13,12 @@ public class ItemEntreeStock {
     private final BigDecimal prixAchatFC;
     private final BigDecimal quantiteProduit;
 
-    public ItemEntreeStock(EntreeStockBuilder entreeStockBuilder) {
-        entreeStock = entreeStockBuilder.entreeStock;
-        produit = entreeStockBuilder.produit;
-        prixAchatUSD = entreeStockBuilder.prixAchatUSD;
-        prixAchatFC = entreeStockBuilder.prixAchatFC;
-        quantiteProduit = entreeStockBuilder.quantiteProduit;
+    public ItemEntreeStock(ItemEntreeStockBuilder itemEntreeStockBuilder) {
+        entreeStock = itemEntreeStockBuilder.entreeStock;
+        produit = itemEntreeStockBuilder.produit;
+        prixAchatUSD = itemEntreeStockBuilder.prixAchatUSD;
+        prixAchatFC = itemEntreeStockBuilder.prixAchatFC;
+        quantiteProduit = itemEntreeStockBuilder.quantiteProduit;
     }
 
     public EntreeStock getMouvementStock() {
@@ -41,7 +41,7 @@ public class ItemEntreeStock {
         return quantiteProduit;
     }
 
-    public static class EntreeStockBuilder {
+    public static class ItemEntreeStockBuilder {
 
         private EntreeStock entreeStock;
         private Produit produit;
@@ -49,22 +49,22 @@ public class ItemEntreeStock {
         private BigDecimal prixAchatFC;
         private BigDecimal quantiteProduit;
 
-        public EntreeStockBuilder(EntreeStock entreeStock, Produit produit) {
+        public ItemEntreeStockBuilder(EntreeStock entreeStock, Produit produit) {
             this.entreeStock = entreeStock;
             this.produit = produit;
         }
 
-        public EntreeStockBuilder prixAchatUSD(BigDecimal prixAchatUSD) {
+        public ItemEntreeStockBuilder prixAchatUSD(BigDecimal prixAchatUSD) {
             this.prixAchatUSD = prixAchatUSD;
             return this;
         }
 
-        public EntreeStockBuilder prixAchatFC(BigDecimal prixAchatFC) {
+        public ItemEntreeStockBuilder prixAchatFC(BigDecimal prixAchatFC) {
             this.prixAchatFC = prixAchatFC;
             return this;
         }
 
-        public EntreeStockBuilder quantiteProduit(BigDecimal quantiteProduit) {
+        public ItemEntreeStockBuilder quantiteProduit(BigDecimal quantiteProduit) {
             this.quantiteProduit = quantiteProduit;
             return this;
         }
