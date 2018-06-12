@@ -3,7 +3,7 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.MouvementStockService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationMouvementStock;
 import com.cecilsoftwares.reussoftmiddleend.enumarable.TypeMouvementStockEnum;
-import com.cecilsoftwares.reussoftmiddleend.model.MouvementStock;
+import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.Cursor;
@@ -150,20 +150,20 @@ public class OperationEntreeStock extends JInternalFrame {
 
         tblEntreeStock.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Code", "Produit", "Quantité"
+                "Code", "Produit", "Quantité", "Prix d'achat", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -178,9 +178,12 @@ public class OperationEntreeStock extends JInternalFrame {
         if (tblEntreeStock.getColumnModel().getColumnCount() > 0) {
             tblEntreeStock.getColumnModel().getColumn(0).setResizable(false);
             tblEntreeStock.getColumnModel().getColumn(1).setResizable(false);
-            tblEntreeStock.getColumnModel().getColumn(1).setPreferredWidth(350);
+            tblEntreeStock.getColumnModel().getColumn(1).setPreferredWidth(250);
             tblEntreeStock.getColumnModel().getColumn(2).setResizable(false);
-            tblEntreeStock.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tblEntreeStock.getColumnModel().getColumn(2).setPreferredWidth(70);
+            tblEntreeStock.getColumnModel().getColumn(3).setResizable(false);
+            tblEntreeStock.getColumnModel().getColumn(4).setResizable(false);
+            tblEntreeStock.getColumnModel().getColumn(4).setPreferredWidth(100);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -368,7 +371,7 @@ public class OperationEntreeStock extends JInternalFrame {
 //        }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
-    public void mouvementStockSelectionne(MouvementStock entreeStock) {
+    public void mouvementStockSelectionne(EntreeStock entreeStock) {
         if (!isInformationObligatoiresRemplies()) {
             return;
         }
@@ -415,7 +418,7 @@ public class OperationEntreeStock extends JInternalFrame {
             habiliterComposantFormulaire(false);
 
             try {
-                List<MouvementStock> mouvementsStock = MouvementStockService.getInstance().listerMouvementStockPatType(TypeMouvementStockEnum.ENTREE_STOCK);
+                List<EntreeStock> mouvementsStock = MouvementStockService.getInstance().listerMouvementStockPatType(TypeMouvementStockEnum.ENTREE_STOCK);
                 ConsultationMouvementStock consultationMouvementStock = new ConsultationMouvementStock(null, true, mouvementsStock);
                 consultationMouvementStock.setFrameAncetre(this);
                 consultationMouvementStock.setVisible(true);
@@ -429,7 +432,7 @@ public class OperationEntreeStock extends JInternalFrame {
         }
     }//GEN-LAST:event_btnConsulterMouvementStockActionPerformed
 
-    public void EntreeStockSelectionnee(MouvementStock mouvementStock) {
+    public void EntreeStockSelectionnee(EntreeStock mouvementStock) {
 //        if (mouvementStock != null) {
 //            modeEdition = true;
 //

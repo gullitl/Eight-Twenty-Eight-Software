@@ -1,11 +1,12 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
-import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock.EntreeStockBuilder;
+import com.cecilsoftwares.reussoftmiddleend.enumarable.TypeMouvementStockEnum;
+import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
+import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock.EntreeStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur.FournisseurBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.MouvementStock;
-import com.cecilsoftwares.reussoftmiddleend.model.MouvementStock.MouvementStockBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
+import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock.EntreeStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import java.math.BigDecimal;
@@ -34,20 +35,19 @@ public class EntreeStockDao {
         return uniqueInstance;
     }
 
-    public List<EntreeStock> listerToutesLesEntreeStocks() throws ClassNotFoundException, SQLException {
+    public List<EntreeStock> listerMouvementStockPatType(TypeMouvementStockEnum typeMouvementStockEnum) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        List<EntreeStock> listeEntreeStocks;
+        List<ItemEntreeStock> listeEntreeStocks;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeEntreeStocks = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT entreestock.code, entreestock.dateHeure, entreestock.observation,");
-            scriptSQL.append(" entreestock.prixUSD, entreestock.prixFC, entreestock.qunatiteProduit,");
-            scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable,");
-            scriptSQL.append(" fournisseur.telephone, fournisseur.observation,");
-            scriptSQL.append(" entreestock.idProduit, produit.description, produit.observation,");
-            scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.dateHeure, tauxcarte.valeur, ");
+            scriptSQL = new StringBuilder("SELECT entreestock.code, entreestock.dateHeure,");
+            scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
+            scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
+            scriptSQL.append(" entreestock.idItemEntreeStock, entreestock.prixUSD, entreestock.prixFC, entreestock.quantiteProduit,");
+            scriptSQL.append(" entreestock.idProduit, produit.description,");
             scriptSQL.append(" FROM entreestock");
             scriptSQL.append(" LEFT JOIN fournisseur ON entreestock.idFournisseur = fournisseur.code");
             scriptSQL.append(" LEFT JOIN produit ON fournisseur.idProduit = produit.code");
@@ -58,7 +58,7 @@ public class EntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    MouvementStock mouvementStock = new MouvementStockBuilder(res.getInt(1)).build();
+                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1)).build();
 
                     Fournisseur fournisseur = new FournisseurBuilder(res.getInt(6))
                             .entreprise(res.getString(7))
@@ -72,7 +72,7 @@ public class EntreeStockDao {
                             .observation(res.getString(13))
                             .build();
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(mouvementStock, fournisseur, produit)
+                    ItemEntreeStock entreeStock = new EntreeStockBuilder(entreeStock, fournisseur, produit)
                             .prixAchatUSD(new BigDecimal(res.getString(4)))
                             .prixAchatFC(new BigDecimal(res.getString(5)))
                             .quantiteProduit(new BigDecimal(res.getString(6)))
@@ -85,10 +85,10 @@ public class EntreeStockDao {
             res.close();
             conexao.close();
         }
-        return listeEntreeStocks;
+        return null;
     }
 
-    public EntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
+    public ItemEntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -111,7 +111,7 @@ public class EntreeStockDao {
             if (res != null) {
                 if (res.next()) {
 
-                    MouvementStock mouvementStock = new MouvementStockBuilder(res.getInt(1)).build();
+                    EntreeStock mouvementStock = new EntreeStockBuilder(res.getInt(1)).build();
 
                     Fournisseur fournisseur = new FournisseurBuilder(res.getInt(6))
                             .entreprise(res.getString(7))
@@ -125,7 +125,7 @@ public class EntreeStockDao {
                             .observation(res.getString(13))
                             .build();
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(mouvementStock, fournisseur, produit)
+                    ItemEntreeStock entreeStock = new EntreeStockBuilder(mouvementStock, fournisseur, produit)
                             .prixAchatUSD(new BigDecimal(res.getString(4)))
                             .prixAchatFC(new BigDecimal(res.getString(5)))
                             .quantiteProduit(new BigDecimal(res.getString(6)))
@@ -145,7 +145,7 @@ public class EntreeStockDao {
         return null;
     }
 
-    public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerEntreeStock(ItemEntreeStock entreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

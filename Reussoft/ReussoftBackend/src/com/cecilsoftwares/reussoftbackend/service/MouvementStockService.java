@@ -1,10 +1,10 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.CategorieProduitDao;
-import com.cecilsoftwares.reussoftbackend.dao.MouvementStockDao;
+import com.cecilsoftwares.reussoftbackend.dao.EntreeStockDao;
 import com.cecilsoftwares.reussoftmiddleend.enumarable.TypeMouvementStockEnum;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import com.cecilsoftwares.reussoftmiddleend.model.MouvementStock;
+import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,8 +25,8 @@ public class MouvementStockService {
         return uniqueInstance;
     }
 
-    public List<MouvementStock> listerMouvementStockPatType(TypeMouvementStockEnum typeMouvementStockEnum) throws ClassNotFoundException, SQLException {
-        return MouvementStockDao.getInstance().listerMouvementStockPatType(typeMouvementStockEnum);
+    public List<EntreeStock> listerMouvementStockPatType(TypeMouvementStockEnum typeMouvementStockEnum) throws ClassNotFoundException, SQLException {
+        return EntreeStockDao.getInstance().listerMouvementStockPatType(typeMouvementStockEnum);
     }
 
     public CategorieProduit selectionnerCategorieProduitParCode(int codeCategorieProduit) throws ClassNotFoundException, SQLException {

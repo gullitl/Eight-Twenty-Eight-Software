@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  */
 public class SortieStock {
 
-    private final MouvementStock mouvementStock;
+    private final EntreeStock mouvementStock;
     private final Shop shop;
     private final Produit produit;
     private final Client client;
@@ -25,7 +25,7 @@ public class SortieStock {
         quantiteProduit = sortieStockBuilder.quantiteProduit;
     }
 
-    public MouvementStock getmouvementStock() {
+    public EntreeStock getmouvementStock() {
         return mouvementStock;
     }
 
@@ -55,7 +55,7 @@ public class SortieStock {
 
     public static class SortieStockBuilder {
 
-        private MouvementStock mouvementStock;
+        private EntreeStock mouvementStock;
         private Shop shop;
         private Produit produit;
         private Client client;
@@ -63,7 +63,7 @@ public class SortieStock {
         private BigDecimal prixVenteFC;
         private BigDecimal quantiteProduit;
 
-        public SortieStockBuilder(MouvementStock mouvementStock, Shop shop, Produit produit) {
+        public SortieStockBuilder(EntreeStock mouvementStock, Shop shop, Produit produit) {
             this.mouvementStock = mouvementStock;
             this.shop = shop;
             this.produit = produit;

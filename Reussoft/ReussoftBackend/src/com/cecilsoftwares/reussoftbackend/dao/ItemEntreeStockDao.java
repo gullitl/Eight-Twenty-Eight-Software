@@ -1,12 +1,11 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
-import com.cecilsoftwares.reussoftmiddleend.enumarable.TypeMouvementStockEnum;
-import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
-import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock.EntreeStockBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
+import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock.EntreeStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur.FournisseurBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.MouvementStock;
-import com.cecilsoftwares.reussoftmiddleend.model.MouvementStock.MouvementStockBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
+import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock.EntreeStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import java.math.BigDecimal;
@@ -20,25 +19,25 @@ import java.util.List;
 /**
  * @author Plamedi L. Lusembo
  */
-public class MouvementStockDao {
+public class ItemEntreeStockDao {
 
     private StringBuilder scriptSQL;
-    private static MouvementStockDao uniqueInstance;
+    private static ItemEntreeStockDao uniqueInstance;
 
-    public MouvementStockDao() {
+    public ItemEntreeStockDao() {
     }
 
-    public static synchronized MouvementStockDao getInstance() {
+    public static synchronized ItemEntreeStockDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new MouvementStockDao();
+            uniqueInstance = new ItemEntreeStockDao();
         }
         return uniqueInstance;
     }
 
-    public List<MouvementStock> listerMouvementStockPatType(TypeMouvementStockEnum typeMouvementStockEnum) throws ClassNotFoundException, SQLException {
+    public List<ItemEntreeStock> listerToutesLesEntreeStocks() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        List<EntreeStock> listeEntreeStocks;
+        List<ItemEntreeStock> listeEntreeStocks;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeEntreeStocks = new ArrayList();
@@ -59,7 +58,7 @@ public class MouvementStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    MouvementStock mouvementStock = new MouvementStockBuilder(res.getInt(1)).build();
+                    EntreeStock mouvementStock = new EntreeStockBuilder(res.getInt(1)).build();
 
                     Fournisseur fournisseur = new FournisseurBuilder(res.getInt(6))
                             .entreprise(res.getString(7))
@@ -73,7 +72,7 @@ public class MouvementStockDao {
                             .observation(res.getString(13))
                             .build();
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(mouvementStock, fournisseur, produit)
+                    ItemEntreeStock entreeStock = new EntreeStockBuilder(mouvementStock, fournisseur, produit)
                             .prixAchatUSD(new BigDecimal(res.getString(4)))
                             .prixAchatFC(new BigDecimal(res.getString(5)))
                             .quantiteProduit(new BigDecimal(res.getString(6)))
@@ -86,10 +85,10 @@ public class MouvementStockDao {
             res.close();
             conexao.close();
         }
-        return null;
+        return listeEntreeStocks;
     }
 
-    public EntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
+    public ItemEntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -112,7 +111,7 @@ public class MouvementStockDao {
             if (res != null) {
                 if (res.next()) {
 
-                    MouvementStock mouvementStock = new MouvementStockBuilder(res.getInt(1)).build();
+                    EntreeStock mouvementStock = new EntreeStockBuilder(res.getInt(1)).build();
 
                     Fournisseur fournisseur = new FournisseurBuilder(res.getInt(6))
                             .entreprise(res.getString(7))
@@ -126,7 +125,7 @@ public class MouvementStockDao {
                             .observation(res.getString(13))
                             .build();
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(mouvementStock, fournisseur, produit)
+                    ItemEntreeStock entreeStock = new EntreeStockBuilder(mouvementStock, fournisseur, produit)
                             .prixAchatUSD(new BigDecimal(res.getString(4)))
                             .prixAchatFC(new BigDecimal(res.getString(5)))
                             .quantiteProduit(new BigDecimal(res.getString(6)))
@@ -146,7 +145,7 @@ public class MouvementStockDao {
         return null;
     }
 
-    public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerEntreeStock(ItemEntreeStock entreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {

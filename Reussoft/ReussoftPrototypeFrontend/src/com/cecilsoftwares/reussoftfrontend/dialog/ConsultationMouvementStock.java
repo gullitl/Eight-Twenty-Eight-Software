@@ -1,7 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
 import com.cecilsoftwares.reussoftfrontend.form.OperationEntreeStock;
-import com.cecilsoftwares.reussoftmiddleend.model.MouvementStock;
+import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -16,8 +16,8 @@ public class ConsultationMouvementStock extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
 
-    private MouvementStock mouvementStock;
-    private List<MouvementStock> mouvementsStock;
+    private EntreeStock mouvementStock;
+    private List<EntreeStock> mouvementsStock;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
@@ -25,7 +25,7 @@ public class ConsultationMouvementStock extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public ConsultationMouvementStock(java.awt.Frame parent, boolean modal, List<MouvementStock> mouvementsStock) {
+    public ConsultationMouvementStock(java.awt.Frame parent, boolean modal, List<EntreeStock> mouvementsStock) {
         super(parent, modal);
         initComponents();
         enFermantDialog();
@@ -50,7 +50,7 @@ public class ConsultationMouvementStock extends javax.swing.JDialog {
         });
     }
 
-    private void listerMouvementsStock(List<MouvementStock> mouvementsStock) {
+    private void listerMouvementsStock(List<EntreeStock> mouvementsStock) {
         defaultTableModel.setRowCount(0);
         mouvementsStock.forEach(ms -> {
             dataRows[0] = ms.getCode();
@@ -174,7 +174,7 @@ public class ConsultationMouvementStock extends javax.swing.JDialog {
     }//GEN-LAST:event_tblMouvementStockMouseClicked
 
     private void tfdRechercheDateMouvementStockKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDateMouvementStockKeyReleased
-        List<MouvementStock> listeMouvementsStock = new ArrayList();
+        List<EntreeStock> listeMouvementsStock = new ArrayList();
 
         mouvementsStock.stream().filter((ms) -> (ms.getDateHeure().equals(tfdRechercheDateMouvementStock.getText().toUpperCase())))
                 .forEachOrdered((ms) -> {
