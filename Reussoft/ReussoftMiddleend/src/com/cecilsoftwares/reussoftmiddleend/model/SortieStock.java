@@ -1,36 +1,29 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
-import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Plamedi L. Lusembo
  */
 public class SortieStock {
 
-    private final EntreeStock mouvementStock;
+    private final int code;
     private final Shop shop;
-    private final Produit produit;
     private final Client client;
-    private final BigDecimal prixVenteUSD;
-    private final BigDecimal prixVenteFC;
-    private final BigDecimal quantiteProduit;
+    private final Date dateHeure;
+    private final List<ItemSortieStock> sortiesStock;
 
     public SortieStock(SortieStockBuilder sortieStockBuilder) {
-        mouvementStock = sortieStockBuilder.mouvementStock;
+        code = sortieStockBuilder.code;
         shop = sortieStockBuilder.shop;
-        produit = sortieStockBuilder.produit;
         client = sortieStockBuilder.client;
-        prixVenteUSD = sortieStockBuilder.prixVenteUSD;
-        prixVenteFC = sortieStockBuilder.prixVenteFC;
-        quantiteProduit = sortieStockBuilder.quantiteProduit;
+        dateHeure = sortieStockBuilder.dateHeure;
+        sortiesStock = sortieStockBuilder.sortiesStock;
     }
 
-    public EntreeStock getmouvementStock() {
-        return mouvementStock;
-    }
-
-    public Produit getProduit() {
-        return produit;
+    public int getCode() {
+        return code;
     }
 
     public Shop getShop() {
@@ -41,32 +34,29 @@ public class SortieStock {
         return client;
     }
 
-    public BigDecimal getPrixVenteUSD() {
-        return prixVenteUSD;
+    public Date getDateHeure() {
+        return dateHeure;
     }
 
-    public BigDecimal getPrixVenteFC() {
-        return prixVenteFC;
-    }
-
-    public BigDecimal getQtdProduit() {
-        return quantiteProduit;
+    public List<ItemSortieStock> getSortiesStock() {
+        return sortiesStock;
     }
 
     public static class SortieStockBuilder {
 
-        private EntreeStock mouvementStock;
+        private int code;
         private Shop shop;
-        private Produit produit;
         private Client client;
-        private BigDecimal prixVenteUSD;
-        private BigDecimal prixVenteFC;
-        private BigDecimal quantiteProduit;
+        private Date dateHeure;
+        private List<ItemSortieStock> sortiesStock;
 
-        public SortieStockBuilder(EntreeStock mouvementStock, Shop shop, Produit produit) {
-            this.mouvementStock = mouvementStock;
+        public SortieStockBuilder(int code) {
+            this.code = code;
+        }
+
+        public SortieStockBuilder shop(Shop shop) {
             this.shop = shop;
-            this.produit = produit;
+            return this;
         }
 
         public SortieStockBuilder client(Client client) {
@@ -74,18 +64,13 @@ public class SortieStock {
             return this;
         }
 
-        public SortieStockBuilder prixVenteUSD(BigDecimal prixVenteUSD) {
-            this.prixVenteUSD = prixVenteUSD;
+        public SortieStockBuilder dateHeure(Date dateHeure) {
+            this.dateHeure = dateHeure;
             return this;
         }
 
-        public SortieStockBuilder prixVenteFC(BigDecimal prixVenteFC) {
-            this.prixVenteFC = prixVenteFC;
-            return this;
-        }
-
-        public SortieStockBuilder quantiteProduit(BigDecimal quantiteProduit) {
-            this.quantiteProduit = quantiteProduit;
+        public SortieStockBuilder sortiesStock(List<ItemSortieStock> sortiesStock) {
+            this.sortiesStock = sortiesStock;
             return this;
         }
 

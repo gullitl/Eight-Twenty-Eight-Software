@@ -21,7 +21,7 @@ public class ItemEntreeStock {
         quantiteProduit = itemEntreeStockBuilder.quantiteProduit;
     }
 
-    public EntreeStock getMouvementStock() {
+    public EntreeStock getEntreeStock() {
         return entreeStock;
     }
 
