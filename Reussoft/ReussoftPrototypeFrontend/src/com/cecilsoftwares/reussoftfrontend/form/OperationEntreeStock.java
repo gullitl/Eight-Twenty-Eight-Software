@@ -1,8 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
-import com.cecilsoftwares.reussoftbackend.service.MouvementStockService;
+import com.cecilsoftwares.reussoftbackend.service.EntreeStockService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationMouvementStock;
-import com.cecilsoftwares.reussoftmiddleend.enumarable.TypeMouvementStockEnum;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
@@ -418,8 +417,8 @@ public class OperationEntreeStock extends JInternalFrame {
             habiliterComposantFormulaire(false);
 
             try {
-                List<EntreeStock> mouvementsStock = MouvementStockService.getInstance().listerMouvementStockPatType(TypeMouvementStockEnum.ENTREE_STOCK);
-                ConsultationMouvementStock consultationMouvementStock = new ConsultationMouvementStock(null, true, mouvementsStock);
+                List<EntreeStock> entreesStock = EntreeStockService.getInstance().listerTousLesEntreeStockSansItems();
+                ConsultationMouvementStock consultationMouvementStock = new ConsultationMouvementStock(null, true, entreesStock);
                 consultationMouvementStock.setFrameAncetre(this);
                 consultationMouvementStock.setVisible(true);
 

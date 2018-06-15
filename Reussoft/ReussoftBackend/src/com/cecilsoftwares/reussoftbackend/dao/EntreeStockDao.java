@@ -82,13 +82,13 @@ public class EntreeStockDao {
         return listeEntreesStock;
     }
 
-    public List<ItemEntreeStock> listerTousLesEntreeStockAvecItems() throws ClassNotFoundException, SQLException {
+    public List<EntreeStock> listerTousLesEntreeStockAvecItems() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        List<ItemEntreeStock> listeItemsEntreeStock;
+        List<EntreeStock> listeEntreesStock;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            listeItemsEntreeStock = new ArrayList();
+            listeEntreesStock = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itementreestock.prixUSD, itementreestock.prixFC, itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
@@ -108,6 +108,10 @@ public class EntreeStockDao {
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
+
+                int code = 0;
+                EntreeStock eStock = new EntreeStockBuilder(0).build();
+
                 while (res.next()) {
 
                     Produit produit = new ProduitBuilder(res.getInt(12))
@@ -136,21 +140,33 @@ public class EntreeStockDao {
                             .quantiteProduit(new BigDecimal(res.getString(3)))
                             .build();
 
-                    listeItemsEntreeStock.add(itemEntreeStock);
+                    if (code == entreeStock.getCode()) {
+                        eStock.getItemsEntreeStock().add(itemEntreeStock);
+                    } else {
+                        if (code != 0) {
+                            listeEntreesStock.add(eStock);
+                        }
+                        eStock = entreeStock;
+                        code = eStock.getCode();
+                        eStock.getItemsEntreeStock().add(itemEntreeStock);
+                    }
+
                 }
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return listeItemsEntreeStock;
+        return listeEntreesStock;
     }
 
-    public ItemEntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
+    public EntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
+        EntreeStock eStock;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            eStock = new EntreeStockBuilder(0).build();
 
             scriptSQL = new StringBuilder("SELECT itementreestock.prixUSD, itementreestock.prixFC, itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
@@ -172,6 +188,7 @@ public class EntreeStockDao {
             prs.setInt(1, codeEntreeStock);
             res = prs.executeQuery();
             if (res != null) {
+
                 while (res.next()) {
 
                     Produit produit = new ProduitBuilder(res.getInt(12))
@@ -200,11 +217,8 @@ public class EntreeStockDao {
                             .quantiteProduit(new BigDecimal(res.getString(3)))
                             .build();
 
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return itemEntreeStock;
+                    eStock.
+                    
                 }
             }
             prs.close();
