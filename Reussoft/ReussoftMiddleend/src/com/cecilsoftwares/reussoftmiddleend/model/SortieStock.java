@@ -12,14 +12,14 @@ public class SortieStock {
     private final Shop shop;
     private final Client client;
     private final Date dateHeure;
-    private final List<ItemSortieStock> sortiesStock;
+    private final List<ItemSortieStock> itemsSortieStock;
 
     public SortieStock(SortieStockBuilder sortieStockBuilder) {
         code = sortieStockBuilder.code;
         shop = sortieStockBuilder.shop;
         client = sortieStockBuilder.client;
         dateHeure = sortieStockBuilder.dateHeure;
-        sortiesStock = sortieStockBuilder.sortiesStock;
+        itemsSortieStock = sortieStockBuilder.itemsSortieStock;
     }
 
     public int getCode() {
@@ -38,8 +38,8 @@ public class SortieStock {
         return dateHeure;
     }
 
-    public List<ItemSortieStock> getSortiesStock() {
-        return sortiesStock;
+    public List<ItemSortieStock> getItemsSortieStock() {
+        return itemsSortieStock;
     }
 
     public static class SortieStockBuilder {
@@ -48,7 +48,7 @@ public class SortieStock {
         private Shop shop;
         private Client client;
         private Date dateHeure;
-        private List<ItemSortieStock> sortiesStock;
+        private List<ItemSortieStock> itemsSortieStock;
 
         public SortieStockBuilder(int code) {
             this.code = code;
@@ -69,8 +69,8 @@ public class SortieStock {
             return this;
         }
 
-        public SortieStockBuilder sortiesStock(List<ItemSortieStock> sortiesStock) {
-            this.sortiesStock = sortiesStock;
+        public SortieStockBuilder itemsSortieStock(List<ItemSortieStock> itemsSortieStock) {
+            this.itemsSortieStock = itemsSortieStock;
             return this;
         }
 

@@ -1,11 +1,20 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
+import com.cecilsoftwares.reussoftmiddleend.model.Client;
+import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock;
+import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock.ItemSortieStockBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Produit;
+import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.SortieStock;
+import com.cecilsoftwares.reussoftmiddleend.model.SortieStock.SortieStockBuilder;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,54 +40,133 @@ public class SortieStockDao {
         return uniqueInstance;
     }
 
-    public List<Collaborateur> lister() throws ClassNotFoundException, SQLException {
+    public List<SortieStock> listerToutesLesSortiesStockSansItems() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        List<Collaborateur> listeCollaborateurs;
+        List<SortieStock> listeSortiesStock;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            listeCollaborateurs = new ArrayList();
+            listeSortiesStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
-            scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
-            scriptSQL.append(" groupeutilisateur.codeGroupeUtilizateur, groupeutilisateur.description, groupeutilisateur.descriptionAbregee,");
-            scriptSQL.append(" shop.codeShop, shop.nom, shop.adresse");
-            scriptSQL.append(" FROM collaborateur");
-            scriptSQL.append(" LEFT JOIN groupeutilisateur");
-            scriptSQL.append(" ON collaborateur.idGroupeUtilisateur = groupeutilisateur.codeGroupeUtilizateur");
-            scriptSQL.append(" LEFT JOIN shop");
-            scriptSQL.append(" ON collaborateur.idShop = shop.codeShop");
+            scriptSQL = new StringBuilder("SELECT sortiestock.code, entreestock.dateHeure,");
+            scriptSQL.append(" sortiestock.idShop, shop.nom,");
+            scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone");
+            scriptSQL.append(" FROM sortiestock");
+            scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.code");
+            scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.code");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    ProfilUtilisateur groupeUtilisateur = new ProfilUtilisateurBuilder(res.getInt(8))
-                            .description(res.getString(9))
-                            .descriptionAbregee(res.getString(10))
+                    Client client = new ClientBuilder(res.getInt(5))
+                            .entreprise(res.getString(6))
+                            .nom(res.getString(7))
+                            .telephone(res.getString(8))
                             .build();
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Shop shop = new ShopBuilder(res.getInt(3))
+                            .nom(res.getString(4))
                             .build();
 
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
+                    SortieStock entreeStock = new SortieStockBuilder(res.getInt(1))
+                            .dateHeure(res.getTimestamp(2))
                             .shop(shop)
+                            .client(client)
                             .build();
 
-                    listeCollaborateurs.add(collaborateur);
+                    listeSortiesStock.add(entreeStock);
                 }
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return listeCollaborateurs;
+        return listeSortiesStock;
+    }
+
+    public List<SortieStock> listerToutesLesSortiesStockAvecItems() throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+        List<SortieStock> listeSortiesStock;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            listeSortiesStock = new ArrayList();
+
+            scriptSQL = new StringBuilder("SELECT itemsortiestock.prixVenteUSD, itemsortiestock.prixVenteFC, itemsortiestock.quantiteProduit,");
+            scriptSQL.append(" itemsortiestock.idSortieStock, sortiestock.dateHeure,");
+            scriptSQL.append(" sortiestock.idShop, shop.nom,");
+            scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
+            scriptSQL.append(" itemsortiestock.idProduto, produit.description");
+            scriptSQL.append(" FROM itemsortiestock");
+            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
+            scriptSQL.append(" LEFT JOIN shop ON itemsortiestock.idShop = shop.code");
+            scriptSQL.append(" LEFT JOIN client ON itemsortiestock.idClient = client.code");
+            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.code");
+            scriptSQL.append(" GROUP BY itemsortiestock.idSortieStock, sortiestock.dateHeure, sortiestock.idShop, shop.nom,");
+            scriptSQL.append(" itemsortiestock.prixVenteUSD, itemsortiestock.prixVenteFC, itemsortiestock.quantiteProduit,");
+            scriptSQL.append(" sortiestock.idClient, client.nom, cleint.entreprise, client.telephone,");
+            scriptSQL.append(" itemsortiestock.idProduto, produit.description");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            res = prs.executeQuery();
+            if (res != null) {
+
+                int code = 0;
+                SortieStockBuilder sortieStockBuilder = new SortieStockBuilder(0);
+                List<ItemSortieStock> listeItemsSortieStock = new ArrayList();
+
+                while (res.next()) {
+
+                    Produit produit = new ProduitBuilder(res.getInt(12))
+                            .description(res.getString(13))
+                            .build();
+
+                    Client client = new ClientBuilder(res.getInt(8))
+                            .entreprise(res.getString(9))
+                            .nom(res.getString(10))
+                            .telephone(res.getString(11))
+                            .build();
+
+                    Shop shop = new ShopBuilder(res.getInt(6))
+                            .nom(res.getString(7))
+                            .build();
+
+                    SortieStock sortieStock = new SortieStockBuilder(res.getInt(4))
+                            .dateHeure(res.getTimestamp(5))
+                            .shop(shop)
+                            .client(client)
+                            .build();
+
+                    ItemSortieStock itemSortieStock = new ItemSortieStockBuilder(sortieStock, produit)
+                            .prixVenteUSD(new BigDecimal(res.getString(1)))
+                            .prixVenteFC(new BigDecimal(res.getString(2)))
+                            .quantiteProduit(new BigDecimal(res.getString(3)))
+                            .build();
+
+                    if (code == sortieStock.getCode()) {
+                        listeItemsSortieStock.add(itemSortieStock);
+//                        srtStock.getItemsSortieStock().add(itemSortieStock);
+                    } else {
+                        if (code != 0) {
+                            sortieStockBuilder.itemsSortieStock(listeItemsSortieStock);
+
+                            listeSortiesStock.add(sortieStockBuilder);
+                        }
+                        sortieStockBuilder = sortieStock;
+                        code = sortieStockBuilder.getCode();
+                        listeItemsSortieStock.add(itemSortieStock);
+//                        srtStock.getItemsSortieStock().add(itemSortieStock);
+                    }
+
+                }
+            }
+            prs.close();
+            res.close();
+            conexao.close();
+        }
+        return listeSortiesStock;
     }
 
     public Collaborateur selectionner(int codeCollaborateur) throws ClassNotFoundException, SQLException {
