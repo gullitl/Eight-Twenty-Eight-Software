@@ -111,7 +111,8 @@ public class EntreeStockDao {
             if (res != null) {
 
                 int code = 0;
-                EntreeStock etrStock = new EntreeStockBuilder(0).build();
+                EntreeStockBuilder entreeStockBuilder = new EntreeStockBuilder(0);
+                List<ItemEntreeStock> listeItemsEntreeStock = new ArrayList();
 
                 while (res.next()) {
 
@@ -142,14 +143,21 @@ public class EntreeStockDao {
                             .build();
 
                     if (code == entreeStock.getCode()) {
-                        etrStock.getItemsEntreeStock().add(itemEntreeStock);
+                        listeItemsEntreeStock.add(itemEntreeStock);
                     } else {
-                        if (code != 0) {
-                            listeEntreesStock.add(etrStock);
+                        if (!res.first()) {
+                            entreeStockBuilder.itemsEntreeStock(listeItemsEntreeStock);
+                            listeEntreesStock.add(entreeStockBuilder.build());
                         }
-                        etrStock = entreeStock;
-                        code = etrStock.getCode();
-                        etrStock.getItemsEntreeStock().add(itemEntreeStock);
+                        code = entreeStock.getCode();
+
+                        entreeStockBuilder = new EntreeStockBuilder(entreeStock.getCode())
+                                .dateHeure(entreeStock.getDateHeure())
+                                .tauxCarte(entreeStock.getTauxCarte())
+                                .fournisseur(entreeStock.getFournisseur());
+
+                        listeItemsEntreeStock = new ArrayList();
+                        listeItemsEntreeStock.add(itemEntreeStock);
                     }
 
                 }
@@ -164,10 +172,10 @@ public class EntreeStockDao {
     public EntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        EntreeStock eStock;
+        EntreeStockBuilder entreeStockBuilder = new EntreeStockBuilder(0);
+        List<ItemEntreeStock> listeItemsEntreeStock = new ArrayList();
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            eStock = new EntreeStockBuilder(0).build();
 
             scriptSQL = new StringBuilder("SELECT itementreestock.prixUSD, itementreestock.prixFC, itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
@@ -218,15 +226,25 @@ public class EntreeStockDao {
                             .quantiteProduit(new BigDecimal(res.getString(3)))
                             .build();
 
-                    eStock.getItemsEntreeStock().add(itemEntreeStock);
+                    listeItemsEntreeStock.add(itemEntreeStock);
+
+                    if (res.first()) {
+                        entreeStockBuilder = new EntreeStockBuilder(entreeStock.getCode())
+                                .dateHeure(entreeStock.getDateHeure())
+                                .tauxCarte(tauxCarte)
+                                .fournisseur(fournisseur);
+                    }
 
                 }
+
+                entreeStockBuilder.itemsEntreeStock(listeItemsEntreeStock);
+
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return eStock;
+        return entreeStockBuilder.build();
     }
 
     public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {

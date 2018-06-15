@@ -3,13 +3,10 @@ package com.cecilsoftwares.reussoftbackend.dao;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
 import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock.ItemSortieStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.SortieStock;
@@ -147,17 +144,20 @@ public class SortieStockDao {
 
                     if (code == sortieStock.getCode()) {
                         listeItemsSortieStock.add(itemSortieStock);
-//                        srtStock.getItemsSortieStock().add(itemSortieStock);
                     } else {
-                        if (code != 0) {
+                        if (!res.first()) {
                             sortieStockBuilder.itemsSortieStock(listeItemsSortieStock);
-
-                            listeSortiesStock.add(sortieStockBuilder);
+                            listeSortiesStock.add(sortieStockBuilder.build());
                         }
-                        sortieStockBuilder = sortieStock;
-                        code = sortieStockBuilder.getCode();
+                        code = sortieStock.getCode();
+
+                        sortieStockBuilder = new SortieStockBuilder(sortieStock.getCode())
+                                .dateHeure(sortieStock.getDateHeure())
+                                .shop(sortieStock.getShop())
+                                .client(sortieStock.getClient());
+
+                        listeItemsSortieStock = new ArrayList();
                         listeItemsSortieStock.add(itemSortieStock);
-//                        srtStock.getItemsSortieStock().add(itemSortieStock);
                     }
 
                 }
@@ -169,57 +169,82 @@ public class SortieStockDao {
         return listeSortiesStock;
     }
 
-    public Collaborateur selectionner(int codeCollaborateur) throws ClassNotFoundException, SQLException {
+    public SortieStock selectionnerSortieStockParCode(int codeSortieStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
+        SortieStockBuilder entreeStockBuilder = new SortieStockBuilder(0);
+        List<ItemSortieStock> listeItemsEntreeStock = new ArrayList();
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT collaborateur.codeCollaborateur, collaborateur.utilizateur, collaborateur.motDePasse,");
-            scriptSQL.append(" collaborateur.preNom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
-            scriptSQL.append(" groupeutilisateur.codeGroupeUtilizateur, groupeutilisateur.description, groupeutilisateur.descriptionAbregee,");
-            scriptSQL.append(" shop.codeShop, shop.nom, shop.adresse");
-            scriptSQL.append(" FROM collaborateur");
-            scriptSQL.append(" LEFT JOIN groupeutilisateur");
-            scriptSQL.append(" ON collaborateur.idGroupeUtilisateur = groupeutilisateur.codeGroupeUtilizateur");
-            scriptSQL.append(" LEFT JOIN shop");
-            scriptSQL.append(" ON collaborateur.idShop = shop.codeShop");
-            scriptSQL.append(" WHERE collaborateur.codeCollaborateur=?");
+
+            scriptSQL = new StringBuilder("SELECT itemsortiestock.prixVenteUSD, itemsortiestock.prixVenteFC, itemsortiestock.quantiteProduit,");
+            scriptSQL.append(" itemsortiestock.idSortieStock, sortiestock.dateHeure,");
+            scriptSQL.append(" sortiestock.idShop, shop.nom,");
+            scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
+            scriptSQL.append(" itemsortiestock.idProduto, produit.description");
+            scriptSQL.append(" FROM itemsortiestock");
+            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
+            scriptSQL.append(" LEFT JOIN shop ON itemsortiestock.idShop = shop.code");
+            scriptSQL.append(" LEFT JOIN client ON itemsortiestock.idClient = client.code");
+            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.code");
+            scriptSQL.append(" GROUP BY itemsortiestock.idSortieStock, sortiestock.dateHeure, sortiestock.idShop, shop.nom,");
+            scriptSQL.append(" itemsortiestock.prixVenteUSD, itemsortiestock.prixVenteFC, itemsortiestock.quantiteProduit,");
+            scriptSQL.append(" sortiestock.idClient, client.nom, cleint.entreprise, client.telephone,");
+            scriptSQL.append(" itemsortiestock.idProduto, produit.description");
+            scriptSQL.append(" WHERE itementreestock.idEntreeStock=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCollaborateur);
+            prs.setInt(1, codeSortieStock);
             res = prs.executeQuery();
             if (res != null) {
-                if (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(8))
-                            .description(res.getString(9))
-                            .descriptionAbregee(res.getString(10))
+                while (res.next()) {
+
+                    Produit produit = new ProduitBuilder(res.getInt(12))
+                            .description(res.getString(13))
                             .build();
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(8))
+                            .entreprise(res.getString(9))
+                            .responsable(res.getString(10))
+                            .telephone(res.getString(11))
                             .build();
 
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
-                            .shop(shop)
+                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(6))
+                            .valeur(new BigDecimal(res.getString(7)))
                             .build();
 
-                    prs.close();
-                    res.close();
-                    conexao.close();
+                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(4))
+                            .dateHeure(res.getTimestamp(5))
+                            .tauxCarte(tauxCarte)
+                            .fournisseur(fournisseur)
+                            .build();
 
-                    return collaborateur;
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
+                            .prixAchatUSD(new BigDecimal(res.getString(1)))
+                            .prixAchatFC(new BigDecimal(res.getString(2)))
+                            .quantiteProduit(new BigDecimal(res.getString(3)))
+                            .build();
+
+                    listeItemsEntreeStock.add(itemEntreeStock);
+
+                    if (res.first()) {
+                        entreeStockBuilder = new EntreeStockBuilder(entreeStock.getCode())
+                                .dateHeure(entreeStock.getDateHeure())
+                                .tauxCarte(tauxCarte)
+                                .fournisseur(fournisseur);
+                    }
+
                 }
+
+                entreeStockBuilder.itemsEntreeStock(listeItemsEntreeStock);
+
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return null;
+        return entreeStockBuilder.build();
     }
 
     public boolean sauvegarder(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
