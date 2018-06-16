@@ -231,8 +231,8 @@ public class EntreeStockDao {
                     if (res.first()) {
                         entreeStockBuilder = new EntreeStockBuilder(entreeStock.getCode())
                                 .dateHeure(entreeStock.getDateHeure())
-                                .tauxCarte(tauxCarte)
-                                .fournisseur(fournisseur);
+                                .tauxCarte(entreeStock.getTauxCarte())
+                                .fournisseur(entreeStock.getFournisseur());
                     }
 
                 }

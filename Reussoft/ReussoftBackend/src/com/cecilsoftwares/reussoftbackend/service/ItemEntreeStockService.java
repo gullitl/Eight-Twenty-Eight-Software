@@ -23,15 +23,15 @@ public class ItemEntreeStockService {
     }
 
     public List<ItemEntreeStock> listerToutesLesItemsEntreeStocks() throws ClassNotFoundException, SQLException {
-        return ItemEntreeStockDao.getInstance().listerToutesLesItemsEntreeStocks();
+        return ItemEntreeStockDao.getInstance().listerTousLesItemsEntreeStock();
     }
 
     public List<ItemEntreeStock> listerItemsEntreeStocksParCodeEntreeStock(int codeEntreeStock) throws ClassNotFoundException, SQLException {
-        return ItemEntreeStockDao.getInstance().listerItemsEntreeStocksParCodeEntreeStock(codeEntreeStock);
+        return ItemEntreeStockDao.getInstance().listerItemsEntreeStockParCodeEntreeStock(codeEntreeStock);
     }
 
     public List<ItemEntreeStock> listerItemsEntreeStocksParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
-        return ItemEntreeStockDao.getInstance().listerItemsEntreeStocksParCodeProduit(codeProduit);
+        return ItemEntreeStockDao.getInstance().listerItemsEntreeStockParCodeProduit(codeProduit);
     }
 
     public ItemEntreeStock selectionnerItemEntreeStockParCodeEntreeStockECodeProduit(int codeEntreeStock, int codeProduit) throws ClassNotFoundException, SQLException {

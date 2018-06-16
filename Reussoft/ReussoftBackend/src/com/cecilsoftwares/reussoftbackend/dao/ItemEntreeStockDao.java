@@ -36,7 +36,7 @@ public class ItemEntreeStockDao {
         return uniqueInstance;
     }
 
-    public List<ItemEntreeStock> listerToutesLesItemsEntreeStocks() throws ClassNotFoundException, SQLException {
+    public List<ItemEntreeStock> listerTousLesItemsEntreeStock() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<ItemEntreeStock> listeItemsEntreeStock;
@@ -44,7 +44,7 @@ public class ItemEntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.prixUSD, itementreestock.prixFC, itementreestock.quantiteProduit,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.prixAchatUSD, itementreestock.prixAchatFC, itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
             scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
@@ -96,7 +96,7 @@ public class ItemEntreeStockDao {
         return listeItemsEntreeStock;
     }
 
-    public List<ItemEntreeStock> listerItemsEntreeStocksParCodeEntreeStock(int codeEntreeStock) throws ClassNotFoundException, SQLException {
+    public List<ItemEntreeStock> listerItemsEntreeStockParCodeEntreeStock(int codeEntreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<ItemEntreeStock> listeItemsEntreeStock;
@@ -104,7 +104,7 @@ public class ItemEntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.prixUSD, itementreestock.prixFC, itementreestock.quantiteProduit,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.prixAchatUSD, itementreestock.prixAchatFC, itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
             scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
@@ -158,7 +158,7 @@ public class ItemEntreeStockDao {
         return listeItemsEntreeStock;
     }
 
-    public List<ItemEntreeStock> listerItemsEntreeStocksParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
+    public List<ItemEntreeStock> listerItemsEntreeStockParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<ItemEntreeStock> listeItemsEntreeStock;

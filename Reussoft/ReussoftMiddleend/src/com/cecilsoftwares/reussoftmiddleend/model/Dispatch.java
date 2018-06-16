@@ -13,7 +13,7 @@ public class Dispatch {
     private final Shop shopDestinataire;
     private final Date dateHeure;
     private final boolean active;
-    private final List<ItemDispatch> dispatchs;
+    private final List<ItemDispatch> itemsDispatch;
 
     public Dispatch(DispatchBuilder dispatchBuilder) {
         code = dispatchBuilder.code;
@@ -21,7 +21,7 @@ public class Dispatch {
         shopDestinataire = dispatchBuilder.shopDestinataire;
         dateHeure = dispatchBuilder.dateHeure;
         active = dispatchBuilder.active;
-        dispatchs = dispatchBuilder.dispatchs;
+        itemsDispatch = dispatchBuilder.itemsDispatch;
     }
 
     public int getCode() {
@@ -44,18 +44,18 @@ public class Dispatch {
         return active;
     }
 
-    public List<ItemDispatch> getDispatchs() {
-        return dispatchs;
+    public List<ItemDispatch> getItemsDispatch() {
+        return itemsDispatch;
     }
 
-    public class DispatchBuilder {
+    public static class DispatchBuilder {
 
         private int code;
         private Shop shopExpediteur;
         private Shop shopDestinataire;
         private Date dateHeure;
         private boolean active;
-        private List<ItemDispatch> dispatchs;
+        private List<ItemDispatch> itemsDispatch;
 
         public DispatchBuilder(int code) {
             this.code = code;
@@ -86,8 +86,8 @@ public class Dispatch {
             return this;
         }
 
-        public DispatchBuilder dispatchs(List<ItemDispatch> dispatch) {
-            this.dispatchs = dispatch;
+        public DispatchBuilder itemsDispatch(List<ItemDispatch> itemsDispatch) {
+            this.itemsDispatch = itemsDispatch;
             return this;
         }
 

@@ -2,7 +2,6 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
 import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock.ItemSortieStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
@@ -16,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,8 +172,8 @@ public class SortieStockDao {
     public SortieStock selectionnerSortieStockParCode(int codeSortieStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        SortieStockBuilder entreeStockBuilder = new SortieStockBuilder(0);
-        List<ItemSortieStock> listeItemsEntreeStock = new ArrayList();
+        SortieStockBuilder sortieStockBuilder = new SortieStockBuilder(0);
+        List<ItemSortieStock> listeItemsSortieStock = new ArrayList();
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
@@ -191,7 +191,7 @@ public class SortieStockDao {
             scriptSQL.append(" itemsortiestock.prixVenteUSD, itemsortiestock.prixVenteFC, itemsortiestock.quantiteProduit,");
             scriptSQL.append(" sortiestock.idClient, client.nom, cleint.entreprise, client.telephone,");
             scriptSQL.append(" itemsortiestock.idProduto, produit.description");
-            scriptSQL.append(" WHERE itementreestock.idEntreeStock=?");
+            scriptSQL.append(" WHERE itementreestock.idSortieStock=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, codeSortieStock);
@@ -204,136 +204,69 @@ public class SortieStockDao {
                             .description(res.getString(13))
                             .build();
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(8))
+                    Client client = new ClientBuilder(res.getInt(8))
                             .entreprise(res.getString(9))
-                            .responsable(res.getString(10))
+                            .nom(res.getString(10))
                             .telephone(res.getString(11))
                             .build();
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(6))
-                            .valeur(new BigDecimal(res.getString(7)))
+                    Shop shop = new ShopBuilder(res.getInt(6))
+                            .nom(res.getString(7))
                             .build();
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(4))
+                    SortieStock sortieStock = new SortieStockBuilder(res.getInt(4))
                             .dateHeure(res.getTimestamp(5))
-                            .tauxCarte(tauxCarte)
-                            .fournisseur(fournisseur)
+                            .shop(shop)
+                            .client(client)
                             .build();
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .prixAchatUSD(new BigDecimal(res.getString(1)))
-                            .prixAchatFC(new BigDecimal(res.getString(2)))
+                    ItemSortieStock itemSortieStock = new ItemSortieStockBuilder(sortieStock, produit)
+                            .prixVenteUSD(new BigDecimal(res.getString(1)))
+                            .prixVenteFC(new BigDecimal(res.getString(2)))
                             .quantiteProduit(new BigDecimal(res.getString(3)))
                             .build();
 
-                    listeItemsEntreeStock.add(itemEntreeStock);
+                    listeItemsSortieStock.add(itemSortieStock);
 
                     if (res.first()) {
-                        entreeStockBuilder = new EntreeStockBuilder(entreeStock.getCode())
-                                .dateHeure(entreeStock.getDateHeure())
-                                .tauxCarte(tauxCarte)
-                                .fournisseur(fournisseur);
+                        sortieStockBuilder = new SortieStockBuilder(sortieStock.getCode())
+                                .dateHeure(sortieStock.getDateHeure())
+                                .shop(sortieStock.getShop())
+                                .client(sortieStock.getClient());
                     }
 
                 }
 
-                entreeStockBuilder.itemsEntreeStock(listeItemsEntreeStock);
+                sortieStockBuilder.itemsSortieStock(listeItemsSortieStock);
 
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return entreeStockBuilder.build();
+        return sortieStockBuilder.build();
     }
 
-    public boolean sauvegarder(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerSortieStock(SortieStock sortieStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
-            scriptSQL.append(" codeCollaborateur, preNom, nom, postnom, surnom,");
-            scriptSQL.append(" utilisateur, idGroupeUtilisateur, motDePasse, idShop )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            scriptSQL = new StringBuilder("INSERT INTO sortiestock(");
+            scriptSQL.append(" idShop, idClient, dateHeure, code)");
+            scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, collaborateur.getCode());
-            prs.setString(2, collaborateur.getPrenom());
-            prs.setString(3, collaborateur.getNom());
-            prs.setString(4, collaborateur.getPostnom());
-            prs.setString(5, collaborateur.getSurnom());
+            prs.setInt(1, sortieStock.getShop().getCode());
+            prs.setInt(2, sortieStock.getClient().getCode());
+            prs.setTimestamp(3, new Timestamp(sortieStock.getDateHeure().getTime()));
+            prs.setInt(4, sortieStock.getCode());
 
             prs.execute();
             prs.close();
             conexao.close();
         }
         return true;
-    }
-
-    public boolean actualiser(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("UPDATE collaborateur");
-            scriptSQL.append(" SET preNom=?, nom=?, postnom=?, surnom=?, utilisateur=?,");
-            scriptSQL.append(" idGroupeUtilisateur=?, motDePasse=?, idShop=?");
-            scriptSQL.append(" WHERE codeCollaborateur=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-
-            prs.setInt(1, collaborateur.getCode());
-            prs.setString(2, collaborateur.getPrenom());
-            prs.setString(3, collaborateur.getNom());
-            prs.setString(4, collaborateur.getPostnom());
-            prs.setString(5, collaborateur.getSurnom());
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    public boolean exclure(int codeCollaborateur) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM collaborateur WHERE codeCollaborateur=?");
-
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeCollaborateur);
-
-            prs.execute();
-            prs.close();
-            conexao.close();
-        }
-        return true;
-    }
-
-    public int selectionnerCodeCollaborateurSubsequent() throws ClassNotFoundException, SQLException {
-        PreparedStatement prs;
-        ResultSet res;
-
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(codeCollaborateur)+1 FROM collaborateur");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            res = prs.executeQuery();
-            if (res != null) {
-                if (res.next()) {
-                    int cdSubsequente = res.getInt(1);
-
-                    prs.close();
-                    res.close();
-                    conexao.close();
-
-                    return cdSubsequente;
-                }
-            }
-            prs.close();
-            res.close();
-            conexao.close();
-        }
-        return 0;
     }
 }

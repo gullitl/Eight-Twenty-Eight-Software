@@ -22,11 +22,11 @@ public class EntreeStockService {
         return uniqueInstance;
     }
 
-    public List<EntreeStock> listerTousLesEntreeStockSansItems() throws ClassNotFoundException, SQLException {
+    public List<EntreeStock> listerTousLesEntreesStockSansItems() throws ClassNotFoundException, SQLException {
         return EntreeStockDao.getInstance().listerTousLesEntreesStockSansItems();
     }
 
-    public List<EntreeStock> listerTousLesEntreeStockAvecItems() throws ClassNotFoundException, SQLException {
+    public List<EntreeStock> listerTousLesEntreesStockAvecItems() throws ClassNotFoundException, SQLException {
         return EntreeStockDao.getInstance().listerTousLesEntreesStockAvecItems();
     }
 
