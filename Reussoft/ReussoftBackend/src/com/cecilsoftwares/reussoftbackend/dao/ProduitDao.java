@@ -40,11 +40,10 @@ public class ProduitDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeProduits = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.observation, produit.active,");
+            scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.active,");
             scriptSQL.append(" produit.prixAchatUSD, produit.prixAchatFC,");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
-            scriptSQL.append(" categorieproduit.observation,");
-            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege, reseau.observation");
+            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege");
             scriptSQL.append(" FROM produit");
             scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.code");
             scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.code");
@@ -54,24 +53,21 @@ public class ProduitDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Reseau reseau = new ReseauBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .nomAbrege(res.getString(13))
-                            .observation(res.getString(14))
+                    Reseau reseau = new ReseauBuilder(res.getInt(9))
+                            .nom(res.getString(10))
+                            .nomAbrege(res.getString(11))
                             .build();
 
-                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(7))
-                            .description(res.getString(8))
-                            .descriptionAbregee(res.getString(9))
-                            .observation(res.getString(10))
+                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(6))
+                            .description(res.getString(7))
+                            .descriptionAbregee(res.getString(8))
                             .build();
 
                     Produit produit = new ProduitBuilder(res.getInt(1))
                             .description(res.getString(2))
-                            .observation(res.getString(3))
-                            .active(res.getInt(4) == 1)
-                            .prixAchatUSD(new BigDecimal(res.getString(5)))
-                            .prixAchatFC(new BigDecimal(res.getString(6)))
+                            .active(res.getInt(3) == 1)
+                            .prixAchatUSD(new BigDecimal(res.getString(4)))
+                            .prixAchatFC(new BigDecimal(res.getString(5)))
                             .reseau(reseau)
                             .categorieProduit(categorieProduit)
                             .build();
@@ -92,11 +88,10 @@ public class ProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.observation, produit.active,");
+            scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.active,");
             scriptSQL.append(" produit.prixAchatUSD, produit.prixAchatFC,");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
-            scriptSQL.append("  categorieproduit.observation,");
-            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege, reseau.observation");
+            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege");
             scriptSQL.append(" FROM produit");
             scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.code");
             scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.code");
@@ -109,24 +104,21 @@ public class ProduitDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Reseau reseau = new ReseauBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .nomAbrege(res.getString(13))
-                            .observation(res.getString(14))
+                    Reseau reseau = new ReseauBuilder(res.getInt(9))
+                            .nom(res.getString(10))
+                            .nomAbrege(res.getString(11))
                             .build();
 
-                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(7))
-                            .description(res.getString(8))
-                            .descriptionAbregee(res.getString(9))
-                            .observation(res.getString(10))
+                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(6))
+                            .description(res.getString(7))
+                            .descriptionAbregee(res.getString(8))
                             .build();
 
                     Produit produit = new ProduitBuilder(res.getInt(1))
                             .description(res.getString(2))
-                            .observation(res.getString(3))
-                            .active(res.getInt(4) == 1)
-                            .prixAchatUSD(new BigDecimal(res.getString(5)))
-                            .prixAchatFC(new BigDecimal(res.getString(6)))
+                            .active(res.getInt(3) == 1)
+                            .prixAchatUSD(new BigDecimal(res.getString(4)))
+                            .prixAchatFC(new BigDecimal(res.getString(5)))
                             .reseau(reseau)
                             .categorieProduit(categorieProduit)
                             .build();
@@ -152,13 +144,13 @@ public class ProduitDao {
             if (produit.getCode() == 0) {
 
                 scriptSQL = new StringBuilder("INSERT INTO produit(");
-                scriptSQL.append(" description, idCategorieProduit, idReseau, prixAchatUSD, prixAchatFC, observation, active, code )");
+                scriptSQL.append(" description, idCategorieProduit, idReseau, prixAchatUSD, prixAchatFC, active, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE produit");
-                scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, prixAchatUSD=?, prixAchatFC=?, observation=?, active=?");
+                scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, prixAchatUSD=?, prixAchatFC=?, active=?");
                 scriptSQL.append(" WHERE code=?");
             }
 
@@ -169,9 +161,8 @@ public class ProduitDao {
             prs.setInt(3, produit.getReseau().getCode());
             prs.setBigDecimal(4, produit.getPrixAchatUSD());
             prs.setBigDecimal(5, produit.getPrixAchatFC());
-            prs.setString(6, produit.getObservation());
-            prs.setInt(7, produit.isActive() ? 1 : 0);
-            prs.setInt(8, produit.getCode());
+            prs.setInt(6, produit.isActive() ? 1 : 0);
+            prs.setInt(7, produit.getCode());
 
             prs.execute();
             prs.close();

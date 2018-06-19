@@ -39,7 +39,7 @@ public class TauxMonnaieDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeTauxMonnaies = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT tauxmonnaie.code, tauxmonnaie.dateheure, tauxmonnaie.valeur, tauxmonnaie.observation,");
+            scriptSQL = new StringBuilder("SELECT tauxmonnaie.code, tauxmonnaie.dateheure, tauxmonnaie.valeur,");
             scriptSQL.append(" tauxmonnaie.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM tauxmonnaie");
             scriptSQL.append(" LEFT JOIN shop ON tauxmonnaie.idShop = shop.code");
@@ -49,15 +49,14 @@ public class TauxMonnaieDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Shop shop = new ShopBuilder(res.getInt(4))
+                            .nom(res.getString(5))
+                            .adresse(res.getString(6))
                             .build();
 
                     TauxMonnaie tauxMonnaie = new TauxMonnaieBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(2))
                             .valeur(new BigDecimal(res.getString(3)))
-                            .observation(res.getString(4))
                             .shop(shop)
                             .build();
 
@@ -77,7 +76,7 @@ public class TauxMonnaieDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT tauxmonnaie.code, tauxmonnaie.dateheure, tauxmonnaie.valeur, tauxmonnaie.observation,");
+            scriptSQL = new StringBuilder("SELECT tauxmonnaie.code, tauxmonnaie.dateheure, tauxmonnaie.valeur,");
             scriptSQL.append(" tauxmonnaie.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM tauxmonnaie");
             scriptSQL.append(" LEFT JOIN shop ON tauxmonnaie.idShop = shop.code");
@@ -89,15 +88,14 @@ public class TauxMonnaieDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Shop shop = new ShopBuilder(res.getInt(4))
+                            .nom(res.getString(5))
+                            .adresse(res.getString(6))
                             .build();
 
                     TauxMonnaie tauxMonnaie = new TauxMonnaieBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(2))
                             .valeur(new BigDecimal(res.getString(3)))
-                            .observation(res.getString(4))
                             .shop(shop)
                             .build();
 
@@ -121,19 +119,18 @@ public class TauxMonnaieDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             if (tauxMonnaie.getCode() == 0) {
                 scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
-                scriptSQL.append(" dateheure, valeur, observateur, code )");
+                scriptSQL.append(" dateheure, valeur, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
             } else {
                 scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
-                scriptSQL.append(" SET dateheure=?, valeur=?, observateur=?");
+                scriptSQL.append(" SET dateheure=?, valeur=?");
                 scriptSQL.append(" WHERE code=?");
             }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setTimestamp(1, new Timestamp(tauxMonnaie.getDateHeure().getTime()));
             prs.setBigDecimal(2, tauxMonnaie.getValeur());
-            prs.setString(3, tauxMonnaie.getObservation());
-            prs.setInt(4, tauxMonnaie.getCode());
+            prs.setInt(3, tauxMonnaie.getCode());
 
             prs.execute();
             prs.close();

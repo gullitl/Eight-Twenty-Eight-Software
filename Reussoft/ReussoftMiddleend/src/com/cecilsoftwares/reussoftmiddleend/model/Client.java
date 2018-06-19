@@ -9,7 +9,6 @@ public class Client {
     private final String nom;
     private final String entreprise;
     private final String telephone;
-    private final String observation;
     private final Shop shop;
 
     public Client(ClientBuilder clientBuilder) {
@@ -17,7 +16,6 @@ public class Client {
         nom = clientBuilder.nom;
         entreprise = clientBuilder.entreprise;
         telephone = clientBuilder.telephone;
-        observation = clientBuilder.observation;
         shop = clientBuilder.shop;
     }
 
@@ -37,10 +35,6 @@ public class Client {
         return telephone;
     }
 
-    public String getObservation() {
-        return observation;
-    }
-
     public Shop getShop() {
         return shop;
     }
@@ -51,7 +45,6 @@ public class Client {
         private String nom;
         private String entreprise;
         private String telephone;
-        private String observation;
         private Shop shop;
 
         public ClientBuilder(int code) {
@@ -70,11 +63,6 @@ public class Client {
 
         public ClientBuilder telephone(String telephone) {
             this.telephone = telephone;
-            return this;
-        }
-
-        public ClientBuilder observation(String observation) {
-            this.observation = observation;
             return this;
         }
 

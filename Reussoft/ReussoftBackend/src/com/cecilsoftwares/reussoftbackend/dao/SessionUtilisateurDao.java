@@ -52,12 +52,12 @@ public class SessionUtilisateurDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Shop shop = new ShopBuilder(res.getInt(8))
+                            .nom(res.getString(9))
+                            .adresse(res.getString(10))
                             .build();
 
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
+                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(4))
                             .nom(res.getString(5))
                             .postnom(res.getString(6))
                             .surnom(res.getString(7))
@@ -66,7 +66,6 @@ public class SessionUtilisateurDao {
                     SessionUtilisateur sessionutilisateur = new SessionUtilisateurBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(2))
                             .action(res.getString(3))
-                            .observation(res.getString(4))
                             .collaborateur(collaborateur)
                             .build();
 
@@ -86,7 +85,7 @@ public class SessionUtilisateurDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT sessionutilisateur.code, sessionutilisateur.dateheure, sessionutilisateur.log, sessionutilisateur.observation,");
+            scriptSQL = new StringBuilder("SELECT sessionutilisateur.code, sessionutilisateur.dateheure, sessionutilisateur.log,");
             scriptSQL.append(" sessionutilisateur.idCollaborateur, Collaborateur.prenom, Collaborateur.nom, Collaborateur.postnom, Collaborateur.surnom,");
             scriptSQL.append(" sessionutilisateur.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM sessionutilisateur");
@@ -99,12 +98,12 @@ public class SessionUtilisateurDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Shop shop = new ShopBuilder(res.getInt(8))
+                            .nom(res.getString(9))
+                            .adresse(res.getString(10))
                             .build();
 
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
+                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(4))
                             .nom(res.getString(5))
                             .postnom(res.getString(6))
                             .surnom(res.getString(7))
@@ -113,7 +112,6 @@ public class SessionUtilisateurDao {
                     SessionUtilisateur sessionutilisateur = new SessionUtilisateurBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(2))
                             .action(res.getString(3))
-                            .observation(res.getString(4))
                             .collaborateur(collaborateur)
                             .build();
 
@@ -136,7 +134,7 @@ public class SessionUtilisateurDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO sessionutilisateur(");
-            scriptSQL.append(" code, dateheure, log, observateur");
+            scriptSQL.append(" code, dateheure, log");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -144,7 +142,6 @@ public class SessionUtilisateurDao {
             prs.setInt(1, sessionUtilisateur.getCode());
             prs.setTimestamp(2, new Timestamp(sessionUtilisateur.getDateHeure().getTime()));
             prs.setString(3, sessionUtilisateur.getAction());
-            prs.setString(4, sessionUtilisateur.getObservation());
 
             prs.execute();
             prs.close();

@@ -12,14 +12,12 @@ public class TauxMonnaie {
     private final Shop shop;
     private final BigDecimal valeur;
     private final Date dateHeure;
-    private final String observation;
 
     public TauxMonnaie(TauxMonnaieBuilder tauxMonnaieBuilder) {
         code = tauxMonnaieBuilder.code;
         shop = tauxMonnaieBuilder.shop;
         valeur = tauxMonnaieBuilder.valeur;
         dateHeure = tauxMonnaieBuilder.dateHeure;
-        observation = tauxMonnaieBuilder.observation;
     }
 
     public int getCode() {
@@ -38,17 +36,12 @@ public class TauxMonnaie {
         return dateHeure;
     }
 
-    public String getObservation() {
-        return observation;
-    }
-
     public static class TauxMonnaieBuilder {
 
         private int code;
         private Shop shop;
         private BigDecimal valeur;
         private Date dateHeure;
-        private String observation;
 
         public TauxMonnaieBuilder(int code) {
             this.code = code;
@@ -66,11 +59,6 @@ public class TauxMonnaie {
 
         public TauxMonnaieBuilder dateHeure(Date dateHeure) {
             this.dateHeure = dateHeure;
-            return this;
-        }
-
-        public TauxMonnaieBuilder observation(String observation) {
-            this.observation = observation;
             return this;
         }
 

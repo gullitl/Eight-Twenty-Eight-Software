@@ -36,11 +36,8 @@ public class RegistreCategorieProduit extends JInternalFrame {
 
         tfdDescription = new javax.swing.JTextField();
         tfdDescriptionAbregee = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txaObservation = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnConsulterCategorieProduit = new javax.swing.JButton();
@@ -50,15 +47,9 @@ public class RegistreCategorieProduit extends JInternalFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registre de Catégorie de Produit");
 
-        txaObservation.setColumns(20);
-        txaObservation.setRows(5);
-        jScrollPane1.setViewportView(txaObservation);
-
         jLabel2.setText("Description:");
 
         jLabel3.setText("Description abregrée:");
-
-        jLabel4.setText("Observation:");
 
         btnAnnuler.setText("ANNULER");
         btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
@@ -97,7 +88,6 @@ public class RegistreCategorieProduit extends JInternalFrame {
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4)
                     .addComponent(jLabel3)
                     .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -107,7 +97,6 @@ public class RegistreCategorieProduit extends JInternalFrame {
                             .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(tfdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -127,16 +116,12 @@ public class RegistreCategorieProduit extends JInternalFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,7 +141,6 @@ public class RegistreCategorieProduit extends JInternalFrame {
             CategorieProduit categorieProduit = new CategorieProduitBuilder(codeCategorieProduit)
                     .description(tfdDescription.getText())
                     .descriptionAbregee(tfdDescriptionAbregee.getText())
-                    .observation(txaObservation.getText())
                     .build();
 
             try {
@@ -203,7 +187,6 @@ public class RegistreCategorieProduit extends JInternalFrame {
             codeCategorieProduit = categorieProduit.getCode();
             tfdDescription.setText(categorieProduit.getDescription());
             tfdDescriptionAbregee.setText(categorieProduit.getDescriptionAbregee());
-            txaObservation.setText(categorieProduit.getObservation());
             btnEnregistrer.setText("ACTUALISER");
         }
     }
@@ -252,7 +235,6 @@ public class RegistreCategorieProduit extends JInternalFrame {
         tfdDescription.setText("");
         tfdDescription.requestFocus();
         tfdDescriptionAbregee.setText("");
-        txaObservation.setText("");
         btnEnregistrer.setText("ENREGISTRER");
         modeEdition = false;
         habiliterComposantFormulaire(true);
@@ -262,7 +244,6 @@ public class RegistreCategorieProduit extends JInternalFrame {
     private void habiliterComposantFormulaire(boolean hcf) {
         tfdDescription.setEditable(hcf);
         tfdDescriptionAbregee.setEditable(hcf);
-        txaObservation.setEditable(hcf);
         btnConsulterCategorieProduitClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnExclureClickable = hcf;
@@ -310,10 +291,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
     private javax.swing.JButton btnExclure;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField tfdDescription;
     private javax.swing.JTextField tfdDescriptionAbregee;
-    private javax.swing.JTextArea txaObservation;
     // End of variables declaration//GEN-END:variables
 }

@@ -36,11 +36,8 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
         tfdDescription = new javax.swing.JTextField();
         tfdDescriptionAbregee = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txaObservation = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnExclure = new javax.swing.JButton();
@@ -50,15 +47,9 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registre de Profil d'utilisateur");
 
-        txaObservation.setColumns(20);
-        txaObservation.setRows(5);
-        jScrollPane1.setViewportView(txaObservation);
-
         jLabel2.setText("Description:");
 
         jLabel3.setText("Description abregrée:");
-
-        jLabel4.setText("Observation:");
 
         btnAnnuler.setText("ANNULER");
         btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
@@ -98,15 +89,12 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2)
-                        .addComponent(jLabel4)
                         .addComponent(jLabel3)
                         .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfdDescription)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterProfilUtilisateur))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(tfdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnConsulterProfilUtilisateur)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -128,16 +116,12 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,7 +141,6 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(codeProfilUtilisateur)
                     .description(tfdDescription.getText())
                     .descriptionAbregee(tfdDescriptionAbregee.getText())
-                    .observation(txaObservation.getText())
                     .build();
 
             try {
@@ -241,7 +224,6 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             codeProfilUtilisateur = profilUtilisateur.getCode();
             tfdDescription.setText(profilUtilisateur.getDescription());
             tfdDescriptionAbregee.setText(profilUtilisateur.getDescriptionAbregee());
-            txaObservation.setText(profilUtilisateur.getObservation());
             btnEnregistrer.setText("ACTUALISER");
         }
     }
@@ -251,7 +233,6 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         tfdDescription.setText("");
         tfdDescription.requestFocus();
         tfdDescriptionAbregee.setText("");
-        txaObservation.setText("");
         modeEdition = false;
         btnEnregistrer.setText("ENREGISTRER");
         habiliterComposantFormulaire(true);
@@ -262,7 +243,6 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     private void habiliterComposantFormulaire(boolean hcf) {
         tfdDescription.setEditable(hcf);
         tfdDescriptionAbregee.setEditable(hcf);
-        txaObservation.setEditable(hcf);
         btnConsulterProfilUtilisateurClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnExclureClickable = hcf;
@@ -310,10 +290,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     private javax.swing.JButton btnExclure;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField tfdDescription;
     private javax.swing.JTextField tfdDescriptionAbregee;
-    private javax.swing.JTextArea txaObservation;
     // End of variables declaration//GEN-END:variables
 }

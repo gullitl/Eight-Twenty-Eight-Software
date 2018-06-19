@@ -33,7 +33,7 @@ public class CategorieProduitDao {
         List<CategorieProduit> listeCategoriesProduit;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee, observation");
+            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee");
             scriptSQL.append(" FROM categorieproduit");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -46,7 +46,6 @@ public class CategorieProduitDao {
                     CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(1))
                             .description(res.getString(2))
                             .descriptionAbregee(res.getString(3))
-                            .observation(res.getString(4))
                             .build();
 
                     listeCategoriesProduit.add(categorieProduit);
@@ -64,7 +63,7 @@ public class CategorieProduitDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee, observation");
+            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee");
             scriptSQL.append(" FROM categorieproduit WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -76,7 +75,6 @@ public class CategorieProduitDao {
                     CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(1))
                             .description(res.getString(2))
                             .descriptionAbregee(res.getString(3))
-                            .observation(res.getString(4))
                             .build();
 
                     prs.close();
@@ -101,12 +99,12 @@ public class CategorieProduitDao {
             if (categorieProduit.getCode() == 0) {
 
                 scriptSQL = new StringBuilder("INSERT INTO categorieproduit(");
-                scriptSQL.append(" description, descriptionAbregee, observation, code )");
+                scriptSQL.append(" description, descriptionAbregee, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE categorieproduit");
-                scriptSQL.append(" SET description=?, descriptionAbregee=?, observation=?");
+                scriptSQL.append(" SET description=?, descriptionAbregee=?");
                 scriptSQL.append(" WHERE code=?");
             }
 
@@ -114,8 +112,7 @@ public class CategorieProduitDao {
 
             prs.setString(1, categorieProduit.getDescription());
             prs.setString(2, categorieProduit.getDescriptionAbregee());
-            prs.setString(3, categorieProduit.getObservation());
-            prs.setInt(4, categorieProduit.getCode());
+            prs.setInt(3, categorieProduit.getCode());
 
             prs.execute();
             prs.close();

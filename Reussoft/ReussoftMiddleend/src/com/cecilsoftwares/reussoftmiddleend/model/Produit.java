@@ -13,7 +13,6 @@ public class Produit {
     private final CategorieProduit categorieProduit;
     private final BigDecimal prixAchatUSD;
     private final BigDecimal prixAchatFC;
-    private final String observation;
     private final boolean active;
 
     public Produit(ProduitBuilder produitBuilder) {
@@ -23,7 +22,6 @@ public class Produit {
         categorieProduit = produitBuilder.categorieProduit;
         prixAchatUSD = produitBuilder.prixAchatUSD;
         prixAchatFC = produitBuilder.prixAchatFC;
-        observation = produitBuilder.observation;
         active = produitBuilder.active;
     }
 
@@ -51,10 +49,6 @@ public class Produit {
         return prixAchatFC;
     }
 
-    public String getObservation() {
-        return observation;
-    }
-
     public boolean isActive() {
         return active;
     }
@@ -67,7 +61,6 @@ public class Produit {
         private CategorieProduit categorieProduit;
         private BigDecimal prixAchatUSD;
         private BigDecimal prixAchatFC;
-        private String observation;
         private boolean active;
 
         public ProduitBuilder(int code) {
@@ -96,11 +89,6 @@ public class Produit {
 
         public ProduitBuilder prixAchatFC(BigDecimal prixAchatFC) {
             this.prixAchatFC = prixAchatFC;
-            return this;
-        }
-
-        public ProduitBuilder observation(String observation) {
-            this.observation = observation;
             return this;
         }
 

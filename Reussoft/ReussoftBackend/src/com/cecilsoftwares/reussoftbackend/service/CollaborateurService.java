@@ -36,7 +36,6 @@ public class CollaborateurService {
                     .collaborateur(collaborateur)
                     .action("ENTRÉE")
                     .dateHeure(new Date())
-                    .observation("")
                     .build();
 
             SessionUtilisateurDao.getInstance().sauvegarderSessionUtilisateur(sessionUtilisateur);

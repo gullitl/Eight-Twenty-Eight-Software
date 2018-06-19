@@ -9,14 +9,12 @@ public class Fournisseur {
     private final String entreprise;
     private final String responsable;
     private final String telephone;
-    private final String observation;
 
     public Fournisseur(FournisseurBuilder fournisseurBuilder) {
         code = fournisseurBuilder.code;
         entreprise = fournisseurBuilder.entreprise;
         responsable = fournisseurBuilder.responsable;
         telephone = fournisseurBuilder.telephone;
-        observation = fournisseurBuilder.observation;
     }
 
     public int getCode() {
@@ -35,17 +33,12 @@ public class Fournisseur {
         return telephone;
     }
 
-    public String getObservation() {
-        return observation;
-    }
-
     public static class FournisseurBuilder {
 
         private int code;
         private String entreprise;
         private String responsable;
         private String telephone;
-        private String observation;
 
         public FournisseurBuilder(int code) {
             this.code = code;
@@ -63,11 +56,6 @@ public class Fournisseur {
 
         public FournisseurBuilder telephone(String telephone) {
             this.telephone = telephone;
-            return this;
-        }
-
-        public FournisseurBuilder observation(String observation) {
-            this.observation = observation;
             return this;
         }
 

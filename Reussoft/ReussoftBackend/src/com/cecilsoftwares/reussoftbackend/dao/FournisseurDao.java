@@ -33,7 +33,7 @@ public class FournisseurDao {
         List<Fournisseur> listeFournisseurs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, responsable, entreprise, telephone, observation");
+            scriptSQL = new StringBuilder("SELECT code, responsable, entreprise, telephone");
             scriptSQL.append(" FROM fournisseur");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -47,7 +47,6 @@ public class FournisseurDao {
                             .responsable(res.getString(2))
                             .entreprise(res.getString(3))
                             .telephone(res.getString(4))
-                            .observation(res.getString(5))
                             .build();
 
                     listeFournisseurs.add(fournisseur);
@@ -65,7 +64,7 @@ public class FournisseurDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, responsable, entreprise, telephone, observation");
+            scriptSQL = new StringBuilder("SELECT code, responsable, entreprise, telephone");
             scriptSQL.append(" FROM fournisseur WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -79,7 +78,6 @@ public class FournisseurDao {
                             .responsable(res.getString(2))
                             .entreprise(res.getString(3))
                             .telephone(res.getString(4))
-                            .observation(res.getString(5))
                             .build();
 
                     prs.close();
@@ -103,11 +101,11 @@ public class FournisseurDao {
             if (fournisseur.getCode() == 0) {
 
                 scriptSQL = new StringBuilder("INSERT INTO fournisseur(");
-                scriptSQL.append(" responsable, entreprise, telephone, observation, code )");
+                scriptSQL.append(" responsable, entreprise, telephone, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
             } else {
                 scriptSQL = new StringBuilder("UPDATE fournisseur");
-                scriptSQL.append(" SET responsable=?, entreprise=?, telephone=?, observation=?");
+                scriptSQL.append(" SET responsable=?, entreprise=?, telephone=?");
                 scriptSQL.append(" WHERE code=?");
             }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -115,8 +113,7 @@ public class FournisseurDao {
             prs.setString(1, fournisseur.getResponsable());
             prs.setString(2, fournisseur.getEntreprise());
             prs.setString(3, fournisseur.getTelephone());
-            prs.setString(4, fournisseur.getObservation());
-            prs.setInt(5, fournisseur.getCode());
+            prs.setInt(4, fournisseur.getCode());
 
             prs.execute();
             prs.close();

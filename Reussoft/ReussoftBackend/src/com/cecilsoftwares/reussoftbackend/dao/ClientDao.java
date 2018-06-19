@@ -35,7 +35,7 @@ public class ClientDao {
         List<Client> listeClients;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, client.observation, ");
+            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, ");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.code");
 
@@ -46,17 +46,16 @@ public class ClientDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .adresse(res.getString(8))
-                            .active(res.getInt(9) == 0)
+                    Shop shop = new ShopBuilder(res.getInt(5))
+                            .nom(res.getString(6))
+                            .adresse(res.getString(7))
+                            .active(res.getInt(8) == 0)
                             .build();
 
                     Client client = new ClientBuilder(res.getInt(1))
                             .nom(res.getString(2))
                             .entreprise(res.getString(3))
                             .telephone(res.getString(4))
-                            .observation(res.getString(5))
                             .shop(shop)
                             .build();
 
@@ -75,7 +74,7 @@ public class ClientDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, client.observation, ");
+            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, ");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.code");
             scriptSQL.append(" WHERE client.code=?");
@@ -87,17 +86,16 @@ public class ClientDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .adresse(res.getString(8))
-                            .active(res.getInt(9) == 0)
+                    Shop shop = new ShopBuilder(res.getInt(5))
+                            .nom(res.getString(6))
+                            .adresse(res.getString(7))
+                            .active(res.getInt(8) == 0)
                             .build();
 
                     Client client = new ClientBuilder(res.getInt(1))
                             .nom(res.getString(2))
                             .entreprise(res.getString(3))
                             .telephone(res.getString(4))
-                            .observation(res.getString(5))
                             .shop(shop)
                             .build();
 
@@ -122,11 +120,11 @@ public class ClientDao {
 
             if (client.getCode() == 0) {
                 scriptSQL = new StringBuilder("INSERT INTO client(");
-                scriptSQL.append(" nom, entreprise, telephone, idShop, observation, code )");
+                scriptSQL.append(" nom, entreprise, telephone, idShop, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
             } else {
                 scriptSQL = new StringBuilder("UPDATE client");
-                scriptSQL.append(" SET nom=?, entreprise=?, telephone=?, idShop=?, observation=?");
+                scriptSQL.append(" SET nom=?, entreprise=?, telephone=?, idShop=?");
                 scriptSQL.append(" WHERE code=?");
             }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -135,8 +133,7 @@ public class ClientDao {
             prs.setString(2, client.getEntreprise());
             prs.setString(3, client.getTelephone());
             prs.setInt(4, client.getShop().getCode());
-            prs.setString(5, client.getObservation());
-            prs.setInt(6, client.getCode());
+            prs.setInt(5, client.getCode());
 
             prs.execute();
             prs.close();

@@ -37,7 +37,6 @@ public class RegistreFournisseur extends JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         btnConsulterFournisseur = new javax.swing.JButton();
         tfdEntreprise = new javax.swing.JTextField();
         tfdResponsable = new javax.swing.JTextField();
@@ -47,8 +46,6 @@ public class RegistreFournisseur extends JInternalFrame {
             tfdTelephone = new javax.swing.JFormattedTextField(telefone);
         }catch(Exception e){
         }
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txaObservation = new javax.swing.JTextArea();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnExclure = new javax.swing.JButton();
@@ -63,8 +60,6 @@ public class RegistreFournisseur extends JInternalFrame {
 
         jLabel4.setText("Téléphone:");
 
-        jLabel5.setText("Observation:");
-
         btnConsulterFournisseur.setText("...");
         btnConsulterFournisseur.setFocusable(false);
         btnConsulterFournisseur.addActionListener(new java.awt.event.ActionListener() {
@@ -72,10 +67,6 @@ public class RegistreFournisseur extends JInternalFrame {
                 btnConsulterFournisseurActionPerformed(evt);
             }
         });
-
-        txaObservation.setColumns(20);
-        txaObservation.setRows(5);
-        jScrollPane1.setViewportView(txaObservation);
 
         btnAnnuler.setText("ANNULER");
         btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
@@ -106,12 +97,10 @@ public class RegistreFournisseur extends JInternalFrame {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel5)
                         .addComponent(jLabel4)
                         .addComponent(jLabel3)
                         .addComponent(jLabel2)
                         .addComponent(tfdResponsable)
-                        .addComponent(jScrollPane1)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(tfdEntreprise, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -142,16 +131,12 @@ public class RegistreFournisseur extends JInternalFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         pack();
@@ -172,7 +157,6 @@ public class RegistreFournisseur extends JInternalFrame {
                     .entreprise(tfdEntreprise.getText())
                     .responsable(tfdResponsable.getText())
                     .telephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""))
-                    .observation(txaObservation.getText())
                     .build();
 
             try {
@@ -219,7 +203,6 @@ public class RegistreFournisseur extends JInternalFrame {
             tfdResponsable.setText(fournisseur.getResponsable());
             tfdTelephone.setText(fournisseur.getTelephone());
             tfdEntreprise.setText(fournisseur.getEntreprise());
-            txaObservation.setText(fournisseur.getObservation());
             btnEnregistrer.setText("ACTUALISER");
         }
     }
@@ -269,7 +252,6 @@ public class RegistreFournisseur extends JInternalFrame {
         tfdEntreprise.requestFocus();
         tfdResponsable.setText("");
         tfdTelephone.setText("");
-        txaObservation.setText("");
         modeEdition = false;
         btnEnregistrer.setText("ENREGISTRER");
         habiliterComposantFormulaire(true);
@@ -280,7 +262,6 @@ public class RegistreFournisseur extends JInternalFrame {
         tfdEntreprise.setEditable(hcf);
         tfdResponsable.setEditable(hcf);
         tfdTelephone.setEditable(hcf);
-        txaObservation.setEditable(hcf);
         btnConsulterFournisseurClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnAnnulerClickable = hcf;
@@ -335,11 +316,8 @@ public class RegistreFournisseur extends JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField tfdEntreprise;
     private javax.swing.JTextField tfdResponsable;
     private javax.swing.JTextField tfdTelephone;
-    private javax.swing.JTextArea txaObservation;
     // End of variables declaration//GEN-END:variables
 }

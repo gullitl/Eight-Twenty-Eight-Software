@@ -39,7 +39,7 @@ public class TauxCarteDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeTauxCartes = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateheure, tauxcarte.valeur, tauxcarte.observation,");
+            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateheure, tauxcarte.valeur,");
             scriptSQL.append(" tauxcarte.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM tauxcarte");
             scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.code");
@@ -49,15 +49,14 @@ public class TauxCarteDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Shop shop = new ShopBuilder(res.getInt(4))
+                            .nom(res.getString(5))
+                            .adresse(res.getString(6))
                             .build();
 
                     TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(2))
                             .valeur(new BigDecimal(res.getString(3)))
-                            .observation(res.getString(4))
                             .shop(shop)
                             .build();
 
@@ -77,7 +76,7 @@ public class TauxCarteDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateheure, tauxcarte.valeur, tauxcarte.observation,");
+            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateheure, tauxcarte.valeur,");
             scriptSQL.append(" tauxcarte.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM tauxcarte");
             scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.code");
@@ -89,15 +88,14 @@ public class TauxCarteDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(11))
-                            .nom(res.getString(12))
-                            .adresse(res.getString(13))
+                    Shop shop = new ShopBuilder(res.getInt(4))
+                            .nom(res.getString(5))
+                            .adresse(res.getString(6))
                             .build();
 
                     TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(1))
                             .dateHeure(res.getTimestamp(2))
                             .valeur(new BigDecimal(res.getString(3)))
-                            .observation(res.getString(4))
                             .shop(shop)
                             .build();
 
@@ -122,11 +120,11 @@ public class TauxCarteDao {
 
             if (tauxCarte.getCode() == 0) {
                 scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
-                scriptSQL.append(" dateheure, valeur, observateur, code )");
+                scriptSQL.append(" dateheure, valeur, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
             } else {
                 scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
-                scriptSQL.append(" SET dateheure=?, valeur=?, observateur=?");
+                scriptSQL.append(" SET dateheure=?, valeur=?");
                 scriptSQL.append(" WHERE code=?");
             }
 
@@ -134,7 +132,6 @@ public class TauxCarteDao {
 
             prs.setTimestamp(1, new Timestamp(tauxCarte.getDateHeure().getTime()));
             prs.setBigDecimal(2, tauxCarte.getValeur());
-            prs.setString(3, tauxCarte.getObservation());
             prs.setInt(4, tauxCarte.getCode());
 
             prs.execute();

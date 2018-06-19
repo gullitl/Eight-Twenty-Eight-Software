@@ -36,7 +36,7 @@ public class ProfilUtilisateurDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             profilUtilisateurs = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee, observation");
+            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee");
             scriptSQL.append(" FROM profilutilisateur");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -47,7 +47,6 @@ public class ProfilUtilisateurDao {
                     ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(1))
                             .description(res.getString(2))
                             .descriptionAbregee(res.getString(3))
-                            .observation(res.getString(4))
                             .build();
 
                     profilUtilisateurs.add(profilUtilisateur);
@@ -67,7 +66,7 @@ public class ProfilUtilisateurDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee, observation");
+            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee");
             scriptSQL.append(" FROM profilutilisateur WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -79,7 +78,6 @@ public class ProfilUtilisateurDao {
                     ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(1))
                             .description(res.getString(2))
                             .descriptionAbregee(res.getString(3))
-                            .observation(res.getString(4))
                             .build();
 
                     prs.close();
@@ -103,12 +101,12 @@ public class ProfilUtilisateurDao {
             if (profilUtilisateur.getCode() == 0) {
 
                 scriptSQL = new StringBuilder("INSERT INTO profilutilisateur(");
-                scriptSQL.append(" description, descriptionAbregee, observation, code )");
+                scriptSQL.append(" description, descriptionAbregee, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             } else {
                 scriptSQL = new StringBuilder("UPDATE profilutilisateur");
-                scriptSQL.append(" SET description=?, descriptionAbregee=?, observation=?");
+                scriptSQL.append(" SET description=?, descriptionAbregee=?");
                 scriptSQL.append(" WHERE code=?");
             }
 
@@ -116,7 +114,6 @@ public class ProfilUtilisateurDao {
 
             prs.setString(1, profilUtilisateur.getDescription());
             prs.setString(2, profilUtilisateur.getDescriptionAbregee());
-            prs.setString(3, profilUtilisateur.getObservation());
             prs.setInt(4, profilUtilisateur.getCode());
 
             prs.execute();

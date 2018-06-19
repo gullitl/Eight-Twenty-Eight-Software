@@ -41,7 +41,7 @@ public class CollaborateurDao {
             scriptSQL.append(" collaborateur.nomUtilisateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.active,");
             scriptSQL.append(" collaborateur.idProfilUtilisateur, profilutilisateur.description,");
-            scriptSQL.append(" profilutilisateur.descriptionAbregee, profilutilisateur.observation");
+            scriptSQL.append(" profilutilisateur.descriptionAbregee");
             scriptSQL.append(" FROM collaborateur");
             scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
             scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = profilutilisateur.code");
@@ -56,7 +56,6 @@ public class CollaborateurDao {
                     ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(13))
                             .description(res.getString(14))
                             .descriptionAbregee(res.getString(15))
-                            .observation(res.getString(16))
                             .build();
 
                     Shop shop = new ShopBuilder(res.getInt(9))
@@ -103,7 +102,7 @@ public class CollaborateurDao {
             scriptSQL.append(" collaborateur.nomUtilisateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.active,");
             scriptSQL.append(" collaborateur.idProfilUtilisateur, profilutilisateur.description,");
-            scriptSQL.append(" profilutilisateur.descriptionAbregee, profilutilisateur.observation");
+            scriptSQL.append(" profilutilisateur.descriptionAbregee");
             scriptSQL.append(" FROM collaborateur");
             scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
             scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = profilutilisateur.code");
@@ -118,7 +117,6 @@ public class CollaborateurDao {
                     ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(13))
                             .description(res.getString(14))
                             .descriptionAbregee(res.getString(15))
-                            .observation(res.getString(16))
                             .build();
 
                     Shop shop = new ShopBuilder(res.getInt(9))
@@ -159,7 +157,7 @@ public class CollaborateurDao {
             scriptSQL.append(" collaborateur.nomUtilisateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.active,");
             scriptSQL.append(" collaborateur.idProfilUtilisateur, profilutilisateur.description,");
-            scriptSQL.append(" profilutilisateur.descriptionAbregee, profilutilisateur.observation");
+            scriptSQL.append(" profilutilisateur.descriptionAbregee");
             scriptSQL.append(" FROM collaborateur");
             scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
             scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = profilutilisateur.code");
@@ -175,7 +173,6 @@ public class CollaborateurDao {
                     ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(13))
                             .description(res.getString(14))
                             .descriptionAbregee(res.getString(15))
-                            .observation(res.getString(16))
                             .build();
 
                     Shop shop = new ShopBuilder(res.getInt(9))

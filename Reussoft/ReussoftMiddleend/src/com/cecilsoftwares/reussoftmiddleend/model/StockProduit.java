@@ -12,7 +12,6 @@ public class StockProduit {
     private final BigDecimal QuantiteStock;
     private final BigDecimal quantiteMaximumStock;
     private final BigDecimal quantiteMinimumStock;
-    private final String observation;
 
     public StockProduit(StockBuilder stockBuilder) {
         produit = stockBuilder.produit;
@@ -20,7 +19,6 @@ public class StockProduit {
         QuantiteStock = stockBuilder.QuantiteStock;
         quantiteMaximumStock = stockBuilder.quantiteMaximumStock;
         quantiteMinimumStock = stockBuilder.quantiteMinimumStock;
-        observation = stockBuilder.observation;
     }
 
     public Produit getProduit() {
@@ -43,10 +41,6 @@ public class StockProduit {
         return quantiteMinimumStock;
     }
 
-    public String getObservation() {
-        return observation;
-    }
-
     public static class StockBuilder {
 
         private Produit produit;
@@ -54,7 +48,6 @@ public class StockProduit {
         private BigDecimal QuantiteStock;
         private BigDecimal quantiteMaximumStock;
         private BigDecimal quantiteMinimumStock;
-        private String observation;
 
         public StockBuilder(Produit produit, Shop shop) {
             this.produit = produit;
@@ -73,11 +66,6 @@ public class StockProduit {
 
         public StockBuilder qtdMinimumStock(BigDecimal quantiteMinimumStock) {
             this.quantiteMinimumStock = quantiteMinimumStock;
-            return this;
-        }
-
-        public StockBuilder observation(String observation) {
-            this.observation = observation;
             return this;
         }
 
