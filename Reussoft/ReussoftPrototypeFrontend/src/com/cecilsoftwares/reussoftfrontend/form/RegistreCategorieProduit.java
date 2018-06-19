@@ -148,31 +148,30 @@ public class RegistreCategorieProduit extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (!isInformationObligatoiresRemplies()) {
-            return;
-        }
+        if (isInformationObligatoiresRemplies()) {
 
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
 
-        CategorieProduit categorieProduit = new CategorieProduitBuilder(codeCategorieProduit)
-                .description(tfdDescription.getText())
-                .descriptionAbregee(tfdDescriptionAbregee.getText())
-                .observation(txaObservation.getText())
-                .build();
+            CategorieProduit categorieProduit = new CategorieProduitBuilder(codeCategorieProduit)
+                    .description(tfdDescription.getText())
+                    .descriptionAbregee(tfdDescriptionAbregee.getText())
+                    .observation(txaObservation.getText())
+                    .build();
 
-        try {
-            if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
-                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+            try {
+                if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
+                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, notification);
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        setCursor(Cursor.getDefaultCursor());
+            setCursor(Cursor.getDefaultCursor());
+        }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterCategorieProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCategorieProduitActionPerformed
@@ -181,9 +180,14 @@ public class RegistreCategorieProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true);
-            consultationCategorieProduit.setFrameAncetre(this);
-            consultationCategorieProduit.setVisible(true);
+            try {
+                ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true, CategorieProduitService.getInstance()
+                        .listerTousLesCategorieProduits());
+                consultationCategorieProduit.setFrameAncetre(this);
+                consultationCategorieProduit.setVisible(true);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());

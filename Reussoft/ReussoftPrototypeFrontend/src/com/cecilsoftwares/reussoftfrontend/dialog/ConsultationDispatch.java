@@ -1,7 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit;
+import com.cecilsoftwares.reussoftfrontend.form.OperationDispatch;
+import com.cecilsoftwares.reussoftmiddleend.model.Dispatch;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -12,29 +12,30 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author Plamedi L. Lusembo
  */
-public class ConsultationProduit extends javax.swing.JDialog {
+public class ConsultationDispatch extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
-    private Produit produit;
-    private final List<Produit> produits;
+
+    private Dispatch dispatch;
+    private final List<Dispatch> dispatchs;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
     /**
      * @param parent
      * @param modal
-     * @param produits
+     * @param dispatchs
      */
-    public ConsultationProduit(java.awt.Frame parent, boolean modal, List<Produit> produits) {
+    public ConsultationDispatch(java.awt.Frame parent, boolean modal, List<Dispatch> dispatchs) {
         super(parent, modal);
         initComponents();
         enFermantDialog();
 
-        defaultTableModel = (DefaultTableModel) tblProduit.getModel();
+        defaultTableModel = (DefaultTableModel) tblDispatch.getModel();
         dataRows = new Object[2];
 
-        this.produits = produits;
-        listerProduits(this.produits);
+        this.dispatchs = dispatchs;
+        listerMouvementsStock(this.dispatchs);
 
     }
 
@@ -42,52 +43,60 @@ public class ConsultationProduit extends javax.swing.JDialog {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                if (frameAncetre instanceof RegistreProduit) {
-                    RegistreProduit registreProduit = (RegistreProduit) frameAncetre;
-                    registreProduit.produitSelectionne(produit);
+                if (frameAncetre instanceof OperationDispatch) {
+                    OperationDispatch operationDispatch = (OperationDispatch) frameAncetre;
+                    operationDispatch.dispatchSelectionne(dispatch);
                 }
             }
         });
     }
 
-    private void listerProduits(List<Produit> produits) {
+    private void listerMouvementsStock(List<Dispatch> mouvementsStock) {
         defaultTableModel.setRowCount(0);
-        produits.forEach(p -> {
-            dataRows[0] = p.getCode();
-            dataRows[1] = p.getDescription();
+        mouvementsStock.forEach(ms -> {
+            dataRows[0] = ms.getCode();
+            dataRows[1] = ms.getDateHeure();
             defaultTableModel.addRow(dataRows);
         });
 
-        String formeNombre = produits.size() > 1 ? "Shops" : "Shop";
-        lblNombreProduit.setText(produits.size() + " " + formeNombre);
+        String formeNombre = mouvementsStock.size() > 1 ? "Dispatchs" : "Dispatch";
+        lblNombreDispatch.setText(mouvementsStock.size() + " " + formeNombre);
+    }
+
+    public JInternalFrame getFrameAncetre() {
+        return frameAncetre;
+    }
+
+    public void setFrameAncetre(JInternalFrame frameAncetre) {
+        this.frameAncetre = frameAncetre;
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tfdRechercheDescriptionProduit = new javax.swing.JTextField();
+        tfdRechercheDateDispatch = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblProduit = new javax.swing.JTable();
-        lblNombreProduit = new javax.swing.JLabel();
+        tblDispatch = new javax.swing.JTable();
+        lblNombreDispatch = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Produits");
+        setTitle("Entrées stock");
         setResizable(false);
 
-        tfdRechercheDescriptionProduit.addKeyListener(new java.awt.event.KeyAdapter() {
+        tfdRechercheDateDispatch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfdRechercheDescriptionProduitKeyReleased(evt);
+                tfdRechercheDateDispatchKeyReleased(evt);
             }
         });
 
-        tblProduit.setModel(new javax.swing.table.DefaultTableModel(
+        tblDispatch.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Code", "Description"
+                "Code", "Date/Heure"
             }
         ) {
             Class[] types = new Class [] {
@@ -105,21 +114,20 @@ public class ConsultationProduit extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tblProduit.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblDispatch.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblProduitMouseClicked(evt);
+                tblDispatchMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tblProduit);
-        if (tblProduit.getColumnModel().getColumnCount() > 0) {
-            tblProduit.getColumnModel().getColumn(0).setResizable(false);
-            tblProduit.getColumnModel().getColumn(1).setResizable(false);
-            tblProduit.getColumnModel().getColumn(1).setPreferredWidth(300);
+        jScrollPane2.setViewportView(tblDispatch);
+        if (tblDispatch.getColumnModel().getColumnCount() > 0) {
+            tblDispatch.getColumnModel().getColumn(0).setResizable(false);
+            tblDispatch.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        lblNombreProduit.setText("jLabel1");
+        lblNombreDispatch.setText("jLabel1");
 
-        jLabel1.setText("Nom");
+        jLabel1.setText("Date:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,23 +137,23 @@ public class ConsultationProduit extends javax.swing.JDialog {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(lblNombreProduit)
+                    .addComponent(lblNombreDispatch)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(tfdRechercheDescriptionProduit)
+                        .addComponent(tfdRechercheDateDispatch)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdRechercheDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfdRechercheDateDispatch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNombreProduit)
+                .addComponent(lblNombreDispatch)
                 .addContainerGap())
         );
 
@@ -153,45 +161,35 @@ public class ConsultationProduit extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblProduitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProduitMouseClicked
+    private void tblDispatchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDispatchMouseClicked
         if (evt.getClickCount() == 2) {
             if (frameAncetre != null) {
-                int row = tblProduit.getSelectedRow();
+                int row = tblDispatch.getSelectedRow();
 
-                produit = produits.stream()
+                dispatch = dispatchs.stream()
                         .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
                         .findFirst().orElse(null);
             }
             dispose();
-
         }
-    }//GEN-LAST:event_tblProduitMouseClicked
+    }//GEN-LAST:event_tblDispatchMouseClicked
 
-    private void tfdRechercheDescriptionProduitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDescriptionProduitKeyReleased
-        List<Produit> listeProduits = new ArrayList();
+    private void tfdRechercheDateDispatchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDateDispatchKeyReleased
+        List<Dispatch> listeMouvementsStock = new ArrayList();
 
-        produits.stream().filter((cp) -> (cp.getDescription().toUpperCase()
-                .startsWith(tfdRechercheDescriptionProduit.getText().toUpperCase())))
-                .forEachOrdered((cp) -> {
-                    listeProduits.add(cp);
+        dispatchs.stream().filter((ms) -> (ms.getDateHeure().equals(tfdRechercheDateDispatch.getText().toUpperCase())))
+                .forEachOrdered((ms) -> {
+                    listeMouvementsStock.add(ms);
                 });
 
-        listerProduits(listeProduits);
-    }//GEN-LAST:event_tfdRechercheDescriptionProduitKeyReleased
-
-    public JInternalFrame getFrameAncetre() {
-        return frameAncetre;
-    }
-
-    public void setFrameAncetre(JInternalFrame frameAncetre) {
-        this.frameAncetre = frameAncetre;
-    }
+        listerMouvementsStock(listeMouvementsStock);
+    }//GEN-LAST:event_tfdRechercheDateDispatchKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblNombreProduit;
-    private javax.swing.JTable tblProduit;
-    private javax.swing.JTextField tfdRechercheDescriptionProduit;
+    private javax.swing.JLabel lblNombreDispatch;
+    private javax.swing.JTable tblDispatch;
+    private javax.swing.JTextField tfdRechercheDateDispatch;
     // End of variables declaration//GEN-END:variables
 }

@@ -231,37 +231,36 @@ public class RegistreShop extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (!isInformationObligatoiresRemplies()) {
-            return;
-        }
+        if (isInformationObligatoiresRemplies()) {
 
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
 
-        String adresse = new StringBuilder(tfdAvenue.getText())
-                .append("@").append(tfdNumero.getText())
-                .append("@").append(tfdQuartier.getText())
-                .append("@").append(tfdCommune.getText())
-                .append("@").append(cbxProvince.getSelectedItem().toString())
-                .append("@").append(tfdDistrict.getText())
-                .toString();
-        Shop shop = new ShopBuilder(codeShop)
-                .nom(tfdNom.getText())
-                .adresse(adresse)
-                .active(modeEdition ? chbActiver.isSelected() : true)
-                .build();
+            String adresse = new StringBuilder(tfdAvenue.getText())
+                    .append("@").append(tfdNumero.getText())
+                    .append("@").append(tfdQuartier.getText())
+                    .append("@").append(tfdCommune.getText())
+                    .append("@").append(cbxProvince.getSelectedItem().toString())
+                    .append("@").append(tfdDistrict.getText())
+                    .toString();
+            Shop shop = new ShopBuilder(codeShop)
+                    .nom(tfdNom.getText())
+                    .adresse(adresse)
+                    .active(modeEdition ? chbActiver.isSelected() : true)
+                    .build();
 
-        try {
-            if (ShopService.getInstance().enregistrerShop(shop)) {
-                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+            try {
+                if (ShopService.getInstance().enregistrerShop(shop)) {
+                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, notification);
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le nouveau Shop");
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le nouveau Shop");
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            setCursor(Cursor.getDefaultCursor());
         }
-        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed

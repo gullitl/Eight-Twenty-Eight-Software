@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
+import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCollaborateur;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
@@ -255,55 +256,54 @@ public class RegistreCollaborateur extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (!isInformationObligatoiresRemplies()) {
-            return;
-        }
+        if (isInformationObligatoiresRemplies()) {
 
-        if (!isMotdePasseConfirme()) {
-            return;
-        }
+            if (!isMotdePasseConfirme()) {
+                return;
+            }
 
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
 
-        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(Integer.parseInt(tfdIdProfilUtilisateur.getText())).build();
-        Collaborateur collaborateur = new CollaborateurBuilder(codeCollaborateur)
-                .prenom(tfdPrenom.getText())
-                .nom(tfdNom.getText())
-                .postnom(tfdPostnom.getText())
-                .surnom(tfdSurnom.getText())
-                .nomUtilisateur(tfdNomUtilisateur.getText())
-                .motDePasse(pwfMotDePasse.getText())
-                .profilUtilisateur(profilUtilisateur)
-                .active(modeEdition ? chbActiver.isSelected() : true)
-                .build();
-        try {
-            if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
-                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                effacerFormulaire();
+            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(Integer.parseInt(tfdIdProfilUtilisateur.getText())).build();
+            Collaborateur collaborateur = new CollaborateurBuilder(codeCollaborateur)
+                    .prenom(tfdPrenom.getText())
+                    .nom(tfdNom.getText())
+                    .postnom(tfdPostnom.getText())
+                    .surnom(tfdSurnom.getText())
+                    .nomUtilisateur(tfdNomUtilisateur.getText())
+                    .motDePasse(pwfMotDePasse.getText())
+                    .profilUtilisateur(profilUtilisateur)
+                    .active(modeEdition ? chbActiver.isSelected() : true)
+                    .build();
+            try {
+                if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
+                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, notification);
+                }
+            } catch (SQLException ex) {
+                StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");
+                switch (ex.getErrorCode()) {
+                    case 1062:
+                        notification.append("\n\nLe nom d'utilisateur de ce collaborateur est déjà utilisé!");
+                        tfdNomUtilisateur.selectAll();
+                        break;
+                    default:
+                        break;
+                }
                 JOptionPane.showMessageDialog(null, notification);
+                habiliterComposantFormulaire(true);
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le collaborateur :(");
+                habiliterComposantFormulaire(true);
+            } finally {
+                setCursor(Cursor.getDefaultCursor());
             }
-        } catch (SQLException ex) {
-            StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");
-            switch (ex.getErrorCode()) {
-                case 1062:
-                    notification.append("\n\nLe nom d'utilisateur de ce collaborateur est déjà utilisé!");
-                    tfdNomUtilisateur.selectAll();
-                    break;
-                default:
-                    break;
-            }
-            JOptionPane.showMessageDialog(null, notification);
-            habiliterComposantFormulaire(true);
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le collaborateur :(");
-            habiliterComposantFormulaire(true);
-        } finally {
+
             setCursor(Cursor.getDefaultCursor());
         }
-
-        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterCollaborateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCollaborateurActionPerformed
@@ -311,9 +311,14 @@ public class RegistreCollaborateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ConsultationCollaborateur consultationCollaborateur = new ConsultationCollaborateur(null, true);
-            consultationCollaborateur.setFrameAncetre(this);
-            consultationCollaborateur.setVisible(true);
+            try {
+                ConsultationCollaborateur consultationCollaborateur = new ConsultationCollaborateur(null, true, CollaborateurService.getInstance()
+                        .listerTousLesCollaborateurs());
+                consultationCollaborateur.setFrameAncetre(this);
+                consultationCollaborateur.setVisible(true);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(RegistreCollaborateur.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
@@ -346,9 +351,14 @@ public class RegistreCollaborateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true);
-            consultationProfilUtilisateur.setFrameAncetre(this);
-            consultationProfilUtilisateur.setVisible(true);
+            try {
+                ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true, ProfilUtilisateurService.getInstance()
+                        .listerTousLesProfilUtilisateurs());
+                consultationProfilUtilisateur.setFrameAncetre(this);
+                consultationProfilUtilisateur.setVisible(true);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(RegistreCollaborateur.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());

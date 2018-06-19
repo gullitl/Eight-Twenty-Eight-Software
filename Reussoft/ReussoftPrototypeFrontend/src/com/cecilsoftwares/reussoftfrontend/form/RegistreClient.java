@@ -165,46 +165,51 @@ public class RegistreClient extends JInternalFrame {
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
+        if (isInformationObligatoiresRemplies()) {
 
-        if (!isInformationObligatoiresRemplies()) {
-            return;
-        }
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
 
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
+            Client client = new ClientBuilder(codeClient)
+                    .entreprise(tfdEntreprise.getText())
+                    .nom(tfdNom.getText())
+                    .telephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""))
+                    .shop(new ShopBuilder(2).build())
+                    .observation(txaObservation.getText())
+                    .build();
 
-        Client client = new ClientBuilder(codeClient)
-                .entreprise(tfdEntreprise.getText())
-                .nom(tfdNom.getText())
-                .telephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""))
-                .shop(new ShopBuilder(2).build())
-                .observation(txaObservation.getText())
-                .build();
-
-        try {
-            if (ClientService.getInstance().enregistrerClient(client)) {
-                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+            try {
+                if (ClientService.getInstance().enregistrerClient(client)) {
+                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, notification);
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Client");
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Client");
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            setCursor(Cursor.getDefaultCursor());
         }
-        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterClientActionPerformed
-        if (!btnConsulterClientClickable) {
-            return;
+        if (btnConsulterClientClickable) {
+
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
+
+            try {
+                ConsultationClient consultationClient = new ConsultationClient(null, true, ClientService.getInstance()
+                        .listerTousLesClients());
+                consultationClient.setFrameAncetre(this);
+                consultationClient.setVisible(true);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(ConsultationClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            habiliterComposantFormulaire(true);
+            setCursor(Cursor.getDefaultCursor());
         }
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
-
-        consulterClient();
-
-        habiliterComposantFormulaire(true);
-        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterClientActionPerformed
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
@@ -247,25 +252,22 @@ public class RegistreClient extends JInternalFrame {
     }//GEN-LAST:event_btnExclureActionPerformed
 
     private void consulterClient() {
-        ConsultationClient consultationClient = new ConsultationClient(null, true);
-        consultationClient.setFrameAncetre(this);
-        consultationClient.setVisible(true);
+
     }
 
     public void clientSelectionne(Client client) {
-        if (client == null) {
-            return;
+        if (client != null) {
+
+            modeEdition = true;
+            btnExclure.setEnabled(true);
+
+            codeClient = client.getCode();
+            tfdNom.setText(client.getNom());
+            tfdEntreprise.setText(client.getEntreprise());
+            tfdTelephone.setText(client.getTelephone());
+            txaObservation.setText(client.getObservation());
+            btnEnregistrer.setText("ACTUALISER");
         }
-
-        modeEdition = true;
-        btnExclure.setEnabled(true);
-
-        codeClient = client.getCode();
-        tfdNom.setText(client.getNom());
-        tfdEntreprise.setText(client.getEntreprise());
-        tfdTelephone.setText(client.getTelephone());
-        txaObservation.setText(client.getObservation());
-        btnEnregistrer.setText("ACTUALISER");
     }
 
     private void effacerFormulaire() {

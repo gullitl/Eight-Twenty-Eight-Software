@@ -1,15 +1,12 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
+import com.cecilsoftwares.reussoftfrontend.form.OperationEntreeStock;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreFournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,15 +17,16 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
     private Fournisseur fournisseur;
-    private List<Fournisseur> fournisseurs;
+    private final List<Fournisseur> fournisseurs;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
     /**
      * @param parent
      * @param modal
+     * @param fournisseurs
      */
-    public ConsultationFournisseur(java.awt.Frame parent, boolean modal) {
+    public ConsultationFournisseur(java.awt.Frame parent, boolean modal, List<Fournisseur> fournisseurs) {
         super(parent, modal);
         initComponents();
         enFermantDialog();
@@ -36,7 +34,8 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
         defaultTableModel = (DefaultTableModel) tblFournisseur.getModel();
         dataRows = new Object[3];
 
-        chargementShops();
+        this.fournisseurs = fournisseurs;
+        listerFournisseur(this.fournisseurs);
 
     }
 
@@ -47,18 +46,12 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
                 if (frameAncetre instanceof RegistreFournisseur) {
                     RegistreFournisseur registreFournisseur = (RegistreFournisseur) frameAncetre;
                     registreFournisseur.fournisseurSelectionne(fournisseur);
+                } else if (frameAncetre instanceof OperationEntreeStock) {
+                    OperationEntreeStock operationEntreeStock = (OperationEntreeStock) frameAncetre;
+                    operationEntreeStock.fournisseurSelectionne(fournisseur);
                 }
             }
         });
-    }
-
-    private void chargementShops() {
-        try {
-            fournisseurs = FournisseurService.getInstance().listerTousLesFournisseurs();
-            listerFournisseur(fournisseurs);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void listerFournisseur(List<Fournisseur> fournisseurs) {

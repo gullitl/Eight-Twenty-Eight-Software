@@ -1,16 +1,12 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,15 +17,16 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
     private ProfilUtilisateur profilUtilisateur;
-    private List<ProfilUtilisateur> profilsUtilisateur;
+    private final List<ProfilUtilisateur> profilsUtilisateur;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
     /**
      * @param parent
      * @param modal
+     * @param profilsUtilisateur
      */
-    public ConsultationProfilUtilisateur(java.awt.Frame parent, boolean modal) {
+    public ConsultationProfilUtilisateur(java.awt.Frame parent, boolean modal, List<ProfilUtilisateur> profilsUtilisateur) {
         super(parent, modal);
         initComponents();
         enFermantDialog();
@@ -37,7 +34,9 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
         defaultTableModel = (DefaultTableModel) tblProfilUtilisateur.getModel();
         dataRows = new Object[2];
 
-        chargementProfilsUtilisateur();
+        this.profilsUtilisateur = profilsUtilisateur;
+        listerProfilsUtilisateur(this.profilsUtilisateur);
+
     }
 
     private void enFermantDialog() {
@@ -53,15 +52,6 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
                 }
             }
         });
-    }
-
-    private void chargementProfilsUtilisateur() {
-        try {
-            profilsUtilisateur = ProfilUtilisateurService.getInstance().listerTousLesProfilUtilisateurs();
-            listerProfilsUtilisateur(profilsUtilisateur);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void listerProfilsUtilisateur(List<ProfilUtilisateur> profilsUtilisateur) {

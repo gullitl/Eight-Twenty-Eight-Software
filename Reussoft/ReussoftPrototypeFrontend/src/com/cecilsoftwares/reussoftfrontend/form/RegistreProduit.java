@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
+import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
 import com.cecilsoftwares.reussoftbackend.service.ReseauService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
@@ -248,36 +249,35 @@ public class RegistreProduit extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (!isInformationObligatoiresRemplies()) {
-            return;
-        }
+        if (isInformationObligatoiresRemplies()) {
 
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
 
-        Reseau reseau = new ReseauBuilder(Integer.parseInt(tfdIdReseau.getText())).build();
-        CategorieProduit categorieProduit = new CategorieProduitBuilder(Integer.parseInt(tfdIdCategorieProduit.getText())).build();
+            Reseau reseau = new ReseauBuilder(Integer.parseInt(tfdIdReseau.getText())).build();
+            CategorieProduit categorieProduit = new CategorieProduitBuilder(Integer.parseInt(tfdIdCategorieProduit.getText())).build();
 
-        Produit produit = new ProduitBuilder(codeProduit)
-                .description(tfdDescription.getText())
-                .reseau(reseau)
-                .categorieProduit(categorieProduit)
-                .prixAchatFC(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatFC.getText()))
-                .prixAchatUSD(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatUSD.getText()))
-                .observation(txaObservation.getText())
-                .active(modeEdition ? chbActiver.isSelected() : true)
-                .build();
+            Produit produit = new ProduitBuilder(codeProduit)
+                    .description(tfdDescription.getText())
+                    .reseau(reseau)
+                    .categorieProduit(categorieProduit)
+                    .prixAchatFC(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatFC.getText()))
+                    .prixAchatUSD(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatUSD.getText()))
+                    .observation(txaObservation.getText())
+                    .active(modeEdition ? chbActiver.isSelected() : true)
+                    .build();
 
-        try {
-            if (ProduitService.getInstance().enregistrerProduit(produit)) {
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+            try {
+                if (ProduitService.getInstance().enregistrerProduit(produit)) {
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Produit");
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Produit");
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            setCursor(Cursor.getDefaultCursor());
         }
-        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProduitActionPerformed
@@ -286,9 +286,16 @@ public class RegistreProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ConsultationProduit consultationProduit = new ConsultationProduit(null, true);
-            consultationProduit.setFrameAncetre(this);
-            consultationProduit.setVisible(true);
+            try {
+
+                ConsultationProduit consultationProduit = new ConsultationProduit(null, true, ProduitService.getInstance()
+                        .listerTousLesProduits());
+                consultationProduit.setFrameAncetre(this);
+                consultationProduit.setVisible(true);
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(ConsultationProduit.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
@@ -320,10 +327,14 @@ public class RegistreProduit extends JInternalFrame {
 
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
-
-            ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true);
-            consultationCategorieProduit.setFrameAncetre(this);
-            consultationCategorieProduit.setVisible(true);
+            try {
+                ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true, CategorieProduitService.getInstance()
+                        .listerTousLesCategorieProduits());
+                consultationCategorieProduit.setFrameAncetre(this);
+                consultationCategorieProduit.setVisible(true);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());

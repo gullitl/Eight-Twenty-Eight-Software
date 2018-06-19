@@ -149,30 +149,29 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (!isInformationObligatoiresRemplies()) {
-            return;
-        }
+        if (isInformationObligatoiresRemplies()) {
 
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
 
-        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(codeProfilUtilisateur)
-                .description(tfdDescription.getText())
-                .descriptionAbregee(tfdDescriptionAbregee.getText())
-                .observation(txaObservation.getText())
-                .build();
+            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(codeProfilUtilisateur)
+                    .description(tfdDescription.getText())
+                    .descriptionAbregee(tfdDescriptionAbregee.getText())
+                    .observation(txaObservation.getText())
+                    .build();
 
-        try {
-            if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {
-                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+            try {
+                if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {
+                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, notification);
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            setCursor(Cursor.getDefaultCursor());
         }
-        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterProfilUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProfilUtilisateurActionPerformed
@@ -180,10 +179,14 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
-
-            ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true);
-            consultationProfilUtilisateur.setFrameAncetre(this);
-            consultationProfilUtilisateur.setVisible(true);
+            try {
+                ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true, ProfilUtilisateurService.getInstance()
+                        .listerTousLesProfilUtilisateurs());
+                consultationProfilUtilisateur.setFrameAncetre(this);
+                consultationProfilUtilisateur.setVisible(true);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(RegistreProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());

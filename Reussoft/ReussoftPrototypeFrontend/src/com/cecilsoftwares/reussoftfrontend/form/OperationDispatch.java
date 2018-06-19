@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
+import com.cecilsoftwares.reussoftmiddleend.model.Dispatch;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import javax.swing.JInternalFrame;
 
@@ -331,6 +332,10 @@ public class OperationDispatch extends JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void dispatchSelectionne(Dispatch dispatch) {
+
+    }
 
     private void effacerFormulaire() {
         tfdCode.setText("");

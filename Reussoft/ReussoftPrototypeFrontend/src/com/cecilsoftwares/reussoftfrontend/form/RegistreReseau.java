@@ -154,32 +154,31 @@ public class RegistreReseau extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (!isInformationObligatoiresRemplies()) {
-            return;
-        }
+        if (isInformationObligatoiresRemplies()) {
 
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        habiliterComposantFormulaire(false);
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
 
-        Reseau reseau = new ReseauBuilder(codeReseau)
-                .nom(tfdNom.getText())
-                .nomAbrege(tfdNomAbrege.getText())
-                .observation(txaObservation.getText())
-                .active(modeEdition ? chbActiver.isSelected() : true)
-                .build();
+            Reseau reseau = new ReseauBuilder(codeReseau)
+                    .nom(tfdNom.getText())
+                    .nomAbrege(tfdNomAbrege.getText())
+                    .observation(txaObservation.getText())
+                    .active(modeEdition ? chbActiver.isSelected() : true)
+                    .build();
 
-        try {
-            if (ReseauService.getInstance().enregistrerReseau(reseau)) {
-                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, notification);
+            try {
+                if (ReseauService.getInstance().enregistrerReseau(reseau)) {
+                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, notification);
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Reseau");
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Reseau");
-            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        setCursor(Cursor.getDefaultCursor());
+            setCursor(Cursor.getDefaultCursor());
+        }
 
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 

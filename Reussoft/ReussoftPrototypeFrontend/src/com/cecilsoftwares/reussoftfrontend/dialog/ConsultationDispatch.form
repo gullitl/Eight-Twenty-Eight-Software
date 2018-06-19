@@ -29,9 +29,9 @@
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblNombreEntreeStock" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblNombreDispatch" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="tfdRechercheDateMouvementStock" max="32767" attributes="0"/>
+                      <Component id="tfdRechercheDateDispatch" max="32767" attributes="0"/>
                       <Component id="jScrollPane2" alignment="0" min="-2" pref="460" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -45,20 +45,20 @@
               <EmptySpace pref="21" max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="tfdRechercheDateMouvementStock" min="-2" max="-2" attributes="0"/>
+              <Component id="tfdRechercheDateDispatch" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblNombreEntreeStock" min="-2" max="-2" attributes="0"/>
+              <Component id="lblNombreDispatch" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="tfdRechercheDateMouvementStock">
+    <Component class="javax.swing.JTextField" name="tfdRechercheDateDispatch">
       <Events>
-        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfdRechercheDateMouvementStockKeyReleased"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfdRechercheDateDispatchKeyReleased"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -68,7 +68,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tblMouvementStock">
+        <Component class="javax.swing.JTable" name="tblDispatch">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="2" rowCount="0">
@@ -95,12 +95,12 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblMouvementStockMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblDispatchMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblNombreEntreeStock">
+    <Component class="javax.swing.JLabel" name="lblNombreDispatch">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>

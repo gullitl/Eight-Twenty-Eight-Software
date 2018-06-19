@@ -6,22 +6,20 @@ import java.util.Date;
 /**
  * @author Plamedi L. Lusembo
  */
-public class PrixVenteProduit {
+public class PrixAchatProduit {
 
     private final int code;
     private final Produit produit;
-    private final Shop shop;
     private final BigDecimal prixUSD;
     private final BigDecimal prixFC;
     private final Date dateHeure;
 
-    public PrixVenteProduit(PrixVenteProduitBuilder prixVenteProduitBuilder) {
-        code = prixVenteProduitBuilder.code;
-        produit = prixVenteProduitBuilder.produit;
-        shop = prixVenteProduitBuilder.shop;
-        prixUSD = prixVenteProduitBuilder.prixUSD;
-        prixFC = prixVenteProduitBuilder.prixFC;
-        dateHeure = prixVenteProduitBuilder.dateHeure;
+    public PrixAchatProduit(PrixAchatProduitBuilder prixAchatProduitBuilder) {
+        code = prixAchatProduitBuilder.code;
+        produit = prixAchatProduitBuilder.produit;
+        prixUSD = prixAchatProduitBuilder.prixUSD;
+        prixFC = prixAchatProduitBuilder.prixFC;
+        dateHeure = prixAchatProduitBuilder.dateHeure;
     }
 
     public int getCode() {
@@ -30,10 +28,6 @@ public class PrixVenteProduit {
 
     public Produit getProduit() {
         return produit;
-    }
-
-    public Shop getShop() {
-        return shop;
     }
 
     public BigDecimal getPrixUSD() {
@@ -48,46 +42,40 @@ public class PrixVenteProduit {
         return dateHeure;
     }
 
-    public static class PrixVenteProduitBuilder {
+    public static class PrixAchatProduitBuilder {
 
         private int code;
         private Produit produit;
-        private Shop shop;
         private BigDecimal prixUSD;
         private BigDecimal prixFC;
         private Date dateHeure;
 
-        public PrixVenteProduitBuilder(int code) {
+        public PrixAchatProduitBuilder(int code) {
             this.code = code;
         }
 
-        public PrixVenteProduitBuilder produit(Produit produit) {
+        public PrixAchatProduitBuilder produit(Produit produit) {
             this.produit = produit;
             return this;
         }
 
-        public PrixVenteProduitBuilder shop(Shop shop) {
-            this.shop = shop;
-            return this;
-        }
-
-        public PrixVenteProduitBuilder prixUSD(BigDecimal prixUSD) {
+        public PrixAchatProduitBuilder prixUSD(BigDecimal prixUSD) {
             this.prixUSD = prixUSD;
             return this;
         }
 
-        public PrixVenteProduitBuilder prixFC(BigDecimal prixFC) {
+        public PrixAchatProduitBuilder prixFC(BigDecimal prixFC) {
             this.prixFC = prixFC;
             return this;
         }
 
-        public PrixVenteProduitBuilder dateHeure(Date dateHeure) {
+        public PrixAchatProduitBuilder dateHeure(Date dateHeure) {
             this.dateHeure = dateHeure;
             return this;
         }
 
-        public PrixVenteProduit build() {
-            return new PrixVenteProduit(this);
+        public PrixAchatProduit build() {
+            return new PrixAchatProduit(this);
         }
 
     }

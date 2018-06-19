@@ -34,8 +34,4 @@ public class PrixVenteProduitService {
         return PrixVenteProduitDao.getInstance().enregistrerPrixVenteProduit(prixVenteProduit);
     }
 
-    public boolean actualiserPrixVenteProduit(PrixVenteProduit prixVenteProduit) throws ClassNotFoundException, SQLException {
-        return PrixVenteProduitDao.getInstance().actualiserPrixVenteProduit(prixVenteProduit);
-    }
-
 }

@@ -1,16 +1,12 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCategorieProduit;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,15 +17,16 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
     private CategorieProduit categorieProduit;
-    private List<CategorieProduit> categoriesProduits;
+    private final List<CategorieProduit> categoriesProduits;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
     /**
      * @param parent
      * @param modal
+     * @param categoriesProduits
      */
-    public ConsultationCategorieProduit(java.awt.Frame parent, boolean modal) {
+    public ConsultationCategorieProduit(java.awt.Frame parent, boolean modal, List<CategorieProduit> categoriesProduits) {
         super(parent, modal);
         initComponents();
         enFermantDialog();
@@ -37,7 +34,9 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         defaultTableModel = (DefaultTableModel) tblCategorieProduit.getModel();
         dataRows = new Object[3];
 
-        chargementCategoriesProduit();
+        this.categoriesProduits = categoriesProduits;
+        listerCategoriesProduit(this.categoriesProduits);
+
     }
 
     private void enFermantDialog() {
@@ -53,15 +52,6 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
                 }
             }
         });
-    }
-
-    private void chargementCategoriesProduit() {
-        try {
-            categoriesProduits = CategorieProduitService.getInstance().listerTousLesCategorieProduits();
-            listerCategoriesProduit(categoriesProduits);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void listerCategoriesProduit(List<CategorieProduit> categoriesProduits) {

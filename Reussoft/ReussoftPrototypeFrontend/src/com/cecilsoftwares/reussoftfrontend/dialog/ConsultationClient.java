@@ -1,15 +1,11 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftbackend.service.ClientService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreClient;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,15 +16,16 @@ public class ConsultationClient extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
     private Client client;
-    private List<Client> clients;
+    private final List<Client> clients;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
     /**
      * @param parent
      * @param modal
+     * @param clients
      */
-    public ConsultationClient(java.awt.Frame parent, boolean modal) {
+    public ConsultationClient(java.awt.Frame parent, boolean modal, List<Client> clients) {
         super(parent, modal);
         initComponents();
         enFermantDialog();
@@ -36,7 +33,8 @@ public class ConsultationClient extends javax.swing.JDialog {
         defaultTableModel = (DefaultTableModel) tblClient.getModel();
         dataRows = new Object[2];
 
-        chargementProduits();
+        this.clients = clients;
+        listerClients(this.clients);
 
     }
 
@@ -50,15 +48,6 @@ public class ConsultationClient extends javax.swing.JDialog {
                 }
             }
         });
-    }
-
-    private void chargementProduits() {
-        try {
-            clients = ClientService.getInstance().listerTousLesClients();
-            listerClients(clients);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void listerClients(List<Client> clients) {

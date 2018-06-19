@@ -1,15 +1,11 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,15 +16,16 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
 
     private JInternalFrame frameAncetre;
     private Collaborateur collaborateur;
-    private List<Collaborateur> collaborateurs;
+    private final List<Collaborateur> collaborateurs;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
     /**
      * @param parent
      * @param modal
+     * @param collaborateurs
      */
-    public ConsultationCollaborateur(java.awt.Frame parent, boolean modal) {
+    public ConsultationCollaborateur(java.awt.Frame parent, boolean modal, List<Collaborateur> collaborateurs) {
         super(parent, modal);
         initComponents();
         enFermantDialog();
@@ -36,7 +33,8 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
         defaultTableModel = (DefaultTableModel) tblCollaborateur.getModel();
         dataRows = new Object[2];
 
-        chargementCollaborateurs();
+        this.collaborateurs = collaborateurs;
+        listerCollaborateurs(this.collaborateurs);
 
     }
 
@@ -50,15 +48,6 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
                 }
             }
         });
-    }
-
-    private void chargementCollaborateurs() {
-        try {
-            collaborateurs = CollaborateurService.getInstance().listerTousLesCollaborateurs();
-            listerCollaborateurs(collaborateurs);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConsultationCollaborateur.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void listerCollaborateurs(List<Collaborateur> collaborateurs) {
