@@ -9,15 +9,11 @@ public class ItemEntreeStock {
 
     private final EntreeStock entreeStock;
     private final Produit produit;
-    private final BigDecimal prixAchatUSD;
-    private final BigDecimal prixAchatFC;
     private final BigDecimal quantiteProduit;
 
     public ItemEntreeStock(ItemEntreeStockBuilder itemEntreeStockBuilder) {
         entreeStock = itemEntreeStockBuilder.entreeStock;
         produit = itemEntreeStockBuilder.produit;
-        prixAchatUSD = itemEntreeStockBuilder.prixAchatUSD;
-        prixAchatFC = itemEntreeStockBuilder.prixAchatFC;
         quantiteProduit = itemEntreeStockBuilder.quantiteProduit;
     }
 
@@ -29,14 +25,6 @@ public class ItemEntreeStock {
         return produit;
     }
 
-    public BigDecimal getPrixAchatUSD() {
-        return prixAchatUSD;
-    }
-
-    public BigDecimal getPrixAchatFC() {
-        return prixAchatFC;
-    }
-
     public BigDecimal getQuantiteProduit() {
         return quantiteProduit;
     }
@@ -45,23 +33,11 @@ public class ItemEntreeStock {
 
         private EntreeStock entreeStock;
         private Produit produit;
-        private BigDecimal prixAchatUSD;
-        private BigDecimal prixAchatFC;
         private BigDecimal quantiteProduit;
 
         public ItemEntreeStockBuilder(EntreeStock entreeStock, Produit produit) {
             this.entreeStock = entreeStock;
             this.produit = produit;
-        }
-
-        public ItemEntreeStockBuilder prixAchatUSD(BigDecimal prixAchatUSD) {
-            this.prixAchatUSD = prixAchatUSD;
-            return this;
-        }
-
-        public ItemEntreeStockBuilder prixAchatFC(BigDecimal prixAchatFC) {
-            this.prixAchatFC = prixAchatFC;
-            return this;
         }
 
         public ItemEntreeStockBuilder quantiteProduit(BigDecimal quantiteProduit) {

@@ -45,7 +45,7 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
             public void windowClosed(WindowEvent e) {
                 if (frameAncetre instanceof OperationEntreeStock) {
                     OperationEntreeStock operationEntreeStock = (OperationEntreeStock) frameAncetre;
-                    operationEntreeStock.mouvementStockSelectionne(entreeStock);
+                    operationEntreeStock.entreeStockSelectionne(entreeStock);
                 }
             }
         });

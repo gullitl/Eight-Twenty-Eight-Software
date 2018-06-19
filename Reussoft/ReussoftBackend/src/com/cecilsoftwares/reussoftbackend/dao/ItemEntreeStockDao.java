@@ -44,7 +44,7 @@ public class ItemEntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.prixAchatUSD, itementreestock.prixAchatFC, itementreestock.quantiteProduit,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
             scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
@@ -81,8 +81,6 @@ public class ItemEntreeStockDao {
                             .build();
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .prixAchatUSD(new BigDecimal(res.getString(1)))
-                            .prixAchatFC(new BigDecimal(res.getString(2)))
                             .quantiteProduit(new BigDecimal(res.getString(3)))
                             .build();
 
@@ -104,7 +102,7 @@ public class ItemEntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.prixAchatUSD, itementreestock.prixAchatFC, itementreestock.quantiteProduit,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
             scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
@@ -143,8 +141,6 @@ public class ItemEntreeStockDao {
                             .build();
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .prixAchatUSD(new BigDecimal(res.getString(1)))
-                            .prixAchatFC(new BigDecimal(res.getString(2)))
                             .quantiteProduit(new BigDecimal(res.getString(3)))
                             .build();
 
@@ -166,7 +162,7 @@ public class ItemEntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.prixUSD, itementreestock.prixFC, itementreestock.quantiteProduit,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
             scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
@@ -205,8 +201,6 @@ public class ItemEntreeStockDao {
                             .build();
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .prixAchatUSD(new BigDecimal(res.getString(1)))
-                            .prixAchatFC(new BigDecimal(res.getString(2)))
                             .quantiteProduit(new BigDecimal(res.getString(3)))
                             .build();
 
@@ -226,7 +220,7 @@ public class ItemEntreeStockDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.prixUSD, itementreestock.prixFC, itementreestock.quantiteProduit,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
             scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
@@ -266,8 +260,6 @@ public class ItemEntreeStockDao {
                             .build();
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .prixAchatUSD(new BigDecimal(res.getString(1)))
-                            .prixAchatFC(new BigDecimal(res.getString(2)))
                             .quantiteProduit(new BigDecimal(res.getString(3)))
                             .build();
 
@@ -291,15 +283,13 @@ public class ItemEntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("INSERT INTO itementreestock(");
-            scriptSQL.append(" idEntreeStock, idProduit, prixAchatUSD, prixAchatFC, quantiteProduit )");
+            scriptSQL.append(" idEntreeStock, idProduit, quantiteProduit )");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setInt(1, itemEntreeStock.getEntreeStock().getCode());
             prs.setInt(8, itemEntreeStock.getProduit().getCode());
-            prs.setBigDecimal(3, itemEntreeStock.getPrixAchatUSD());
-            prs.setBigDecimal(4, itemEntreeStock.getPrixAchatFC());
             prs.setBigDecimal(5, itemEntreeStock.getQuantiteProduit());
 
             prs.execute();

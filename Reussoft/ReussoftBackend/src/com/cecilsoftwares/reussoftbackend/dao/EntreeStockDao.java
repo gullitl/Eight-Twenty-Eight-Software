@@ -91,7 +91,7 @@ public class EntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeEntreesStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.prixAchatUSD, itementreestock.prixAchatFC, itementreestock.quantiteProduit,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
             scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
@@ -137,9 +137,7 @@ public class EntreeStockDao {
                             .build();
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .prixAchatUSD(new BigDecimal(res.getString(1)))
-                            .prixAchatFC(new BigDecimal(res.getString(2)))
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
+                            .quantiteProduit(new BigDecimal(res.getString(1)))
                             .build();
 
                     if (code == entreeStock.getCode()) {
@@ -177,7 +175,7 @@ public class EntreeStockDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.prixUSD, itementreestock.prixFC, itementreestock.quantiteProduit,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantiteProduit,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
             scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
@@ -221,8 +219,6 @@ public class EntreeStockDao {
                             .build();
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .prixAchatUSD(new BigDecimal(res.getString(1)))
-                            .prixAchatFC(new BigDecimal(res.getString(2)))
                             .quantiteProduit(new BigDecimal(res.getString(3)))
                             .build();
 
