@@ -181,7 +181,7 @@ public class OperationEntreeStock extends JInternalFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -326,8 +326,8 @@ public class OperationEntreeStock extends JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,7 +351,7 @@ public class OperationEntreeStock extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -453,13 +453,18 @@ public class OperationEntreeStock extends JInternalFrame {
 
         itemsEntreeStock.add(itemEntreeStock);
 
-        dataRows[0] = produitSelectionne.getCode();
-        dataRows[1] = itemEntreeStock.getProduit().getDescription();
-        dataRows[2] = itemEntreeStock.getQuantiteProduit();
-        dataRows[3] = new StringBuilder(itemEntreeStock.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
-                .append(itemEntreeStock.getProduit().getPrixAchatFC().toString()).append(" FC");
-        dataRows[4] = produitSelectionne.getDescription();
-        defaultTableModel.addRow(dataRows);
+        defaultTableModel.setRowCount(0);
+
+        itemsEntreeStock.forEach(ies -> {
+            dataRows[0] = ies.getProduit().getCode();
+            dataRows[1] = ies.getProduit().getDescription();
+            dataRows[2] = ies.getQuantiteProduit();
+            dataRows[3] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
+                    .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
+            dataRows[4] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
+                    .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
+            defaultTableModel.addRow(dataRows);
+        });
 
         String formeNombre = itemsEntreeStock.size() > 1 ? "Items" : "Item";
         lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
