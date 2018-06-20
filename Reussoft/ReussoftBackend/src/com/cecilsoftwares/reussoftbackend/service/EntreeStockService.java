@@ -37,4 +37,8 @@ public class EntreeStockService {
     public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
         return EntreeStockDao.getInstance().enregistrerEntreeStock(entreeStock);
     }
+
+    public int selectionnerCodeEntreeStockSubsequente() throws ClassNotFoundException, SQLException {
+        return EntreeStockDao.getInstance().selecionaCodeEntreeStockSubsequente();
+    }
 }

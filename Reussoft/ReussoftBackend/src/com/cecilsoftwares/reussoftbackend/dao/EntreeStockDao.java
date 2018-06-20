@@ -266,4 +266,30 @@ public class EntreeStockDao {
         return true;
     }
 
+    public int selecionaCodeEntreeStockSubsequente() throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("SELECT Max(code)+1 FROM entreestock");
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            res = prs.executeQuery();
+            if (res != null) {
+                if (res.next()) {
+                    int cdSubsequente = res.getInt(1);
+
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
+                    return cdSubsequente;
+                }
+            }
+            prs.close();
+            res.close();
+            conexao.close();
+        }
+        return 0;
+    }
+
 }

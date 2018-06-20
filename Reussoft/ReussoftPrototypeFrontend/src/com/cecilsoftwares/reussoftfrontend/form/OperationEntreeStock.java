@@ -15,6 +15,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import java.awt.Cursor;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -28,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class OperationEntreeStock extends JInternalFrame {
 
-    private int idMouvementStock;
+    private int idEntreeStock;
     private boolean modeEdition;
     private boolean modeEditionFournisseur;
     private boolean btnConsulterMouvementStockClickable;
@@ -38,12 +39,14 @@ public class OperationEntreeStock extends JInternalFrame {
     private boolean btnAnnulerClickable;
 
     private Produit produitSelectionne;
-    private List<ItemEntreeStock> itemsEntreeStock;
+    private final List<ItemEntreeStock> itemsEntreeStock;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
     public OperationEntreeStock() {
         initComponents();
+
+        itemsEntreeStock = new ArrayList();
 
         defaultTableModel = (DefaultTableModel) tblItemsEntreeStock.getModel();
         dataRows = new Object[5];
@@ -440,10 +443,12 @@ public class OperationEntreeStock extends JInternalFrame {
 
     private void btnAjouterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjouterProduitActionPerformed
 
-        EntreeStock entreeStock = new EntreeStockBuilder(Integer.parseInt(tfdIdEntreeStock.getText())).build();
+        int teste = Integer.parseInt(tfdIdEntreeStock.getText());
+
+        EntreeStock entreeStock = new EntreeStockBuilder(teste).build();
 
         ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produitSelectionne)
-                .quantiteProduit(new BigDecimal(""))
+                .quantiteProduit(new BigDecimal("4"))
                 .build();
 
         itemsEntreeStock.add(itemEntreeStock);
@@ -452,7 +457,7 @@ public class OperationEntreeStock extends JInternalFrame {
         dataRows[1] = itemEntreeStock.getProduit().getDescription();
         dataRows[2] = itemEntreeStock.getQuantiteProduit();
         dataRows[3] = new StringBuilder(itemEntreeStock.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
-                .append(itemEntreeStock.getProduit().getPrixAchatFC().toString()).append(" FC").toString();
+                .append(itemEntreeStock.getProduit().getPrixAchatFC().toString()).append(" FC");
         dataRows[4] = produitSelectionne.getDescription();
         defaultTableModel.addRow(dataRows);
 
@@ -572,7 +577,15 @@ public class OperationEntreeStock extends JInternalFrame {
     }
 
     private void effacerFormulaire() {
-        tfdIdEntreeStock.setText("");
+
+        try {
+            tfdIdEntreeStock.setText(String.valueOf(EntreeStockService.getInstance().selectionnerCodeEntreeStockSubsequente()));
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(OperationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(OperationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         tfdIdEntreeStock.requestFocus();
         lblDate.setText("");
         lblTauxcarte.setText("");
