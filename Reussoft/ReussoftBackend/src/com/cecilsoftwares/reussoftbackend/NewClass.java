@@ -5,6 +5,12 @@
  */
 package com.cecilsoftwares.reussoftbackend;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 /**
  *
  * @author Plamedi L. Lusembo
@@ -37,8 +43,15 @@ public class NewClass {
         } else {
             res = var2;
         }
-
         System.out.println(String.format("Résultats: %s (%d)", res, res.length()));
+
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+        scheduler.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+                System.out.println(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+            }
+        }, 1, 1, TimeUnit.SECONDS);
 
     }
 }
