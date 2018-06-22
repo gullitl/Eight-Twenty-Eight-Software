@@ -1,6 +1,11 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import java.awt.Cursor;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
@@ -9,8 +14,18 @@ import javax.swing.event.InternalFrameEvent;
  */
 public class MDI extends javax.swing.JFrame {
 
+    private final ScheduledExecutorService scheduler;
+
     public MDI() {
         initComponents();
+        scheduler = Executors.newScheduledThreadPool(1);
+
+        scheduler.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+                lblDateHeure.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+            }
+        }, 1, 1, TimeUnit.SECONDS);
+
     }
 
     private ConfigurationCompte configurationCompte;
@@ -39,6 +54,8 @@ public class MDI extends javax.swing.JFrame {
     private void initComponents() {
 
         jDesktopPane = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
+        lblDateHeure = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmiConfigurationMonCompte = new javax.swing.JMenuItem();
@@ -69,15 +86,42 @@ public class MDI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Reussoft - Makservices");
 
+        lblDateHeure.setText("jLabel1");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(636, Short.MAX_VALUE)
+                .addComponent(lblDateHeure)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addComponent(lblDateHeure)
+                .addContainerGap())
+        );
+
+        jDesktopPane.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 695, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 491, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPaneLayout.createSequentialGroup()
+                .addContainerGap(454, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jMenu1.setText("Configurations");
@@ -708,6 +752,7 @@ public class MDI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem jmiAideApropos;
     private javax.swing.JMenuItem jmiConfigurationMonCompte;
     private javax.swing.JMenuItem jmiOperationDispatch;
@@ -727,5 +772,6 @@ public class MDI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiRegistreProfilUtilisateur;
     private javax.swing.JMenuItem jmiRegistreReseau;
     private javax.swing.JMenuItem jmiRegistreShop;
+    private javax.swing.JLabel lblDateHeure;
     // End of variables declaration//GEN-END:variables
 }
