@@ -1,7 +1,6 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit.CategorieProduitBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,10 +42,9 @@ public class CategorieProduitDao {
             if (res != null) {
                 while (res.next()) {
 
-                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(1))
-                            .description(res.getString(2))
-                            .descriptionAbregee(res.getString(3))
-                            .build();
+                    CategorieProduit categorieProduit = new CategorieProduit(res.getInt(1));
+                    categorieProduit.setDescription(res.getString(2));
+                    categorieProduit.setDescriptionAbregee(res.getString(3));
 
                     listeCategoriesProduit.add(categorieProduit);
                 }
@@ -72,10 +70,9 @@ public class CategorieProduitDao {
             if (res != null) {
                 if (res.next()) {
 
-                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(1))
-                            .description(res.getString(2))
-                            .descriptionAbregee(res.getString(3))
-                            .build();
+                    CategorieProduit categorieProduit = new CategorieProduit(res.getInt(1));
+                    categorieProduit.setDescription(res.getString(2));
+                    categorieProduit.setDescriptionAbregee(res.getString(3));
 
                     prs.close();
                     res.close();

@@ -28,7 +28,7 @@ public class ConnectionFactory {
         try {
             Class.forName(AppConfigKS.getInstance().getAppConfig().getJdbcDriver());
             Connection connection = ((Connection) DriverManager
-                    .getConnection(AppConfigKS.getInstance().getAppConfig().getUrl(),
+                    .getConnection(AppConfigKS.getInstance().getAppConfig().getUrlHead(),
                             AppConfigKS.getInstance().getAppConfig().getUser(),
                             AppConfigKS.getInstance().getAppConfig().getPassword()));
 
@@ -49,7 +49,7 @@ public class ConnectionFactory {
         Class.forName(AppConfigKS.getInstance().getAppConfig().getJdbcDriver());
 
         return ((Connection) DriverManager
-                .getConnection(AppConfigKS.getInstance().getAppConfig().getUrl()
+                .getConnection(AppConfigKS.getInstance().getAppConfig().getUrlHead()
                         + AppConfigKS.getInstance().getAppConfig().getSchema(),
                         AppConfigKS.getInstance().getAppConfig().getUser(),
                         AppConfigKS.getInstance().getAppConfig().getPassword()));

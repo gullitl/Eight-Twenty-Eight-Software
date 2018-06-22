@@ -1,15 +1,10 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
-import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock;
-import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock.ItemSortieStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.SortieStock;
-import com.cecilsoftwares.reussoftmiddleend.model.SortieStock.SortieStockBuilder;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,21 +52,18 @@ public class SortieStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Client client = new ClientBuilder(res.getInt(5))
-                            .entreprise(res.getString(6))
-                            .nom(res.getString(7))
-                            .telephone(res.getString(8))
-                            .build();
+                    Client client = new Client(res.getInt(5));
+                    client.setEntreprise(res.getString(6));
+                    client.setNom(res.getString(7));
+                    client.setTelephone(res.getString(8));
 
-                    Shop shop = new ShopBuilder(res.getInt(3))
-                            .nom(res.getString(4))
-                            .build();
+                    Shop shop = new Shop(res.getInt(3));
+                    shop.setNom(res.getString(4));
 
-                    SortieStock entreeStock = new SortieStockBuilder(res.getInt(1))
-                            .dateHeure(res.getTimestamp(2))
-                            .shop(shop)
-                            .client(client)
-                            .build();
+                    SortieStock entreeStock = new SortieStock(res.getInt(1));
+                    entreeStock.setDateHeure(res.getTimestamp(2));
+                    entreeStock.setShop(shop);
+                    entreeStock.setClient(client);
 
                     listeSortiesStock.add(entreeStock);
                 }
@@ -111,50 +103,45 @@ public class SortieStockDao {
             if (res != null) {
 
                 int code = 0;
-                SortieStockBuilder sortieStockBuilder = new SortieStockBuilder(0);
+                SortieStock srtstck = new SortieStock();
                 List<ItemSortieStock> listeItemsSortieStock = new ArrayList();
 
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    Client client = new ClientBuilder(res.getInt(8))
-                            .entreprise(res.getString(9))
-                            .nom(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    Client client = new Client(res.getInt(8));
+                    client.setEntreprise(res.getString(9));
+                    client.setNom(res.getString(10));
+                    client.setTelephone(res.getString(11));
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .build();
+                    Shop shop = new Shop(res.getInt(6));
+                    shop.setNom(res.getString(7));
 
-                    SortieStock sortieStock = new SortieStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .shop(shop)
-                            .client(client)
-                            .build();
+                    SortieStock sortieStock = new SortieStock(res.getInt(4));
+                    sortieStock.setDateHeure(res.getTimestamp(5));
+                    sortieStock.setShop(shop);
+                    sortieStock.setClient(client);
 
-                    ItemSortieStock itemSortieStock = new ItemSortieStockBuilder(sortieStock, produit)
-                            .prixVenteUSD(new BigDecimal(res.getString(1)))
-                            .prixVenteFC(new BigDecimal(res.getString(2)))
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
+                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
+                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
+                    itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     if (code == sortieStock.getCode()) {
                         listeItemsSortieStock.add(itemSortieStock);
                     } else {
                         if (!res.first()) {
-                            sortieStockBuilder.itemsSortieStock(listeItemsSortieStock);
-                            listeSortiesStock.add(sortieStockBuilder.build());
+                            srtstck.setItemsSortieStock(listeItemsSortieStock);
+                            listeSortiesStock.add(srtstck);
                         }
                         code = sortieStock.getCode();
 
-                        sortieStockBuilder = new SortieStockBuilder(sortieStock.getCode())
-                                .dateHeure(sortieStock.getDateHeure())
-                                .shop(sortieStock.getShop())
-                                .client(sortieStock.getClient());
+                        srtstck.setCode(sortieStock.getCode());
+                        srtstck.setDateHeure(sortieStock.getDateHeure());
+                        srtstck.setShop(sortieStock.getShop());
+                        srtstck.setClient(sortieStock.getClient());
 
                         listeItemsSortieStock = new ArrayList();
                         listeItemsSortieStock.add(itemSortieStock);
@@ -172,7 +159,7 @@ public class SortieStockDao {
     public SortieStock selectionnerSortieStockParCode(int codeSortieStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        SortieStockBuilder sortieStockBuilder = new SortieStockBuilder(0);
+        SortieStock srtstck = new SortieStock();
         List<ItemSortieStock> listeItemsSortieStock = new ArrayList();
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
@@ -200,51 +187,46 @@ public class SortieStockDao {
 
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    Client client = new ClientBuilder(res.getInt(8))
-                            .entreprise(res.getString(9))
-                            .nom(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    Client client = new Client(res.getInt(8));
+                    client.setEntreprise(res.getString(9));
+                    client.setNom(res.getString(10));
+                    client.setTelephone(res.getString(11));
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .build();
+                    Shop shop = new Shop(res.getInt(6));
+                    shop.setNom(res.getString(7));
 
-                    SortieStock sortieStock = new SortieStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .shop(shop)
-                            .client(client)
-                            .build();
+                    SortieStock sortieStock = new SortieStock(res.getInt(4));
+                    sortieStock.setDateHeure(res.getTimestamp(5));
+                    sortieStock.setShop(shop);
+                    sortieStock.setClient(client);
 
-                    ItemSortieStock itemSortieStock = new ItemSortieStockBuilder(sortieStock, produit)
-                            .prixVenteUSD(new BigDecimal(res.getString(1)))
-                            .prixVenteFC(new BigDecimal(res.getString(2)))
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
+                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
+                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
+                    itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsSortieStock.add(itemSortieStock);
 
                     if (res.first()) {
-                        sortieStockBuilder = new SortieStockBuilder(sortieStock.getCode())
-                                .dateHeure(sortieStock.getDateHeure())
-                                .shop(sortieStock.getShop())
-                                .client(sortieStock.getClient());
+                        srtstck.setCode(sortieStock.getCode());
+                        srtstck.setDateHeure(sortieStock.getDateHeure());
+                        srtstck.setShop(sortieStock.getShop());
+                        srtstck.setClient(sortieStock.getClient());
                     }
 
                 }
 
-                sortieStockBuilder.itemsSortieStock(listeItemsSortieStock);
+                srtstck.setItemsSortieStock(listeItemsSortieStock);
 
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return sortieStockBuilder.build();
+        return srtstck;
     }
 
     public boolean enregistrerSortieStock(SortieStock sortieStock) throws ClassNotFoundException, SQLException {

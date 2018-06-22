@@ -3,8 +3,7 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.ClientService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationClient;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
-import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -156,12 +155,11 @@ public class RegistreClient extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            Client client = new ClientBuilder(codeClient)
-                    .entreprise(tfdEntreprise.getText())
-                    .nom(tfdNom.getText())
-                    .telephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""))
-                    .shop(new ShopBuilder(2).build())
-                    .build();
+            Client client = new Client(codeClient);
+            client.setEntreprise(tfdEntreprise.getText());
+            client.setNom(tfdNom.getText());
+            client.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
+            client.setShop(new Shop(2));
 
             try {
                 if (ClientService.getInstance().enregistrerClient(client)) {

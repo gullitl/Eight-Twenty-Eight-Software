@@ -1,7 +1,6 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,11 +42,10 @@ public class ShopDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(1))
-                            .nom(res.getString(2))
-                            .adresse(res.getString(3))
-                            .active(res.getInt(4) == 1)
-                            .build();
+                    Shop shop = new Shop(res.getInt(1));
+                    shop.setNom(res.getString(2));
+                    shop.setAdresse(res.getString(3));
+                    shop.setActive(res.getInt(4) == 1);
 
                     listeShops.add(shop);
                 }
@@ -74,11 +72,10 @@ public class ShopDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(1))
-                            .nom(res.getString(2))
-                            .adresse(res.getString(3))
-                            .active(res.getInt(4) == 1)
-                            .build();
+                    Shop shop = new Shop(res.getInt(1));
+                    shop.setNom(res.getString(2));
+                    shop.setAdresse(res.getString(3));
+                    shop.setActive(res.getInt(4) == 1);
 
                     prs.close();
                     res.close();

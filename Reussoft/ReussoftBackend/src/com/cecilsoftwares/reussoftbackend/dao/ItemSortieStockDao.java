@@ -1,15 +1,10 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
-import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock;
 import com.cecilsoftwares.reussoftmiddleend.model.SortieStock;
-import com.cecilsoftwares.reussoftmiddleend.model.SortieStock.SortieStockBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.ItemSortieStock.ItemSortieStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,31 +55,26 @@ public class ItemSortieStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    Client client = new ClientBuilder(res.getInt(8))
-                            .nom(res.getString(9))
-                            .entreprise(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    Client client = new Client(res.getInt(8));
+                    client.setNom(res.getString(9));
+                    client.setEntreprise(res.getString(10));
+                    client.setTelephone(res.getString(11));
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .build();
+                    Shop shop = new Shop(res.getInt(6));
+                    shop.setNom(res.getString(7));
 
-                    SortieStock sortieStock = new SortieStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .client(client)
-                            .shop(shop)
-                            .build();
+                    SortieStock sortieStock = new SortieStock(res.getInt(4));
+                    sortieStock.setDateHeure(res.getTimestamp(5));
+                    sortieStock.setClient(client);
+                    sortieStock.setShop(shop);
 
-                    ItemSortieStock itemSortieStock = new ItemSortieStockBuilder(sortieStock, produit)
-                            .prixVenteUSD(new BigDecimal(res.getString(1)))
-                            .prixVenteFC(new BigDecimal(res.getString(2)))
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
+                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
+                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
+                    itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsSortieStock.add(itemSortieStock);
                 }
@@ -122,31 +112,26 @@ public class ItemSortieStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    Client client = new ClientBuilder(res.getInt(8))
-                            .nom(res.getString(9))
-                            .entreprise(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    Client client = new Client(res.getInt(8));
+                    client.setNom(res.getString(9));
+                    client.setEntreprise(res.getString(10));
+                    client.setTelephone(res.getString(11));
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .build();
+                    Shop shop = new Shop(res.getInt(6));
+                    shop.setNom(res.getString(7));
 
-                    SortieStock sortieStock = new SortieStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .client(client)
-                            .shop(shop)
-                            .build();
+                    SortieStock sortieStock = new SortieStock(res.getInt(4));
+                    sortieStock.setDateHeure(res.getTimestamp(5));
+                    sortieStock.setClient(client);
+                    sortieStock.setShop(shop);
 
-                    ItemSortieStock itemSortieStock = new ItemSortieStockBuilder(sortieStock, produit)
-                            .prixVenteUSD(new BigDecimal(res.getString(1)))
-                            .prixVenteFC(new BigDecimal(res.getString(2)))
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
+                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
+                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
+                    itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsSortieStock.add(itemSortieStock);
                 }
@@ -184,31 +169,26 @@ public class ItemSortieStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    Client client = new ClientBuilder(res.getInt(8))
-                            .nom(res.getString(9))
-                            .entreprise(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    Client client = new Client(res.getInt(8));
+                    client.setNom(res.getString(9));
+                    client.setEntreprise(res.getString(10));
+                    client.setTelephone(res.getString(11));
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .build();
+                    Shop shop = new Shop(res.getInt(6));
+                    shop.setNom(res.getString(7));
 
-                    SortieStock sortieStock = new SortieStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .client(client)
-                            .shop(shop)
-                            .build();
+                    SortieStock sortieStock = new SortieStock(res.getInt(4));
+                    sortieStock.setDateHeure(res.getTimestamp(5));
+                    sortieStock.setClient(client);
+                    sortieStock.setShop(shop);
 
-                    ItemSortieStock itemSortieStock = new ItemSortieStockBuilder(sortieStock, produit)
-                            .prixVenteUSD(new BigDecimal(res.getString(1)))
-                            .prixVenteFC(new BigDecimal(res.getString(2)))
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
+                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
+                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
+                    itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsSortieStock.add(itemSortieStock);
                 }
@@ -245,31 +225,26 @@ public class ItemSortieStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    Client client = new ClientBuilder(res.getInt(8))
-                            .nom(res.getString(9))
-                            .entreprise(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    Client client = new Client(res.getInt(8));
+                    client.setNom(res.getString(9));
+                    client.setEntreprise(res.getString(10));
+                    client.setTelephone(res.getString(11));
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .build();
+                    Shop shop = new Shop(res.getInt(6));
+                    shop.setNom(res.getString(7));
 
-                    SortieStock sortieStock = new SortieStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .client(client)
-                            .shop(shop)
-                            .build();
+                    SortieStock sortieStock = new SortieStock(res.getInt(4));
+                    sortieStock.setDateHeure(res.getTimestamp(5));
+                    sortieStock.setClient(client);
+                    sortieStock.setShop(shop);
 
-                    ItemSortieStock itemSortieStock = new ItemSortieStockBuilder(sortieStock, produit)
-                            .prixVenteUSD(new BigDecimal(res.getString(1)))
-                            .prixVenteFC(new BigDecimal(res.getString(2)))
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
+                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
+                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
+                    itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     prs.close();
                     res.close();

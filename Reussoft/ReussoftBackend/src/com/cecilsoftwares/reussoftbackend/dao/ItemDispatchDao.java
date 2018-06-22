@@ -2,10 +2,7 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.ItemDispatch;
 import com.cecilsoftwares.reussoftmiddleend.model.Dispatch;
-import com.cecilsoftwares.reussoftmiddleend.model.Dispatch.DispatchBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.ItemDispatch.ItemDispatchBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -57,25 +54,21 @@ public class ItemDispatchDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Dispatch dispatch = new Dispatch(res.getInt(1));
 
-                    Shop shopDestinataire = new Shop.ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
-                    Shop shopExpediteur = new Shop.ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
+                    Shop shopDestinataire = new Shop(res.getInt(5));
+                    shopDestinataire.setNom(res.getString(6));
+                    dispatch.setShopDestinataire(shopDestinataire);
 
-                    Dispatch dispatch = new DispatchBuilder(res.getInt(1))
-                            .shopDestinataire(shopDestinataire)
-                            .shopExpediteur(shopExpediteur)
-                            .build();
+                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    shopExpediteur.setNom(res.getString(6));
+                    dispatch.setShopExpediteur(shopExpediteur);
 
-                    ItemDispatch itemDispatch = new ItemDispatchBuilder(dispatch, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
+
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    itemDispatch.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsDispatch.add(itemDispatch);
                 }
@@ -113,25 +106,21 @@ public class ItemDispatchDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Dispatch dispatch = new Dispatch(res.getInt(1));
 
-                    Shop shopDestinataire = new Shop.ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
-                    Shop shopExpediteur = new Shop.ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
+                    Shop shopDestinataire = new Shop(res.getInt(5));
+                    shopDestinataire.setNom(res.getString(6));
+                    dispatch.setShopDestinataire(shopDestinataire);
 
-                    Dispatch dispatch = new DispatchBuilder(res.getInt(1))
-                            .shopDestinataire(shopDestinataire)
-                            .shopExpediteur(shopExpediteur)
-                            .build();
+                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    shopExpediteur.setNom(res.getString(6));
+                    dispatch.setShopExpediteur(shopExpediteur);
 
-                    ItemDispatch itemDispatch = new ItemDispatchBuilder(dispatch, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
+
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    itemDispatch.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsDispatch.add(itemDispatch);
                 }
@@ -169,25 +158,21 @@ public class ItemDispatchDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Dispatch dispatch = new Dispatch(res.getInt(1));
 
-                    Shop shopDestinataire = new Shop.ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
-                    Shop shopExpediteur = new Shop.ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
+                    Shop shopDestinataire = new Shop(res.getInt(5));
+                    shopDestinataire.setNom(res.getString(6));
+                    dispatch.setShopDestinataire(shopDestinataire);
 
-                    Dispatch dispatch = new DispatchBuilder(res.getInt(1))
-                            .shopDestinataire(shopDestinataire)
-                            .shopExpediteur(shopExpediteur)
-                            .build();
+                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    shopExpediteur.setNom(res.getString(6));
+                    dispatch.setShopExpediteur(shopExpediteur);
 
-                    ItemDispatch itemDispatch = new ItemDispatchBuilder(dispatch, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
+
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    itemDispatch.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsDispatch.add(itemDispatch);
                 }
@@ -224,25 +209,21 @@ public class ItemDispatchDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Dispatch dispatch = new Dispatch(res.getInt(1));
 
-                    Shop shopDestinataire = new Shop.ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
-                    Shop shopExpediteur = new Shop.ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
+                    Shop shopDestinataire = new Shop(res.getInt(5));
+                    shopDestinataire.setNom(res.getString(6));
+                    dispatch.setShopDestinataire(shopDestinataire);
 
-                    Dispatch dispatch = new DispatchBuilder(res.getInt(1))
-                            .shopDestinataire(shopDestinataire)
-                            .shopExpediteur(shopExpediteur)
-                            .build();
+                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    shopExpediteur.setNom(res.getString(6));
+                    dispatch.setShopExpediteur(shopExpediteur);
 
-                    ItemDispatch itemDispatch = new ItemDispatchBuilder(dispatch, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
+
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    itemDispatch.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     prs.close();
                     res.close();

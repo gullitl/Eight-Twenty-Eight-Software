@@ -1,11 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,28 +50,25 @@ public class CollaborateurDao {
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(13))
-                            .description(res.getString(14))
-                            .descriptionAbregee(res.getString(15))
-                            .build();
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getInt(13));
+                    profilUtilisateur.setDescription(res.getString(14));
+                    profilUtilisateur.setDescriptionAbregee(res.getString(15));
 
-                    Shop shop = new ShopBuilder(res.getInt(9))
-                            .nom(res.getString(10))
-                            .adresse(res.getString(11))
-                            .active(res.getInt(12) == 1)
-                            .build();
+                    Shop shop = new Shop(res.getInt(9));
+                    shop.setNom(res.getString(10));
+                    shop.setAdresse(res.getString(11));
+                    shop.setActive(res.getInt(12) == 1);
 
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .active(res.getInt(2) == 1)
-                            .prenom(res.getString(3))
-                            .nom(res.getString(4))
-                            .postnom(res.getString(5))
-                            .surnom(res.getString(6))
-                            .nomUtilisateur(res.getString(7))
-                            .motDePasse(res.getString(8))
-                            .shop(shop)
-                            .profilUtilisateur(profilUtilisateur)
-                            .build();
+                    Collaborateur collaborateur = new Collaborateur(res.getInt(1));
+                    collaborateur.setActive(res.getInt(2) == 1);
+                    collaborateur.setPrenom(res.getString(3));
+                    collaborateur.setNom(res.getString(4));
+                    collaborateur.setPostnom(res.getString(5));
+                    collaborateur.setSurnom(res.getString(6));
+                    collaborateur.setNomUtilisateur(res.getString(7));
+                    collaborateur.setMotDePasse(res.getString(8));
+                    collaborateur.setShop(shop);
+                    collaborateur.setProfilUtilisateur(profilUtilisateur);
 
                     prs.close();
                     res.close();
@@ -114,28 +108,25 @@ public class CollaborateurDao {
             if (res != null) {
                 while (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(13))
-                            .description(res.getString(14))
-                            .descriptionAbregee(res.getString(15))
-                            .build();
+                    Collaborateur collaborateur = new Collaborateur(res.getInt(1));
+                    collaborateur.setActive(res.getInt(2) == 1);
+                    collaborateur.setPrenom(res.getString(3));
+                    collaborateur.setNom(res.getString(4));
+                    collaborateur.setPostnom(res.getString(5));
+                    collaborateur.setSurnom(res.getString(6));
+                    collaborateur.setNomUtilisateur(res.getString(7));
+                    collaborateur.setMotDePasse(res.getString(8));
 
-                    Shop shop = new ShopBuilder(res.getInt(9))
-                            .nom(res.getString(10))
-                            .adresse(res.getString(11))
-                            .active(res.getInt(12) == 1)
-                            .build();
+                    Shop shop = new Shop(res.getInt(9));
+                    shop.setNom(res.getString(10));
+                    shop.setAdresse(res.getString(11));
+                    shop.setActive(res.getInt(12) == 1);
+                    collaborateur.setShop(shop);
 
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .active(res.getInt(2) == 1)
-                            .prenom(res.getString(3))
-                            .nom(res.getString(4))
-                            .postnom(res.getString(5))
-                            .surnom(res.getString(6))
-                            .nomUtilisateur(res.getString(7))
-                            .motDePasse(res.getString(8))
-                            .shop(shop)
-                            .profilUtilisateur(profilUtilisateur)
-                            .build();
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getInt(13));
+                    profilUtilisateur.setDescription(res.getString(14));
+                    profilUtilisateur.setDescriptionAbregee(res.getString(15));
+                    collaborateur.setProfilUtilisateur(profilUtilisateur);
 
                     listeCollaborateurs.add(collaborateur);
                 }
@@ -170,28 +161,25 @@ public class CollaborateurDao {
             if (res != null) {
                 if (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(13))
-                            .description(res.getString(14))
-                            .descriptionAbregee(res.getString(15))
-                            .build();
+                    Collaborateur collaborateur = new Collaborateur(res.getInt(1));
+                    collaborateur.setActive(res.getInt(2) == 1);
+                    collaborateur.setPrenom(res.getString(3));
+                    collaborateur.setNom(res.getString(4));
+                    collaborateur.setPostnom(res.getString(5));
+                    collaborateur.setSurnom(res.getString(6));
+                    collaborateur.setNomUtilisateur(res.getString(7));
+                    collaborateur.setMotDePasse(res.getString(8));
 
-                    Shop shop = new ShopBuilder(res.getInt(9))
-                            .nom(res.getString(10))
-                            .adresse(res.getString(11))
-                            .active(res.getInt(12) == 1)
-                            .build();
+                    Shop shop = new Shop(res.getInt(9));
+                    shop.setNom(res.getString(10));
+                    shop.setAdresse(res.getString(11));
+                    shop.setActive(res.getInt(12) == 1);
+                    collaborateur.setShop(shop);
 
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(1))
-                            .active(res.getInt(2) == 1)
-                            .prenom(res.getString(3))
-                            .nom(res.getString(4))
-                            .postnom(res.getString(5))
-                            .surnom(res.getString(6))
-                            .nomUtilisateur(res.getString(7))
-                            .motDePasse(res.getString(8))
-                            .shop(shop)
-                            .profilUtilisateur(profilUtilisateur)
-                            .build();
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getInt(13));
+                    profilUtilisateur.setDescription(res.getString(14));
+                    profilUtilisateur.setDescriptionAbregee(res.getString(15));
+                    collaborateur.setProfilUtilisateur(profilUtilisateur);
 
                     prs.close();
                     res.close();

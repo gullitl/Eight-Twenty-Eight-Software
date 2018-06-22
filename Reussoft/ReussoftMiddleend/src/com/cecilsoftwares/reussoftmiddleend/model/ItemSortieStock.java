@@ -7,72 +7,59 @@ import java.math.BigDecimal;
  */
 public class ItemSortieStock {
 
-    private final SortieStock sortieStock;
-    private final Produit produit;
-    private final BigDecimal prixVenteUSD;
-    private final BigDecimal prixVenteFC;
-    private final BigDecimal quantiteProduit;
+    private SortieStock sortieStock;
+    private Produit produit;
+    private BigDecimal prixVenteUSD;
+    private BigDecimal prixVenteFC;
+    private BigDecimal quantiteProduit;
 
-    public ItemSortieStock(ItemSortieStockBuilder itemSortieStockBuilder) {
-        sortieStock = itemSortieStockBuilder.sortieStock;
-        produit = itemSortieStockBuilder.produit;
-        prixVenteUSD = itemSortieStockBuilder.prixVenteUSD;
-        prixVenteFC = itemSortieStockBuilder.prixVenteFC;
-        quantiteProduit = itemSortieStockBuilder.quantiteProduit;
+    public ItemSortieStock() {
+
+    }
+
+    public ItemSortieStock(SortieStock sortieStock, Produit produit) {
+        this.sortieStock = sortieStock;
+        this.produit = produit;
     }
 
     public SortieStock getSortieStock() {
         return sortieStock;
     }
 
+    public void setSortieStock(SortieStock sortieStock) {
+        this.sortieStock = sortieStock;
+    }
+
     public Produit getProduit() {
         return produit;
+    }
+
+    public void setProduit(Produit produit) {
+        this.produit = produit;
     }
 
     public BigDecimal getPrixVenteUSD() {
         return prixVenteUSD;
     }
 
+    public void setPrixVenteUSD(BigDecimal prixVenteUSD) {
+        this.prixVenteUSD = prixVenteUSD;
+    }
+
     public BigDecimal getPrixVenteFC() {
         return prixVenteFC;
+    }
+
+    public void setPrixVenteFC(BigDecimal prixVenteFC) {
+        this.prixVenteFC = prixVenteFC;
     }
 
     public BigDecimal getQuantiteProduit() {
         return quantiteProduit;
     }
 
-    public static class ItemSortieStockBuilder {
-
-        private SortieStock sortieStock;
-        private Produit produit;
-        private BigDecimal prixVenteUSD;
-        private BigDecimal prixVenteFC;
-        private BigDecimal quantiteProduit;
-
-        public ItemSortieStockBuilder(SortieStock sortieStock, Produit produit) {
-            this.sortieStock = sortieStock;
-            this.produit = produit;
-        }
-
-        public ItemSortieStockBuilder prixVenteUSD(BigDecimal prixVenteUSD) {
-            this.prixVenteUSD = prixVenteUSD;
-            return this;
-        }
-
-        public ItemSortieStockBuilder prixVenteFC(BigDecimal prixVenteFC) {
-            this.prixVenteFC = prixVenteFC;
-            return this;
-        }
-
-        public ItemSortieStockBuilder quantiteProduit(BigDecimal quantiteProduit) {
-            this.quantiteProduit = quantiteProduit;
-            return this;
-        }
-
-        public ItemSortieStock build() {
-            return new ItemSortieStock(this);
-        }
-
+    public void setQuantiteProduit(BigDecimal quantiteProduit) {
+        this.quantiteProduit = quantiteProduit;
     }
 
 }

@@ -5,7 +5,6 @@ import com.cecilsoftwares.reussoftbackend.dao.SessionUtilisateurDao;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur.SessionUtilisateurBuilder;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -32,11 +31,11 @@ public class CollaborateurService {
         Collaborateur collaborateur = CollaborateurDao.getInstance().login(nomUtilisateur, motDePasse);
 
         if (collaborateur != null) {
-            SessionUtilisateur sessionUtilisateur = new SessionUtilisateurBuilder(0)
-                    .collaborateur(collaborateur)
-                    .action("ENTRÉE")
-                    .dateHeure(new Date())
-                    .build();
+            SessionUtilisateur sessionUtilisateur = new SessionUtilisateur();
+            sessionUtilisateur.setCode(0);
+            sessionUtilisateur.setCollaborateur(collaborateur);
+            sessionUtilisateur.setAction("ENTRÉE");
+            sessionUtilisateur.setDateHeure(new Date());
 
             SessionUtilisateurDao.getInstance().sauvegarderSessionUtilisateur(sessionUtilisateur);
             SessionUtilisateurKS.getInstance().setSessionUtilisateur(sessionUtilisateur);

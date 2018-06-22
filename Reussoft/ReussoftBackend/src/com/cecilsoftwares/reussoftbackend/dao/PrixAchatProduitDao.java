@@ -1,9 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
-import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit.PrixAchatProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,16 +46,15 @@ public class PrixAchatProduitDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(4))
-                            .description(res.getString(5))
-                            .build();
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(1);
+                    prixAchatProduit.setPrixUSD(res.getBigDecimal(2));
+                    prixAchatProduit.setPrixFC(res.getBigDecimal(3));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(4));
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduitBuilder(1)
-                            .prixUSD(res.getBigDecimal(2))
-                            .prixFC(res.getBigDecimal(3))
-                            .dateHeure(res.getTimestamp(4))
-                            .produit(produit)
-                            .build();
+                    Produit produit = new Produit(res.getInt(4));
+                    produit.setDescription(res.getString(5));
+
+                    prixAchatProduit.setProduit(produit);
 
                     listePrixAchatProduits.add(prixAchatProduit);
                 }
@@ -87,16 +84,15 @@ public class PrixAchatProduitDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(4))
-                            .description(res.getString(5))
-                            .build();
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(1);
+                    prixAchatProduit.setPrixUSD(res.getBigDecimal(2));
+                    prixAchatProduit.setPrixFC(res.getBigDecimal(3));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(4));
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduitBuilder(1)
-                            .prixUSD(res.getBigDecimal(2))
-                            .prixFC(res.getBigDecimal(3))
-                            .dateHeure(res.getTimestamp(4))
-                            .produit(produit)
-                            .build();
+                    Produit produit = new Produit(res.getInt(4));
+                    produit.setDescription(res.getString(5));
+
+                    prixAchatProduit.setProduit(produit);
 
                     prs.close();
                     res.close();

@@ -1,9 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxMonnaie;
-import com.cecilsoftwares.reussoftmiddleend.model.TauxMonnaie.TauxMonnaieBuilder;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,16 +47,14 @@ public class TauxMonnaieDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(4))
-                            .nom(res.getString(5))
-                            .adresse(res.getString(6))
-                            .build();
+                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getInt(1));
+                    tauxMonnaie.setDateHeure(res.getTimestamp(2));
+                    tauxMonnaie.setValeur(new BigDecimal(res.getString(3)));
 
-                    TauxMonnaie tauxMonnaie = new TauxMonnaieBuilder(res.getInt(1))
-                            .dateHeure(res.getTimestamp(2))
-                            .valeur(new BigDecimal(res.getString(3)))
-                            .shop(shop)
-                            .build();
+                    Shop shop = new Shop(res.getInt(4));
+                    shop.setNom(res.getString(5));
+                    shop.setAdresse(res.getString(6));
+                    tauxMonnaie.setShop(shop);
 
                     listeTauxMonnaies.add(tauxMonnaie);
                 }
@@ -88,16 +84,14 @@ public class TauxMonnaieDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(4))
-                            .nom(res.getString(5))
-                            .adresse(res.getString(6))
-                            .build();
+                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getInt(1));
+                    tauxMonnaie.setDateHeure(res.getTimestamp(2));
+                    tauxMonnaie.setValeur(new BigDecimal(res.getString(3)));
 
-                    TauxMonnaie tauxMonnaie = new TauxMonnaieBuilder(res.getInt(1))
-                            .dateHeure(res.getTimestamp(2))
-                            .valeur(new BigDecimal(res.getString(3)))
-                            .shop(shop)
-                            .build();
+                    Shop shop = new Shop(res.getInt(4));
+                    shop.setNom(res.getString(5));
+                    shop.setAdresse(res.getString(6));
+                    tauxMonnaie.setShop(shop);
 
                     prs.close();
                     res.close();

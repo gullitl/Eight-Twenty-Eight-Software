@@ -5,64 +5,49 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Fournisseur {
 
-    private final int code;
-    private final String entreprise;
-    private final String responsable;
-    private final String telephone;
+    private int code;
+    private String entreprise;
+    private String responsable;
+    private String telephone;
 
-    public Fournisseur(FournisseurBuilder fournisseurBuilder) {
-        code = fournisseurBuilder.code;
-        entreprise = fournisseurBuilder.entreprise;
-        responsable = fournisseurBuilder.responsable;
-        telephone = fournisseurBuilder.telephone;
+    public Fournisseur() {
+
+    }
+
+    public Fournisseur(int code) {
+        this.code = code;
     }
 
     public int getCode() {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public String getEntreprise() {
         return entreprise;
+    }
+
+    public void setEntreprise(String entreprise) {
+        this.entreprise = entreprise;
     }
 
     public String getResponsable() {
         return responsable;
     }
 
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
+    }
+
     public String getTelephone() {
         return telephone;
     }
 
-    public static class FournisseurBuilder {
-
-        private int code;
-        private String entreprise;
-        private String responsable;
-        private String telephone;
-
-        public FournisseurBuilder(int code) {
-            this.code = code;
-        }
-
-        public FournisseurBuilder entreprise(String entreprise) {
-            this.entreprise = entreprise;
-            return this;
-        }
-
-        public FournisseurBuilder responsable(String responsable) {
-            this.responsable = responsable;
-            return this;
-        }
-
-        public FournisseurBuilder telephone(String telephone) {
-            this.telephone = telephone;
-            return this;
-        }
-
-        public Fournisseur build() {
-            return new Fournisseur(this);
-        }
-
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
 }

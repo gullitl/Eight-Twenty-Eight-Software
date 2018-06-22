@@ -1,11 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.PrixVenteProduit;
-import com.cecilsoftwares.reussoftmiddleend.model.PrixVenteProduit.PrixVenteProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,23 +49,20 @@ public class PrixVenteProduitDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .adresse(res.getString(8))
-                            .active(res.getInt(9) == 0)
-                            .build();
+                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(1);
+                    prixVenteProduit.setPrixUSD(res.getBigDecimal(2));
+                    prixVenteProduit.setPrixFC(res.getBigDecimal(3));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(4));
 
-                    Produit produit = new ProduitBuilder(res.getInt(4))
-                            .description(res.getString(5))
-                            .build();
+                    Produit produit = new Produit(res.getInt(4));
+                    produit.setDescription(res.getString(5));
+                    prixVenteProduit.setProduit(produit);
 
-                    PrixVenteProduit prixVenteProduit = new PrixVenteProduitBuilder(1)
-                            .prixUSD(res.getBigDecimal(2))
-                            .prixFC(res.getBigDecimal(3))
-                            .dateHeure(res.getTimestamp(4))
-                            .produit(produit)
-                            .shop(shop)
-                            .build();
+                    Shop shop = new Shop(res.getInt(6));
+                    shop.setNom(res.getString(7));
+                    shop.setAdresse(res.getString(8));
+                    shop.setActive(res.getInt(9) == 0);
+                    prixVenteProduit.setShop(shop);
 
                     listePrixVenteProduits.add(prixVenteProduit);
                 }
@@ -100,23 +94,20 @@ public class PrixVenteProduitDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(6))
-                            .nom(res.getString(7))
-                            .adresse(res.getString(8))
-                            .active(res.getInt(9) == 0)
-                            .build();
+                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(1);
+                    prixVenteProduit.setPrixUSD(res.getBigDecimal(2));
+                    prixVenteProduit.setPrixFC(res.getBigDecimal(3));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(4));
 
-                    Produit produit = new ProduitBuilder(res.getInt(4))
-                            .description(res.getString(5))
-                            .build();
+                    Produit produit = new Produit(res.getInt(4));
+                    produit.setDescription(res.getString(5));
+                    prixVenteProduit.setProduit(produit);
 
-                    PrixVenteProduit prixVenteProduit = new PrixVenteProduitBuilder(1)
-                            .prixUSD(res.getBigDecimal(2))
-                            .prixFC(res.getBigDecimal(3))
-                            .dateHeure(res.getTimestamp(4))
-                            .produit(produit)
-                            .shop(shop)
-                            .build();
+                    Shop shop = new Shop(res.getInt(6));
+                    shop.setNom(res.getString(7));
+                    shop.setAdresse(res.getString(8));
+                    shop.setActive(res.getInt(9) == 0);
+                    prixVenteProduit.setShop(shop);
 
                     prs.close();
                     res.close();

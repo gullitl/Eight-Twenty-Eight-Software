@@ -3,7 +3,6 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.ReseauService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationReseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
-import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -146,11 +145,10 @@ public class RegistreReseau extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            Reseau reseau = new ReseauBuilder(codeReseau)
-                    .nom(tfdNom.getText())
-                    .nomAbrege(tfdNomAbrege.getText())
-                    .active(modeEdition ? chbActiver.isSelected() : true)
-                    .build();
+            Reseau reseau = new Reseau(codeReseau);
+            reseau.setNom(tfdNom.getText());
+            reseau.setNomAbrege(tfdNomAbrege.getText());
+            reseau.setActive(modeEdition ? chbActiver.isSelected() : true);
 
             try {
                 if (ReseauService.getInstance().enregistrerReseau(reseau)) {

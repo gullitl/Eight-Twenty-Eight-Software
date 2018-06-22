@@ -5,64 +5,49 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Shop {
 
-    private final int code;
-    private final String nom;
-    private final String adresse;
-    private final boolean active;
+    private int code;
+    private String nom;
+    private String adresse;
+    private boolean active;
 
-    public Shop(ShopBuilder shopBuilder) {
-        code = shopBuilder.code;
-        nom = shopBuilder.nom;
-        adresse = shopBuilder.adresse;
-        active = shopBuilder.active;
+    public Shop() {
+
+    }
+
+    public Shop(int code) {
+        this.code = code;
     }
 
     public int getCode() {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public String getNom() {
         return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getAdresse() {
         return adresse;
     }
 
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
     public boolean isActive() {
         return active;
     }
 
-    public static class ShopBuilder {
-
-        private int code;
-        private String nom;
-        private String adresse;
-        private boolean active;
-
-        public ShopBuilder(int code) {
-            this.code = code;
-        }
-
-        public ShopBuilder nom(String nom) {
-            this.nom = nom;
-            return this;
-        }
-
-        public ShopBuilder adresse(String adresse) {
-            this.adresse = adresse;
-            return this;
-        }
-
-        public ShopBuilder active(boolean active) {
-            this.active = active;
-            return this;
-        }
-
-        public Shop build() {
-            return new Shop(this);
-        }
-
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

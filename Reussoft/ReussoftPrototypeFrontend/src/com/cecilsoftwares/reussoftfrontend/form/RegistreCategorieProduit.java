@@ -3,7 +3,6 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit.CategorieProduitBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -138,10 +137,9 @@ public class RegistreCategorieProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            CategorieProduit categorieProduit = new CategorieProduitBuilder(codeCategorieProduit)
-                    .description(tfdDescription.getText())
-                    .descriptionAbregee(tfdDescriptionAbregee.getText())
-                    .build();
+            CategorieProduit categorieProduit = new CategorieProduit(codeCategorieProduit);
+            categorieProduit.setDescription(tfdDescription.getText());
+            categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
 
             try {
                 if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {

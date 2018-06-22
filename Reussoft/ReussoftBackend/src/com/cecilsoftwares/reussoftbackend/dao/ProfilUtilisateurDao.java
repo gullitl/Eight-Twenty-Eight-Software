@@ -1,7 +1,6 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,10 +43,9 @@ public class ProfilUtilisateurDao {
             if (res != null) {
                 while (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(1))
-                            .description(res.getString(2))
-                            .descriptionAbregee(res.getString(3))
-                            .build();
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getInt(1));
+                    profilUtilisateur.setDescription(res.getString(2));
+                    profilUtilisateur.setDescriptionAbregee(res.getString(3));
 
                     profilUtilisateurs.add(profilUtilisateur);
                 }
@@ -75,10 +73,9 @@ public class ProfilUtilisateurDao {
             if (res != null) {
                 if (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(res.getInt(1))
-                            .description(res.getString(2))
-                            .descriptionAbregee(res.getString(3))
-                            .build();
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getInt(1));
+                    profilUtilisateur.setDescription(res.getString(2));
+                    profilUtilisateur.setDescriptionAbregee(res.getString(3));
 
                     prs.close();
                     res.close();

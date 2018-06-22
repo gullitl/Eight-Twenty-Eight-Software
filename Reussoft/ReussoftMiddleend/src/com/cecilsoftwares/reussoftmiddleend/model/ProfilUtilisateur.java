@@ -5,50 +5,40 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class ProfilUtilisateur {
 
-    private final int code;
-    private final String description;
-    private final String descriptionAbregee;
+    private int code;
+    private String description;
+    private String descriptionAbregee;
 
-    public ProfilUtilisateur(ProfilUtilisateurBuilder profilUtilisateurBuilder) {
-        code = profilUtilisateurBuilder.codeProfilUtilizateur;
-        description = profilUtilisateurBuilder.description;
-        descriptionAbregee = profilUtilisateurBuilder.descriptionAbregee;
+    public ProfilUtilisateur() {
+
+    }
+
+    public ProfilUtilisateur(int code) {
+        this.code = code;
     }
 
     public int getCode() {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDescriptionAbregee() {
         return descriptionAbregee;
     }
 
-    public static class ProfilUtilisateurBuilder {
-
-        private int codeProfilUtilizateur;
-        private String description;
-        private String descriptionAbregee;
-
-        public ProfilUtilisateurBuilder(int codeProfilUtilizateur) {
-            this.codeProfilUtilizateur = codeProfilUtilizateur;
-        }
-
-        public ProfilUtilisateurBuilder description(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public ProfilUtilisateurBuilder descriptionAbregee(String descriptionAbregee) {
-            this.descriptionAbregee = descriptionAbregee;
-            return this;
-        }
-
-        public ProfilUtilisateur build() {
-            return new ProfilUtilisateur(this);
-        }
+    public void setDescriptionAbregee(String descriptionAbregee) {
+        this.descriptionAbregee = descriptionAbregee;
     }
+
 }

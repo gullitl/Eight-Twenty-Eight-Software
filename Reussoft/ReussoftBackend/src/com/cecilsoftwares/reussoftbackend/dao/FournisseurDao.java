@@ -1,7 +1,6 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
-import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur.FournisseurBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,11 +42,10 @@ public class FournisseurDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(1))
-                            .responsable(res.getString(2))
-                            .entreprise(res.getString(3))
-                            .telephone(res.getString(4))
-                            .build();
+                    Fournisseur fournisseur = new Fournisseur(res.getInt(1));
+                    fournisseur.setResponsable(res.getString(2));
+                    fournisseur.setEntreprise(res.getString(3));
+                    fournisseur.setTelephone(res.getString(4));
 
                     listeFournisseurs.add(fournisseur);
                 }
@@ -74,11 +72,10 @@ public class FournisseurDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(1))
-                            .responsable(res.getString(2))
-                            .entreprise(res.getString(3))
-                            .telephone(res.getString(4))
-                            .build();
+                    Fournisseur fournisseur = new Fournisseur(res.getInt(1));
+                    fournisseur.setResponsable(res.getString(2));
+                    fournisseur.setEntreprise(res.getString(3));
+                    fournisseur.setTelephone(res.getString(4));
 
                     prs.close();
                     res.close();

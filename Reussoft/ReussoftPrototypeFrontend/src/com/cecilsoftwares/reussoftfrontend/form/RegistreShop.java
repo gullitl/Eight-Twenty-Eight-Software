@@ -4,7 +4,6 @@ import com.cecilsoftwares.reussoftbackend.service.ShopService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationShop;
 import com.cecilsoftwares.reussoftfrontend.essential.JCustomTextField;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -243,11 +242,11 @@ public class RegistreShop extends JInternalFrame {
                     .append("@").append(cbxProvince.getSelectedItem().toString())
                     .append("@").append(tfdDistrict.getText())
                     .toString();
-            Shop shop = new ShopBuilder(codeShop)
-                    .nom(tfdNom.getText())
-                    .adresse(adresse)
-                    .active(modeEdition ? chbActiver.isSelected() : true)
-                    .build();
+
+            Shop shop = new Shop(codeShop);
+            shop.setNom(tfdNom.getText());
+            shop.setAdresse(adresse);
+            shop.setActive(modeEdition ? chbActiver.isSelected() : true);
 
             try {
                 if (ShopService.getInstance().enregistrerShop(shop)) {

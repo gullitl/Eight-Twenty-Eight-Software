@@ -5,64 +5,49 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Reseau {
 
-    private final int code;
-    private final String nom;
-    private final String nomAbrege;
-    private final boolean active;
+    private int code;
+    private String nom;
+    private String nomAbrege;
+    private boolean active;
 
-    public Reseau(ReseauBuilder reseauBuilder) {
-        code = reseauBuilder.code;
-        nom = reseauBuilder.nom;
-        nomAbrege = reseauBuilder.nomAbrege;
-        active = reseauBuilder.active;
+    public Reseau() {
+
+    }
+
+    public Reseau(int code) {
+        this.code = code;
     }
 
     public int getCode() {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public String getNom() {
         return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getNomAbrege() {
         return nomAbrege;
     }
 
+    public void setNomAbrege(String nomAbrege) {
+        this.nomAbrege = nomAbrege;
+    }
+
     public boolean isActive() {
         return active;
     }
 
-    public static class ReseauBuilder {
-
-        private int code;
-        private String nom;
-        private String nomAbrege;
-        private boolean active;
-
-        public ReseauBuilder(int code) {
-            this.code = code;
-        }
-
-        public ReseauBuilder nom(String nom) {
-            this.nom = nom;
-            return this;
-        }
-
-        public ReseauBuilder nomAbrege(String nomAbrege) {
-            this.nomAbrege = nomAbrege;
-            return this;
-        }
-
-        public ReseauBuilder active(boolean active) {
-            this.active = active;
-            return this;
-        }
-
-        public Reseau build() {
-            return new Reseau(this);
-        }
-
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

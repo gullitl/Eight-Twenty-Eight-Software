@@ -1,15 +1,10 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
-import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock.EntreeStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
-import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur.FournisseurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
-import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock.ItemEntreeStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
-import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte.TauxCarteBuilder;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,21 +52,18 @@ public class EntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(5))
-                            .entreprise(res.getString(6))
-                            .responsable(res.getString(7))
-                            .telephone(res.getString(8))
-                            .build();
+                    Fournisseur fournisseur = new Fournisseur(res.getInt(5));
+                    fournisseur.setEntreprise(res.getString(6));
+                    fournisseur.setResponsable(res.getString(7));
+                    fournisseur.setTelephone(res.getString(8));
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(3))
-                            .valeur(new BigDecimal(res.getString(4)))
-                            .build();
+                    TauxCarte tauxCarte = new TauxCarte(res.getInt(3));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(4)));
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(1))
-                            .dateHeure(res.getTimestamp(2))
-                            .tauxCarte(tauxCarte)
-                            .fournisseur(fournisseur)
-                            .build();
+                    EntreeStock entreeStock = new EntreeStock(res.getInt(1));
+                    entreeStock.setDateHeure(res.getTimestamp(2));
+                    entreeStock.setTauxCarte(tauxCarte);
+                    entreeStock.setFournisseur(fournisseur);
 
                     listeEntreesStock.add(entreeStock);
                 }
@@ -111,48 +103,43 @@ public class EntreeStockDao {
             if (res != null) {
 
                 int code = 0;
-                EntreeStockBuilder entreeStockBuilder = new EntreeStockBuilder(0);
+                EntreeStock etrstck = new EntreeStock();
                 List<ItemEntreeStock> listeItemsEntreeStock = new ArrayList();
 
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    EntreeStock entreeStock = new EntreeStock(res.getInt(4));
+                    entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(8))
-                            .entreprise(res.getString(9))
-                            .responsable(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxCarte(tauxCarte);
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(6))
-                            .valeur(new BigDecimal(res.getString(7)))
-                            .build();
+                    Fournisseur fournisseur = new Fournisseur(res.getInt(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
+                    entreeStock.setFournisseur(fournisseur);
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .tauxCarte(tauxCarte)
-                            .fournisseur(fournisseur)
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(1)))
-                            .build();
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(new BigDecimal(res.getString(1)));
 
                     if (code == entreeStock.getCode()) {
                         listeItemsEntreeStock.add(itemEntreeStock);
                     } else {
                         if (!res.first()) {
-                            entreeStockBuilder.itemsEntreeStock(listeItemsEntreeStock);
-                            listeEntreesStock.add(entreeStockBuilder.build());
+                            etrstck.setItemsEntreeStock(listeItemsEntreeStock);
+                            listeEntreesStock.add(etrstck);
                         }
                         code = entreeStock.getCode();
 
-                        entreeStockBuilder = new EntreeStockBuilder(entreeStock.getCode())
-                                .dateHeure(entreeStock.getDateHeure())
-                                .tauxCarte(entreeStock.getTauxCarte())
-                                .fournisseur(entreeStock.getFournisseur());
+                        etrstck.setCode(entreeStock.getCode());
+                        etrstck.setDateHeure(entreeStock.getDateHeure());
+                        etrstck.setTauxCarte(entreeStock.getTauxCarte());
+                        etrstck.setFournisseur(entreeStock.getFournisseur());
 
                         listeItemsEntreeStock = new ArrayList();
                         listeItemsEntreeStock.add(itemEntreeStock);
@@ -170,7 +157,7 @@ public class EntreeStockDao {
     public EntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        EntreeStockBuilder entreeStockBuilder = new EntreeStockBuilder(0);
+        EntreeStock etrstck = new EntreeStock();
         List<ItemEntreeStock> listeItemsEntreeStock = new ArrayList();
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
@@ -198,49 +185,44 @@ public class EntreeStockDao {
 
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    EntreeStock entreeStock = new EntreeStock(res.getInt(4));
+                    entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(8))
-                            .entreprise(res.getString(9))
-                            .responsable(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxCarte(tauxCarte);
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(6))
-                            .valeur(new BigDecimal(res.getString(7)))
-                            .build();
+                    Fournisseur fournisseur = new Fournisseur(res.getInt(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
+                    entreeStock.setFournisseur(fournisseur);
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .tauxCarte(tauxCarte)
-                            .fournisseur(fournisseur)
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(new BigDecimal(res.getString(1)));
 
                     listeItemsEntreeStock.add(itemEntreeStock);
 
                     if (res.first()) {
-                        entreeStockBuilder = new EntreeStockBuilder(entreeStock.getCode())
-                                .dateHeure(entreeStock.getDateHeure())
-                                .tauxCarte(entreeStock.getTauxCarte())
-                                .fournisseur(entreeStock.getFournisseur());
+                        etrstck.setCode(entreeStock.getCode());
+                        etrstck.setDateHeure(entreeStock.getDateHeure());
+                        etrstck.setTauxCarte(entreeStock.getTauxCarte());
+                        etrstck.setFournisseur(entreeStock.getFournisseur());
                     }
 
                 }
 
-                entreeStockBuilder.itemsEntreeStock(listeItemsEntreeStock);
+                etrstck.setItemsEntreeStock(listeItemsEntreeStock);
 
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return entreeStockBuilder.build();
+        return etrstck;
     }
 
     public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {

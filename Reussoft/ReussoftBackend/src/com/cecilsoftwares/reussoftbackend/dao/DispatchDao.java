@@ -1,13 +1,9 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.ItemDispatch;
-import com.cecilsoftwares.reussoftmiddleend.model.Dispatch.DispatchBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Dispatch;
-import com.cecilsoftwares.reussoftmiddleend.model.ItemDispatch.ItemDispatchBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,17 +51,15 @@ public class DispatchDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shopDestinataire = new ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
-                    Shop shopExpediteur = new ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
+                    Dispatch dispatch = new Dispatch(res.getInt(1));
 
-                    Dispatch dispatch = new DispatchBuilder(res.getInt(1))
-                            .shopDestinataire(shopDestinataire)
-                            .shopExpediteur(shopExpediteur)
-                            .build();
+                    Shop shopDestinataire = new Shop(res.getInt(5));
+                    shopDestinataire.setNom(res.getString(6));
+                    dispatch.setShopDestinataire(shopDestinataire);
+
+                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    shopExpediteur.setNom(res.getString(6));
+                    dispatch.setShopExpediteur(shopExpediteur);
 
                     listeDispatch.add(dispatch);
                 }
@@ -105,45 +99,40 @@ public class DispatchDao {
             if (res != null) {
 
                 int code = 0;
-                DispatchBuilder dispatchBuilder = new DispatchBuilder(0);
+                Dispatch dsptch = new Dispatch();
                 List<ItemDispatch> listeItemsDispatch = new ArrayList();
 
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Dispatch dispatch = new Dispatch(res.getInt(1));
 
-                    Shop shopDestinataire = new ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
+                    Shop shopDestinataire = new Shop(res.getInt(5));
+                    shopDestinataire.setNom(res.getString(6));
+                    dispatch.setShopDestinataire(shopDestinataire);
 
-                    Shop shopExpediteur = new ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
+                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    shopExpediteur.setNom(res.getString(6));
+                    dispatch.setShopExpediteur(shopExpediteur);
 
-                    Dispatch dispatch = new DispatchBuilder(res.getInt(1))
-                            .shopDestinataire(shopDestinataire)
-                            .shopExpediteur(shopExpediteur)
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    ItemDispatch itemDispatch = new ItemDispatchBuilder(dispatch, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    itemDispatch.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     if (code == dispatch.getCode()) {
                         listeItemsDispatch.add(itemDispatch);
                     } else {
                         if (!res.first()) {
-                            dispatchBuilder.itemsDispatch(listeItemsDispatch);
-                            listeDispatch.add(dispatchBuilder.build());
+                            dsptch.setItemsDispatch(listeItemsDispatch);
+                            listeDispatch.add(dsptch);
                         }
                         code = dispatch.getCode();
 
-                        dispatchBuilder = new DispatchBuilder(dispatch.getCode())
-                                .dateHeure(dispatch.getDateHeure())
-                                .shopDestinataire(dispatch.getShopDestinataire())
-                                .shopExpediteur(dispatch.getShopExpediteur());
+                        dsptch.setCode(dispatch.getCode());
+                        dsptch.setDateHeure(dispatch.getDateHeure());
+                        dsptch.setShopDestinataire(dispatch.getShopDestinataire());
+                        dsptch.setShopExpediteur(dispatch.getShopExpediteur());
 
                         listeItemsDispatch = new ArrayList();
                         listeItemsDispatch.add(itemDispatch);
@@ -161,7 +150,9 @@ public class DispatchDao {
     public Dispatch selectionnerDispatchParCode(int codeDispatch) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
-        DispatchBuilder dispatchBuilder = new DispatchBuilder(0);
+
+        Dispatch dsptch = new Dispatch();
+
         List<ItemDispatch> listeItemsDispatch = new ArrayList();
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
@@ -185,49 +176,45 @@ public class DispatchDao {
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, codeDispatch);
             res = prs.executeQuery();
+
             if (res != null) {
 
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    Dispatch dispatch = new Dispatch(res.getInt(1));
 
-                    Shop shopDestinataire = new ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
+                    Shop shopDestinataire = new Shop(res.getInt(5));
+                    shopDestinataire.setNom(res.getString(6));
+                    dispatch.setShopDestinataire(shopDestinataire);
 
-                    Shop shopExpediteur = new ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .build();
+                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    shopExpediteur.setNom(res.getString(6));
+                    dispatch.setShopExpediteur(shopExpediteur);
 
-                    Dispatch dispatch = new DispatchBuilder(res.getInt(1))
-                            .shopDestinataire(shopDestinataire)
-                            .shopExpediteur(shopExpediteur)
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    ItemDispatch itemDispatch = new ItemDispatchBuilder(dispatch, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    itemDispatch.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsDispatch.add(itemDispatch);
 
                     if (res.first()) {
-                        dispatchBuilder = new DispatchBuilder(dispatch.getCode())
-                                .shopDestinataire(dispatch.getShopDestinataire())
-                                .shopExpediteur(dispatch.getShopExpediteur());
+                        dsptch.setCode(dispatch.getCode());
+                        dsptch.setShopDestinataire(dispatch.getShopDestinataire());
+                        dsptch.setShopExpediteur(dispatch.getShopExpediteur());
                     }
 
                 }
 
-                dispatchBuilder.itemsDispatch(listeItemsDispatch);
+                dsptch.setItemsDispatch(listeItemsDispatch);
 
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return dispatchBuilder.build();
+        return dsptch;
     }
 
     public boolean enregistrerDispatch(Dispatch dispatch) throws ClassNotFoundException, SQLException {

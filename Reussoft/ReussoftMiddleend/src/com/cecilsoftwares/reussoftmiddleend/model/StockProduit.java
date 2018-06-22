@@ -7,72 +7,58 @@ import java.math.BigDecimal;
  */
 public class StockProduit {
 
-    private final Produit produit;
-    private final Shop shop;
-    private final BigDecimal QuantiteStock;
-    private final BigDecimal quantiteMaximumStock;
-    private final BigDecimal quantiteMinimumStock;
+    private Produit produit;
+    private Shop shop;
+    private BigDecimal QuantiteStock;
+    private BigDecimal quantiteMaximumStock;
+    private BigDecimal quantiteMinimumStock;
 
-    public StockProduit(StockBuilder stockBuilder) {
-        produit = stockBuilder.produit;
-        shop = stockBuilder.shop;
-        QuantiteStock = stockBuilder.QuantiteStock;
-        quantiteMaximumStock = stockBuilder.quantiteMaximumStock;
-        quantiteMinimumStock = stockBuilder.quantiteMinimumStock;
+    public StockProduit() {
+
+    }
+
+    public StockProduit(Produit produit) {
+        this.produit = produit;
     }
 
     public Produit getProduit() {
         return produit;
     }
 
+    public void setProduit(Produit produit) {
+        this.produit = produit;
+    }
+
     public Shop getShop() {
         return shop;
     }
 
-    public BigDecimal getQuantiteProduit() {
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public BigDecimal getQuantiteStock() {
         return QuantiteStock;
+    }
+
+    public void setQuantiteStock(BigDecimal QuantiteStock) {
+        this.QuantiteStock = QuantiteStock;
     }
 
     public BigDecimal getQuantiteMaximumStock() {
         return quantiteMaximumStock;
     }
 
+    public void setQuantiteMaximumStock(BigDecimal quantiteMaximumStock) {
+        this.quantiteMaximumStock = quantiteMaximumStock;
+    }
+
     public BigDecimal getQuantiteMinimumStock() {
         return quantiteMinimumStock;
     }
 
-    public static class StockBuilder {
-
-        private Produit produit;
-        private Shop shop;
-        private BigDecimal QuantiteStock;
-        private BigDecimal quantiteMaximumStock;
-        private BigDecimal quantiteMinimumStock;
-
-        public StockBuilder(Produit produit, Shop shop) {
-            this.produit = produit;
-            this.shop = shop;
-        }
-
-        public StockBuilder QuantiteStock(BigDecimal QuantiteStock) {
-            this.QuantiteStock = QuantiteStock;
-            return this;
-        }
-
-        public StockBuilder quantiteMaximumStock(BigDecimal quantiteMaximumStock) {
-            this.quantiteMaximumStock = quantiteMaximumStock;
-            return this;
-        }
-
-        public StockBuilder qtdMinimumStock(BigDecimal quantiteMinimumStock) {
-            this.quantiteMinimumStock = quantiteMinimumStock;
-            return this;
-        }
-
-        public StockProduit build() {
-            return new StockProduit(this);
-        }
-
+    public void setQuantiteMinimumStock(BigDecimal quantiteMinimumStock) {
+        this.quantiteMinimumStock = quantiteMinimumStock;
     }
 
 }

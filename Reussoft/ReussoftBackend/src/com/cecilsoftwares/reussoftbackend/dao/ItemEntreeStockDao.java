@@ -2,14 +2,9 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
-import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur.FournisseurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
-import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock.EntreeStockBuilder;
-import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock.ItemEntreeStockBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
-import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte.TauxCarteBuilder;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,29 +55,24 @@ public class ItemEntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    EntreeStock entreeStock = new EntreeStock(res.getInt(4));
+                    entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(8))
-                            .entreprise(res.getString(9))
-                            .responsable(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxCarte(tauxCarte);
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(6))
-                            .valeur(new BigDecimal(res.getString(7)))
-                            .build();
+                    Fournisseur fournisseur = new Fournisseur(res.getInt(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
+                    entreeStock.setFournisseur(fournisseur);
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .tauxCarte(tauxCarte)
-                            .fournisseur(fournisseur)
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsEntreeStock.add(itemEntreeStock);
                 }
@@ -120,29 +110,24 @@ public class ItemEntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    EntreeStock entreeStock = new EntreeStock(res.getInt(4));
+                    entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(8))
-                            .entreprise(res.getString(9))
-                            .responsable(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxCarte(tauxCarte);
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(6))
-                            .valeur(new BigDecimal(res.getString(7)))
-                            .build();
+                    Fournisseur fournisseur = new Fournisseur(res.getInt(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
+                    entreeStock.setFournisseur(fournisseur);
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .tauxCarte(tauxCarte)
-                            .fournisseur(fournisseur)
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsEntreeStock.add(itemEntreeStock);
                 }
@@ -180,29 +165,24 @@ public class ItemEntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    EntreeStock entreeStock = new EntreeStock(res.getInt(4));
+                    entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(8))
-                            .entreprise(res.getString(9))
-                            .responsable(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxCarte(tauxCarte);
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(6))
-                            .valeur(new BigDecimal(res.getString(7)))
-                            .build();
+                    Fournisseur fournisseur = new Fournisseur(res.getInt(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
+                    entreeStock.setFournisseur(fournisseur);
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .tauxCarte(tauxCarte)
-                            .fournisseur(fournisseur)
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsEntreeStock.add(itemEntreeStock);
                 }
@@ -239,29 +219,24 @@ public class ItemEntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new ProduitBuilder(res.getInt(12))
-                            .description(res.getString(13))
-                            .build();
+                    EntreeStock entreeStock = new EntreeStock(res.getInt(4));
+                    entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    Fournisseur fournisseur = new FournisseurBuilder(res.getInt(8))
-                            .entreprise(res.getString(9))
-                            .responsable(res.getString(10))
-                            .telephone(res.getString(11))
-                            .build();
+                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxCarte(tauxCarte);
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(6))
-                            .valeur(new BigDecimal(res.getString(7)))
-                            .build();
+                    Fournisseur fournisseur = new Fournisseur(res.getInt(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
+                    entreeStock.setFournisseur(fournisseur);
 
-                    EntreeStock entreeStock = new EntreeStockBuilder(res.getInt(4))
-                            .dateHeure(res.getTimestamp(5))
-                            .tauxCarte(tauxCarte)
-                            .fournisseur(fournisseur)
-                            .build();
+                    Produit produit = new Produit(res.getInt(12));
+                    produit.setDescription(res.getString(13));
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStockBuilder(entreeStock, produit)
-                            .quantiteProduit(new BigDecimal(res.getString(3)))
-                            .build();
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     prs.close();
                     res.close();

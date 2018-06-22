@@ -1,9 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
-import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte.TauxCarteBuilder;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,16 +47,14 @@ public class TauxCarteDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(4))
-                            .nom(res.getString(5))
-                            .adresse(res.getString(6))
-                            .build();
+                    TauxCarte tauxCarte = new TauxCarte(res.getInt(1));
+                    tauxCarte.setDateHeure(res.getTimestamp(2));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(3)));
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(1))
-                            .dateHeure(res.getTimestamp(2))
-                            .valeur(new BigDecimal(res.getString(3)))
-                            .shop(shop)
-                            .build();
+                    Shop shop = new Shop(res.getInt(4));
+                    shop.setNom(res.getString(5));
+                    shop.setAdresse(res.getString(6));
+                    tauxCarte.setShop(shop);
 
                     listeTauxCartes.add(tauxCarte);
                 }
@@ -88,16 +84,14 @@ public class TauxCarteDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(4))
-                            .nom(res.getString(5))
-                            .adresse(res.getString(6))
-                            .build();
+                    TauxCarte tauxCarte = new TauxCarte(res.getInt(1));
+                    tauxCarte.setDateHeure(res.getTimestamp(2));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(3)));
 
-                    TauxCarte tauxCarte = new TauxCarteBuilder(res.getInt(1))
-                            .dateHeure(res.getTimestamp(2))
-                            .valeur(new BigDecimal(res.getString(3)))
-                            .shop(shop)
-                            .build();
+                    Shop shop = new Shop(res.getInt(4));
+                    shop.setNom(res.getString(5));
+                    shop.setAdresse(res.getString(6));
+                    tauxCarte.setShop(shop);
 
                     prs.close();
                     res.close();

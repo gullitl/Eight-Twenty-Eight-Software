@@ -7,11 +7,8 @@ import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProduit;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationReseau;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit.CategorieProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
-import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
 import com.cecilsoftwares.reussoftmiddleend.util.DecimalFormatter;
 import java.awt.Cursor;
 import java.sql.SQLException;
@@ -236,17 +233,19 @@ public class RegistreProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            Reseau reseau = new ReseauBuilder(Integer.parseInt(tfdIdReseau.getText())).build();
-            CategorieProduit categorieProduit = new CategorieProduitBuilder(Integer.parseInt(tfdIdCategorieProduit.getText())).build();
+            Produit produit = new Produit(codeProduit);
+            produit.setDescription(tfdDescription.getText());
 
-            Produit produit = new ProduitBuilder(codeProduit)
-                    .description(tfdDescription.getText())
-                    .reseau(reseau)
-                    .categorieProduit(categorieProduit)
-                    .prixAchatFC(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatFC.getText()))
-                    .prixAchatUSD(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatUSD.getText()))
-                    .active(modeEdition ? chbActiver.isSelected() : true)
-                    .build();
+            Reseau reseau = new Reseau(Integer.parseInt(tfdIdReseau.getText()));
+
+            produit.setReseau(reseau);
+
+            CategorieProduit categorieProduit = new CategorieProduit(Integer.parseInt(tfdIdCategorieProduit.getText()));
+            produit.setCategorieProduit(categorieProduit);
+
+            produit.setPrixAchatFC(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatFC.getText()));
+            produit.setPrixAchatUSD(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatUSD.getText()));
+            produit.setActive(modeEdition ? chbActiver.isSelected() : true);
 
             try {
                 if (ProduitService.getInstance().enregistrerProduit(produit)) {

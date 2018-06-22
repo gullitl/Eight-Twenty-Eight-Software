@@ -1,11 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur.SessionUtilisateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,22 +49,19 @@ public class SessionUtilisateurDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(8))
-                            .nom(res.getString(9))
-                            .adresse(res.getString(10))
-                            .build();
+                    Shop shop = new Shop(res.getInt(8));
+                    shop.setNom(res.getString(9));
+                    shop.setAdresse(res.getString(10));
 
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(4))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
-                            .build();
+                    Collaborateur collaborateur = new Collaborateur(res.getInt(4));
+                    collaborateur.setNom(res.getString(5));
+                    collaborateur.setPostnom(res.getString(6));
+                    collaborateur.setSurnom(res.getString(7));
 
-                    SessionUtilisateur sessionutilisateur = new SessionUtilisateurBuilder(res.getInt(1))
-                            .dateHeure(res.getTimestamp(2))
-                            .action(res.getString(3))
-                            .collaborateur(collaborateur)
-                            .build();
+                    SessionUtilisateur sessionutilisateur = new SessionUtilisateur(res.getInt(1));
+                    sessionutilisateur.setDateHeure(res.getTimestamp(2));
+                    sessionutilisateur.setAction(res.getString(3));
+                    sessionutilisateur.setCollaborateur(collaborateur);
 
                     listeSessionUtilisateurs.add(sessionutilisateur);
                 }
@@ -98,22 +92,19 @@ public class SessionUtilisateurDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(8))
-                            .nom(res.getString(9))
-                            .adresse(res.getString(10))
-                            .build();
+                    Shop shop = new Shop(res.getInt(8));
+                    shop.setNom(res.getString(9));
+                    shop.setAdresse(res.getString(10));
 
-                    Collaborateur collaborateur = new CollaborateurBuilder(res.getInt(4))
-                            .nom(res.getString(5))
-                            .postnom(res.getString(6))
-                            .surnom(res.getString(7))
-                            .build();
+                    Collaborateur collaborateur = new Collaborateur(res.getInt(4));
+                    collaborateur.setNom(res.getString(5));
+                    collaborateur.setPostnom(res.getString(6));
+                    collaborateur.setSurnom(res.getString(7));
 
-                    SessionUtilisateur sessionutilisateur = new SessionUtilisateurBuilder(res.getInt(1))
-                            .dateHeure(res.getTimestamp(2))
-                            .action(res.getString(3))
-                            .collaborateur(collaborateur)
-                            .build();
+                    SessionUtilisateur sessionutilisateur = new SessionUtilisateur(res.getInt(1));
+                    sessionutilisateur.setDateHeure(res.getTimestamp(2));
+                    sessionutilisateur.setAction(res.getString(3));
+                    sessionutilisateur.setCollaborateur(collaborateur);
 
                     prs.close();
                     res.close();

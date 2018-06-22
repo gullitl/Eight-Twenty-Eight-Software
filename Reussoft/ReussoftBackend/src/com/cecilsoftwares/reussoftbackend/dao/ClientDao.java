@@ -1,9 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
-import com.cecilsoftwares.reussoftmiddleend.model.Client.ClientBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,18 +44,17 @@ public class ClientDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .adresse(res.getString(7))
-                            .active(res.getInt(8) == 0)
-                            .build();
+                    Client client = new Client(res.getInt(1));
+                    client.setNom(res.getString(2));
+                    client.setEntreprise(res.getString(3));
+                    client.setTelephone(res.getString(4));
 
-                    Client client = new ClientBuilder(res.getInt(1))
-                            .nom(res.getString(2))
-                            .entreprise(res.getString(3))
-                            .telephone(res.getString(4))
-                            .shop(shop)
-                            .build();
+                    Shop shop = new Shop(res.getInt(5));
+                    shop.setNom(res.getString(6));
+                    shop.setAdresse(res.getString(7));
+                    shop.setActive(res.getInt(8) == 0);
+
+                    client.setShop(shop);
 
                     listeClients.add(client);
                 }
@@ -86,18 +83,17 @@ public class ClientDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new ShopBuilder(res.getInt(5))
-                            .nom(res.getString(6))
-                            .adresse(res.getString(7))
-                            .active(res.getInt(8) == 0)
-                            .build();
+                    Client client = new Client(res.getInt(1));
+                    client.setNom(res.getString(2));
+                    client.setEntreprise(res.getString(3));
+                    client.setTelephone(res.getString(4));
 
-                    Client client = new ClientBuilder(res.getInt(1))
-                            .nom(res.getString(2))
-                            .entreprise(res.getString(3))
-                            .telephone(res.getString(4))
-                            .shop(shop)
-                            .build();
+                    Shop shop = new Shop(res.getInt(5));
+                    shop.setNom(res.getString(6));
+                    shop.setAdresse(res.getString(7));
+                    shop.setActive(res.getInt(8) == 0);
+
+                    client.setShop(shop);
 
                     prs.close();
                     res.close();

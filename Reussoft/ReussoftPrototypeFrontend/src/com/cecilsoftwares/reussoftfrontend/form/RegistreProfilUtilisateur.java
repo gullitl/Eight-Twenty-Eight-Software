@@ -3,7 +3,6 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -138,10 +137,9 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(codeProfilUtilisateur)
-                    .description(tfdDescription.getText())
-                    .descriptionAbregee(tfdDescriptionAbregee.getText())
-                    .build();
+            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(codeProfilUtilisateur);
+            profilUtilisateur.setDescription(tfdDescription.getText());
+            profilUtilisateur.setDescriptionAbregee(tfdDescriptionAbregee.getText());
 
             try {
                 if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {

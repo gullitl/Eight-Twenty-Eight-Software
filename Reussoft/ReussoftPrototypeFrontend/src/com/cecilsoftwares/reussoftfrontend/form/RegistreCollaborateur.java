@@ -5,9 +5,7 @@ import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCollaborateur;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur.CollaborateurBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur.ProfilUtilisateurBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -265,17 +263,16 @@ public class RegistreCollaborateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateurBuilder(Integer.parseInt(tfdIdProfilUtilisateur.getText())).build();
-            Collaborateur collaborateur = new CollaborateurBuilder(codeCollaborateur)
-                    .prenom(tfdPrenom.getText())
-                    .nom(tfdNom.getText())
-                    .postnom(tfdPostnom.getText())
-                    .surnom(tfdSurnom.getText())
-                    .nomUtilisateur(tfdNomUtilisateur.getText())
-                    .motDePasse(pwfMotDePasse.getText())
-                    .profilUtilisateur(profilUtilisateur)
-                    .active(modeEdition ? chbActiver.isSelected() : true)
-                    .build();
+            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(Integer.parseInt(tfdIdProfilUtilisateur.getText()));
+            Collaborateur collaborateur = new Collaborateur(codeCollaborateur);
+            collaborateur.setPrenom(tfdPrenom.getText());
+            collaborateur.setNom(tfdNom.getText());
+            collaborateur.setPostnom(tfdPostnom.getText());
+            collaborateur.setSurnom(tfdSurnom.getText());
+            collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
+            collaborateur.setMotDePasse(pwfMotDePasse.getText());
+            collaborateur.setProfilUtilisateur(profilUtilisateur);
+            collaborateur.setActive(modeEdition ? chbActiver.isSelected() : true);
             try {
                 if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
                     String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";

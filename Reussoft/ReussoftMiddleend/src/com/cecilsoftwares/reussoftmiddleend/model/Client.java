@@ -5,74 +5,58 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Client {
 
-    private final int code;
-    private final String nom;
-    private final String entreprise;
-    private final String telephone;
-    private final Shop shop;
+    private int code;
+    private String nom;
+    private String entreprise;
+    private String telephone;
+    private Shop shop;
 
-    public Client(ClientBuilder clientBuilder) {
-        code = clientBuilder.code;
-        nom = clientBuilder.nom;
-        entreprise = clientBuilder.entreprise;
-        telephone = clientBuilder.telephone;
-        shop = clientBuilder.shop;
+    public Client() {
+
+    }
+
+    public Client(int code) {
+        this.code = code;
     }
 
     public int getCode() {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public String getNom() {
         return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getEntreprise() {
         return entreprise;
     }
 
+    public void setEntreprise(String entreprise) {
+        this.entreprise = entreprise;
+    }
+
     public String getTelephone() {
         return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     public Shop getShop() {
         return shop;
     }
 
-    public static class ClientBuilder {
-
-        private int code;
-        private String nom;
-        private String entreprise;
-        private String telephone;
-        private Shop shop;
-
-        public ClientBuilder(int code) {
-            this.code = code;
-        }
-
-        public ClientBuilder nom(String nom) {
-            this.nom = nom;
-            return this;
-        }
-
-        public ClientBuilder entreprise(String entreprise) {
-            this.entreprise = entreprise;
-            return this;
-        }
-
-        public ClientBuilder telephone(String telephone) {
-            this.telephone = telephone;
-            return this;
-        }
-
-        public ClientBuilder shop(Shop shop) {
-            this.shop = shop;
-            return this;
-        }
-
-        public Client build() {
-            return new Client(this);
-        }
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
+
 }

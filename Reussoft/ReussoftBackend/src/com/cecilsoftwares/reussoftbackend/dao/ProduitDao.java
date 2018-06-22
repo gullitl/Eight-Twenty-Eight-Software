@@ -1,11 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit.CategorieProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Produit.ProduitBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
-import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -53,24 +50,21 @@ public class ProduitDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Reseau reseau = new ReseauBuilder(res.getInt(9))
-                            .nom(res.getString(10))
-                            .nomAbrege(res.getString(11))
-                            .build();
+                    Reseau reseau = new Reseau(res.getInt(9));
+                    reseau.setNom(res.getString(10));
+                    reseau.setNomAbrege(res.getString(11));
 
-                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(6))
-                            .description(res.getString(7))
-                            .descriptionAbregee(res.getString(8))
-                            .build();
+                    CategorieProduit categorieProduit = new CategorieProduit(res.getInt(6));
+                    categorieProduit.setDescription(res.getString(7));
+                    categorieProduit.setDescriptionAbregee(res.getString(8));
 
-                    Produit produit = new ProduitBuilder(res.getInt(1))
-                            .description(res.getString(2))
-                            .active(res.getInt(3) == 1)
-                            .prixAchatUSD(new BigDecimal(res.getString(4)))
-                            .prixAchatFC(new BigDecimal(res.getString(5)))
-                            .reseau(reseau)
-                            .categorieProduit(categorieProduit)
-                            .build();
+                    Produit produit = new Produit(res.getInt(1));
+                    produit.setDescription(res.getString(2));
+                    produit.setActive(res.getInt(3) == 1);
+                    produit.setPrixAchatUSD(new BigDecimal(res.getString(4)));
+                    produit.setPrixAchatFC(new BigDecimal(res.getString(5)));
+                    produit.setReseau(reseau);
+                    produit.setCategorieProduit(categorieProduit);
 
                     listeProduits.add(produit);
                 }
@@ -104,24 +98,21 @@ public class ProduitDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Reseau reseau = new ReseauBuilder(res.getInt(9))
-                            .nom(res.getString(10))
-                            .nomAbrege(res.getString(11))
-                            .build();
+                    Reseau reseau = new Reseau(res.getInt(9));
+                    reseau.setNom(res.getString(10));
+                    reseau.setNomAbrege(res.getString(11));
 
-                    CategorieProduit categorieProduit = new CategorieProduitBuilder(res.getInt(6))
-                            .description(res.getString(7))
-                            .descriptionAbregee(res.getString(8))
-                            .build();
+                    CategorieProduit categorieProduit = new CategorieProduit(res.getInt(6));
+                    categorieProduit.setDescription(res.getString(7));
+                    categorieProduit.setDescriptionAbregee(res.getString(8));
 
-                    Produit produit = new ProduitBuilder(res.getInt(1))
-                            .description(res.getString(2))
-                            .active(res.getInt(3) == 1)
-                            .prixAchatUSD(new BigDecimal(res.getString(4)))
-                            .prixAchatFC(new BigDecimal(res.getString(5)))
-                            .reseau(reseau)
-                            .categorieProduit(categorieProduit)
-                            .build();
+                    Produit produit = new Produit(res.getInt(1));
+                    produit.setDescription(res.getString(2));
+                    produit.setActive(res.getInt(3) == 1);
+                    produit.setPrixAchatUSD(new BigDecimal(res.getString(4)));
+                    produit.setPrixAchatFC(new BigDecimal(res.getString(5)));
+                    produit.setReseau(reseau);
+                    produit.setCategorieProduit(categorieProduit);
 
                     prs.close();
                     res.close();

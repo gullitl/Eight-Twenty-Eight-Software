@@ -8,64 +8,49 @@ import java.util.Date;
  */
 public class TauxCarte {
 
-    private final int code;
-    private final Shop shop;
-    private final BigDecimal valeur;
-    private final Date dateHeure;
+    private int code;
+    private Shop shop;
+    private BigDecimal valeur;
+    private Date dateHeure;
 
-    public TauxCarte(TauxCarteBuilder tauxCarteBuilder) {
-        code = tauxCarteBuilder.code;
-        shop = tauxCarteBuilder.shop;
-        valeur = tauxCarteBuilder.valeur;
-        dateHeure = tauxCarteBuilder.dateHeure;
+    public TauxCarte() {
+
+    }
+
+    public TauxCarte(int code) {
+        this.code = code;
     }
 
     public int getCode() {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public Shop getShop() {
         return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     public BigDecimal getValeur() {
         return valeur;
     }
 
+    public void setValeur(BigDecimal valeur) {
+        this.valeur = valeur;
+    }
+
     public Date getDateHeure() {
         return dateHeure;
     }
 
-    public static class TauxCarteBuilder {
-
-        private int code;
-        private Shop shop;
-        private BigDecimal valeur;
-        private Date dateHeure;
-
-        public TauxCarteBuilder(int code) {
-            this.code = code;
-        }
-
-        public TauxCarteBuilder shop(Shop shop) {
-            this.shop = shop;
-            return this;
-        }
-
-        public TauxCarteBuilder valeur(BigDecimal valeur) {
-            this.valeur = valeur;
-            return this;
-        }
-
-        public TauxCarteBuilder dateHeure(Date dateHeure) {
-            this.dateHeure = dateHeure;
-            return this;
-        }
-
-        public TauxCarte build() {
-            return new TauxCarte(this);
-        }
-
+    public void setDateHeure(Date dateHeure) {
+        this.dateHeure = dateHeure;
     }
 
 }

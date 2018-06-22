@@ -1,7 +1,6 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
-import com.cecilsoftwares.reussoftmiddleend.model.Reseau.ReseauBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,11 +42,10 @@ public class ReseauDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Reseau reseau = new ReseauBuilder(res.getInt(1))
-                            .nom(res.getString(2))
-                            .nomAbrege(res.getString(3))
-                            .active(res.getInt(4) == 1)
-                            .build();
+                    Reseau reseau = new Reseau(res.getInt(1));
+                    reseau.setNom(res.getString(2));
+                    reseau.setNomAbrege(res.getString(3));
+                    reseau.setActive(res.getInt(4) == 1);
 
                     listeReseaus.add(reseau);
                 }
@@ -74,11 +72,10 @@ public class ReseauDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Reseau reseau = new ReseauBuilder(res.getInt(1))
-                            .nom(res.getString(2))
-                            .nomAbrege(res.getString(3))
-                            .active(res.getInt(4) == 1)
-                            .build();
+                    Reseau reseau = new Reseau(res.getInt(1));
+                    reseau.setNom(res.getString(2));
+                    reseau.setNomAbrege(res.getString(3));
+                    reseau.setActive(res.getInt(4) == 1);
 
                     prs.close();
                     res.close();

@@ -308,7 +308,7 @@ public class OperationDispatch extends JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDispatcherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDispatcherActionPerformed
-        Produit produit = new Produit.ProduitBuilder(Integer.parseInt(tfdIdProduit.getText())).build();
+        Produit produit = new Produit(Integer.parseInt(tfdIdProduit.getText()));
 
 //        EntreeStock entreeStock = new EntreeStock.EntreeStockBuilder(Integer.parseInt(tfdCode.getText()))
 //                .produit(produit)

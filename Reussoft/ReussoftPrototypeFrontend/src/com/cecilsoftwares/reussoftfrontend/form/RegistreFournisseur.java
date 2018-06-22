@@ -3,7 +3,6 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationFournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
-import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur.FournisseurBuilder;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -153,11 +152,10 @@ public class RegistreFournisseur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            Fournisseur fournisseur = new FournisseurBuilder(codeFournisseur)
-                    .entreprise(tfdEntreprise.getText())
-                    .responsable(tfdResponsable.getText())
-                    .telephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""))
-                    .build();
+            Fournisseur fournisseur = new Fournisseur(codeFournisseur);
+            fournisseur.setEntreprise(tfdEntreprise.getText());
+            fournisseur.setResponsable(tfdResponsable.getText());
+            fournisseur.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
 
             try {
                 if (FournisseurService.getInstance().enregistrerFournisseur(fournisseur)) {
