@@ -414,24 +414,38 @@ public class OperationEntreeStock extends JInternalFrame {
 
     private void btnAjouterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjouterProduitActionPerformed
 
-        if (!spnQuantiteProduit.getToolTipText().equals("0") && !spnQuantiteProduit.getToolTipText().isEmpty()) {
+        if (!spnQuantiteProduit.getValue().equals("0") && !spnQuantiteProduit.getValue().equals("")) {
 
             if (modeEditionitemEntreeStock) {
-                itemsEntreeStock.forEach(ies -> {
-
+                for (ItemEntreeStock ies : itemsEntreeStock) {
                     if (ies.getProduit().getCode() == codeEntreeStock) {
-//                        ies.
-
+                        ies.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getValue().toString()));
+                        break;
                     }
+                }
 
+                defaultTableModel.setRowCount(0);
+
+                itemsEntreeStock.forEach(ies -> {
+                    dataRows[0] = ies.getProduit().getCode();
+                    dataRows[1] = ies.getProduit().getDescription();
+                    dataRows[2] = ies.getQuantiteProduit();
+                    dataRows[3] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
+                            .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
+                    dataRows[4] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
+                            .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
+                    defaultTableModel.addRow(dataRows);
                 });
+
+                String formeNombre = itemsEntreeStock.size() > 1 ? "Items" : "Item";
+                lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
 
             } else {
 
                 EntreeStock entreeStock = new EntreeStock(codeEntreeStock);
 
                 ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produitSelectionne);
-                itemEntreeStock.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getToolTipText()));
+                itemEntreeStock.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getValue().toString()));
 
                 itemsEntreeStock.add(itemEntreeStock);
 
@@ -451,6 +465,7 @@ public class OperationEntreeStock extends JInternalFrame {
                 String formeNombre = itemsEntreeStock.size() > 1 ? "Items" : "Item";
                 lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
             }
+            effacerChampsItemStock();
         } else {
             JOptionPane.showMessageDialog(null, "Quantité incorrect!");
         }
@@ -561,15 +576,18 @@ public class OperationEntreeStock extends JInternalFrame {
     }//GEN-LAST:event_btnConsulterProduitActionPerformed
 
     private void btnEffacerChampsProduitsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerChampsProduitsActionPerformed
+        effacerChampsItemStock();
+    }//GEN-LAST:event_btnEffacerChampsProduitsActionPerformed
+
+    public void effacerChampsItemStock() {
         tfdIdProduit.setText("");
         lblDescriptionProduit.setText("");
-//        spnQuantiteProduit.setValue(0);
-        spnQuantiteProduit.setToolTipText("0");
+        spnQuantiteProduit.setValue(0);
         jLabel16.setText("");
         lblProduitStockActuel.setText("");
         modeEditionitemEntreeStock = false;
         tfdIdProduit.requestFocus();
-    }//GEN-LAST:event_btnEffacerChampsProduitsActionPerformed
+    }
 
     private void tblItemsEntreeStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemsEntreeStockMouseClicked
         if (evt.getClickCount() == 2) {
@@ -585,7 +603,7 @@ public class OperationEntreeStock extends JInternalFrame {
                 codeEntreeStock = itemEntreeStock.getProduit().getCode();
                 tfdIdProduit.setText(String.valueOf(itemEntreeStock.getProduit().getCode()));
                 lblDescriptionProduit.setText(String.valueOf(itemEntreeStock.getProduit().getDescription()));
-                spnQuantiteProduit.setToolTipText(String.valueOf(itemEntreeStock.getQuantiteProduit()));
+                spnQuantiteProduit.setValue(itemEntreeStock.getQuantiteProduit());
                 modeEditionitemEntreeStock = true;
 
             }
@@ -611,8 +629,7 @@ public class OperationEntreeStock extends JInternalFrame {
 
         tfdIdProduit.setText("");
         lblDescriptionProduit.setText("");
-//        spnQuantiteProduit.setValue(0);
-        spnQuantiteProduit.setToolTipText("0");
+        spnQuantiteProduit.setValue(0);
         jLabel16.setText("");
         lblProduitStockActuel.setText("");
         modeEditionitemEntreeStock = false;

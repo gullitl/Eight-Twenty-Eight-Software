@@ -72,4 +72,8 @@ public class AppConfig {
         this.password = password;
     }
 
+    public String getUrl() {
+        return getUrlHead() + "//" + getServerHost() + ":" + getPort() + "/";
+    }
+
 }
