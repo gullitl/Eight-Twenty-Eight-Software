@@ -11,6 +11,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import java.awt.Cursor;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -151,6 +152,11 @@ public class OperationEntreeStock extends JInternalFrame {
         tblItemsEntreeStock.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblItemsEntreeStockMouseClicked(evt);
+            }
+        });
+        tblItemsEntreeStock.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblItemsEntreeStockKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(tblItemsEntreeStock);
@@ -414,7 +420,11 @@ public class OperationEntreeStock extends JInternalFrame {
 
     private void btnAjouterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjouterProduitActionPerformed
 
-        if (!spnQuantiteProduit.getValue().equals("0") && !spnQuantiteProduit.getValue().equals("")) {
+        System.out.println(spnQuantiteProduit.getValue());
+
+        if (spnQuantiteProduit.getValue().toString().equals("0") || spnQuantiteProduit.getValue().toString().equals("")) {
+            JOptionPane.showMessageDialog(null, "Quantité incorrect!");
+        } else {
 
             if (modeEditionitemEntreeStock) {
                 for (ItemEntreeStock ies : itemsEntreeStock) {
@@ -424,22 +434,6 @@ public class OperationEntreeStock extends JInternalFrame {
                     }
                 }
 
-                defaultTableModel.setRowCount(0);
-
-                itemsEntreeStock.forEach(ies -> {
-                    dataRows[0] = ies.getProduit().getCode();
-                    dataRows[1] = ies.getProduit().getDescription();
-                    dataRows[2] = ies.getQuantiteProduit();
-                    dataRows[3] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
-                            .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
-                    dataRows[4] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
-                            .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
-                    defaultTableModel.addRow(dataRows);
-                });
-
-                String formeNombre = itemsEntreeStock.size() > 1 ? "Items" : "Item";
-                lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
-
             } else {
 
                 EntreeStock entreeStock = new EntreeStock(codeEntreeStock);
@@ -448,26 +442,25 @@ public class OperationEntreeStock extends JInternalFrame {
                 itemEntreeStock.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getValue().toString()));
 
                 itemsEntreeStock.add(itemEntreeStock);
-
-                defaultTableModel.setRowCount(0);
-
-                itemsEntreeStock.forEach(ies -> {
-                    dataRows[0] = ies.getProduit().getCode();
-                    dataRows[1] = ies.getProduit().getDescription();
-                    dataRows[2] = ies.getQuantiteProduit();
-                    dataRows[3] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
-                            .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
-                    dataRows[4] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
-                            .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
-                    defaultTableModel.addRow(dataRows);
-                });
-
-                String formeNombre = itemsEntreeStock.size() > 1 ? "Items" : "Item";
-                lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
             }
+
+            defaultTableModel.setRowCount(0);
+
+            itemsEntreeStock.forEach(ies -> {
+                dataRows[0] = ies.getProduit().getCode();
+                dataRows[1] = ies.getProduit().getDescription();
+                dataRows[2] = ies.getQuantiteProduit();
+                dataRows[3] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
+                        .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
+                dataRows[4] = new StringBuilder(ies.getProduit().getPrixAchatUSD().toString()).append(" $ + ")
+                        .append(ies.getProduit().getPrixAchatFC().toString()).append(" FC");
+                defaultTableModel.addRow(dataRows);
+            });
+
+            String formeNombre = itemsEntreeStock.size() > 1 ? "Items" : "Item";
+            lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
+
             effacerChampsItemStock();
-        } else {
-            JOptionPane.showMessageDialog(null, "Quantité incorrect!");
         }
 
     }//GEN-LAST:event_btnAjouterProduitActionPerformed
@@ -609,6 +602,12 @@ public class OperationEntreeStock extends JInternalFrame {
             }
         }
     }//GEN-LAST:event_tblItemsEntreeStockMouseClicked
+
+    private void tblItemsEntreeStockKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblItemsEntreeStockKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            JOptionPane.showMessageDialog(null, "Teste");
+        }
+    }//GEN-LAST:event_tblItemsEntreeStockKeyReleased
 
     public void setProduitSelectionne(Produit produit) {
         if (produit != null) {
