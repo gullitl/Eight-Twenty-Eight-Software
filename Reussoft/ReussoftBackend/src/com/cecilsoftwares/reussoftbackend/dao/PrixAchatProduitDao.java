@@ -47,8 +47,7 @@ public class PrixAchatProduitDao {
                 while (res.next()) {
 
                     PrixAchatProduit prixAchatProduit = new PrixAchatProduit(1);
-                    prixAchatProduit.setPrixUSD(res.getBigDecimal(2));
-                    prixAchatProduit.setPrixFC(res.getBigDecimal(3));
+                    prixAchatProduit.setValeurUSD(res.getBigDecimal(2));
                     prixAchatProduit.setDateHeure(res.getTimestamp(4));
 
                     Produit produit = new Produit(res.getInt(4));
@@ -85,8 +84,7 @@ public class PrixAchatProduitDao {
                 if (res.next()) {
 
                     PrixAchatProduit prixAchatProduit = new PrixAchatProduit(1);
-                    prixAchatProduit.setPrixUSD(res.getBigDecimal(2));
-                    prixAchatProduit.setPrixFC(res.getBigDecimal(3));
+                    prixAchatProduit.setValeurUSD(res.getBigDecimal(2));
                     prixAchatProduit.setDateHeure(res.getTimestamp(4));
 
                     Produit produit = new Produit(res.getInt(4));
@@ -119,8 +117,7 @@ public class PrixAchatProduitDao {
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setInt(1, prixAchatProduit.getProduit().getCode());
-            prs.setBigDecimal(2, prixAchatProduit.getPrixUSD());
-            prs.setBigDecimal(3, prixAchatProduit.getPrixFC());
+            prs.setBigDecimal(2, prixAchatProduit.getValeurUSD());
             prs.setTimestamp(4, new Timestamp(prixAchatProduit.getDateHeure().getTime()));
             prs.setInt(5, prixAchatProduit.getCode());
 

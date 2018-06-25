@@ -4,7 +4,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
+import com.cecilsoftwares.reussoftmiddleend.model.TauxMonnaie;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -58,9 +58,9 @@ public class ItemEntreeStockDao {
                     EntreeStock entreeStock = new EntreeStock(res.getInt(4));
                     entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
-                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
-                    entreeStock.setTauxCarte(tauxCarte);
+                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getInt(6));
+                    tauxMonnaie.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxMonnaie(tauxMonnaie);
 
                     Fournisseur fournisseur = new Fournisseur(res.getInt(8));
                     fournisseur.setEntreprise(res.getString(9));
@@ -113,9 +113,9 @@ public class ItemEntreeStockDao {
                     EntreeStock entreeStock = new EntreeStock(res.getInt(4));
                     entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
-                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
-                    entreeStock.setTauxCarte(tauxCarte);
+                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getInt(6));
+                    tauxMonnaie.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxMonnaie(tauxMonnaie);
 
                     Fournisseur fournisseur = new Fournisseur(res.getInt(8));
                     fournisseur.setEntreprise(res.getString(9));
@@ -168,9 +168,9 @@ public class ItemEntreeStockDao {
                     EntreeStock entreeStock = new EntreeStock(res.getInt(4));
                     entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
-                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
-                    entreeStock.setTauxCarte(tauxCarte);
+                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getInt(6));
+                    tauxMonnaie.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxMonnaie(tauxMonnaie);
 
                     Fournisseur fournisseur = new Fournisseur(res.getInt(8));
                     fournisseur.setEntreprise(res.getString(9));
@@ -222,9 +222,9 @@ public class ItemEntreeStockDao {
                     EntreeStock entreeStock = new EntreeStock(res.getInt(4));
                     entreeStock.setDateHeure(res.getTimestamp(5));
 
-                    TauxCarte tauxCarte = new TauxCarte(res.getInt(6));
-                    tauxCarte.setValeur(new BigDecimal(res.getString(7)));
-                    entreeStock.setTauxCarte(tauxCarte);
+                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getInt(6));
+                    tauxMonnaie.setValeur(new BigDecimal(res.getString(7)));
+                    entreeStock.setTauxMonnaie(tauxMonnaie);
 
                     Fournisseur fournisseur = new Fournisseur(res.getInt(8));
                     fournisseur.setEntreprise(res.getString(9));

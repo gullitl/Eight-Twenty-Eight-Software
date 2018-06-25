@@ -11,8 +11,7 @@ public class Produit {
     private Reseau reseau;
     private String description;
     private CategorieProduit categorieProduit;
-    private BigDecimal prixAchatUSD;
-    private BigDecimal prixAchatFC;
+    private BigDecimal prixAchat;
     private boolean active;
 
     public Produit() {
@@ -55,20 +54,12 @@ public class Produit {
         this.categorieProduit = categorieProduit;
     }
 
-    public BigDecimal getPrixAchatUSD() {
-        return prixAchatUSD;
+    public BigDecimal getPrixAchat() {
+        return prixAchat;
     }
 
-    public void setPrixAchatUSD(BigDecimal prixAchatUSD) {
-        this.prixAchatUSD = prixAchatUSD;
-    }
-
-    public BigDecimal getPrixAchatFC() {
-        return prixAchatFC;
-    }
-
-    public void setPrixAchatFC(BigDecimal prixAchatFC) {
-        this.prixAchatFC = prixAchatFC;
+    public void setPrixAchat(BigDecimal prixAchat) {
+        this.prixAchat = prixAchat;
     }
 
     public boolean isActive() {

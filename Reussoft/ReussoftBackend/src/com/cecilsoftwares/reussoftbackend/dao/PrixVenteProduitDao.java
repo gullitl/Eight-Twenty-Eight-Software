@@ -50,8 +50,8 @@ public class PrixVenteProduitDao {
                 while (res.next()) {
 
                     PrixVenteProduit prixVenteProduit = new PrixVenteProduit(1);
-                    prixVenteProduit.setPrixUSD(res.getBigDecimal(2));
-                    prixVenteProduit.setPrixFC(res.getBigDecimal(3));
+                    prixVenteProduit.setValeurUSD(res.getBigDecimal(2));
+                    prixVenteProduit.setValeurFC(res.getBigDecimal(3));
                     prixVenteProduit.setDateHeure(res.getTimestamp(4));
 
                     Produit produit = new Produit(res.getInt(4));
@@ -95,8 +95,8 @@ public class PrixVenteProduitDao {
                 if (res.next()) {
 
                     PrixVenteProduit prixVenteProduit = new PrixVenteProduit(1);
-                    prixVenteProduit.setPrixUSD(res.getBigDecimal(2));
-                    prixVenteProduit.setPrixFC(res.getBigDecimal(3));
+                    prixVenteProduit.setValeurUSD(res.getBigDecimal(2));
+                    prixVenteProduit.setValeurFC(res.getBigDecimal(3));
                     prixVenteProduit.setDateHeure(res.getTimestamp(4));
 
                     Produit produit = new Produit(res.getInt(4));
@@ -135,8 +135,8 @@ public class PrixVenteProduitDao {
 
             prs.setInt(1, prixVenteProduit.getProduit().getCode());
             prs.setInt(2, prixVenteProduit.getShop().getCode());
-            prs.setBigDecimal(3, prixVenteProduit.getPrixUSD());
-            prs.setBigDecimal(4, prixVenteProduit.getPrixFC());
+            prs.setBigDecimal(3, prixVenteProduit.getValeurUSD());
+            prs.setBigDecimal(4, prixVenteProduit.getValeurFC());
             prs.setTimestamp(5, new Timestamp(prixVenteProduit.getDateHeure().getTime()));
             prs.setInt(6, prixVenteProduit.getCode());
 

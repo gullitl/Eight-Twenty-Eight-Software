@@ -10,7 +10,7 @@ public class EntreeStock {
 
     private int code;
     private Fournisseur fournisseur;
-    private TauxCarte tauxCarte;
+    private TauxMonnaie tauxMonnaie;
     private Date dateHeure;
     private List<ItemEntreeStock> itemsEntreeStock;
 
@@ -38,12 +38,12 @@ public class EntreeStock {
         this.fournisseur = fournisseur;
     }
 
-    public TauxCarte getTauxCarte() {
-        return tauxCarte;
+    public TauxMonnaie getTauxMonnaie() {
+        return tauxMonnaie;
     }
 
-    public void setTauxCarte(TauxCarte tauxCarte) {
-        this.tauxCarte = tauxCarte;
+    public void setTauxMonnaie(TauxMonnaie tauxMonnaie) {
+        this.tauxMonnaie = tauxMonnaie;
     }
 
     public Date getDateHeure() {

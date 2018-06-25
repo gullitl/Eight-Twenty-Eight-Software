@@ -45,12 +45,10 @@ public class RegistreProduit extends JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnConsulterProduit = new javax.swing.JButton();
         tfdDescription = new javax.swing.JTextField();
-        tfdPrixAchatUSD = new javax.swing.JTextField();
-        tfdPrixAchatFC = new javax.swing.JTextField();
+        tfdPrixAchat = new javax.swing.JTextField();
         chbActiver = new javax.swing.JCheckBox();
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
@@ -70,9 +68,7 @@ public class RegistreProduit extends JInternalFrame {
 
         jLabel3.setText("Réseau:");
 
-        jLabel4.setText("Prix d'achat (USD):");
-
-        jLabel5.setText("Prix d'achat (FC):");
+        jLabel4.setText("Prix d'achat:");
 
         jLabel6.setText("Categorie Produit:");
 
@@ -155,19 +151,14 @@ public class RegistreProduit extends JInternalFrame {
                         .addComponent(lblDescriptionCategorieProduit))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel4)
-                        .addComponent(tfdPrixAchatUSD, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdPrixAchat, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(tfdDescription)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnConsulterProduit))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(226, 226, 226)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(tfdPrixAchatFC, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnEnregistrer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnEnregistrer, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -199,24 +190,18 @@ public class RegistreProduit extends JInternalFrame {
                     .addComponent(btnConsulterCategorieProduit)
                     .addComponent(lblDescriptionCategorieProduit))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdPrixAchatUSD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tfdPrixAchatFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(26, 26, 26)))
-                .addGap(36, 36, 36)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfdPrixAchat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(chbActiver)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
@@ -243,8 +228,7 @@ public class RegistreProduit extends JInternalFrame {
             CategorieProduit categorieProduit = new CategorieProduit(Integer.parseInt(tfdIdCategorieProduit.getText()));
             produit.setCategorieProduit(categorieProduit);
 
-            produit.setPrixAchatFC(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatFC.getText()));
-            produit.setPrixAchatUSD(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchatUSD.getText()));
+            produit.setPrixAchat(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchat.getText()));
             produit.setActive(modeEdition ? chbActiver.isSelected() : true);
 
             try {
@@ -371,8 +355,7 @@ public class RegistreProduit extends JInternalFrame {
             lblDescriptionReseau.setText(produit.getReseau().getNom());
             tfdIdCategorieProduit.setText(String.valueOf(produit.getCategorieProduit().getCode()));
             lblDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
-            tfdPrixAchatFC.setText(DecimalFormatter.getInstance().formattedValue(produit.getPrixAchatUSD()));
-            tfdPrixAchatUSD.setText(DecimalFormatter.getInstance().formattedValue(produit.getPrixAchatUSD()));
+            tfdPrixAchat.setText(DecimalFormatter.getInstance().formattedValue(produit.getPrixAchat()));
             chbActiver.setVisible(true);
             chbActiver.setSelected(produit.isActive());
             btnEnregistrer.setText("ACTUALISER");
@@ -399,8 +382,7 @@ public class RegistreProduit extends JInternalFrame {
         tfdDescription.requestFocus();
         tfdIdReseau.setText("");
         lblDescriptionReseau.setText("");
-        tfdPrixAchatUSD.setText("");
-        tfdPrixAchatFC.setText("");
+        tfdPrixAchat.setText("");
         tfdIdCategorieProduit.setText("");
         lblDescriptionCategorieProduit.setText("");
         chbActiver.setVisible(false);
@@ -413,8 +395,7 @@ public class RegistreProduit extends JInternalFrame {
 
     private void habiliterComposantFormulaire(boolean hcf) {
         tfdDescription.setEditable(hcf);
-        tfdPrixAchatUSD.setEditable(hcf);
-        tfdPrixAchatFC.setEditable(hcf);
+        tfdPrixAchat.setEditable(hcf);
         btnConsulterProduitClickable = hcf;
         btnConsulterReseauClickable = hcf;
         btnConsulterCategorieProduitClickable = hcf;
@@ -441,13 +422,9 @@ public class RegistreProduit extends JInternalFrame {
             nio.add(3);
         }
 
-        if (tfdPrixAchatUSD.getText().isEmpty()) {
+        if (tfdPrixAchat.getText().isEmpty()) {
             notification.append("\nPrix d'achat USD");
             nio.add(4);
-        }
-        if (tfdPrixAchatFC.getText().isEmpty()) {
-            notification.append("\nPrix d'achat FC");
-            nio.add(5);
         }
 
         if (notification.toString().isEmpty()) {
@@ -468,10 +445,7 @@ public class RegistreProduit extends JInternalFrame {
                     break;
 
                 case 4:
-                    tfdPrixAchatUSD.requestFocus();
-                    break;
-                case 5:
-                    tfdPrixAchatFC.requestFocus();
+                    tfdPrixAchat.requestFocus();
                     break;
                 default:
             }
@@ -490,14 +464,12 @@ public class RegistreProduit extends JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel lblDescriptionCategorieProduit;
     private javax.swing.JLabel lblDescriptionReseau;
     private javax.swing.JTextField tfdDescription;
     private javax.swing.JTextField tfdIdCategorieProduit;
     private javax.swing.JTextField tfdIdReseau;
-    private javax.swing.JTextField tfdPrixAchatFC;
-    private javax.swing.JTextField tfdPrixAchatUSD;
+    private javax.swing.JTextField tfdPrixAchat;
     // End of variables declaration//GEN-END:variables
 }

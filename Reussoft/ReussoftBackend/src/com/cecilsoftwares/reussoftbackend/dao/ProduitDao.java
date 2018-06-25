@@ -38,7 +38,7 @@ public class ProduitDao {
             listeProduits = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.active,");
-            scriptSQL.append(" produit.prixAchatUSD, produit.prixAchatFC,");
+            scriptSQL.append(" produit.prixAchat");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
             scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege");
             scriptSQL.append(" FROM produit");
@@ -61,8 +61,7 @@ public class ProduitDao {
                     Produit produit = new Produit(res.getInt(1));
                     produit.setDescription(res.getString(2));
                     produit.setActive(res.getInt(3) == 1);
-                    produit.setPrixAchatUSD(new BigDecimal(res.getString(4)));
-                    produit.setPrixAchatFC(new BigDecimal(res.getString(5)));
+                    produit.setPrixAchat(new BigDecimal(res.getString(4)));
                     produit.setReseau(reseau);
                     produit.setCategorieProduit(categorieProduit);
 
@@ -82,8 +81,7 @@ public class ProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.active,");
-            scriptSQL.append(" produit.prixAchatUSD, produit.prixAchatFC,");
+            scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.active, produit.prixAchat,");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
             scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege");
             scriptSQL.append(" FROM produit");
@@ -109,8 +107,7 @@ public class ProduitDao {
                     Produit produit = new Produit(res.getInt(1));
                     produit.setDescription(res.getString(2));
                     produit.setActive(res.getInt(3) == 1);
-                    produit.setPrixAchatUSD(new BigDecimal(res.getString(4)));
-                    produit.setPrixAchatFC(new BigDecimal(res.getString(5)));
+                    produit.setPrixAchat(new BigDecimal(res.getString(4)));
                     produit.setReseau(reseau);
                     produit.setCategorieProduit(categorieProduit);
 
@@ -141,7 +138,7 @@ public class ProduitDao {
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE produit");
-                scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, prixAchatUSD=?, prixAchatFC=?, active=?");
+                scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, prixAchat=?, active=?");
                 scriptSQL.append(" WHERE code=?");
             }
 
@@ -150,10 +147,9 @@ public class ProduitDao {
             prs.setString(1, produit.getDescription());
             prs.setInt(2, produit.getCategorieProduit().getCode());
             prs.setInt(3, produit.getReseau().getCode());
-            prs.setBigDecimal(4, produit.getPrixAchatUSD());
-            prs.setBigDecimal(5, produit.getPrixAchatFC());
-            prs.setInt(6, produit.isActive() ? 1 : 0);
-            prs.setInt(7, produit.getCode());
+            prs.setBigDecimal(4, produit.getPrixAchat());
+            prs.setInt(5, produit.isActive() ? 1 : 0);
+            prs.setInt(6, produit.getCode());
 
             prs.execute();
             prs.close();
