@@ -9,8 +9,7 @@ import java.util.List;
 public class Dispatch {
 
     private int code;
-    private Shop shopExpediteur;
-    private Shop shopDestinataire;
+    private Shop shop;
     private Date dateHeure;
     private boolean active;
     private List<ItemDispatch> itemsDispatch;
@@ -30,20 +29,12 @@ public class Dispatch {
         this.code = code;
     }
 
-    public Shop getShopExpediteur() {
-        return shopExpediteur;
+    public Shop getShop() {
+        return shop;
     }
 
-    public void setShopExpediteur(Shop shopExpediteur) {
-        this.shopExpediteur = shopExpediteur;
-    }
-
-    public Shop getShopDestinataire() {
-        return shopDestinataire;
-    }
-
-    public void setShopDestinataire(Shop shopDestinataire) {
-        this.shopDestinataire = shopDestinataire;
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     public Date getDateHeure() {

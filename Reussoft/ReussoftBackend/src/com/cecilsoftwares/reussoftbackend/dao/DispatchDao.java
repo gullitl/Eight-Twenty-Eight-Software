@@ -53,13 +53,9 @@ public class DispatchDao {
 
                     Dispatch dispatch = new Dispatch(res.getInt(1));
 
-                    Shop shopDestinataire = new Shop(res.getInt(5));
-                    shopDestinataire.setNom(res.getString(6));
-                    dispatch.setShopDestinataire(shopDestinataire);
-
-                    Shop shopExpediteur = new Shop(res.getInt(5));
-                    shopExpediteur.setNom(res.getString(6));
-                    dispatch.setShopExpediteur(shopExpediteur);
+                    Shop shop = new Shop(res.getInt(5));
+                    shop.setNom(res.getString(6));
+                    dispatch.setShop(shop);
 
                     listeDispatch.add(dispatch);
                 }
@@ -108,16 +104,17 @@ public class DispatchDao {
 
                     Shop shopDestinataire = new Shop(res.getInt(5));
                     shopDestinataire.setNom(res.getString(6));
-                    dispatch.setShopDestinataire(shopDestinataire);
-
-                    Shop shopExpediteur = new Shop(res.getInt(5));
-                    shopExpediteur.setNom(res.getString(6));
-                    dispatch.setShopExpediteur(shopExpediteur);
+                    dispatch.setShop(shopDestinataire);
 
                     Produit produit = new Produit(res.getInt(12));
                     produit.setDescription(res.getString(13));
 
                     ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+
+                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    shopExpediteur.setNom(res.getString(6));
+                    itemDispatch.setShop(shopExpediteur);
+
                     itemDispatch.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     if (code == dispatch.getCode()) {
@@ -131,8 +128,7 @@ public class DispatchDao {
 
                         dsptch.setCode(dispatch.getCode());
                         dsptch.setDateHeure(dispatch.getDateHeure());
-                        dsptch.setShopDestinataire(dispatch.getShopDestinataire());
-                        dsptch.setShopExpediteur(dispatch.getShopExpediteur());
+                        dsptch.setShop(dispatch.getShop());
 
                         listeItemsDispatch = new ArrayList();
                         listeItemsDispatch.add(itemDispatch);
@@ -185,24 +181,24 @@ public class DispatchDao {
 
                     Shop shopDestinataire = new Shop(res.getInt(5));
                     shopDestinataire.setNom(res.getString(6));
-                    dispatch.setShopDestinataire(shopDestinataire);
-
-                    Shop shopExpediteur = new Shop(res.getInt(5));
-                    shopExpediteur.setNom(res.getString(6));
-                    dispatch.setShopExpediteur(shopExpediteur);
+                    dispatch.setShop(shopDestinataire);
 
                     Produit produit = new Produit(res.getInt(12));
                     produit.setDescription(res.getString(13));
 
                     ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+
+                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    shopExpediteur.setNom(res.getString(6));
+                    itemDispatch.setShop(shopExpediteur);
+
                     itemDispatch.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsDispatch.add(itemDispatch);
 
                     if (res.first()) {
                         dsptch.setCode(dispatch.getCode());
-                        dsptch.setShopDestinataire(dispatch.getShopDestinataire());
-                        dsptch.setShopExpediteur(dispatch.getShopExpediteur());
+                        dsptch.setShop(dispatch.getShop());
                     }
 
                 }
@@ -228,8 +224,7 @@ public class DispatchDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, dispatch.getShopDestinataire().getCode());
-            prs.setInt(2, dispatch.getShopExpediteur().getCode());
+            prs.setInt(1, dispatch.getShop().getCode());
             prs.setTimestamp(3, new Timestamp(dispatch.getDateHeure().getTime()));
             prs.setInt(4, dispatch.isActive() ? 1 : 0);
             prs.setInt(5, dispatch.getCode());

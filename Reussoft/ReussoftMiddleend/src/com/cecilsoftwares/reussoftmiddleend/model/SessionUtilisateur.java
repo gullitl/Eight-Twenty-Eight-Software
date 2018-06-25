@@ -9,6 +9,7 @@ public class SessionUtilisateur {
 
     private int code;
     private Collaborateur collaborateur;
+    private Shop shop;
     private String action;
     private Date dateHeure;
 
@@ -34,6 +35,14 @@ public class SessionUtilisateur {
 
     public void setCollaborateur(Collaborateur collaborateur) {
         this.collaborateur = collaborateur;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     public String getAction() {

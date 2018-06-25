@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public class ItemDispatch {
 
     private Dispatch dispatch;
+    private Shop shop;
     private Produit produit;
     private BigDecimal quantiteProduit;
 
@@ -26,6 +27,14 @@ public class ItemDispatch {
 
     public void setDispatch(Dispatch dispatch) {
         this.dispatch = dispatch;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     public Produit getProduit() {
