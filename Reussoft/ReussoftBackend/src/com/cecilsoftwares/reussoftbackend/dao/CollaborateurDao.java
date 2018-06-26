@@ -28,7 +28,7 @@ public class CollaborateurDao {
         return uniqueInstance;
     }
 
-    public Collaborateur login(String nomUtilisateur, String motDePasse) throws ClassNotFoundException, SQLException {
+    public Collaborateur login(Shop shopUtilisateur, String nomUtilisateur, String motDePasse) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 

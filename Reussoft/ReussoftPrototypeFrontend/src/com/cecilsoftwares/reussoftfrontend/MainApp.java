@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend;
 
 import com.cecilsoftwares.reussoftbackend.service.MainService;
+import com.cecilsoftwares.reussoftfrontend.form.ChoixShopLogin;
 import com.cecilsoftwares.reussoftfrontend.form.Login;
 
 /**
@@ -34,9 +35,11 @@ public class MainApp {
 
         MainService.getInstance().initialiserBaseDonnees();
 
-        /* Create and display the form */
+        /* Create and display the shop select form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Login().setVisible(true);
+            new ChoixShopLogin().setVisible(true);
         });
+
     }
+
 }

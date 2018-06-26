@@ -342,7 +342,7 @@ public class OperationDispatch extends JInternalFrame {
             habiliterComposantFormulaire(false);
 
             Dispatch dispatch = new Dispatch(codeDispatch);
-            dispatch.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getShop());
+            dispatch.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
             dispatch.setDateHeure(new Date());
             dispatch.setItemsDispatch(itemsDispatch);
             dispatch.setActive(true);

@@ -5,6 +5,7 @@ import com.cecilsoftwares.reussoftbackend.dao.SessionUtilisateurDao;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -26,9 +27,9 @@ public class CollaborateurService {
         return uniqueInstance;
     }
 
-    public boolean login(String nomUtilisateur, String motDePasse) throws ClassNotFoundException, SQLException {
+    public SessionUtilisateur login(Shop shopUtilisateur, String nomUtilisateur, String motDePasse) throws ClassNotFoundException, SQLException {
 
-        Collaborateur collaborateur = CollaborateurDao.getInstance().login(nomUtilisateur, motDePasse);
+        Collaborateur collaborateur = CollaborateurDao.getInstance().login(shopUtilisateur, nomUtilisateur, motDePasse);
 
         if (collaborateur != null) {
             SessionUtilisateur sessionUtilisateur = new SessionUtilisateur();
@@ -37,12 +38,15 @@ public class CollaborateurService {
             sessionUtilisateur.setAction("ENTRÉE");
             sessionUtilisateur.setDateHeure(new Date());
 
-            SessionUtilisateurDao.getInstance().sauvegarderSessionUtilisateur(sessionUtilisateur);
             SessionUtilisateurKS.getInstance().setSessionUtilisateur(sessionUtilisateur);
-            return true;
+
+            //Mettre dans une thread
+            SessionUtilisateurDao.getInstance().sauvegarderSessionUtilisateur(sessionUtilisateur);
+
+            return sessionUtilisateur;
         }
 
-        return false;
+        return null;
     }
 
     public List<Collaborateur> listerTousLesCollaborateurs() throws ClassNotFoundException, SQLException {

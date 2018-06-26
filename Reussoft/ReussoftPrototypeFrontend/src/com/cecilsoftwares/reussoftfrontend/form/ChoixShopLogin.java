@@ -6,8 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Plamedi L. Lusembo
@@ -16,19 +15,16 @@ public class ChoixShopLogin extends javax.swing.JFrame {
 
     private Shop shop;
     private List<Shop> shops;
-    private final DefaultListModel<Shop> defaultListModel;
+    private final DefaultTableModel defaultTableModel;
+    private final Object dataRows[];
 
     private static ChoixShopLogin uniqueInstance;
-
-    public static void main(String[] args) {
-        ChoixShopLogin choixShopLogin = new ChoixShopLogin();
-        choixShopLogin.setVisible(true);
-    }
 
     public ChoixShopLogin() {
         initComponents();
 
-        defaultListModel = new DefaultListModel<>();
+        defaultTableModel = (DefaultTableModel) tblShop.getModel();
+        dataRows = new Object[2];
 
         try {
             shops = ShopService.getInstance().listerTousLesShops();
@@ -40,12 +36,12 @@ public class ChoixShopLogin extends javax.swing.JFrame {
     }
 
     private void listerShops(List<Shop> shops) {
-        defaultListModel.clear();
+        defaultTableModel.setRowCount(0);
         shops.forEach(s -> {
-            defaultListModel.addElement(s);
+            dataRows[0] = s.getCode();
+            dataRows[1] = s.getNom();
+            defaultTableModel.addRow(dataRows);
         });
-
-        lstShop = new JList(defaultListModel);
 
         String formeNombre = shops.size() > 1 ? "Shops" : "Shop";
         lblNombreShop.setText(shops.size() + " " + formeNombre);
@@ -62,25 +58,43 @@ public class ChoixShopLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstShop = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblShop = new javax.swing.JTable();
         lblNombreShop = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
         setResizable(false);
 
-        lstShop.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        lstShop.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lstShopMouseClicked(evt);
+        tblShop.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Code", "Nom"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(lstShop);
+        tblShop.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblShopMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblShop);
 
         lblNombreShop.setText("jLabel1");
 
@@ -89,37 +103,54 @@ public class ChoixShopLogin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblNombreShop)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(32, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(lblNombreShop)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lstShopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstShopMouseClicked
-        loginShopSelectionne();
-    }//GEN-LAST:event_lstShopMouseClicked
+    private void tblShopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblShopMouseClicked
+        if (evt.getClickCount() == 2) {
+            int row = tblShop.getSelectedRow();
 
-    private void loginShopSelectionne() {
+            shop = shops.stream()
+                    .filter(s -> s.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+                    .findFirst().orElse(null);
 
+            /* Create and display the login form */
+            java.awt.EventQueue.invokeLater(() -> {
+                Login login = new Login(shop);
+                login.setChoixShopLogin(this);
+                login.setVisible(true);
+
+            });
+
+            dispose();
+
+        }
+    }//GEN-LAST:event_tblShopMouseClicked
+
+    public void retourneAuChoixShop(boolean retour) {
+        setVisible(retour);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblNombreShop;
-    private javax.swing.JList<String> lstShop;
+    private javax.swing.JTable tblShop;
     // End of variables declaration//GEN-END:variables
 }
