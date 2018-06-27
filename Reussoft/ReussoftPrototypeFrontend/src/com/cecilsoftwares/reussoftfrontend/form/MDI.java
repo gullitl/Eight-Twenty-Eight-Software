@@ -20,10 +20,8 @@ public class MDI extends javax.swing.JFrame {
         initComponents();
         scheduler = Executors.newScheduledThreadPool(1);
 
-        scheduler.scheduleAtFixedRate(new Runnable() {
-            public void run() {
-                lblDateHeure.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
-            }
+        scheduler.scheduleAtFixedRate(() -> {
+            lblDateHeure.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
         }, 1, 1, TimeUnit.SECONDS);
 
     }
@@ -31,6 +29,7 @@ public class MDI extends javax.swing.JFrame {
     private ConfigurationCompte configurationCompte;
     private OperationDispatch operationDispatch;
     private OperationAlternationCollaborateurShop operationAlternationCollaborateurShop;
+    private OperationVente operationVente;
     private OperationEntreeStock operationEntreeStock;
     private RapportClient rapportClient;
     private RapportCollaborateur rapportCollaborateur;
@@ -72,6 +71,7 @@ public class MDI extends javax.swing.JFrame {
         jmiOperationEntreeStock = new javax.swing.JMenuItem();
         jmiOperationDispatch = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jmiOperationVente = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jmiRapportEntreeStock = new javax.swing.JMenuItem();
         jmiRapportDispatch = new javax.swing.JMenuItem();
@@ -100,7 +100,7 @@ public class MDI extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblDateHeure)
                 .addContainerGap())
         );
@@ -229,6 +229,14 @@ public class MDI extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem1);
+
+        jmiOperationVente.setText("Vente");
+        jmiOperationVente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiOperationVenteActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jmiOperationVente);
 
         jMenuBar1.add(jMenu4);
 
@@ -743,6 +751,27 @@ public class MDI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jmiOperationVenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiOperationVenteActionPerformed
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        if (operationVente == null) {
+            operationVente = new OperationVente();
+            jDesktopPane.add(operationVente);
+
+            operationVente.addInternalFrameListener(new InternalFrameAdapter() {
+                @Override
+                public void internalFrameClosing(InternalFrameEvent e) {
+                    operationVente = null;
+                }
+            });
+        }
+        operationVente.setLocation(
+                jDesktopPane.getWidth() / 2 - operationVente.getWidth() / 2,
+                jDesktopPane.getHeight() / 2 - operationVente.getHeight() / 2);
+
+        operationVente.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_jmiOperationVenteActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JMenu jMenu1;
@@ -757,6 +786,7 @@ public class MDI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiConfigurationMonCompte;
     private javax.swing.JMenuItem jmiOperationDispatch;
     private javax.swing.JMenuItem jmiOperationEntreeStock;
+    private javax.swing.JMenuItem jmiOperationVente;
     private javax.swing.JMenuItem jmiRapportClient;
     private javax.swing.JMenuItem jmiRapportCollaborateur;
     private javax.swing.JMenuItem jmiRapportDispatch;

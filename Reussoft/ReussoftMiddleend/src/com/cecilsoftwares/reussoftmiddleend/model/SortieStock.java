@@ -11,6 +11,7 @@ public class SortieStock {
     private int code;
     private Shop shop;
     private Client client;
+    private TauxMonnaie tauxMonnaie;
     private Date dateHeure;
     private List<ItemSortieStock> itemsSortieStock;
 
@@ -44,6 +45,14 @@ public class SortieStock {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public TauxMonnaie getTauxMonnaie() {
+        return tauxMonnaie;
+    }
+
+    public void setTauxMonnaie(TauxMonnaie tauxMonnaie) {
+        this.tauxMonnaie = tauxMonnaie;
     }
 
     public Date getDateHeure() {
