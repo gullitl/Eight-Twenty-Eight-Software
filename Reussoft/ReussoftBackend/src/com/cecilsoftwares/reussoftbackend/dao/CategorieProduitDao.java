@@ -97,7 +97,7 @@ public class CategorieProduitDao {
 
                 scriptSQL = new StringBuilder("INSERT INTO categorieproduit(");
                 scriptSQL.append(" description, descriptionAbregee, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?)");
+                scriptSQL.append(" VALUES (?, ?, ?)");
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE categorieproduit");

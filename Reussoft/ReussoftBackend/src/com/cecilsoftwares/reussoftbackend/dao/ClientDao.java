@@ -117,7 +117,7 @@ public class ClientDao {
             if (client.getCode() == 0) {
                 scriptSQL = new StringBuilder("INSERT INTO client(");
                 scriptSQL.append(" nom, entreprise, telephone, idShop, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
             } else {
                 scriptSQL = new StringBuilder("UPDATE client");
                 scriptSQL.append(" SET nom=?, entreprise=?, telephone=?, idShop=?");

@@ -34,7 +34,7 @@ public class PrixAchatProduitDao {
         List<PrixAchatProduit> listePrixAchatProduits;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT prixachatproduit.code, prixachatproduit.prixUSD, prixachatproduit.prixFC, prixachatproduit.dateHeure");
+            scriptSQL = new StringBuilder("SELECT prixachatproduit.code, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" prixachatproduit.idProduit, produit.Description,");
             scriptSQL.append(" FROM prixachatproduit");
             scriptSQL.append(" LEFT JOIN produit ON prixachatproduit.idProduit = produit.code");
@@ -48,11 +48,10 @@ public class PrixAchatProduitDao {
 
                     PrixAchatProduit prixAchatProduit = new PrixAchatProduit(1);
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(2));
-                    prixAchatProduit.setDateHeure(res.getTimestamp(4));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(3));
 
                     Produit produit = new Produit(res.getInt(4));
                     produit.setDescription(res.getString(5));
-
                     prixAchatProduit.setProduit(produit);
 
                     listePrixAchatProduits.add(prixAchatProduit);
@@ -70,7 +69,7 @@ public class PrixAchatProduitDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT prixachatproduit.code, prixachatproduit.prixUSD, prixachatproduit.prixFC, prixachatproduit.dateHeure");
+            scriptSQL = new StringBuilder("SELECT prixachatproduit.code, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" prixachatproduit.idProduit, produit.Description,");
             scriptSQL.append(" FROM prixachatproduit");
             scriptSQL.append(" LEFT JOIN produit ON prixachatproduit.idProduit = produit.code");
@@ -85,11 +84,10 @@ public class PrixAchatProduitDao {
 
                     PrixAchatProduit prixAchatProduit = new PrixAchatProduit(1);
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(2));
-                    prixAchatProduit.setDateHeure(res.getTimestamp(4));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(3));
 
                     Produit produit = new Produit(res.getInt(4));
                     produit.setDescription(res.getString(5));
-
                     prixAchatProduit.setProduit(produit);
 
                     prs.close();
@@ -111,15 +109,15 @@ public class PrixAchatProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO prixAchatProduit(");
-            scriptSQL.append(" idProduit, prixUSD, prixFC, dateHeure, code)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
+            scriptSQL.append(" idProduit, valeurUSD, dateHeure, code)");
+            scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setInt(1, prixAchatProduit.getProduit().getCode());
             prs.setBigDecimal(2, prixAchatProduit.getValeurUSD());
-            prs.setTimestamp(4, new Timestamp(prixAchatProduit.getDateHeure().getTime()));
-            prs.setInt(5, prixAchatProduit.getCode());
+            prs.setTimestamp(3, new Timestamp(prixAchatProduit.getDateHeure().getTime()));
+            prs.setInt(4, prixAchatProduit.getCode());
 
             prs.execute();
             prs.close();

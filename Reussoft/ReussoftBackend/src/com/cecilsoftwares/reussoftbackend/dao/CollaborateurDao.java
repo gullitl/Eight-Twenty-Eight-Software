@@ -37,8 +37,7 @@ public class CollaborateurDao {
             scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
             scriptSQL.append(" collaborateur.nomUtilisateur, collaborateur.motDePasse,");
             scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse, shop.active,");
-            scriptSQL.append(" collaborateur.idProfilUtilisateur, profilutilisateur.description,");
-            scriptSQL.append(" profilutilisateur.descriptionAbregee");
+            scriptSQL.append(" collaborateur.idProfilUtilisateur, profilutilisateur.description, profilutilisateur.descriptionAbregee");
             scriptSQL.append(" FROM collaborateur");
             scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.code");
             scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = profilutilisateur.code");
@@ -50,15 +49,6 @@ public class CollaborateurDao {
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getInt(13));
-                    profilUtilisateur.setDescription(res.getString(14));
-                    profilUtilisateur.setDescriptionAbregee(res.getString(15));
-
-                    Shop shop = new Shop(res.getInt(9));
-                    shop.setNom(res.getString(10));
-                    shop.setAdresse(res.getString(11));
-                    shop.setActive(res.getInt(12) == 1);
-
                     Collaborateur collaborateur = new Collaborateur(res.getInt(1));
                     collaborateur.setActive(res.getInt(2) == 1);
                     collaborateur.setPrenom(res.getString(3));
@@ -67,7 +57,16 @@ public class CollaborateurDao {
                     collaborateur.setSurnom(res.getString(6));
                     collaborateur.setNomUtilisateur(res.getString(7));
                     collaborateur.setMotDePasse(res.getString(8));
+
+                    Shop shop = new Shop(res.getInt(9));
+                    shop.setNom(res.getString(10));
+                    shop.setAdresse(res.getString(11));
+                    shop.setActive(res.getInt(12) == 1);
                     collaborateur.setShop(shop);
+
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getInt(13));
+                    profilUtilisateur.setDescription(res.getString(14));
+                    profilUtilisateur.setDescriptionAbregee(res.getString(15));
                     collaborateur.setProfilUtilisateur(profilUtilisateur);
 
                     prs.close();
@@ -203,14 +202,14 @@ public class CollaborateurDao {
             if (collaborateur.getCode() == 0) {
                 scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
                 scriptSQL.append(" prenom, nom, postnom, surnom, nomUtilisateur, motDePasse, active,");
-                scriptSQL.append(" idProfilUtilisateur, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                scriptSQL.append(" idProfilUtilisateur, idShop, code )");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE collaborateur");
                 scriptSQL.append(" SET prenom=?, nom=?, postnom=?, surnom=?, nomUtilisateur=?, motDePasse=?, active=?,");
-                scriptSQL.append(" idProfilUtilisateur=?");
+                scriptSQL.append(" idProfilUtilisateur=?, idShop=?");
                 scriptSQL.append(" WHERE code=?");
             }
 
@@ -224,7 +223,8 @@ public class CollaborateurDao {
             prs.setString(6, collaborateur.getMotDePasse());
             prs.setInt(7, collaborateur.isActive() ? 1 : 0);
             prs.setInt(8, collaborateur.getProfilUtilisateur().getCode());
-            prs.setInt(9, collaborateur.getCode());
+            prs.setInt(9, collaborateur.getShop().getCode());
+            prs.setInt(10, collaborateur.getCode());
 
             prs.execute();
             prs.close();
