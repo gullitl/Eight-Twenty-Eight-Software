@@ -226,7 +226,7 @@ public class DispatchDao {
 
             prs.setInt(1, dispatch.getShop().getCode());
             prs.setTimestamp(3, new Timestamp(dispatch.getDateHeure().getTime()));
-            prs.setInt(4, dispatch.isActive() ? 1 : 0);
+            prs.setInt(4, dispatch.isValide() ? 1 : 0);
             prs.setInt(5, dispatch.getCode());
 
             prs.execute();

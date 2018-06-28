@@ -72,8 +72,6 @@ public class ItemSortieStockDao {
                     sortieStock.setShop(shop);
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
-                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
-                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
                     itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsSortieStock.add(itemSortieStock);
@@ -129,8 +127,6 @@ public class ItemSortieStockDao {
                     sortieStock.setShop(shop);
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
-                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
-                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
                     itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsSortieStock.add(itemSortieStock);
@@ -186,8 +182,6 @@ public class ItemSortieStockDao {
                     sortieStock.setShop(shop);
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
-                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
-                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
                     itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsSortieStock.add(itemSortieStock);
@@ -242,8 +236,6 @@ public class ItemSortieStockDao {
                     sortieStock.setShop(shop);
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
-                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
-                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
                     itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     prs.close();
@@ -273,8 +265,6 @@ public class ItemSortieStockDao {
 
             prs.setInt(1, itemSortieStock.getSortieStock().getCode());
             prs.setInt(8, itemSortieStock.getProduit().getCode());
-            prs.setBigDecimal(3, itemSortieStock.getPrixVenteUSD());
-            prs.setBigDecimal(4, itemSortieStock.getPrixVenteFC());
             prs.setBigDecimal(5, itemSortieStock.getQuantiteProduit());
 
             prs.execute();

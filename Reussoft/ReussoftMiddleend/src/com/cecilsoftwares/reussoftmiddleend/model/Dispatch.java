@@ -11,7 +11,7 @@ public class Dispatch {
     private int code;
     private Shop shop;
     private Date dateHeure;
-    private boolean active;
+    private boolean valide;
     private List<ItemDispatch> itemsDispatch;
 
     public Dispatch() {
@@ -45,12 +45,12 @@ public class Dispatch {
         this.dateHeure = dateHeure;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isValide() {
+        return valide;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setValide(boolean valide) {
+        this.valide = valide;
     }
 
     public List<ItemDispatch> getItemsDispatch() {

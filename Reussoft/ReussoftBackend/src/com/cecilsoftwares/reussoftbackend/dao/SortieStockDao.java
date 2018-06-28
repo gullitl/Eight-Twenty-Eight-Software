@@ -125,8 +125,6 @@ public class SortieStockDao {
                     sortieStock.setClient(client);
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
-                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
-                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
                     itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     if (code == sortieStock.getCode()) {
@@ -204,8 +202,6 @@ public class SortieStockDao {
                     sortieStock.setClient(client);
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
-                    itemSortieStock.setPrixVenteUSD(new BigDecimal(res.getString(1)));
-                    itemSortieStock.setPrixVenteFC(new BigDecimal(res.getString(2)));
                     itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(3)));
 
                     listeItemsSortieStock.add(itemSortieStock);

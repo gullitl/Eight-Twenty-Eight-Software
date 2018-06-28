@@ -9,8 +9,6 @@ public class ItemSortieStock {
 
     private SortieStock sortieStock;
     private Produit produit;
-    private BigDecimal prixVenteUSD;
-    private BigDecimal prixVenteFC;
     private BigDecimal quantiteProduit;
 
     public ItemSortieStock() {
@@ -36,22 +34,6 @@ public class ItemSortieStock {
 
     public void setProduit(Produit produit) {
         this.produit = produit;
-    }
-
-    public BigDecimal getPrixVenteUSD() {
-        return prixVenteUSD;
-    }
-
-    public void setPrixVenteUSD(BigDecimal prixVenteUSD) {
-        this.prixVenteUSD = prixVenteUSD;
-    }
-
-    public BigDecimal getPrixVenteFC() {
-        return prixVenteFC;
-    }
-
-    public void setPrixVenteFC(BigDecimal prixVenteFC) {
-        this.prixVenteFC = prixVenteFC;
     }
 
     public BigDecimal getQuantiteProduit() {

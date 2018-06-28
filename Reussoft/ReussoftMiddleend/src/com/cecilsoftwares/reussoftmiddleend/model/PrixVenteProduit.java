@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public class PrixVenteProduit extends PrixProduit {
 
     private Shop shop;
+    private BigDecimal valeurUSD;
     private BigDecimal valeurFC;
 
     public PrixVenteProduit(int code) {
@@ -24,6 +25,14 @@ public class PrixVenteProduit extends PrixProduit {
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    public BigDecimal getValeurUSD() {
+        return valeurUSD;
+    }
+
+    public void setValeurUSD(BigDecimal valeurUSD) {
+        this.valeurUSD = valeurUSD;
     }
 
     public BigDecimal getValeurFC() {

@@ -345,7 +345,7 @@ public class OperationDispatch extends JInternalFrame {
             dispatch.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
             dispatch.setDateHeure(new Date());
             dispatch.setItemsDispatch(itemsDispatch);
-            dispatch.setActive(true);
+            dispatch.setValide(true);
 
             try {
                 if (DispatchService.getInstance().enregistrerDispatch(dispatch)) {
