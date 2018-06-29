@@ -63,7 +63,8 @@ public class ReseauDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT code, nom, nomAbrege, active");
-            scriptSQL.append(" FROM reseau WHERE reseau.code=?");
+            scriptSQL.append(" FROM reseau");
+            scriptSQL.append(" WHERE reseau.code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, codeReseau);

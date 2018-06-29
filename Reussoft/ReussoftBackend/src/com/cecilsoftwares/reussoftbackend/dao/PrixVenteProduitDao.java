@@ -35,9 +35,9 @@ public class PrixVenteProduitDao {
         List<PrixVenteProduit> listePrixVenteProduits;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT prixventeproduit.code, prixventeproduit.prixUSD, prixventeproduit.prixFC, prixventeproduit.dateHeure");
+            scriptSQL = new StringBuilder("SELECT prixventeproduit.code, prixventeproduit.valeurUSD, prixventeproduit.valeurFC, prixventeproduit.dateHeure");
             scriptSQL.append(" prixventeproduit.idProduit, produit.Description,");
-            scriptSQL.append(" prixVpventeproduit.idShop, shop.nom, shop.adresse, shop.active");
+            scriptSQL.append(" prixventeproduit.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM prixventeproduit");
             scriptSQL.append(" LEFT JOIN produit ON prixventeproduit.idProduit = produit.code");
             scriptSQL.append(" LEFT JOIN shop ON prixventeproduit.idShop = shop.code");
@@ -54,14 +54,14 @@ public class PrixVenteProduitDao {
                     prixVenteProduit.setValeurFC(res.getBigDecimal(3));
                     prixVenteProduit.setDateHeure(res.getTimestamp(4));
 
-                    Produit produit = new Produit(res.getInt(4));
-                    produit.setDescription(res.getString(5));
+                    Produit produit = new Produit(res.getInt(5));
+                    produit.setDescription(res.getString(6));
                     prixVenteProduit.setProduit(produit);
 
-                    Shop shop = new Shop(res.getInt(6));
-                    shop.setNom(res.getString(7));
-                    shop.setAdresse(res.getString(8));
-                    shop.setActive(res.getInt(9) == 0);
+                    Shop shop = new Shop(res.getInt(7));
+                    shop.setNom(res.getString(8));
+                    shop.setAdresse(res.getString(9));
+                    shop.setActive(res.getInt(10) == 0);
                     prixVenteProduit.setShop(shop);
 
                     listePrixVenteProduits.add(prixVenteProduit);
@@ -79,13 +79,13 @@ public class PrixVenteProduitDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT prixventeproduit.code, prixventeproduit.prixUSD, prixventeproduit.prixFC, prixventeproduit.dateHeure");
+            scriptSQL = new StringBuilder("SELECT prixventeproduit.code, prixventeproduit.valeurUSD, prixventeproduit.valeurFC, prixventeproduit.dateHeure");
             scriptSQL.append(" prixventeproduit.idProduit, produit.Description,");
-            scriptSQL.append(" prixVenteProduit.idShop, shop.nom, shop.adresse, shop.active");
+            scriptSQL.append(" prixventeproduit.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM prixventeproduit");
-            scriptSQL.append(" LEFT JOIN produit ON prixVenteProduit.idProduit = produit.code");
+            scriptSQL.append(" LEFT JOIN produit ON prixventeproduit.idProduit = produit.code");
             scriptSQL.append(" LEFT JOIN shop ON prixventeproduit.idShop = shop.code");
-            scriptSQL.append(" WHERE prixVenteProduit.code=?");
+            scriptSQL.append(" WHERE prixventeproduit.code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, codePrixVenteProduit);
@@ -99,14 +99,14 @@ public class PrixVenteProduitDao {
                     prixVenteProduit.setValeurFC(res.getBigDecimal(3));
                     prixVenteProduit.setDateHeure(res.getTimestamp(4));
 
-                    Produit produit = new Produit(res.getInt(4));
-                    produit.setDescription(res.getString(5));
+                    Produit produit = new Produit(res.getInt(5));
+                    produit.setDescription(res.getString(6));
                     prixVenteProduit.setProduit(produit);
 
-                    Shop shop = new Shop(res.getInt(6));
-                    shop.setNom(res.getString(7));
-                    shop.setAdresse(res.getString(8));
-                    shop.setActive(res.getInt(9) == 0);
+                    Shop shop = new Shop(res.getInt(7));
+                    shop.setNom(res.getString(8));
+                    shop.setAdresse(res.getString(9));
+                    shop.setActive(res.getInt(10) == 0);
                     prixVenteProduit.setShop(shop);
 
                     prs.close();
@@ -128,7 +128,7 @@ public class PrixVenteProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO prixventeproduit(");
-            scriptSQL.append(" idProduit, idShop, prixUSD, prixFC, dateHeure, code)");
+            scriptSQL.append(" idProduit, idShop, valeurUSD, valeurFC, dateHeure, code)");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -146,4 +146,22 @@ public class PrixVenteProduitDao {
         }
         return true;
     }
+
+    public boolean exclurePrixVenteProduit(int codePrixVenteProduit) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM prixventeproduit WHERE code=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setInt(1, codePrixVenteProduit);
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+
+        return true;
+    }
+
 }

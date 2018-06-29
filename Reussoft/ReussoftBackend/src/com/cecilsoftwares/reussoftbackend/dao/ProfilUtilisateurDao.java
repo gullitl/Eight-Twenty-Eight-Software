@@ -65,7 +65,8 @@ public class ProfilUtilisateurDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee");
-            scriptSQL.append(" FROM profilutilisateur WHERE code=?");
+            scriptSQL.append(" FROM profilutilisateur");
+            scriptSQL.append(" WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, codeProfilUtilisateur);

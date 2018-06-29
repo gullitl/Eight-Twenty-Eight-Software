@@ -1,7 +1,5 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
-import java.math.BigDecimal;
-
 /**
  * @author Plamedi L. Lusembo
  */
@@ -11,7 +9,7 @@ public class Produit {
     private Reseau reseau;
     private String description;
     private CategorieProduit categorieProduit;
-    private BigDecimal prixAchat;
+    private PrixAchatProduit prixAchatProduit;
     private boolean active;
 
     public Produit() {
@@ -54,12 +52,12 @@ public class Produit {
         this.categorieProduit = categorieProduit;
     }
 
-    public BigDecimal getPrixAchat() {
-        return prixAchat;
+    public PrixAchatProduit getPrixAchatProduit() {
+        return prixAchatProduit;
     }
 
-    public void setPrixAchat(BigDecimal prixAchat) {
-        this.prixAchat = prixAchat;
+    public void setPrixAchatProduit(PrixAchatProduit prixAchatProduit) {
+        this.prixAchatProduit = prixAchatProduit;
     }
 
     public boolean isActive() {

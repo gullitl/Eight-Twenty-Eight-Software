@@ -599,10 +599,10 @@ public class OperationEntreeStock extends JInternalFrame {
             dataRows[0] = ies.getProduit().getCode();
             dataRows[1] = ies.getProduit().getDescription();
             dataRows[2] = ies.getQuantiteProduit();
-            dataRows[3] = new StringBuilder(ies.getProduit().getPrixAchat().toString()).append(" $");
-            dataRows[4] = new StringBuilder(ies.getProduit().getPrixAchat().multiply(ies.getQuantiteProduit()).toString()).append(" $");
+            dataRows[3] = new StringBuilder(ies.getPrixAchatProduit().getValeurUSD().toString()).append(" $");
+            dataRows[4] = new StringBuilder(ies.getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()).toString()).append(" $");
 
-            totalAPayer.add(ies.getProduit().getPrixAchat().multiply(ies.getQuantiteProduit()));
+            totalAPayer.add(ies.getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()));
             defaultTableModel.addRow(dataRows);
         });
 
@@ -617,7 +617,7 @@ public class OperationEntreeStock extends JInternalFrame {
             produitSelectionne = produit;
             tfdIdProduit.setText(String.valueOf(produitSelectionne.getCode()));
             lblDescriptionProduit.setText(produitSelectionne.getDescription());
-            lblPrixAchat.setText(new StringBuilder(produitSelectionne.getPrixAchat().toString()).append(" $").toString());
+            lblPrixAchat.setText(new StringBuilder(produitSelectionne.getPrixAchatProduit().toString()).append(" $").toString());
         }
     }
 

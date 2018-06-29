@@ -37,7 +37,7 @@ public class TauxCarteDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeTauxCartes = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateheure, tauxcarte.valeur,");
+            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateHeure, tauxcarte.valeur,");
             scriptSQL.append(" tauxcarte.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM tauxcarte");
             scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.code");
@@ -72,7 +72,7 @@ public class TauxCarteDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateheure, tauxcarte.valeur,");
+            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateHeure, tauxcarte.valeur,");
             scriptSQL.append(" tauxcarte.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM tauxcarte");
             scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.code");
@@ -114,11 +114,11 @@ public class TauxCarteDao {
 
             if (tauxCarte.getCode() == 0) {
                 scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
-                scriptSQL.append(" dateheure, valeur, code )");
+                scriptSQL.append(" dateHeure, valeur, idShop, code )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
             } else {
                 scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
-                scriptSQL.append(" SET dateheure=?, valeur=?");
+                scriptSQL.append(" SET dateHeure=?, valeur=?, idShop=?");
                 scriptSQL.append(" WHERE code=?");
             }
 
@@ -126,6 +126,7 @@ public class TauxCarteDao {
 
             prs.setTimestamp(1, new Timestamp(tauxCarte.getDateHeure().getTime()));
             prs.setBigDecimal(2, tauxCarte.getValeur());
+            prs.setInt(3, tauxCarte.getShop().getCode());
             prs.setInt(4, tauxCarte.getCode());
 
             prs.execute();

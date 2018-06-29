@@ -35,7 +35,7 @@ public class PrixAchatProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT prixachatproduit.code, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
-            scriptSQL.append(" prixachatproduit.idProduit, produit.Description,");
+            scriptSQL.append(" prixachatproduit.idProduit, produit.Description");
             scriptSQL.append(" FROM prixachatproduit");
             scriptSQL.append(" LEFT JOIN produit ON prixachatproduit.idProduit = produit.code");
 
@@ -70,7 +70,7 @@ public class PrixAchatProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT prixachatproduit.code, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
-            scriptSQL.append(" prixachatproduit.idProduit, produit.Description,");
+            scriptSQL.append(" prixachatproduit.idProduit, produit.Description");
             scriptSQL.append(" FROM prixachatproduit");
             scriptSQL.append(" LEFT JOIN produit ON prixachatproduit.idProduit = produit.code");
             scriptSQL.append(" WHERE prixachatproduit.code=?");

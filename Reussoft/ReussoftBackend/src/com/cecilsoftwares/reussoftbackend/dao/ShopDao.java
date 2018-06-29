@@ -63,7 +63,8 @@ public class ShopDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT code, nom, adresse, active");
-            scriptSQL.append(" FROM shop WHERE code=?");
+            scriptSQL.append(" FROM shop");
+            scriptSQL.append(" WHERE code=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, codeShop);

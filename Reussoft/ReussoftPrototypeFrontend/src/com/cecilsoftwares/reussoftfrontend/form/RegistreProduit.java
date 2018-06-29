@@ -228,7 +228,7 @@ public class RegistreProduit extends JInternalFrame {
             CategorieProduit categorieProduit = new CategorieProduit(Integer.parseInt(tfdIdCategorieProduit.getText()));
             produit.setCategorieProduit(categorieProduit);
 
-            produit.setPrixAchat(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchat.getText()));
+            produit.setPrixAchatProduit(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchat.getText()));
             produit.setActive(modeEdition ? chbActiver.isSelected() : true);
 
             try {

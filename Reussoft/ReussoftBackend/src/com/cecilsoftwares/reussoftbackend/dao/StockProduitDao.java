@@ -10,17 +10,17 @@ import java.sql.SQLException;
 /**
  * @author Plamedi L. Lusembo
  */
-public class StockDao {
+public class StockProduitDao {
 
     private StringBuilder scriptSQL;
-    private static StockDao uniqueInstance;
+    private static StockProduitDao uniqueInstance;
 
-    public StockDao() {
+    public StockProduitDao() {
     }
 
-    public static synchronized StockDao getInstance() {
+    public static synchronized StockProduitDao getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new StockDao();
+            uniqueInstance = new StockProduitDao();
         }
         return uniqueInstance;
     }

@@ -37,8 +37,4 @@ public class ItemDispatchService {
     public ItemDispatch selectionnerItemDispatchParCodeDispatchECodeProduit(int codeDispatch, int codeProduit) throws ClassNotFoundException, SQLException {
         return ItemDispatchDao.getInstance().selectionnerItemDispatchParCodeDispatchECodeProduit(codeDispatch, codeProduit);
     }
-
-    public boolean enregistrerItemDispatch(ItemDispatch itemDispatch) throws ClassNotFoundException, SQLException {
-        return ItemDispatchDao.getInstance().enregistrerItemDispatch(itemDispatch);
-    }
 }

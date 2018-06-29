@@ -38,7 +38,4 @@ public class ItemEntreeStockService {
         return ItemEntreeStockDao.getInstance().selectionnerItemEntreeStockParCodeEntreeStockECodeProduit(codeEntreeStock, codeProduit);
     }
 
-    public boolean enregistrerItemEntreeStock(ItemEntreeStock itemEntreeStock) throws ClassNotFoundException, SQLException {
-        return ItemEntreeStockDao.getInstance().enregistrerItemEntreeStock(itemEntreeStock);
-    }
 }
