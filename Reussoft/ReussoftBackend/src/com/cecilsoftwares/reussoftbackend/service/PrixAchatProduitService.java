@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.PrixAchatProduitDao;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
+import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -32,6 +33,10 @@ public class PrixAchatProduitService {
 
     public boolean enregistrerPrixAchatProduit(PrixAchatProduit prixAchatProduit) throws ClassNotFoundException, SQLException {
         return PrixAchatProduitDao.getInstance().enregistrerPrixAchatProduit(prixAchatProduit);
+    }
+
+    public int selectionnerDernierPrixAchatProduit(Produit produit) throws ClassNotFoundException, SQLException {
+        return PrixAchatProduitDao.getInstance().selectionnerDernierPrixAchatProduit(produit);
     }
 
 }

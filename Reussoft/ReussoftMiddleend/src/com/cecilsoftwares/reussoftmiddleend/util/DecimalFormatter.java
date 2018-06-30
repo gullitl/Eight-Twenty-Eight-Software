@@ -26,18 +26,18 @@ public class DecimalFormatter {
         return uniqueInstance;
     }
 
-    public String formattedValue(String value) {
+    public String getFormattedValue(String value) {
         value = value.replace(",", ".");
         double dbl = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
         return numberFormat.format(dbl);
     }
 
-    public String formattedValue(BigDecimal value) {
+    public String getFormattedValue(BigDecimal value) {
         double dbl = value.setScale(2, RoundingMode.HALF_UP).doubleValue();
         return numberFormat.format(dbl);
     }
 
-    public String formattedValueSemSimbolo(String value) {
+    public String getFormattedValueSanSymbole(String value) {
         value = value.replace(",", ".");
         if (value == null || value.isEmpty()) {
             return "0,00";
@@ -55,7 +55,7 @@ public class DecimalFormatter {
         return numberFormat2.format(dbl);
     }
 
-    public String formattedValueSemSimbolo4Zero(String value) {
+    public String getFormattedValueSanSymbole4Zero(String value) {
         value = value.replace(",", ".");
         if (value == null || value.isEmpty()) {
             return "0,0000";
@@ -73,7 +73,7 @@ public class DecimalFormatter {
         return numberFormat2.format(dbl);
     }
 
-    public String formattedValueSemSimbolo(BigDecimal value) {
+    public String getFormattedValueSanSymbole(BigDecimal value) {
         double dbl = value.setScale(2, RoundingMode.HALF_UP).doubleValue();
         String result = numberFormat2.format(dbl);
         if (!result.contains(",")) {
@@ -87,7 +87,7 @@ public class DecimalFormatter {
         return numberFormat2.format(dbl);
     }
 
-    public String formattedValueSemSimbolo4Zero(BigDecimal value) {
+    public String getFormattedValueSanSymbole4Zero(BigDecimal value) {
         double dbl = value.setScale(4, RoundingMode.HALF_UP).doubleValue();
         String result = numberFormat2.format(dbl);
         if (!result.contains(",")) {
@@ -101,18 +101,18 @@ public class DecimalFormatter {
         return numberFormat2.format(dbl);
     }
 
-    public String standardValue(String value) {
+    public String getStandardValue(String value) {
         return value.replace("R$ ", "").replace(".", "");
     }
 
-    public BigDecimal bigStandardValue(String value) {
+    public BigDecimal getBigStandardValue(String value) {
         if (value.isEmpty()) {
             return new BigDecimal("0.00");
         }
         return new BigDecimal(value.replace("R$ ", "").replace(".", "").replace(",", "."));
     }
 
-    public BigDecimal bigStandardValue4Zero(String value) {
+    public BigDecimal getBigStandardValue4Zero(String value) {
         if (value.isEmpty()) {
             return new BigDecimal("0.0000");
         }

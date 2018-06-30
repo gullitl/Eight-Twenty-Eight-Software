@@ -125,4 +125,34 @@ public class PrixAchatProduitDao {
         }
         return true;
     }
+
+    public int selectionnerDernierPrixAchatProduit(Produit produit) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("SELECT Max(code) FROM prixachatproduit");
+            scriptSQL.append(" WHERE prixachatproduit.idProduit=?)");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setInt(1, produit.getCode());
+            res = prs.executeQuery();
+            if (res != null) {
+                if (res.next()) {
+                    int codePrixAchatProduit = res.getInt(1);
+
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
+                    return codePrixAchatProduit;
+                }
+            }
+            prs.close();
+            res.close();
+            conexao.close();
+        }
+        return 0;
+    }
+
 }

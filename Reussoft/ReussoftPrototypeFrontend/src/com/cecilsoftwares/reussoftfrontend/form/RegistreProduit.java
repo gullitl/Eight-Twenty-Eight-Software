@@ -1,17 +1,21 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
+import com.cecilsoftwares.reussoftbackend.service.PrixAchatProduitService;
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
 import com.cecilsoftwares.reussoftbackend.service.ReseauService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProduit;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationReseau;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
+import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import com.cecilsoftwares.reussoftmiddleend.util.DecimalFormatter;
 import java.awt.Cursor;
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -25,6 +29,8 @@ import javax.swing.JOptionPane;
 public class RegistreProduit extends JInternalFrame {
 
     private int codeProduit;
+    private int codePrixVenteProduit;
+    private BigDecimal valeurPrixVenteProduitInicial;
     private boolean modeEdition;
     private boolean btnConsulterProduitClickable;
     private boolean btnConsulterReseauClickable;
@@ -228,7 +234,21 @@ public class RegistreProduit extends JInternalFrame {
             CategorieProduit categorieProduit = new CategorieProduit(Integer.parseInt(tfdIdCategorieProduit.getText()));
             produit.setCategorieProduit(categorieProduit);
 
-            produit.setPrixAchatProduit(DecimalFormatter.getInstance().bigStandardValue(tfdPrixAchat.getText()));
+            PrixAchatProduit prixAchatProduit = new PrixAchatProduit();
+            prixAchatProduit.setDateHeure(new Date());
+            prixAchatProduit.setProduit(produit);
+            prixAchatProduit.setValeurUSD(new BigDecimal(tfdPrixAchat.getText()));
+            try {
+                if (!valeurPrixVenteProduitInicial.equals(new BigDecimal(tfdPrixAchat.getText()))) {
+                    PrixAchatProduitService.getInstance().enregistrerPrixAchatProduit(prixAchatProduit);
+                    codePrixVenteProduit = PrixAchatProduitService.getInstance().selectionnerDernierPrixAchatProduit(produit);
+                }
+
+                produit.setPrixAchatProduit(new PrixAchatProduit(codePrixVenteProduit));
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(RegistreProduit.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             produit.setActive(modeEdition ? chbActiver.isSelected() : true);
 
             try {
@@ -355,7 +375,9 @@ public class RegistreProduit extends JInternalFrame {
             lblDescriptionReseau.setText(produit.getReseau().getNom());
             tfdIdCategorieProduit.setText(String.valueOf(produit.getCategorieProduit().getCode()));
             lblDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
-            tfdPrixAchat.setText(DecimalFormatter.getInstance().formattedValue(produit.getPrixAchat()));
+
+            codePrixVenteProduit = produit.getCode();
+            tfdPrixAchat.setText(DecimalFormatter.getInstance().getFormattedValue(produit.getPrixAchatProduit().getValeurUSD()));
             chbActiver.setVisible(true);
             chbActiver.setSelected(produit.isActive());
             btnEnregistrer.setText("ACTUALISER");
