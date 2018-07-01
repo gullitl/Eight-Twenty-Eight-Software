@@ -39,7 +39,7 @@ public class RegistreReseau extends JInternalFrame {
         tfdNom = new javax.swing.JTextField();
         tfdNomAbrege = new javax.swing.JTextField();
         chbActiver = new javax.swing.JCheckBox();
-        btnAnnuler = new javax.swing.JButton();
+        btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnExclure = new javax.swing.JButton();
 
@@ -61,10 +61,10 @@ public class RegistreReseau extends JInternalFrame {
 
         chbActiver.setText("Activer");
 
-        btnAnnuler.setText("ANNULER");
-        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+        btnEffacerFormulaire.setText("EFFACER");
+        btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnnulerActionPerformed(evt);
+                btnEffacerFormulaireActionPerformed(evt);
             }
         });
 
@@ -87,8 +87,8 @@ public class RegistreReseau extends JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(37, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(43, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(chbActiver)
@@ -97,7 +97,7 @@ public class RegistreReseau extends JInternalFrame {
                             .addComponent(tfdNomAbrege, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(250, 250, 250))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdNom)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnConsulterReseau))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -105,7 +105,7 @@ public class RegistreReseau extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -125,18 +125,18 @@ public class RegistreReseau extends JInternalFrame {
                 .addComponent(chbActiver)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+    private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
         effacerFormulaire();
-    }//GEN-LAST:event_btnAnnulerActionPerformed
+    }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
@@ -187,14 +187,14 @@ public class RegistreReseau extends JInternalFrame {
 
     public void reseauSelectionne(Reseau reseau) {
         if (reseau != null) {
-            modeEdition = true;
-            btnExclure.setEnabled(true);
             codeReseau = reseau.getCode();
             tfdNom.setText(reseau.getNom());
             tfdNomAbrege.setText(reseau.getNomAbrege());
             chbActiver.setVisible(true);
             chbActiver.setSelected(reseau.isActive());
             btnEnregistrer.setText("ACTUALISER");
+            modeEdition = true;
+            btnExclure.setEnabled(true);
         }
     }
 
@@ -292,8 +292,8 @@ public class RegistreReseau extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterReseau;
+    private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;
     private javax.swing.JCheckBox chbActiver;

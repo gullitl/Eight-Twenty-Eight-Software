@@ -83,7 +83,7 @@ public class OperationEntreeStock extends JInternalFrame {
         tblItemsEntreeStock = new javax.swing.JTable();
         btnEffacerChampsProduits = new javax.swing.JButton();
         lblNombreItemEntreeStock = new javax.swing.JLabel();
-        btnAnnuler = new javax.swing.JButton();
+        btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         tfdDateHeureEntreeStock = new javax.swing.JTextField();
@@ -264,10 +264,10 @@ public class OperationEntreeStock extends JInternalFrame {
                 .addContainerGap())
         );
 
-        btnAnnuler.setText("ANNULER");
-        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+        btnEffacerFormulaire.setText("EFFACER");
+        btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnnulerActionPerformed(evt);
+                btnEffacerFormulaireActionPerformed(evt);
             }
         });
 
@@ -325,7 +325,7 @@ public class OperationEntreeStock extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
@@ -370,7 +370,7 @@ public class OperationEntreeStock extends JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(lblTotalAPayer))
@@ -420,9 +420,9 @@ public class OperationEntreeStock extends JInternalFrame {
         }
     }
 
-    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+    private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
         effacerFormulaire();
-    }//GEN-LAST:event_btnAnnulerActionPerformed
+    }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnAjouterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjouterProduitActionPerformed
 
@@ -693,11 +693,11 @@ public class OperationEntreeStock extends JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAjouterProduit;
-    private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterEntreeStock;
     private javax.swing.JButton btnConsulterFournisseur;
     private javax.swing.JButton btnConsulterProduit;
     private javax.swing.JButton btnEffacerChampsProduits;
+    private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;

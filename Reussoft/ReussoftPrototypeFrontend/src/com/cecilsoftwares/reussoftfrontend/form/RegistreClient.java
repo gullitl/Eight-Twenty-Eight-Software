@@ -36,7 +36,7 @@ public class RegistreClient extends JInternalFrame {
 
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        btnAnnuler = new javax.swing.JButton();
+        btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         tfdEntreprise = new javax.swing.JTextField();
         tfdNom = new javax.swing.JTextField();
@@ -58,10 +58,10 @@ public class RegistreClient extends JInternalFrame {
 
         jLabel3.setText("Nom:");
 
-        btnAnnuler.setText("ANNULER");
-        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+        btnEffacerFormulaire.setText("EFFACER");
+        btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnnulerActionPerformed(evt);
+                btnEffacerFormulaireActionPerformed(evt);
             }
         });
 
@@ -110,7 +110,7 @@ public class RegistreClient extends JInternalFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -136,7 +136,7 @@ public class RegistreClient extends JInternalFrame {
                 .addComponent(tfdTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(35, Short.MAX_VALUE))
@@ -145,9 +145,9 @@ public class RegistreClient extends JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+    private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
         effacerFormulaire();
-    }//GEN-LAST:event_btnAnnulerActionPerformed
+    }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
         if (isInformationObligatoiresRemplies()) {
@@ -240,15 +240,13 @@ public class RegistreClient extends JInternalFrame {
 
     public void clientSelectionne(Client client) {
         if (client != null) {
-
-            modeEdition = true;
-            btnExclure.setEnabled(true);
-
             codeClient = client.getCode();
             tfdNom.setText(client.getNom());
             tfdEntreprise.setText(client.getEntreprise());
             tfdTelephone.setText(client.getTelephone());
             btnEnregistrer.setText("ACTUALISER");
+            modeEdition = true;
+            btnExclure.setEnabled(true);
         }
     }
 
@@ -314,8 +312,8 @@ public class RegistreClient extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterClient;
+    private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;
     private javax.swing.JLabel jLabel2;

@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.PrixVenteProduitDao;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixVenteProduit;
+import com.cecilsoftwares.reussoftmiddleend.model.PrixVenteProduitShop;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -30,8 +31,16 @@ public class PrixVenteProduitService {
         return PrixVenteProduitDao.getInstance().selectionnerPrixVenteProduitParCode(codePrixVenteProduit);
     }
 
+    public List<PrixVenteProduit> selectionnerPrixVenteProduitParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
+        return PrixVenteProduitDao.getInstance().selectionnerPrixVenteProduitParCodeProduit(codeProduit);
+    }
+
     public boolean enregistrerPrixVenteProduit(PrixVenteProduit prixVenteProduit) throws ClassNotFoundException, SQLException {
         return PrixVenteProduitDao.getInstance().enregistrerPrixVenteProduit(prixVenteProduit);
+    }
+
+    public boolean enregistrerPrixVenteProduitShop(PrixVenteProduit prixVenteProduit, List<PrixVenteProduitShop> prixVenteProduitShop) throws ClassNotFoundException, SQLException {
+        return PrixVenteProduitDao.getInstance().enregistrerPrixVenteProduitShop(prixVenteProduit, prixVenteProduitShop);
     }
 
     public boolean exclurePrixVenteProduit(int codePrixVenteProduit) throws ClassNotFoundException, SQLException {

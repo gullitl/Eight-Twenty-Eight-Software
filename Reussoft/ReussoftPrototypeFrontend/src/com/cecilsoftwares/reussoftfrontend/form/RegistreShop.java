@@ -55,7 +55,7 @@ public class RegistreShop extends JInternalFrame {
         tfdNumero = new JCustomTextField();
         chbActiver = new javax.swing.JCheckBox();
         btnEnregistrer = new javax.swing.JButton();
-        btnAnnuler = new javax.swing.JButton();
+        btnEffacerFormulaire = new javax.swing.JButton();
         btnConsulterShop = new javax.swing.JButton();
         btnExclure = new javax.swing.JButton();
 
@@ -155,10 +155,10 @@ public class RegistreShop extends JInternalFrame {
             }
         });
 
-        btnAnnuler.setText("ANNULER");
-        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+        btnEffacerFormulaire.setText("EFFACER");
+        btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnnulerActionPerformed(evt);
+                btnEffacerFormulaireActionPerformed(evt);
             }
         });
 
@@ -189,7 +189,7 @@ public class RegistreShop extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel2)
                         .addComponent(chbActiver)
@@ -215,7 +215,7 @@ public class RegistreShop extends JInternalFrame {
                 .addComponent(chbActiver)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(35, Short.MAX_VALUE))
@@ -224,9 +224,9 @@ public class RegistreShop extends JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+    private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
         effacerFormulaire();
-    }//GEN-LAST:event_btnAnnulerActionPerformed
+    }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
@@ -284,9 +284,6 @@ public class RegistreShop extends JInternalFrame {
 
     public void shopSelectionne(Shop shop) {
         if (shop != null) {
-            modeEdition = true;
-            btnExclure.setEnabled(true);
-
             codeShop = shop.getCode();
             tfdNom.setText(shop.getNom());
 
@@ -311,6 +308,8 @@ public class RegistreShop extends JInternalFrame {
             chbActiver.setVisible(true);
             chbActiver.setSelected(shop.isActive());
             btnEnregistrer.setText("ACTUALISER");
+            btnExclure.setEnabled(true);
+            modeEdition = true;
         }
     }
 
@@ -443,8 +442,8 @@ public class RegistreShop extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterShop;
+    private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;
     private javax.swing.JComboBox<String> cbxProvince;

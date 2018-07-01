@@ -44,7 +44,7 @@ public class ItemSortieStockDao {
             scriptSQL.append(" sortiestock.idShop, shop.nom,");
             scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
-            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.valeurFC, prixventeproduit.dateHeure");
+            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" FROM itemsortiestock");
             scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
             scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.code");
@@ -78,8 +78,7 @@ public class ItemSortieStockDao {
 
                     PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixVenteProduit.setValeurFC(res.getBigDecimal(14));
-                    prixVenteProduit.setDateHeure(res.getTimestamp(15));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
 
                     listeItemsSortieStock.add(itemSortieStock);
@@ -105,7 +104,7 @@ public class ItemSortieStockDao {
             scriptSQL.append(" sortiestock.idShop, shop.nom,");
             scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
-            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.valeurFC, prixventeproduit.dateHeure");
+            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" FROM itemsortiestock");
             scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
             scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.code");
@@ -141,8 +140,7 @@ public class ItemSortieStockDao {
 
                     PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixVenteProduit.setValeurFC(res.getBigDecimal(14));
-                    prixVenteProduit.setDateHeure(res.getTimestamp(15));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
 
                     listeItemsSortieStock.add(itemSortieStock);
@@ -168,7 +166,7 @@ public class ItemSortieStockDao {
             scriptSQL.append(" sortiestock.idShop, shop.nom,");
             scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
-            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.valeurFC, prixventeproduit.dateHeure");
+            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" FROM itemsortiestock");
             scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
             scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.code");
@@ -204,8 +202,7 @@ public class ItemSortieStockDao {
 
                     PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixVenteProduit.setValeurFC(res.getBigDecimal(14));
-                    prixVenteProduit.setDateHeure(res.getTimestamp(15));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
 
                     listeItemsSortieStock.add(itemSortieStock);
@@ -229,7 +226,7 @@ public class ItemSortieStockDao {
             scriptSQL.append(" sortiestock.idShop, shop.nom,");
             scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
-            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.valeurFC, prixventeproduit.dateHeure");
+            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" FROM itemsortiestock");
             scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
             scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.code");
@@ -266,8 +263,7 @@ public class ItemSortieStockDao {
 
                     PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixVenteProduit.setValeurFC(res.getBigDecimal(14));
-                    prixVenteProduit.setDateHeure(res.getTimestamp(15));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
 
                     prs.close();

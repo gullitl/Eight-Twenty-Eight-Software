@@ -56,7 +56,7 @@ public class RegistreProduit extends JInternalFrame {
         tfdDescription = new javax.swing.JTextField();
         tfdPrixAchat = new javax.swing.JTextField();
         chbActiver = new javax.swing.JCheckBox();
-        btnAnnuler = new javax.swing.JButton();
+        btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnConsulterReseau = new javax.swing.JButton();
         tfdIdReseau = new javax.swing.JTextField();
@@ -88,10 +88,10 @@ public class RegistreProduit extends JInternalFrame {
 
         chbActiver.setText("Activer");
 
-        btnAnnuler.setText("ANNULER");
-        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+        btnEffacerFormulaire.setText("EFFACER");
+        btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnnulerActionPerformed(evt);
+                btnEffacerFormulaireActionPerformed(evt);
             }
         });
 
@@ -168,7 +168,7 @@ public class RegistreProduit extends JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addComponent(chbActiver)))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
@@ -205,7 +205,7 @@ public class RegistreProduit extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
@@ -213,9 +213,9 @@ public class RegistreProduit extends JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+    private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
         effacerFormulaire();
-    }//GEN-LAST:event_btnAnnulerActionPerformed
+    }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
@@ -366,9 +366,6 @@ public class RegistreProduit extends JInternalFrame {
 
     public void produitSelectionne(Produit produit) {
         if (produit != null) {
-            modeEdition = true;
-            btnExclure.setEnabled(true);
-
             codeProduit = produit.getCode();
             tfdDescription.setText(produit.getDescription());
             tfdIdReseau.setText(String.valueOf(produit.getReseau().getCode()));
@@ -381,6 +378,8 @@ public class RegistreProduit extends JInternalFrame {
             chbActiver.setVisible(true);
             chbActiver.setSelected(produit.isActive());
             btnEnregistrer.setText("ACTUALISER");
+            modeEdition = true;
+            btnExclure.setEnabled(true);
         }
     }
 
@@ -476,10 +475,10 @@ public class RegistreProduit extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterCategorieProduit;
     private javax.swing.JButton btnConsulterProduit;
     private javax.swing.JButton btnConsulterReseau;
+    private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;
     private javax.swing.JCheckBox chbActiver;

@@ -105,6 +105,7 @@ public class OperationVente extends JInternalFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
+        btnEffacerFormulaire = new javax.swing.JButton();
         btnOuvrirVente = new javax.swing.JButton();
 
         setClosable(true);
@@ -331,6 +332,13 @@ public class OperationVente extends JInternalFrame {
 
         jLabel6.setText("jLabel6");
 
+        btnEffacerFormulaire.setText("EFFACER");
+        btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEffacerFormulaireActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlVenteLayout = new javax.swing.GroupLayout(pnlVente);
         pnlVente.setLayout(pnlVenteLayout);
         pnlVenteLayout.setHorizontalGroup(
@@ -371,16 +379,17 @@ public class OperationVente extends JInternalFrame {
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblTauxcarte))
-                    .addGroup(pnlVenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(pnlVenteLayout.createSequentialGroup()
-                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlVenteLayout.createSequentialGroup()
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(136, 136, 136))
+                    .addGroup(pnlVenteLayout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlVenteLayout.createSequentialGroup()
+                        .addComponent(btnEnregistrer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(135, 135, 135))
         );
         pnlVenteLayout.setVerticalGroup(
             pnlVenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,9 +436,11 @@ public class OperationVente extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
                         .addGap(33, 33, 33)
-                        .addGroup(pnlVenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(pnlVenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlVenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -508,7 +519,7 @@ public class OperationVente extends JInternalFrame {
     }
 
     private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
-        effacerFormulaire();
+
     }//GEN-LAST:event_btnAnnulerActionPerformed
 
     private void btnAjouterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjouterProduitActionPerformed
@@ -683,6 +694,10 @@ public class OperationVente extends JInternalFrame {
         btnOuvrirVente.setVisible(false);
     }//GEN-LAST:event_btnOuvrirVenteActionPerformed
 
+    private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
+        effacerFormulaire();
+    }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
+
     private void chargerTableauItemEntreeStock() {
         BigDecimal totalAPayer = new BigDecimal("0");
         defaultTableModel.setRowCount(0);
@@ -691,7 +706,7 @@ public class OperationVente extends JInternalFrame {
             dataRows[0] = ies.getProduit().getCode();
             dataRows[1] = ies.getProduit().getDescription();
             dataRows[2] = ies.getQuantiteProduit();
-            dataRows[3] = new StringBuilder(ies.getPrixVenteProduit().getValeurUSD().toString()).append(" $").append(ies.getPrixVenteProduit().getValeurFC().toString()).append(" Fc");
+            dataRows[3] = new StringBuilder(ies.getPrixVenteProduit().getValeurUSD().toString()).append(" $");
             dataRows[4] = new StringBuilder(ies.getPrixVenteProduit().getValeurUSD().multiply(ies.getQuantiteProduit()).toString()).append(" $");
 
             totalAPayer.add(ies.getPrixVenteProduit().getValeurUSD().multiply(ies.getQuantiteProduit()));
@@ -790,6 +805,7 @@ public class OperationVente extends JInternalFrame {
     private javax.swing.JButton btnConsulterEntreeStock;
     private javax.swing.JButton btnConsulterProduit;
     private javax.swing.JButton btnEffacerChampsProduits;
+    private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnOuvrirVente;
     private javax.swing.JCheckBox jCheckBox1;

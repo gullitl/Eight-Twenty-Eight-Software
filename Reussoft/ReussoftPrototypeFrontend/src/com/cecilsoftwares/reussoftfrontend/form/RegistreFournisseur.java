@@ -45,7 +45,7 @@ public class RegistreFournisseur extends JInternalFrame {
             tfdTelephone = new javax.swing.JFormattedTextField(telefone);
         }catch(Exception e){
         }
-        btnAnnuler = new javax.swing.JButton();
+        btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnExclure = new javax.swing.JButton();
 
@@ -67,10 +67,10 @@ public class RegistreFournisseur extends JInternalFrame {
             }
         });
 
-        btnAnnuler.setText("ANNULER");
-        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+        btnEffacerFormulaire.setText("EFFACER");
+        btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnnulerActionPerformed(evt);
+                btnEffacerFormulaireActionPerformed(evt);
             }
         });
 
@@ -110,7 +110,7 @@ public class RegistreFournisseur extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -133,7 +133,7 @@ public class RegistreFournisseur extends JInternalFrame {
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
@@ -141,9 +141,9 @@ public class RegistreFournisseur extends JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+    private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
         effacerFormulaire();
-    }//GEN-LAST:event_btnAnnulerActionPerformed
+    }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
@@ -194,14 +194,13 @@ public class RegistreFournisseur extends JInternalFrame {
 
     public void fournisseurSelectionne(Fournisseur fournisseur) {
         if (fournisseur != null) {
-            modeEdition = true;
-            btnExclure.setEnabled(true);
-
             codeFournisseur = fournisseur.getCode();
             tfdResponsable.setText(fournisseur.getResponsable());
             tfdTelephone.setText(fournisseur.getTelephone());
             tfdEntreprise.setText(fournisseur.getEntreprise());
             btnEnregistrer.setText("ACTUALISER");
+            modeEdition = true;
+            btnExclure.setEnabled(true);
         }
     }
 
@@ -307,8 +306,8 @@ public class RegistreFournisseur extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterFournisseur;
+    private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;
     private javax.swing.JLabel jLabel2;

@@ -37,7 +37,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         tfdDescriptionAbregee = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        btnAnnuler = new javax.swing.JButton();
+        btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnExclure = new javax.swing.JButton();
         btnConsulterProfilUtilisateur = new javax.swing.JButton();
@@ -50,10 +50,10 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
         jLabel3.setText("Description abregrée:");
 
-        btnAnnuler.setText("ANNULER");
-        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+        btnEffacerFormulaire.setText("EFFACE");
+        btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnnulerActionPerformed(evt);
+                btnEffacerFormulaireActionPerformed(evt);
             }
         });
 
@@ -99,7 +99,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -117,7 +117,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(51, Short.MAX_VALUE))
@@ -126,9 +126,9 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+    private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
         effacerFormulaire();
-    }//GEN-LAST:event_btnAnnulerActionPerformed
+    }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
@@ -215,14 +215,12 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
     public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
         if (profilUtilisateur != null) {
-
-            modeEdition = true;
-            btnExclure.setEnabled(true);
-
             codeProfilUtilisateur = profilUtilisateur.getCode();
             tfdDescription.setText(profilUtilisateur.getDescription());
             tfdDescriptionAbregee.setText(profilUtilisateur.getDescriptionAbregee());
             btnEnregistrer.setText("ACTUALISER");
+            btnExclure.setEnabled(true);
+            modeEdition = true;
         }
     }
 
@@ -282,8 +280,8 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterProfilUtilisateur;
+    private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;
     private javax.swing.JLabel jLabel2;

@@ -1,14 +1,11 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
-import java.math.BigDecimal;
-
 /**
  * @author Plamedi L. Lusembo
  */
 public class PrixVenteProduit extends PrixProduit {
 
     private Shop shop;
-    private BigDecimal valeurFC;
 
     public PrixVenteProduit(int code) {
         super(code);
@@ -25,13 +22,4 @@ public class PrixVenteProduit extends PrixProduit {
     public void setShop(Shop shop) {
         this.shop = shop;
     }
-
-    public BigDecimal getValeurFC() {
-        return valeurFC;
-    }
-
-    public void setValeurFC(BigDecimal valeurFC) {
-        this.valeurFC = valeurFC;
-    }
-
 }

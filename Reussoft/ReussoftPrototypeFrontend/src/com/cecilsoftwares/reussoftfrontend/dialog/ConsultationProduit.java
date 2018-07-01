@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
 import com.cecilsoftwares.reussoftfrontend.form.OperationEntreeStock;
+import com.cecilsoftwares.reussoftfrontend.form.RegistrePrixVenteProduit;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import java.awt.event.WindowAdapter;
@@ -49,6 +50,9 @@ public class ConsultationProduit extends javax.swing.JDialog {
                 } else if (frameAncetre instanceof OperationEntreeStock) {
                     OperationEntreeStock operationEntreeStock = (OperationEntreeStock) frameAncetre;
                     operationEntreeStock.setProduitSelectionne(produit);
+                } else if (frameAncetre instanceof RegistrePrixVenteProduit) {
+                    RegistrePrixVenteProduit registrePrixVenteProduit = (RegistrePrixVenteProduit) frameAncetre;
+                    registrePrixVenteProduit.produitSelectionne(produit);
                 }
             }
         });

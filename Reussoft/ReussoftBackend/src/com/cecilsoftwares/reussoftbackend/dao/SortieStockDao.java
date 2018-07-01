@@ -100,7 +100,7 @@ public class SortieStockDao {
             scriptSQL.append(" sortiestock.idShop, shop.nom,");
             scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
-            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.valeurFC, prixventeproduit.dateHeure");
+            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -133,8 +133,7 @@ public class SortieStockDao {
 
                     PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixVenteProduit.setValeurFC(res.getBigDecimal(14));
-                    prixVenteProduit.setDateHeure(res.getTimestamp(15));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
 
                     if (code == sortieStock.getCode()) {
@@ -188,7 +187,7 @@ public class SortieStockDao {
             scriptSQL.append(" sortiestock.idShop, shop.nom,");
             scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
-            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.valeurFC, prixventeproduit.dateHeure");
+            scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" WHERE itementreestock.idSortieStock=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -219,8 +218,7 @@ public class SortieStockDao {
 
                     PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixVenteProduit.setValeurFC(res.getBigDecimal(14));
-                    prixVenteProduit.setDateHeure(res.getTimestamp(15));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
 
                     listeItemsSortieStock.add(itemSortieStock);

@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
+import com.cecilsoftwares.reussoftfrontend.form.RegistrePrixVenteProduit;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreShop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.event.WindowAdapter;
@@ -45,6 +46,9 @@ public class ConsultationShop extends javax.swing.JDialog {
                 if (frameAncetre instanceof RegistreShop) {
                     RegistreShop registreShop = (RegistreShop) frameAncetre;
                     registreShop.shopSelectionne(shop);
+                } else if (frameAncetre instanceof RegistrePrixVenteProduit) {
+                    RegistrePrixVenteProduit registrePrixVenteProduit = (RegistrePrixVenteProduit) frameAncetre;
+                    registrePrixVenteProduit.shopSelectionne(shop);
                 }
             }
         });

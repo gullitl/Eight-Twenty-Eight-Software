@@ -42,7 +42,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnExclure" min="-2" pref="104" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnAnnuler" min="-2" pref="86" max="-2" attributes="0"/>
+                      <Component id="btnEffacerFormulaire" min="-2" pref="86" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="55" max="32767" attributes="0"/>
@@ -65,7 +65,7 @@
               <Component id="tfdDescriptionAbregee" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnAnnuler" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                  <Component id="btnEffacerFormulaire" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="btnEnregistrer" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="btnExclure" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
               </Group>
@@ -89,12 +89,12 @@
         <Property name="text" type="java.lang.String" value="Description abregr&#xe9;e:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnAnnuler">
+    <Component class="javax.swing.JButton" name="btnEffacerFormulaire">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ANNULER"/>
+        <Property name="text" type="java.lang.String" value="EFFACE"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnnulerActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEffacerFormulaireActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnEnregistrer">

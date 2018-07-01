@@ -46,7 +46,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         tfdSurnom = new javax.swing.JTextField();
         chbActiver = new javax.swing.JCheckBox();
-        btnAnnuler = new javax.swing.JButton();
+        btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnExclure = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -83,10 +83,10 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         chbActiver.setText("Activer");
 
-        btnAnnuler.setText("ANNULER");
-        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+        btnEffacerFormulaire.setText("EFFACER");
+        btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnnulerActionPerformed(evt);
+                btnEffacerFormulaireActionPerformed(evt);
             }
         });
 
@@ -190,7 +190,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(chbActiver)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -241,16 +241,16 @@ public class RegistreCollaborateur extends JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnAnnuler, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnulerActionPerformed
+    private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
         effacerFormulaire();
-    }//GEN-LAST:event_btnAnnulerActionPerformed
+    }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
@@ -324,9 +324,6 @@ public class RegistreCollaborateur extends JInternalFrame {
 
     public void collaborateurSelectionne(Collaborateur collaborateur) {
         if (collaborateur != null) {
-            modeEdition = true;
-            btnExclure.setEnabled(true);
-
             codeCollaborateur = collaborateur.getCode();
             tfdPrenom.setText(collaborateur.getPrenom());
             tfdNom.setText(collaborateur.getNom());
@@ -340,6 +337,8 @@ public class RegistreCollaborateur extends JInternalFrame {
             chbActiver.setVisible(true);
             chbActiver.setSelected(collaborateur.isActive());
             btnEnregistrer.setText("ACTUALISER");
+            modeEdition = true;
+            btnExclure.setEnabled(true);
         }
     }
 
@@ -526,9 +525,9 @@ public class RegistreCollaborateur extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnnuler;
     private javax.swing.JButton btnConsulterCollaborateur;
     private javax.swing.JButton btnConsulterProfilUtilisateur;
+    private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;
     private javax.swing.JCheckBox chbActiver;
