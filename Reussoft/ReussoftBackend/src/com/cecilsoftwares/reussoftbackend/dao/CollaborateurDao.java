@@ -202,14 +202,16 @@ public class CollaborateurDao {
             if (collaborateur.getCode() == 0) {
                 scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
                 scriptSQL.append(" prenom, nom, postnom, surnom, nomUtilisateur, motDePasse, active,");
-                scriptSQL.append(" idProfilUtilisateur, idShop, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
+                scriptSQL.append(" idProfilUtilisateur,");
+                scriptSQL.append(collaborateur.getShop() == null ? " code)" : " idShop, code)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?,");
+                scriptSQL.append(collaborateur.getShop() == null ? " ?)" : " ?, ?)");
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE collaborateur");
                 scriptSQL.append(" SET prenom=?, nom=?, postnom=?, surnom=?, nomUtilisateur=?, motDePasse=?, active=?,");
-                scriptSQL.append(" idProfilUtilisateur=?, idShop=?");
+                scriptSQL.append(" idProfilUtilisateur=?");
+                scriptSQL.append(collaborateur.getShop() == null ? "" : ", idShop=?");
                 scriptSQL.append(" WHERE code=?");
             }
 
@@ -223,9 +225,13 @@ public class CollaborateurDao {
             prs.setString(6, collaborateur.getMotDePasse());
             prs.setInt(7, collaborateur.isActive() ? 1 : 0);
             prs.setInt(8, collaborateur.getProfilUtilisateur().getCode());
-            prs.setInt(9, collaborateur.getShop().getCode());
-            prs.setInt(10, collaborateur.getCode());
 
+            if (collaborateur.getShop() == null) {
+                prs.setInt(9, collaborateur.getCode());
+            } else {
+                prs.setInt(9, collaborateur.getShop().getCode());
+                prs.setInt(10, collaborateur.getCode());
+            }
             prs.execute();
             prs.close();
             conexao.close();

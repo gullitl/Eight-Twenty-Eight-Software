@@ -63,7 +63,7 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
             defaultTableModel.addRow(dataRows);
         });
 
-        String formeNombre = profilsUtilisateur.size() > 1 ? "Shops" : "Shop";
+        String formeNombre = profilsUtilisateur.size() > 1 ? "Profils d'utilisateur" : "Profil d'utilisateur";
         lblNombreProfilUtilisateur.setText(profilsUtilisateur.size() + " " + formeNombre);
     }
 

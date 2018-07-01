@@ -106,6 +106,12 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Utilisateur"));
 
+        tfdNomUtilisateur.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfdNomUtilisateurFocusGained(evt);
+            }
+        });
+
         jLabel7.setText("Nom d'utilisateur:");
 
         jLabel1.setText("Mot de passe:");
@@ -365,6 +371,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         if (profilUtilisateur != null) {
             tfdIdProfilUtilisateur.setText(String.valueOf(profilUtilisateur.getCode()));
             lblDescriptionProfilUtilisateur.setText(profilUtilisateur.getDescription());
+            tfdIdProfilUtilisateur.requestFocus();
         }
     }
 
@@ -406,6 +413,15 @@ public class RegistreCollaborateur extends JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnExclureActionPerformed
+
+    private void tfdNomUtilisateurFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdNomUtilisateurFocusGained
+        if (tfdNomUtilisateur.getText().isEmpty() && !tfdNom.getText().isEmpty() && !tfdPostnom.getText().isEmpty()) {
+            char premiereLettrePrenom = tfdPrenom.getText().toLowerCase().charAt(0);
+            tfdNomUtilisateur.setText(new StringBuilder().append(premiereLettrePrenom)
+                    .append(tfdPostnom.getText().toLowerCase()).toString());
+        }
+
+    }//GEN-LAST:event_tfdNomUtilisateurFocusGained
 
     private void effacerFormulaire() {
         codeCollaborateur = 0;

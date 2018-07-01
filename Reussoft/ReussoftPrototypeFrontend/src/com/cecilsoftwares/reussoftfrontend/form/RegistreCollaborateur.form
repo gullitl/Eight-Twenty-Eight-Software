@@ -251,6 +251,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="tfdNomUtilisateur">
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfdNomUtilisateurFocusGained"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
