@@ -50,7 +50,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
         jLabel3.setText("Description abregrée:");
 
-        btnEffacerFormulaire.setText("EFFACE");
+        btnEffacerFormulaire.setText("EFFACER");
         btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEffacerFormulaireActionPerformed(evt);

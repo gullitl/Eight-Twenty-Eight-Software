@@ -91,7 +91,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnEffacerFormulaire">
       <Properties>
-        <Property name="text" type="java.lang.String" value="EFFACE"/>
+        <Property name="text" type="java.lang.String" value="EFFACER"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEffacerFormulaireActionPerformed"/>

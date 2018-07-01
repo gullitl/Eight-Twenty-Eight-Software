@@ -100,7 +100,7 @@ public class ProfilUtilisateurDao {
 
                 scriptSQL = new StringBuilder("INSERT INTO profilutilisateur(");
                 scriptSQL.append(" description, descriptionAbregee, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?)");
+                scriptSQL.append(" VALUES (?, ?, ?)");
 
             } else {
                 scriptSQL = new StringBuilder("UPDATE profilutilisateur");
@@ -112,7 +112,7 @@ public class ProfilUtilisateurDao {
 
             prs.setString(1, profilUtilisateur.getDescription());
             prs.setString(2, profilUtilisateur.getDescriptionAbregee());
-            prs.setInt(4, profilUtilisateur.getCode());
+            prs.setInt(3, profilUtilisateur.getCode());
 
             prs.execute();
             prs.close();
