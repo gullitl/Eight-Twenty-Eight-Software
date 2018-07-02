@@ -175,6 +175,12 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
+
+        if (codeProfilUtilisateur == 1) {
+            JOptionPane.showMessageDialog(null, "Ce profil d'utilisateur ne peux pas être exclue");
+            return;
+        }
+
         Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
                 "Êtes-vous sûr de vouloir exclure définitivement ce profil d'utilisateur?",

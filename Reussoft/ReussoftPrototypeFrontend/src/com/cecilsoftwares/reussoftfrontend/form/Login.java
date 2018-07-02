@@ -1,9 +1,15 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
+import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
+import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * @author Plamedi L. Lusembo
@@ -132,31 +138,31 @@ public class Login extends javax.swing.JFrame {
 
     private void btnEntrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrerActionPerformed
 
-//        try {
-//            sessionUtilisateur = CollaborateurService.getInstance().login(shop, tfdUtilisateur.getText(), pwfMotDePasse.getPassword().toString());
-//
-//            if (sessionUtilisateur != null) {
-//                retournerAuChoixShop = false;
-//                java.awt.EventQueue.invokeLater(() -> {
-//                    MDI mdi = new MDI();
-//                    mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//                    mdi.setVisible(true);
-//                    this.dispose();
-//                });
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Login incorrect!");
-//            }
-//
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        retournerAuChoixShop = false;
-        java.awt.EventQueue.invokeLater(() -> {
-            MDI mdi = new MDI();
-            mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            mdi.setVisible(true);
-            dispose();
-        });
+        try {
+            SessionUtilisateur sessionUtilisateur = CollaborateurService.getInstance().login(shop, tfdUtilisateur.getText(), pwfMotDePasse.getPassword().toString());
+
+            if (sessionUtilisateur != null) {
+                retournerAuChoixShop = false;
+                java.awt.EventQueue.invokeLater(() -> {
+                    MDI mdi = new MDI();
+                    mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    mdi.setVisible(true);
+                    this.dispose();
+                });
+            } else {
+                JOptionPane.showMessageDialog(null, "Login incorrect!");
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        retournerAuChoixShop = false;
+//        java.awt.EventQueue.invokeLater(() -> {
+//            MDI mdi = new MDI();
+//            mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//            mdi.setVisible(true);
+//            dispose();
+//        });
 
     }//GEN-LAST:event_btnEntrerActionPerformed
 

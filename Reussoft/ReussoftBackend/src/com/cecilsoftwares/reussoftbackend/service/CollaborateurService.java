@@ -29,21 +29,24 @@ public class CollaborateurService {
 
     public SessionUtilisateur login(Shop shopUtilisateur, String nomUtilisateur, String motDePasse) throws ClassNotFoundException, SQLException {
 
-        Collaborateur collaborateur = CollaborateurDao.getInstance().login(shopUtilisateur, nomUtilisateur, motDePasse);
+        Collaborateur collaborateur = CollaborateurDao.getInstance().selectionnerUtilisateur(nomUtilisateur, motDePasse);
 
         if (collaborateur != null) {
-            SessionUtilisateur sessionUtilisateur = new SessionUtilisateur();
-            sessionUtilisateur.setCode(0);
-            sessionUtilisateur.setCollaborateur(collaborateur);
-            sessionUtilisateur.setAction("ENTRÉE");
-            sessionUtilisateur.setDateHeure(new Date());
+            if (collaborateur.getShop().getCode() == shopUtilisateur.getCode()) {
 
-            SessionUtilisateurKS.getInstance().setSessionUtilisateur(sessionUtilisateur);
+                SessionUtilisateur sessionUtilisateur = new SessionUtilisateur();
+                sessionUtilisateur.setCode(0);
+                sessionUtilisateur.setCollaborateur(collaborateur);
+                sessionUtilisateur.setAction("ENTRÉE");
+                sessionUtilisateur.setDateHeure(new Date());
 
-            //Mettre dans une thread
-            SessionUtilisateurDao.getInstance().sauvegarderSessionUtilisateur(sessionUtilisateur);
+                SessionUtilisateurKS.getInstance().setSessionUtilisateur(sessionUtilisateur);
 
-            return sessionUtilisateur;
+                //Mettre dans une thread
+                SessionUtilisateurDao.getInstance().sauvegarderSessionUtilisateur(sessionUtilisateur);
+
+                return sessionUtilisateur;
+            }
         }
 
         return null;

@@ -284,6 +284,7 @@ public class RegistreShop extends JInternalFrame {
 
     public void shopSelectionne(Shop shop) {
         if (shop != null) {
+
             codeShop = shop.getCode();
             tfdNom.setText(shop.getNom());
 
@@ -314,6 +315,12 @@ public class RegistreShop extends JInternalFrame {
     }
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
+
+        if (codeShop == 1) {
+            JOptionPane.showMessageDialog(null, "Ce shop ne peux pas être exclue");
+            return;
+        }
+
         Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
                 "Êtes-vous sûr de vouloir exclure définitivement ce shop?",
