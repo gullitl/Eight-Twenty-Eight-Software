@@ -45,7 +45,7 @@ public class RegistreReseau extends JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre de Reseau");
+        setTitle("Registre de Réseau");
 
         jLabel2.setText("Nom:");
 
