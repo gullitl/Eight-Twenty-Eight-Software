@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
+import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import java.awt.Cursor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +19,9 @@ public class MDI extends javax.swing.JFrame {
 
     public MDI() {
         initComponents();
+
+        lblUtilisateur.setText(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getNomUtilisateur());
+
         scheduler = Executors.newScheduledThreadPool(1);
 
         scheduler.scheduleAtFixedRate(() -> {
@@ -55,6 +59,7 @@ public class MDI extends javax.swing.JFrame {
         jDesktopPane = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         lblDateHeure = new javax.swing.JLabel();
+        lblUtilisateur = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmiConfigurationMonCompte = new javax.swing.JMenuItem();
@@ -105,21 +110,30 @@ public class MDI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        lblUtilisateur.setText("jLabel1");
+
         jDesktopPane.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane.setLayer(lblUtilisateur, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPaneLayout.createSequentialGroup()
+            .addGroup(jDesktopPaneLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPaneLayout.createSequentialGroup()
-                .addContainerGap(454, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(lblUtilisateur)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 429, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -803,5 +817,6 @@ public class MDI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiRegistreReseau;
     private javax.swing.JMenuItem jmiRegistreShop;
     private javax.swing.JLabel lblDateHeure;
+    private javax.swing.JLabel lblUtilisateur;
     // End of variables declaration//GEN-END:variables
 }

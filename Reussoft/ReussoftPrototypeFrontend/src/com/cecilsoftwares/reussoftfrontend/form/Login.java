@@ -3,9 +3,12 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import java.awt.Cursor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -20,6 +23,9 @@ public class Login extends javax.swing.JFrame {
     private final Shop shop;
     private boolean retournerAuChoixShop;
 
+    private boolean btnRetournerAuChoixShopClickable;
+    private boolean btnEntrerClickable;
+
     public Login(Shop shop) {
         initComponents();
 
@@ -29,6 +35,8 @@ public class Login extends javax.swing.JFrame {
 
         this.shop = shop;
         lblShopSelectionne.setText(this.shop.getCode() + " " + this.shop.getNom());
+
+        habiliterComposantFormulaire(true);
     }
 
     public void setChoixShopLogin(ChoixShopLogin choixShopLogin) {
@@ -137,37 +145,82 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrerActionPerformed
+        if (isInformationObligatoiresRemplies()) {
+            if (btnEntrerClickable) {
+                try {
 
-        try {
-            SessionUtilisateur sessionUtilisateur = CollaborateurService.getInstance().login(shop, tfdUtilisateur.getText(), pwfMotDePasse.getPassword().toString());
+                    setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    habiliterComposantFormulaire(false);
 
-            if (sessionUtilisateur != null) {
-                retournerAuChoixShop = false;
-                java.awt.EventQueue.invokeLater(() -> {
-                    MDI mdi = new MDI();
-                    mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    mdi.setVisible(true);
-                    this.dispose();
-                });
-            } else {
-                JOptionPane.showMessageDialog(null, "Login incorrect!");
+                    SessionUtilisateur sessionUtilisateur = CollaborateurService.getInstance().login(shop, tfdUtilisateur.getText(), pwfMotDePasse.getText());
+
+                    if (sessionUtilisateur != null) {
+                        retournerAuChoixShop = false;
+                        java.awt.EventQueue.invokeLater(() -> {
+                            MDI mdi = new MDI();
+                            mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                            mdi.setVisible(true);
+                            this.dispose();
+                        });
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Login incorrect!");
+                        habiliterComposantFormulaire(true);
+                    }
+
+                    setCursor(Cursor.getDefaultCursor());
+
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        retournerAuChoixShop = false;
-//        java.awt.EventQueue.invokeLater(() -> {
-//            MDI mdi = new MDI();
-//            mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//            mdi.setVisible(true);
-//            dispose();
-//        });
-
     }//GEN-LAST:event_btnEntrerActionPerformed
 
+    private void habiliterComposantFormulaire(boolean hcf) {
+        tfdUtilisateur.setEditable(hcf);
+        pwfMotDePasse.setEditable(hcf);
+        cbxRappelToiDeMoi.setEnabled(hcf);
+        btnRetournerAuChoixShopClickable = hcf;
+        btnEntrerClickable = hcf;
+    }
+
+    private boolean isInformationObligatoiresRemplies() {
+
+        StringBuilder notification = new StringBuilder();
+        Queue<Integer> nio = new LinkedList<>();
+
+        if (tfdUtilisateur.getText().isEmpty()) {
+            notification.append("\nNom");
+            nio.add(1);
+        }
+        if (pwfMotDePasse.getText().isEmpty()) {
+            notification.append("\nSenha");
+            nio.add(2);
+        }
+
+        if (notification.toString().isEmpty()) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, new StringBuilder(nio.size() > 1 ? "Informations obligatoires:" : "Information obligatoire:")
+                    .append(notification));
+            switch (nio.poll()) {
+                case 1:
+                    tfdUtilisateur.requestFocus();
+                    break;
+
+                case 2:
+                    pwfMotDePasse.requestFocus();
+                    break;
+                default:
+            }
+            return false;
+        }
+    }
+
     private void btnRetournerAuChoixShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetournerAuChoixShopActionPerformed
-        dispose();
+        if (btnRetournerAuChoixShopClickable) {
+            dispose();
+        }
     }//GEN-LAST:event_btnRetournerAuChoixShopActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

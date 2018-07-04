@@ -9,6 +9,8 @@ import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Plamedi L. Lusembo
@@ -33,17 +35,25 @@ public class CollaborateurService {
 
         if (collaborateur != null) {
             if (collaborateur.getShop().getCode() == shopUtilisateur.getCode()) {
-
                 SessionUtilisateur sessionUtilisateur = new SessionUtilisateur();
                 sessionUtilisateur.setCode(0);
                 sessionUtilisateur.setCollaborateur(collaborateur);
-                sessionUtilisateur.setAction("ENTRÉE");
+                sessionUtilisateur.setActionEntree(true);
                 sessionUtilisateur.setDateHeure(new Date());
 
                 SessionUtilisateurKS.getInstance().setSessionUtilisateur(sessionUtilisateur);
 
                 //Mettre dans une thread
-                SessionUtilisateurDao.getInstance().sauvegarderSessionUtilisateur(sessionUtilisateur);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            SessionUtilisateurDao.getInstance().sauvegarderSessionUtilisateur(sessionUtilisateur);
+                        } catch (ClassNotFoundException | SQLException ex) {
+                            Logger.getLogger(CollaborateurService.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }.start();
 
                 return sessionUtilisateur;
             }

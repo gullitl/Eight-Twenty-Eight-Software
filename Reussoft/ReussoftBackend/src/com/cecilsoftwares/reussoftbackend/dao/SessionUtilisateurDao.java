@@ -51,7 +51,7 @@ public class SessionUtilisateurDao {
 
                     SessionUtilisateur sessionutilisateur = new SessionUtilisateur(res.getInt(1));
                     sessionutilisateur.setDateHeure(res.getTimestamp(2));
-                    sessionutilisateur.setAction(res.getString(3));
+                    sessionutilisateur.setActionEntree(res.getInt(3) == 1);
 
                     Collaborateur collaborateur = new Collaborateur(res.getInt(4));
                     collaborateur.setPrenom(res.getString(5));
@@ -98,7 +98,7 @@ public class SessionUtilisateurDao {
 
                     SessionUtilisateur sessionutilisateur = new SessionUtilisateur(res.getInt(1));
                     sessionutilisateur.setDateHeure(res.getTimestamp(2));
-                    sessionutilisateur.setAction(res.getString(3));
+                    sessionutilisateur.setActionEntree(res.getInt(3) == 1);
 
                     Collaborateur collaborateur = new Collaborateur(res.getInt(4));
                     collaborateur.setPrenom(res.getString(5));
@@ -132,7 +132,7 @@ public class SessionUtilisateurDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO sessionutilisateur(");
-            scriptSQL.append(" code, idCollaborateur, dateHeure, action");
+            scriptSQL.append(" code, idCollaborateur, dateHeure, actionEntree )");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -140,7 +140,7 @@ public class SessionUtilisateurDao {
             prs.setInt(1, sessionUtilisateur.getCode());
             prs.setInt(2, sessionUtilisateur.getCollaborateur().getCode());
             prs.setTimestamp(3, new Timestamp(sessionUtilisateur.getDateHeure().getTime()));
-            prs.setString(4, sessionUtilisateur.getAction());
+            prs.setInt(4, sessionUtilisateur.isActionEntree() ? 1 : 0);
 
             prs.execute();
             prs.close();

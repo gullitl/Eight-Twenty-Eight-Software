@@ -9,7 +9,7 @@ public class SessionUtilisateur {
 
     private int code;
     private Collaborateur collaborateur;
-    private String action;
+    private boolean actionEntree;
     private Date dateHeure;
 
     public SessionUtilisateur() {
@@ -36,12 +36,12 @@ public class SessionUtilisateur {
         this.collaborateur = collaborateur;
     }
 
-    public String getAction() {
-        return action;
+    public boolean isActionEntree() {
+        return actionEntree;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setActionEntree(boolean actionEntree) {
+        this.actionEntree = actionEntree;
     }
 
     public Date getDateHeure() {
