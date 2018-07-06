@@ -1,11 +1,15 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
-import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
+import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.Cursor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -28,6 +32,15 @@ public class Login extends javax.swing.JFrame {
 
     public Login(Shop shop) {
         initComponents();
+
+        try {
+            Collaborateur collaborateur = CollaborateurService.getInstance().rappelToiDeLUtilisateur();
+            cbxRappelToiDeMoi.setSelected(true);
+            tfdUtilisateur.setText(collaborateur.getNomUtilisateur());
+            pwfMotDePasse.setText(collaborateur.getMotDePasse());
+        } catch (FileNotFoundException | UnknownHostException | SocketException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         enFermantDialog();
 
@@ -152,9 +165,8 @@ public class Login extends javax.swing.JFrame {
                     setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     habiliterComposantFormulaire(false);
 
-                    SessionUtilisateur sessionUtilisateur = CollaborateurService.getInstance().login(shop, tfdUtilisateur.getText(), pwfMotDePasse.getText());
-
-                    if (sessionUtilisateur != null) {
+                    if (CollaborateurService.getInstance()
+                            .login(shop, tfdUtilisateur.getText(), pwfMotDePasse.getText(), cbxRappelToiDeMoi.isSelected())) {
                         retournerAuChoixShop = false;
                         java.awt.EventQueue.invokeLater(() -> {
                             MDI mdi = new MDI();
@@ -170,6 +182,8 @@ public class Login extends javax.swing.JFrame {
                     setCursor(Cursor.getDefaultCursor());
 
                 } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

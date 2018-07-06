@@ -2,11 +2,14 @@ package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import java.awt.Cursor;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import javax.swing.JOptionPane;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
@@ -20,6 +23,8 @@ public class MDI extends javax.swing.JFrame {
     public MDI() {
         initComponents();
 
+        enFermantDialog();
+
         lblUtilisateur.setText(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getNomUtilisateur());
 
         scheduler = Executors.newScheduledThreadPool(1);
@@ -28,6 +33,26 @@ public class MDI extends javax.swing.JFrame {
             lblDateHeure.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
         }, 1, 1, TimeUnit.SECONDS);
 
+    }
+
+    private void enFermantDialog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                Object[] options = {"Exclure", "Annuler"};
+                int n = JOptionPane.showOptionDialog(null,
+                        "Êtes-vous sûr de vouloir quitter le système?",
+                        "Question",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, //do not use a custom Icon
+                        options, //the titles of buttons
+                        options[0]); //default button title
+
+                if (n == 0) {
+                }
+            }
+        });
     }
 
     private ConfigurationCompte configurationCompte;

@@ -6,6 +6,15 @@ import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +38,18 @@ public class CollaborateurService {
         return uniqueInstance;
     }
 
-    public SessionUtilisateur login(Shop shopUtilisateur, String nomUtilisateur, String motDePasse) throws ClassNotFoundException, SQLException {
+    public Collaborateur rappelToiDeLUtilisateur()
+            throws FileNotFoundException, UnknownHostException, SocketException {
+        Gson gson = new Gson();
+        BufferedReader br = new BufferedReader(new FileReader(MainService.getInstance()
+                .getMacAddress() + ".collab"));
+
+        Collaborateur collaborateur = gson.fromJson(br, Collaborateur.class);
+
+        return collaborateur;
+    }
+
+    public boolean login(Shop shopUtilisateur, String nomUtilisateur, String motDePasse, boolean rappelToiDeMoi) throws ClassNotFoundException, SQLException, IOException {
 
         Collaborateur collaborateur = CollaborateurDao.getInstance().selectionnerUtilisateur(nomUtilisateur, motDePasse);
 
@@ -43,7 +63,18 @@ public class CollaborateurService {
 
                 SessionUtilisateurKS.getInstance().setSessionUtilisateur(sessionUtilisateur);
 
-                //Mettre dans une thread
+                if (rappelToiDeMoi) {
+                    Gson gson = new Gson();
+                    String json = gson.toJson(collaborateur);
+
+                    try (FileWriter writer = new FileWriter(MainService.getInstance()
+                            .getMacAddress() + ".collab")) {
+                        writer.write(json);
+                    }
+                } else {
+                    new File(MainService.getInstance().getMacAddress() + ".collab").delete();
+                }
+
                 new Thread() {
                     @Override
                     public void run() {
@@ -55,11 +86,11 @@ public class CollaborateurService {
                     }
                 }.start();
 
-                return sessionUtilisateur;
+                return sessionUtilisateur != null;
             }
         }
 
-        return null;
+        return false;
     }
 
     public List<Collaborateur> listerTousLesCollaborateurs() throws ClassNotFoundException, SQLException {
