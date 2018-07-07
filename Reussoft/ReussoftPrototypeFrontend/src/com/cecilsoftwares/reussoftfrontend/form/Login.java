@@ -33,11 +33,16 @@ public class Login extends javax.swing.JFrame {
     public Login(Shop shop) {
         initComponents();
 
+        this.shop = shop;
+        lblShopSelectionne.setText(this.shop.getCode() + " " + this.shop.getNom());
+
         try {
             Collaborateur collaborateur = CollaborateurService.getInstance().rappelToiDeLUtilisateur();
-            cbxRappelToiDeMoi.setSelected(true);
-            tfdUtilisateur.setText(collaborateur.getNomUtilisateur());
-            pwfMotDePasse.setText(collaborateur.getMotDePasse());
+            if (shop.getCode() == collaborateur.getCode()) {
+                cbxRappelToiDeMoi.setSelected(true);
+                tfdUtilisateur.setText(collaborateur.getNomUtilisateur());
+                pwfMotDePasse.setText(collaborateur.getMotDePasse());
+            }
         } catch (FileNotFoundException | UnknownHostException | SocketException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -45,9 +50,6 @@ public class Login extends javax.swing.JFrame {
         enFermantDialog();
 
         retournerAuChoixShop = true;
-
-        this.shop = shop;
-        lblShopSelectionne.setText(this.shop.getCode() + " " + this.shop.getNom());
 
         habiliterComposantFormulaire(true);
     }
@@ -161,29 +163,32 @@ public class Login extends javax.swing.JFrame {
         if (isInformationObligatoiresRemplies()) {
             if (btnEntrerClickable) {
                 try {
-
                     setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     habiliterComposantFormulaire(false);
 
-                    if (CollaborateurService.getInstance()
+                    switch (CollaborateurService.getInstance()
                             .login(shop, tfdUtilisateur.getText(), pwfMotDePasse.getText(), cbxRappelToiDeMoi.isSelected())) {
-                        retournerAuChoixShop = false;
-                        java.awt.EventQueue.invokeLater(() -> {
-                            MDI mdi = new MDI();
-                            mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                            mdi.setVisible(true);
-                            this.dispose();
-                        });
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Login incorrect!");
-                        habiliterComposantFormulaire(true);
+                        case 0:
+                            JOptionPane.showMessageDialog(null, "Login incorrect!");
+                            habiliterComposantFormulaire(true);
+                            break;
+                        case 1:
+                            retournerAuChoixShop = false;
+                            java.awt.EventQueue.invokeLater(() -> {
+                                MDI mdi = new MDI();
+                                mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                                mdi.setVisible(true);
+                                this.dispose();
+                            });
+                            break;
+                        case 2:
+                            JOptionPane.showMessageDialog(null, "Désolé, mais vous n'êtes pas autorisé à acceder à ce shop!");
+                            habiliterComposantFormulaire(true);
+                            break;
                     }
-
                     setCursor(Cursor.getDefaultCursor());
 
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
+                } catch (ClassNotFoundException | SQLException | IOException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

@@ -49,12 +49,13 @@ public class CollaborateurService {
         return collaborateur;
     }
 
-    public boolean login(Shop shopUtilisateur, String nomUtilisateur, String motDePasse, boolean rappelToiDeMoi) throws ClassNotFoundException, SQLException, IOException {
+    public int login(Shop shopUtilisateur, String nomUtilisateur, String motDePasse, boolean rappelToiDeMoi) throws ClassNotFoundException, SQLException, IOException {
 
         Collaborateur collaborateur = CollaborateurDao.getInstance().selectionnerUtilisateur(nomUtilisateur, motDePasse);
 
         if (collaborateur != null) {
             if (collaborateur.getShop().getCode() == shopUtilisateur.getCode()) {
+
                 SessionUtilisateur sessionUtilisateur = new SessionUtilisateur();
                 sessionUtilisateur.setCode(0);
                 sessionUtilisateur.setCollaborateur(collaborateur);
@@ -86,11 +87,13 @@ public class CollaborateurService {
                     }
                 }.start();
 
-                return sessionUtilisateur != null;
+                return 1;
+            } else {
+                return 2;
             }
         }
 
-        return false;
+        return 0;
     }
 
     public List<Collaborateur> listerTousLesCollaborateurs() throws ClassNotFoundException, SQLException {

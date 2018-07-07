@@ -25,7 +25,12 @@ public class MDI extends javax.swing.JFrame {
 
         enFermantDialog();
 
-        lblUtilisateur.setText(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getNomUtilisateur());
+        String utilisateur = SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getPrenom()
+                + " " + SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getNom()
+                + " " + SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getPostnom()
+                + " (" + SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getNomUtilisateur() + ")";
+
+        lblUtilisateur.setText("<html><u>" + utilisateur + "</u></html>");
 
         scheduler = Executors.newScheduledThreadPool(1);
 
@@ -123,16 +128,13 @@ public class MDI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(636, Short.MAX_VALUE)
+                .addContainerGap(656, Short.MAX_VALUE)
                 .addComponent(lblDateHeure)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblDateHeure)
-                .addContainerGap())
+            .addComponent(lblDateHeure)
         );
 
         lblUtilisateur.setText("jLabel1");
@@ -144,13 +146,10 @@ public class MDI extends javax.swing.JFrame {
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jDesktopPaneLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPaneLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jDesktopPaneLayout.setVerticalGroup(
@@ -158,9 +157,8 @@ public class MDI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPaneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblUtilisateur)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 429, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 462, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jMenu1.setText("Configurations");
