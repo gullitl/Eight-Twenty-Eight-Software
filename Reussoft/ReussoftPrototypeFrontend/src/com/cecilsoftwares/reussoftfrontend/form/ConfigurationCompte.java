@@ -6,6 +6,7 @@ import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -244,42 +245,56 @@ public class ConfigurationCompte extends JInternalFrame {
             collaborateur.setSurnom(tfdSurnom.getText());
             collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
             collaborateur.setMotDePasse(pwfMotDePasse.getText());
+            collaborateur.setShop(new Shop(1));
 
             ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(Integer.parseInt(tfdIdProfilUtilisateur.getText()));
             collaborateur.setProfilUtilisateur(profilUtilisateur);
             collaborateur.setActive(true);
 
-            if (collaborateur.equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur())) {
-                JOptionPane.showMessageDialog(null, "Il n'y a eu aucune necessité d'actualiser le collaborateur"
-                        + ", aucune alteration a été réalisée!");
-                return;
-            }
+            Collaborateur collab = SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur();
 
-            try {
-                //Editer le nom d'utilisateur dans la base de donnée pour être "unique"
-                if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
-                    effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès."
-                            + " Il est necessaire de quitter le système pour que les alterations soient appliquée");
+            if (collaborateur.getPrenom().equals(collab.getPrenom())
+                    && collaborateur.getNom().equals(collab.getNom())
+                    && collaborateur.getPostnom().equals(collab.getPostnom())
+                    && collaborateur.getSurnom().equals(collab.getSurnom())
+                    && collaborateur.getNomUtilisateur().equals(collab.getNomUtilisateur())
+                    && collaborateur.getMotDePasse().equals(collab.getMotDePasse())
+                    && collaborateur.getProfilUtilisateur().getCode() == collab.getProfilUtilisateur().getCode()) {
+
+                JOptionPane.showMessageDialog(null, "Il n'y a eu aucune necessité d'actualiser le collaborateur."
+                        + "\nAucune alteration a été réalisée!");
+
+            } else {
+
+                try {
+                    //Editer le nom d'utilisateur dans la base de donnée pour être "unique"
+                    if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
+                        effacerFormulaire();
+                        JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès."
+                                + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
+
+                        System.exit(0);
+
+                    }
+                } catch (SQLException ex) {
+                    StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");
+                    switch (ex.getErrorCode()) {
+                        case 1062:
+                            notification.append("\n\nLe nom d'utilisateur de ce collaborateur est déjà utilisé!");
+                            tfdNomUtilisateur.selectAll();
+                            break;
+                        default:
+                            break;
+                    }
+                    JOptionPane.showMessageDialog(null, notification);
+                    habiliterComposantFormulaire(true);
+                    Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le collaborateur :(");
+                    habiliterComposantFormulaire(true);
+                } finally {
+                    setCursor(Cursor.getDefaultCursor());
                 }
-            } catch (SQLException ex) {
-                StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");
-                switch (ex.getErrorCode()) {
-                    case 1062:
-                        notification.append("\n\nLe nom d'utilisateur de ce collaborateur est déjà utilisé!");
-                        tfdNomUtilisateur.selectAll();
-                        break;
-                    default:
-                        break;
-                }
-                JOptionPane.showMessageDialog(null, notification);
-                habiliterComposantFormulaire(true);
-                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le collaborateur :(");
-                habiliterComposantFormulaire(true);
-            } finally {
-                setCursor(Cursor.getDefaultCursor());
             }
 
             setCursor(Cursor.getDefaultCursor());
