@@ -2,8 +2,8 @@ package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.CollaborateurService;
 import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
-import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCollaborateur;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
+import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import java.awt.Cursor;
@@ -21,17 +21,17 @@ import javax.swing.JOptionPane;
 public class ConfigurationCompte extends JInternalFrame {
 
     private int codeCollaborateur;
-    private boolean modeEdition;
     private boolean btnConsulterCollaborateurClickable;
-    private boolean btnConsulterShopClickable;
     private boolean btnConsulterProfilUtilisateurClickable;
     private boolean btnEnregistrerClickable;
-    private boolean btnExclureClickable;
-    private boolean btnAnnulerClickable;
+    private boolean btnEffacerFormulaireClickable;
 
     public ConfigurationCompte() {
         initComponents();
         effacerFormulaire();
+
+        collaborateurSelectionne(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur());
+
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -39,16 +39,13 @@ public class ConfigurationCompte extends JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        btnConsulterCollaborateur = new javax.swing.JButton();
         tfdPrenom = new javax.swing.JTextField();
         tfdNom = new javax.swing.JTextField();
         tfdPostnom = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         tfdSurnom = new javax.swing.JTextField();
-        chbActiver = new javax.swing.JCheckBox();
         btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
-        btnExclure = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         tfdNomUtilisateur = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -71,17 +68,7 @@ public class ConfigurationCompte extends JInternalFrame {
 
         jLabel4.setText("Surnom:");
 
-        btnConsulterCollaborateur.setText("...");
-        btnConsulterCollaborateur.setFocusable(false);
-        btnConsulterCollaborateur.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConsulterCollaborateurActionPerformed(evt);
-            }
-        });
-
         jLabel6.setText("Postnom:");
-
-        chbActiver.setText("Activer");
 
         btnEffacerFormulaire.setText("EFFACER");
         btnEffacerFormulaire.addActionListener(new java.awt.event.ActionListener() {
@@ -90,17 +77,10 @@ public class ConfigurationCompte extends JInternalFrame {
             }
         });
 
-        btnEnregistrer.setText("ENREGISTRER");
+        btnEnregistrer.setText("ACTUALISER");
         btnEnregistrer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnregistrerActionPerformed(evt);
-            }
-        });
-
-        btnExclure.setText("EXCLURE");
-        btnExclure.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExclureActionPerformed(evt);
             }
         });
 
@@ -191,33 +171,27 @@ public class ConfigurationCompte extends JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(chbActiver)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tfdSurnom)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel2)
-                                    .addComponent(tfdPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(tfdPostnom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterCollaborateur))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                            .addComponent(tfdSurnom)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2)
+                            .addComponent(tfdPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(tfdPostnom, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,24 +205,18 @@ public class ConfigurationCompte extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfdPostnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterCollaborateur))
+                    .addComponent(tfdPostnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdSurnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(chbActiver)
-                        .addGap(9, 9, 9)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
 
         pack();
@@ -269,7 +237,6 @@ public class ConfigurationCompte extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(Integer.parseInt(tfdIdProfilUtilisateur.getText()));
             Collaborateur collaborateur = new Collaborateur(codeCollaborateur);
             collaborateur.setPrenom(tfdPrenom.getText());
             collaborateur.setNom(tfdNom.getText());
@@ -277,13 +244,23 @@ public class ConfigurationCompte extends JInternalFrame {
             collaborateur.setSurnom(tfdSurnom.getText());
             collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
             collaborateur.setMotDePasse(pwfMotDePasse.getText());
+
+            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(Integer.parseInt(tfdIdProfilUtilisateur.getText()));
             collaborateur.setProfilUtilisateur(profilUtilisateur);
-            collaborateur.setActive(modeEdition ? chbActiver.isSelected() : true);
+            collaborateur.setActive(true);
+
+            if (collaborateur.equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur())) {
+                JOptionPane.showMessageDialog(null, "Il n'y a eu aucune necessité d'actualiser le collaborateur"
+                        + ", aucune alteration a été réalisée!");
+                return;
+            }
+
             try {
+                //Editer le nom d'utilisateur dans la base de donnée pour être "unique"
                 if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                     effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, notification);
+                    JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès."
+                            + " Il est necessaire de quitter le système pour que les alterations soient appliquée");
                 }
             } catch (SQLException ex) {
                 StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");
@@ -309,26 +286,7 @@ public class ConfigurationCompte extends JInternalFrame {
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
-    private void btnConsulterCollaborateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCollaborateurActionPerformed
-        if (btnConsulterCollaborateurClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-                ConsultationCollaborateur consultationCollaborateur = new ConsultationCollaborateur(null, true, CollaborateurService.getInstance()
-                        .listerTousLesCollaborateurs());
-                consultationCollaborateur.setFrameAncetre(this);
-                consultationCollaborateur.setVisible(true);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConfigurationCompte.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
-        }
-    }//GEN-LAST:event_btnConsulterCollaborateurActionPerformed
-
-    public void collaborateurSelectionne(Collaborateur collaborateur) {
+    private void collaborateurSelectionne(Collaborateur collaborateur) {
         if (collaborateur != null) {
             codeCollaborateur = collaborateur.getCode();
             tfdPrenom.setText(collaborateur.getPrenom());
@@ -340,11 +298,6 @@ public class ConfigurationCompte extends JInternalFrame {
             pwfConfirmerMotDePasse.setText(collaborateur.getMotDePasse());
             tfdIdProfilUtilisateur.setText(String.valueOf(collaborateur.getProfilUtilisateur().getCode()));
             lblDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getDescription());
-            chbActiver.setVisible(true);
-            chbActiver.setSelected(collaborateur.isActive());
-            btnEnregistrer.setText("ACTUALISER");
-            modeEdition = true;
-            btnExclure.setEnabled(true);
         }
     }
 
@@ -375,45 +328,6 @@ public class ConfigurationCompte extends JInternalFrame {
         }
     }
 
-    private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
-        Object[] options = {"Exclure", "Annuler"};
-        int n = JOptionPane.showOptionDialog(this,
-                "Êtes-vous sûr de vouloir exclure définitivement ce collaborateur?",
-                "Question",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null, //do not use a custom Icon
-                options, //the titles of buttons
-                options[0]); //default button title
-
-        if (n == 0) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-            try {
-                CollaborateurService.getInstance().exclureCollaborateur(codeCollaborateur);
-                effacerFormulaire();
-                JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
-            } catch (SQLException ex) {
-                StringBuilder notification = new StringBuilder("Une faille est survenue lors de l'exclusion du collaborateur :(");
-                switch (ex.getErrorCode()) {
-                    case 1451:
-                        notification.append("\n\n Ce collaborateur est utilisé par un autre registre!");
-                        break;
-                    default:
-                        break;
-                }
-                JOptionPane.showMessageDialog(null, notification);
-                habiliterComposantFormulaire(true);
-                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion du collaborateur :(");
-                habiliterComposantFormulaire(true);
-            } finally {
-                setCursor(Cursor.getDefaultCursor());
-            }
-        }
-    }//GEN-LAST:event_btnExclureActionPerformed
-
     private void tfdNomUtilisateurFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdNomUtilisateurFocusGained
         if (tfdNomUtilisateur.getText().isEmpty() && !tfdNom.getText().isEmpty() && !tfdPostnom.getText().isEmpty()) {
             char premiereLettrePrenom = tfdPrenom.getText().toLowerCase().charAt(0);
@@ -435,11 +349,7 @@ public class ConfigurationCompte extends JInternalFrame {
         pwfConfirmerMotDePasse.setText("");
         tfdIdProfilUtilisateur.setText("");
         lblDescriptionProfilUtilisateur.setText("");
-        chbActiver.setVisible(false);
-        modeEdition = false;
-        btnEnregistrer.setText("ENREGISTRER");
         habiliterComposantFormulaire(true);
-        btnExclure.setEnabled(false);
     }
 
     private void habiliterComposantFormulaire(boolean hcf) {
@@ -450,13 +360,10 @@ public class ConfigurationCompte extends JInternalFrame {
         tfdNomUtilisateur.setEditable(hcf);
         pwfMotDePasse.setEditable(hcf);
         pwfConfirmerMotDePasse.setEditable(hcf);
-        chbActiver.setEnabled(hcf);
         btnConsulterCollaborateurClickable = hcf;
-        btnConsulterShopClickable = hcf;
         btnConsulterProfilUtilisateurClickable = hcf;
         btnEnregistrerClickable = hcf;
-        btnExclureClickable = hcf;
-        btnAnnulerClickable = hcf;
+        btnEffacerFormulaireClickable = hcf;
     }
 
     private boolean isMotdePasseConfirme() {
@@ -541,12 +448,9 @@ public class ConfigurationCompte extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnConsulterCollaborateur;
     private javax.swing.JButton btnConsulterProfilUtilisateur;
     private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
-    private javax.swing.JButton btnExclure;
-    private javax.swing.JCheckBox chbActiver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

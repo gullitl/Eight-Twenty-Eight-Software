@@ -176,7 +176,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
 
-        if (codeProfilUtilisateur == 1) {
+        if (codeProfilUtilisateur == 1 || codeProfilUtilisateur == 2) {
             JOptionPane.showMessageDialog(null, "Ce profil d'utilisateur ne peux pas être exclue");
             return;
         }

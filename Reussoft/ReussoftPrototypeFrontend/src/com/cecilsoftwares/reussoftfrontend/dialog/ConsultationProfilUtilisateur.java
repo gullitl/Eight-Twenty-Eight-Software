@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
+import com.cecilsoftwares.reussoftfrontend.form.ConfigurationCompte;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
@@ -49,6 +50,9 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
                 } else if (frameAncetre instanceof RegistreCollaborateur) {
                     RegistreCollaborateur registreCollaborateur = (RegistreCollaborateur) frameAncetre;
                     registreCollaborateur.profilUtilisateurSelectionne(profilUtilisateur);
+                } else if (frameAncetre instanceof ConfigurationCompte) {
+                    ConfigurationCompte configurationCompte = (ConfigurationCompte) frameAncetre;
+                    configurationCompte.profilUtilisateurSelectionne(profilUtilisateur);
                 }
             }
         });

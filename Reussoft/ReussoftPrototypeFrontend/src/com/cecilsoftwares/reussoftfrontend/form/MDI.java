@@ -25,12 +25,10 @@ public class MDI extends javax.swing.JFrame {
 
         enFermantDialog();
 
-        String utilisateur = SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getPrenom()
+        lblUtilisateur.setText(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getPrenom()
                 + " " + SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getNom()
                 + " " + SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getPostnom()
-                + " (" + SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getNomUtilisateur() + ")";
-
-        lblUtilisateur.setText("<html><u>" + utilisateur + "</u></html>");
+                + " (" + SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getNomUtilisateur() + ")");
 
         scheduler = Executors.newScheduledThreadPool(1);
 
@@ -43,8 +41,8 @@ public class MDI extends javax.swing.JFrame {
     private void enFermantDialog() {
         this.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosed(WindowEvent e) {
-                Object[] options = {"Exclure", "Annuler"};
+            public void windowClosing(WindowEvent e) {
+                Object[] options = {"Quitter", "Annuler"};
                 int n = JOptionPane.showOptionDialog(null,
                         "Êtes-vous sûr de vouloir quitter le système?",
                         "Question",
@@ -54,10 +52,12 @@ public class MDI extends javax.swing.JFrame {
                         options, //the titles of buttons
                         options[0]); //default button title
 
-                if (n == 0) {
+                if (n == 1) {
+                    System.out.println("Ne pas quitter");
                 }
             }
-        });
+        }
+        );
     }
 
     private ConfigurationCompte configurationCompte;
