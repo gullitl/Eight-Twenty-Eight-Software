@@ -3,6 +3,7 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.ShopService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationShop;
 import com.cecilsoftwares.reussoftfrontend.essential.JCustomTextField;
+import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.Cursor;
 import java.sql.SQLException;
@@ -252,7 +253,13 @@ public class RegistreShop extends JInternalFrame {
                 if (ShopService.getInstance().enregistrerShop(shop)) {
                     String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                     effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, notification);
+                    if (shop.getCode() == SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop().getCode()) {
+                        JOptionPane.showMessageDialog(null, notification
+                                + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
+                        System.exit(0);
+                    } else {
+                        JOptionPane.showMessageDialog(null, notification);
+                    }
                 }
             } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le nouveau Shop");

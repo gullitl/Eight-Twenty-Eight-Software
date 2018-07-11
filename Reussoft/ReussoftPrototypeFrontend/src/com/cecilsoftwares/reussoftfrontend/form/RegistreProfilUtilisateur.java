@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
+import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import java.awt.Cursor;
 import java.sql.SQLException;
@@ -145,7 +146,13 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {
                     String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                     effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, notification);
+                    if (profilUtilisateur.getCode() == SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getProfilUtilisateur().getCode()) {
+                        JOptionPane.showMessageDialog(null, notification
+                                + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
+                        System.exit(0);
+                    } else {
+                        JOptionPane.showMessageDialog(null, notification);
+                    }
                 }
             } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
