@@ -99,7 +99,7 @@ public class FournisseurDao {
 
                 scriptSQL = new StringBuilder("INSERT INTO fournisseur(");
                 scriptSQL.append(" responsable, entreprise, telephone, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?)");
             } else {
                 scriptSQL = new StringBuilder("UPDATE fournisseur");
                 scriptSQL.append(" SET responsable=?, entreprise=?, telephone=?");

@@ -100,7 +100,7 @@ public class ReseauDao {
 
                 scriptSQL = new StringBuilder("INSERT INTO reseau(");
                 scriptSQL.append(" nom, nomAbrege, active, code)");
-                scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?)");
             } else {
 
                 scriptSQL = new StringBuilder("UPDATE reseau");
@@ -112,7 +112,7 @@ public class ReseauDao {
             prs.setString(1, reseau.getNom());
             prs.setString(2, reseau.getNomAbrege());
             prs.setInt(3, reseau.isActive() ? 1 : 0);
-            prs.setInt(5, reseau.getCode());
+            prs.setInt(4, reseau.getCode());
 
             prs.execute();
             prs.close();
