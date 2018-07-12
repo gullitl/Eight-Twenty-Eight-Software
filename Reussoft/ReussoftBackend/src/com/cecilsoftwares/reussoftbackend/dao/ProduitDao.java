@@ -39,7 +39,7 @@ public class ProduitDao {
 
             scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.active,");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
-            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege");
+            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege,");
             scriptSQL.append(" produit.idPrixAchatProduit, prixachatproduit.valeur, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM produit");
             scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.code");
@@ -88,7 +88,7 @@ public class ProduitDao {
 
             scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.active,");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
-            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege");
+            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege,");
             scriptSQL.append(" produit.idPrixAchatProduit, prixachatproduit.valeur, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM produit");
             scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.code");
