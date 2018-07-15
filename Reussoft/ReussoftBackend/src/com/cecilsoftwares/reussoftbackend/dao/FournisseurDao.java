@@ -32,7 +32,7 @@ public class FournisseurDao {
         List<Fournisseur> listeFournisseurs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, responsable, entreprise, telephone");
+            scriptSQL = new StringBuilder("SELECT id, responsable, entreprise, telephone");
             scriptSQL.append(" FROM fournisseur");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -42,7 +42,7 @@ public class FournisseurDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Fournisseur fournisseur = new Fournisseur(res.getInt(1));
+                    Fournisseur fournisseur = new Fournisseur(res.getString(1));
                     fournisseur.setResponsable(res.getString(2));
                     fournisseur.setEntreprise(res.getString(3));
                     fournisseur.setTelephone(res.getString(4));
@@ -57,22 +57,22 @@ public class FournisseurDao {
         return listeFournisseurs;
     }
 
-    public Fournisseur selectionnerFournisseurParCode(int codeFournisseur) throws ClassNotFoundException, SQLException {
+    public Fournisseur selectionnerFournisseurParId(String idFournisseur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, responsable, entreprise, telephone");
-            scriptSQL.append(" FROM fournisseur WHERE code=?");
+            scriptSQL = new StringBuilder("SELECT id, responsable, entreprise, telephone");
+            scriptSQL.append(" FROM fournisseur WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeFournisseur);
+            prs.setString(1, idFournisseur);
             res = prs.executeQuery();
 
             if (res != null) {
                 if (res.next()) {
 
-                    Fournisseur fournisseur = new Fournisseur(res.getInt(1));
+                    Fournisseur fournisseur = new Fournisseur(res.getString(1));
                     fournisseur.setResponsable(res.getString(2));
                     fournisseur.setEntreprise(res.getString(3));
                     fournisseur.setTelephone(res.getString(4));
@@ -95,22 +95,16 @@ public class FournisseurDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            if (fournisseur.getCode() == 0) {
+            scriptSQL = new StringBuilder("INSERT INTO fournisseur(");
+            scriptSQL.append(" responsable, entreprise, telephone, id )");
+            scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
-                scriptSQL = new StringBuilder("INSERT INTO fournisseur(");
-                scriptSQL.append(" responsable, entreprise, telephone, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?)");
-            } else {
-                scriptSQL = new StringBuilder("UPDATE fournisseur");
-                scriptSQL.append(" SET responsable=?, entreprise=?, telephone=?");
-                scriptSQL.append(" WHERE code=?");
-            }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, fournisseur.getResponsable());
             prs.setString(2, fournisseur.getEntreprise());
             prs.setString(3, fournisseur.getTelephone());
-            prs.setInt(4, fournisseur.getCode());
+            prs.setString(4, fournisseur.getId());
 
             prs.execute();
             prs.close();
@@ -119,14 +113,36 @@ public class FournisseurDao {
         return true;
     }
 
-    public boolean exclureFournisseur(int codeFournisseur) throws ClassNotFoundException, SQLException {
+    public boolean actualiserFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM fournisseur WHERE code=?");
+
+            scriptSQL = new StringBuilder("UPDATE fournisseur");
+            scriptSQL.append(" SET responsable=?, entreprise=?, telephone=?");
+            scriptSQL.append(" WHERE id=?");
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+            prs.setString(1, fournisseur.getResponsable());
+            prs.setString(2, fournisseur.getEntreprise());
+            prs.setString(3, fournisseur.getTelephone());
+            prs.setString(4, fournisseur.getId());
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+        return true;
+    }
+
+    public boolean exclureFournisseur(int idFournisseur) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM fournisseur WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeFournisseur);
+            prs.setInt(1, idFournisseur);
 
             prs.execute();
             prs.close();

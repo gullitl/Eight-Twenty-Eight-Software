@@ -26,8 +26,8 @@ public class SessionUtilisateurService {
         return SessionUtilisateurDao.getInstance().listerToutesLesSessionsUtilisateur();
     }
 
-    public SessionUtilisateur selectionnerSessionUtilisateurParCode(int codeSessionUtilisateur) throws ClassNotFoundException, SQLException {
-        return SessionUtilisateurDao.getInstance().selectionnerSessionUtilisateurParCode(codeSessionUtilisateur);
+    public SessionUtilisateur selectionnerSessionUtilisateurParId(String idSessionUtilisateur) throws ClassNotFoundException, SQLException {
+        return SessionUtilisateurDao.getInstance().selectionnerSessionUtilisateurParId(idSessionUtilisateur);
     }
 
     public boolean sauvegarderSessionUtilisateur(SessionUtilisateur sessionUtilisateur) throws ClassNotFoundException, SQLException {

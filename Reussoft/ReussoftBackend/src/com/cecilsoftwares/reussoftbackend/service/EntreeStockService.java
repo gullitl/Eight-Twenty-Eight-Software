@@ -30,8 +30,8 @@ public class EntreeStockService {
         return EntreeStockDao.getInstance().listerTousLesEntreesStockAvecItems();
     }
 
-    public EntreeStock selectionnerEntreeStockParCode(int codeEntreeStock) throws ClassNotFoundException, SQLException {
-        return EntreeStockDao.getInstance().selectionnerEntreeStockParCode(codeEntreeStock);
+    public EntreeStock selectionnerEntreeStockParId(String idEntreeStock) throws ClassNotFoundException, SQLException {
+        return EntreeStockDao.getInstance().selectionnerEntreeStockParId(idEntreeStock);
     }
 
     public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {

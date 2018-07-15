@@ -26,15 +26,15 @@ public class ItemDispatchService {
         return ItemDispatchDao.getInstance().listerTousLesItemsDispatch();
     }
 
-    public List<ItemDispatch> listerItemsDispatchParCodeDispatch(int codeDispatch) throws ClassNotFoundException, SQLException {
-        return ItemDispatchDao.getInstance().listerItemsDispatchParCodeDispatch(codeDispatch);
+    public List<ItemDispatch> listerItemsDispatchParIdDispatch(String idDispatch) throws ClassNotFoundException, SQLException {
+        return ItemDispatchDao.getInstance().listerItemsDispatchParIdDispatch(idDispatch);
     }
 
-    public List<ItemDispatch> listerItemsDispatchParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
-        return ItemDispatchDao.getInstance().listerItemsDispatchParCodeProduit(codeProduit);
+    public List<ItemDispatch> listerItemsDispatchParIdProduit(String idProduit) throws ClassNotFoundException, SQLException {
+        return ItemDispatchDao.getInstance().listerItemsDispatchParIdProduit(idProduit);
     }
 
-    public ItemDispatch selectionnerItemDispatchParCodeDispatchECodeProduit(int codeDispatch, int codeProduit) throws ClassNotFoundException, SQLException {
-        return ItemDispatchDao.getInstance().selectionnerItemDispatchParCodeDispatchECodeProduit(codeDispatch, codeProduit);
+    public ItemDispatch selectionnerItemDispatchParIdDispatchEIdProduit(String idDispatch, String idProduit) throws ClassNotFoundException, SQLException {
+        return ItemDispatchDao.getInstance().selectionnerItemDispatchParIdDispatchEIdProduit(idDispatch, idProduit);
     }
 }

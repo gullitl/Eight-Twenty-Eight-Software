@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,10 +35,10 @@ public class PrixAchatProduitDao {
         List<PrixAchatProduit> listePrixAchatProduits;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT prixachatproduit.code, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
+            scriptSQL = new StringBuilder("SELECT prixachatproduit.id, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" prixachatproduit.idProduit, produit.Description");
             scriptSQL.append(" FROM prixachatproduit");
-            scriptSQL.append(" LEFT JOIN produit ON prixachatproduit.idProduit = produit.code");
+            scriptSQL.append(" LEFT JOIN produit ON prixachatproduit.idProduit = produit.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -46,11 +47,11 @@ public class PrixAchatProduitDao {
             if (res != null) {
                 while (res.next()) {
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(1);
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(1));
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(2));
                     prixAchatProduit.setDateHeure(res.getTimestamp(3));
 
-                    Produit produit = new Produit(res.getInt(4));
+                    Produit produit = new Produit(res.getString(4));
                     produit.setDescription(res.getString(5));
                     prixAchatProduit.setProduit(produit);
 
@@ -64,29 +65,29 @@ public class PrixAchatProduitDao {
         return listePrixAchatProduits;
     }
 
-    public PrixAchatProduit selectionnerPrixAchatProduitParCode(int codePrixAchatProduit) throws ClassNotFoundException, SQLException {
+    public PrixAchatProduit selectionnerPrixAchatProduitParId(String idPrixAchatProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT prixachatproduit.code, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
+            scriptSQL = new StringBuilder("SELECT prixachatproduit.id, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" prixachatproduit.idProduit, produit.Description");
             scriptSQL.append(" FROM prixachatproduit");
-            scriptSQL.append(" LEFT JOIN produit ON prixachatproduit.idProduit = produit.code");
-            scriptSQL.append(" WHERE prixachatproduit.code=?");
+            scriptSQL.append(" LEFT JOIN produit ON prixachatproduit.idProduit = produit.id");
+            scriptSQL.append(" WHERE prixachatproduit.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codePrixAchatProduit);
+            prs.setString(1, idPrixAchatProduit);
             res = prs.executeQuery();
 
             if (res != null) {
                 if (res.next()) {
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(1);
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(1));
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(2));
                     prixAchatProduit.setDateHeure(res.getTimestamp(3));
 
-                    Produit produit = new Produit(res.getInt(4));
+                    Produit produit = new Produit(res.getString(4));
                     produit.setDescription(res.getString(5));
                     prixAchatProduit.setProduit(produit);
 
@@ -109,15 +110,15 @@ public class PrixAchatProduitDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO prixAchatProduit(");
-            scriptSQL.append(" idProduit, valeurUSD, dateHeure, code)");
+            scriptSQL.append(" idProduit, valeurUSD, dateHeure, id)");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, prixAchatProduit.getProduit().getCode());
+            prs.setString(1, prixAchatProduit.getProduit().getId());
             prs.setBigDecimal(2, prixAchatProduit.getValeurUSD());
             prs.setTimestamp(3, new Timestamp(prixAchatProduit.getDateHeure().getTime()));
-            prs.setInt(4, prixAchatProduit.getCode());
+            prs.setString(4, prixAchatProduit.getId());
 
             prs.execute();
             prs.close();
@@ -126,33 +127,37 @@ public class PrixAchatProduitDao {
         return true;
     }
 
-    public int selectionnerDernierPrixAchatProduit(Produit produit) throws ClassNotFoundException, SQLException {
+    public PrixAchatProduit selectionnerDernierPrixAchatProduit(Produit produit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(code) FROM prixachatproduit");
-            scriptSQL.append(" WHERE prixachatproduit.idProduit=?)");
+            scriptSQL = new StringBuilder("SELECT Max(id), idProduit, valeurUSD, dateHeure");
+            scriptSQL.append(" FROM prixachatproduit");
+            scriptSQL.append(" WHERE prixachatproduit.idProduit=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, produit.getCode());
+            prs.setString(1, produit.getId());
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
-                    int codePrixAchatProduit = res.getInt(1);
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(1));
+                    prixAchatProduit.setProduit(new Produit(res.getString(2)));
+                    prixAchatProduit.setValeurUSD(new BigDecimal(res.getInt(3)));
+                    prixAchatProduit.setDateHeure(new Timestamp(res.getInt(3)));
 
                     prs.close();
                     res.close();
                     conexao.close();
 
-                    return codePrixAchatProduit;
+                    return prixAchatProduit;
                 }
             }
             prs.close();
             res.close();
             conexao.close();
         }
-        return 0;
+        return null;
     }
 
 }

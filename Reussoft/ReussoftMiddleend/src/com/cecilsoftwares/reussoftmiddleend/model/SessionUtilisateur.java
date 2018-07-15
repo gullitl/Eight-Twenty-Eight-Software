@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class SessionUtilisateur {
 
-    private int code;
+    private String id;
     private Collaborateur collaborateur;
     private boolean actionEntree;
     private Date dateHeure;
@@ -16,16 +16,16 @@ public class SessionUtilisateur {
 
     }
 
-    public SessionUtilisateur(int code) {
-        this.code = code;
+    public SessionUtilisateur(String id) {
+        this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Collaborateur getCollaborateur() {

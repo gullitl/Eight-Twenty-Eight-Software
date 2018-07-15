@@ -5,7 +5,7 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Produit {
 
-    private int code;
+    private String id;
     private Reseau reseau;
     private String description;
     private CategorieProduit categorieProduit;
@@ -16,16 +16,16 @@ public class Produit {
 
     }
 
-    public Produit(int code) {
-        this.code = code;
+    public Produit(String id) {
+        this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Reseau getReseau() {

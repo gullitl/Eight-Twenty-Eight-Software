@@ -7,6 +7,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.google.gson.Gson;
+import static gullit.IdGenerator.generateId;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,15 +50,16 @@ public class CollaborateurService {
         return collaborateur;
     }
 
-    public int login(Shop shopUtilisateur, String nomUtilisateur, String motDePasse, boolean rappelToiDeMoi) throws ClassNotFoundException, SQLException, IOException {
+    public int login(Shop shopUtilisateur, String nomUtilisateur, String motDePasse, boolean rappelToiDeMoi)
+            throws ClassNotFoundException, SQLException, IOException, Exception {
 
         Collaborateur collaborateur = CollaborateurDao.getInstance().selectionnerUtilisateur(nomUtilisateur, motDePasse);
 
         if (collaborateur != null) {
-            if (collaborateur.getShop().getCode() == shopUtilisateur.getCode()) {
+            if (collaborateur.getShop().getId().equals(shopUtilisateur.getId())) {
 
                 SessionUtilisateur sessionUtilisateur = new SessionUtilisateur();
-                sessionUtilisateur.setCode(0);
+                sessionUtilisateur.setId(generateId());
                 sessionUtilisateur.setCollaborateur(collaborateur);
                 sessionUtilisateur.setActionEntree(true);
                 sessionUtilisateur.setDateHeure(new Date());
@@ -101,15 +103,19 @@ public class CollaborateurService {
     }
 
     public Collaborateur selectionnerCollaborateurParCode(int codeCollaborateur) throws ClassNotFoundException, SQLException {
-        return CollaborateurDao.getInstance().selectionnerCollaborateurParCode(codeCollaborateur);
+        return CollaborateurDao.getInstance().selectionnerCollaborateurParId(codeCollaborateur);
     }
 
     public boolean enregistrerCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         return CollaborateurDao.getInstance().enregistrerCollaborateur(collaborateur);
     }
 
-    public boolean exclureCollaborateur(int codeCollaborateur) throws ClassNotFoundException, SQLException {
-        return CollaborateurDao.getInstance().exclureCollaborateur(codeCollaborateur);
+    public boolean actualiserCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
+        return CollaborateurDao.getInstance().actualiserCollaborateur(collaborateur);
+    }
+
+    public boolean exclureCollaborateur(String idCollaborateur) throws ClassNotFoundException, SQLException {
+        return CollaborateurDao.getInstance().exclureCollaborateur(idCollaborateur);
     }
 
 }

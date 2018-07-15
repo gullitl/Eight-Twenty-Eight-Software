@@ -26,8 +26,8 @@ public class TauxMonnaieService {
         return TauxMonnaieDao.getInstance().listerTousLesTauxMonnaies();
     }
 
-    public TauxMonnaie selectionnerTauxMonnaieParCode(int codeTauxMonnaie) throws ClassNotFoundException, SQLException {
-        return TauxMonnaieDao.getInstance().selectionnerTauxMonnaieParCode(codeTauxMonnaie);
+    public TauxMonnaie selectionnerTauxMonnaieParId(String idTauxMonnaie) throws ClassNotFoundException, SQLException {
+        return TauxMonnaieDao.getInstance().selectionnerTauxMonnaieParId(idTauxMonnaie);
     }
 
     public boolean sauvegarderTauxMonnaie(TauxMonnaie sessionUtilisateur) throws ClassNotFoundException, SQLException {

@@ -26,16 +26,20 @@ public class CategorieProduitService {
         return CategorieProduitDao.getInstance().listerTousLesCategorieProduits();
     }
 
-    public CategorieProduit selectionnerCategorieProduitParCode(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
-        return CategorieProduitDao.getInstance().selectionnerCategorieProduitParCode(codeCategorieProduit);
+    public CategorieProduit selectionnerCategorieProduitParId(String idCategorieProduit) throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().selectionnerCategorieProduitParId(idCategorieProduit);
     }
 
     public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
         return CategorieProduitDao.getInstance().enregistrerCategorieProduit(categorieProduit);
     }
 
-    public boolean exclureCategorieProduit(int codeCategorieProduit) throws ClassNotFoundException, SQLException {
-        return CategorieProduitDao.getInstance().exclureCategorieProduit(codeCategorieProduit);
+    public boolean actualiserCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().actualiserCategorieProduit(categorieProduit);
+    }
+
+    public boolean exclureCategorieProduit(String idCategorieProduit) throws ClassNotFoundException, SQLException {
+        return CategorieProduitDao.getInstance().exclureCategorieProduit(idCategorieProduit);
     }
 
 }

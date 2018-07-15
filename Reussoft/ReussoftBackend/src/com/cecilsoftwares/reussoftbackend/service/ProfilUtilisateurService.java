@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ProfilUtilisateurDao;
@@ -11,7 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
  * @author Plamedi L. Lusembo
  */
 public class ProfilUtilisateurService {
@@ -32,15 +26,15 @@ public class ProfilUtilisateurService {
         return ProfilUtilisateurDao.getInstance().listerTousLesProfilUtilisateurs();
     }
 
-    public ProfilUtilisateur selectionnerProfilUtilisateurParCode(int codeProfilUtilisateur) throws ClassNotFoundException, SQLException {
-        return ProfilUtilisateurDao.getInstance().selectionnerProfilUtilisateurParCode(codeProfilUtilisateur);
+    public ProfilUtilisateur selectionnerProfilUtilisateurParId(String idProfilUtilisateur) throws ClassNotFoundException, SQLException {
+        return ProfilUtilisateurDao.getInstance().selectionnerProfilUtilisateurParId(idProfilUtilisateur);
     }
 
     public boolean enregistrerProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
         return ProfilUtilisateurDao.getInstance().enregistrerProfilUtilisateur(profilUtilisateur);
     }
 
-    public boolean exclureProfilUtilisateur(int codeProfilUtilisateur) throws ClassNotFoundException, SQLException {
-        return ProfilUtilisateurDao.getInstance().exclureProfilUtilisateur(codeProfilUtilisateur);
+    public boolean exclureProfilUtilisateur(String idProfilUtilisateur) throws ClassNotFoundException, SQLException {
+        return ProfilUtilisateurDao.getInstance().exclureProfilUtilisateur(idProfilUtilisateur);
     }
 }

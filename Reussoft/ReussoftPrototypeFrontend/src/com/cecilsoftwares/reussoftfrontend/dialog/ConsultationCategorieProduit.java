@@ -32,7 +32,7 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         enFermantDialog();
 
         defaultTableModel = (DefaultTableModel) tblCategorieProduit.getModel();
-        dataRows = new Object[3];
+        dataRows = new Object[2];
 
         this.categoriesProduits = categoriesProduits;
         listerCategoriesProduit(this.categoriesProduits);
@@ -57,9 +57,8 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
     private void listerCategoriesProduit(List<CategorieProduit> categoriesProduits) {
         defaultTableModel.setRowCount(0);
         categoriesProduits.forEach(cp -> {
-            dataRows[0] = cp.getCode();
-            dataRows[1] = cp.getDescription();
-            dataRows[2] = cp.getDescriptionAbregee();
+            dataRows[0] = cp.getDescription();
+            dataRows[1] = cp.getDescriptionAbregee();
             defaultTableModel.addRow(dataRows);
         });
 
@@ -92,14 +91,14 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
 
             },
             new String [] {
-                "code", "Description", "Description Abregée"
+                "Description", "Description Abregée"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -118,10 +117,9 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblCategorieProduit);
         if (tblCategorieProduit.getColumnModel().getColumnCount() > 0) {
             tblCategorieProduit.getColumnModel().getColumn(0).setResizable(false);
+            tblCategorieProduit.getColumnModel().getColumn(0).setPreferredWidth(200);
             tblCategorieProduit.getColumnModel().getColumn(1).setResizable(false);
-            tblCategorieProduit.getColumnModel().getColumn(1).setPreferredWidth(200);
-            tblCategorieProduit.getColumnModel().getColumn(2).setResizable(false);
-            tblCategorieProduit.getColumnModel().getColumn(2).setPreferredWidth(150);
+            tblCategorieProduit.getColumnModel().getColumn(1).setPreferredWidth(150);
         }
 
         lblNombreCategorieProduit.setText("Chargement...");

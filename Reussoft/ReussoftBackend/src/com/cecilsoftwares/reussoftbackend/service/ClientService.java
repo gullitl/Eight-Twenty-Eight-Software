@@ -26,16 +26,20 @@ public class ClientService {
         return ClientDao.getInstance().listerTousLesClients();
     }
 
-    public Client selectionnerClientParCode(int codeClient) throws ClassNotFoundException, SQLException {
-        return ClientDao.getInstance().selectionnerClientParCode(codeClient);
+    public Client selectionnerClientParId(String idClient) throws ClassNotFoundException, SQLException {
+        return ClientDao.getInstance().selectionnerClientParId(idClient);
     }
 
     public boolean enregistrerClient(Client client) throws ClassNotFoundException, SQLException {
         return ClientDao.getInstance().enregistrerClient(client);
     }
 
-    public boolean exclureClient(int codeClient) throws ClassNotFoundException, SQLException {
-        return ClientDao.getInstance().exclureClient(codeClient);
+    public boolean actualiserClient(Client client) throws ClassNotFoundException, SQLException {
+        return ClientDao.getInstance().actualiserClient(client);
+    }
+
+    public boolean exclureClient(String idClient) throws ClassNotFoundException, SQLException {
+        return ClientDao.getInstance().exclureClient(idClient);
     }
 
 }

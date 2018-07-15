@@ -5,7 +5,7 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Shop {
 
-    private int code;
+    private String id;
     private String nom;
     private String adresse;
     private boolean active;
@@ -14,16 +14,16 @@ public class Shop {
 
     }
 
-    public Shop(int code) {
-        this.code = code;
+    public Shop(String id) {
+        this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNom() {

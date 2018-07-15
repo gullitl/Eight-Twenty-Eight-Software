@@ -27,24 +27,25 @@ public class PrixVenteProduitService {
         return PrixVenteProduitDao.getInstance().listerTousLesPrixVenteProduits();
     }
 
-    public PrixVenteProduit selectionnerPrixVenteProduitParCode(int codePrixVenteProduit) throws ClassNotFoundException, SQLException {
-        return PrixVenteProduitDao.getInstance().selectionnerPrixVenteProduitParCode(codePrixVenteProduit);
+    public PrixVenteProduit selectionnerPrixVenteProduitParId(String idPrixVenteProduit) throws ClassNotFoundException, SQLException {
+        return PrixVenteProduitDao.getInstance().selectionnerPrixVenteProduitParId(idPrixVenteProduit);
     }
 
-    public List<PrixVenteProduit> selectionnerPrixVenteProduitParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
-        return PrixVenteProduitDao.getInstance().selectionnerPrixVenteProduitParCodeProduit(codeProduit);
+    public List<PrixVenteProduit> selectionnerPrixVenteProduitParIdProduit(String idProduit) throws ClassNotFoundException, SQLException {
+        return PrixVenteProduitDao.getInstance().selectionnerPrixVenteProduitParIdProduit(idProduit);
     }
 
     public boolean enregistrerPrixVenteProduit(PrixVenteProduit prixVenteProduit) throws ClassNotFoundException, SQLException {
         return PrixVenteProduitDao.getInstance().enregistrerPrixVenteProduit(prixVenteProduit);
     }
 
-    public boolean enregistrerPrixVenteProduitShop(PrixVenteProduit prixVenteProduit, List<PrixVenteProduitShop> prixVenteProduitShop) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerPrixVenteProduitShop(PrixVenteProduit prixVenteProduit, List<PrixVenteProduitShop> prixVenteProduitShop)
+            throws ClassNotFoundException, SQLException {
         return PrixVenteProduitDao.getInstance().enregistrerPrixVenteProduitShop(prixVenteProduit, prixVenteProduitShop);
     }
 
-    public boolean exclurePrixVenteProduit(int codePrixVenteProduit) throws ClassNotFoundException, SQLException {
-        return PrixVenteProduitDao.getInstance().exclurePrixVenteProduit(codePrixVenteProduit);
+    public boolean exclurePrixVenteProduit(String idPrixVenteProduit) throws ClassNotFoundException, SQLException {
+        return PrixVenteProduitDao.getInstance().exclurePrixVenteProduit(idPrixVenteProduit);
     }
 
 }

@@ -11,8 +11,8 @@ public class TauxCarte extends Taux {
         super();
     }
 
-    public TauxCarte(int code) {
-        super(code);
+    public TauxCarte(String id) {
+        super(id);
     }
 
     public Shop getShop() {

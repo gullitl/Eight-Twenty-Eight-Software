@@ -43,32 +43,32 @@ public class ItemDispatchDao {
             scriptSQL.append(" itemdispatch.idShop, shopDestinataire.nom,");
             scriptSQL.append(" itemdispatch.idProduto, produit.description");
             scriptSQL.append(" FROM itemdispatch");
-            scriptSQL.append(" LEFT JOIN dispatch ON itemdispatch.idDispatch = dispatch.code");
-            scriptSQL.append(" LEFT JOIN shop as shopExpediteur ON dispatch.idShop = shopExpediteur.code");
-            scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.code");
-            scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.code");
+            scriptSQL.append(" LEFT JOIN dispatch ON itemdispatch.idDispatch = dispatch.id");
+            scriptSQL.append(" LEFT JOIN shop as shopExpediteur ON dispatch.idShop = shopExpediteur.id");
+            scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.id");
+            scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    Dispatch dispatch = new Dispatch(res.getInt(2));
+                    Dispatch dispatch = new Dispatch(res.getString(2));
                     dispatch.setDateHeure(res.getTimestamp(3));
                     dispatch.setValide(res.getInt(4) == 1);
 
-                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    Shop shopExpediteur = new Shop(res.getString(5));
                     shopExpediteur.setNom(res.getString(6));
                     dispatch.setShop(shopExpediteur);
 
-                    Produit produit = new Produit(res.getInt(9));
+                    Produit produit = new Produit(res.getString(9));
                     produit.setDescription(res.getString(10));
 
                     ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(1));
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(3));
 
-                    Shop shopDestinataire = new Shop(res.getInt(7));
+                    Shop shopDestinataire = new Shop(res.getString(7));
                     shopDestinataire.setNom(res.getString(8));
                     itemDispatch.setShop(shopDestinataire);
 
@@ -82,7 +82,7 @@ public class ItemDispatchDao {
         return listeItemsDispatch;
     }
 
-    public List<ItemDispatch> listerItemsDispatchParCodeDispatch(int codeDispatch) throws ClassNotFoundException, SQLException {
+    public List<ItemDispatch> listerItemsDispatchParIdDispatch(String idDispatch) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<ItemDispatch> listeItemsDispatch;
@@ -96,34 +96,34 @@ public class ItemDispatchDao {
             scriptSQL.append(" itemdispatch.idShop, shopDestinataire.nom,");
             scriptSQL.append(" itemdispatch.idProduto, produit.description");
             scriptSQL.append(" FROM itemdispatch");
-            scriptSQL.append(" LEFT JOIN dispatch ON itemdispatch.idDispatch = dispatch.code");
-            scriptSQL.append(" LEFT JOIN shop as shopExpediteur ON dispatch.idShop = shopExpediteur.code");
-            scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.code");
-            scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.code");
-            scriptSQL.append(" WHERE dispatch.code=?");
+            scriptSQL.append(" LEFT JOIN dispatch ON itemdispatch.idDispatch = dispatch.id");
+            scriptSQL.append(" LEFT JOIN shop as shopExpediteur ON dispatch.idShop = shopExpediteur.id");
+            scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.id");
+            scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.id");
+            scriptSQL.append(" WHERE dispatch.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeDispatch);
+            prs.setString(1, idDispatch);
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    Dispatch dispatch = new Dispatch(res.getInt(2));
+                    Dispatch dispatch = new Dispatch(res.getString(2));
                     dispatch.setDateHeure(res.getTimestamp(3));
                     dispatch.setValide(res.getInt(4) == 1);
 
-                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    Shop shopExpediteur = new Shop(res.getString(5));
                     shopExpediteur.setNom(res.getString(6));
                     dispatch.setShop(shopExpediteur);
 
-                    Produit produit = new Produit(res.getInt(9));
+                    Produit produit = new Produit(res.getString(9));
                     produit.setDescription(res.getString(10));
 
                     ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(1));
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(3));
 
-                    Shop shopDestinataire = new Shop(res.getInt(7));
+                    Shop shopDestinataire = new Shop(res.getString(7));
                     shopDestinataire.setNom(res.getString(8));
                     itemDispatch.setShop(shopDestinataire);
 
@@ -137,7 +137,7 @@ public class ItemDispatchDao {
         return listeItemsDispatch;
     }
 
-    public List<ItemDispatch> listerItemsDispatchParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
+    public List<ItemDispatch> listerItemsDispatchParIdProduit(String idProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<ItemDispatch> listeItemsDispatch;
@@ -151,34 +151,34 @@ public class ItemDispatchDao {
             scriptSQL.append(" itemdispatch.idShop, shopDestinataire.nom,");
             scriptSQL.append(" itemdispatch.idProduto, produit.description");
             scriptSQL.append(" FROM itemdispatch");
-            scriptSQL.append(" LEFT JOIN dispatch ON itemdispatch.idDispatch = dispatch.code");
-            scriptSQL.append(" LEFT JOIN shop as shopExpediteur ON dispatch.idShop = shopExpediteur.code");
-            scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.code");
-            scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.code");
-            scriptSQL.append(" WHERE produit.code=?");
+            scriptSQL.append(" LEFT JOIN dispatch ON itemdispatch.idDispatch = dispatch.id");
+            scriptSQL.append(" LEFT JOIN shop as shopExpediteur ON dispatch.idShop = shopExpediteur.id");
+            scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.id");
+            scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.id");
+            scriptSQL.append(" WHERE produit.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeProduit);
+            prs.setString(1, idProduit);
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    Dispatch dispatch = new Dispatch(res.getInt(2));
+                    Dispatch dispatch = new Dispatch(res.getString(2));
                     dispatch.setDateHeure(res.getTimestamp(3));
                     dispatch.setValide(res.getInt(4) == 1);
 
-                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    Shop shopExpediteur = new Shop(res.getString(5));
                     shopExpediteur.setNom(res.getString(6));
                     dispatch.setShop(shopExpediteur);
 
-                    Produit produit = new Produit(res.getInt(9));
+                    Produit produit = new Produit(res.getString(9));
                     produit.setDescription(res.getString(10));
 
                     ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(1));
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(3));
 
-                    Shop shopDestinataire = new Shop(res.getInt(7));
+                    Shop shopDestinataire = new Shop(res.getString(7));
                     shopDestinataire.setNom(res.getString(8));
                     itemDispatch.setShop(shopDestinataire);
 
@@ -192,7 +192,7 @@ public class ItemDispatchDao {
         return listeItemsDispatch;
     }
 
-    public ItemDispatch selectionnerItemDispatchParCodeDispatchECodeProduit(int codeDispatch, int codeProduit) throws ClassNotFoundException, SQLException {
+    public ItemDispatch selectionnerItemDispatchParIdDispatchEIdProduit(String idDispatch, String idProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -204,35 +204,35 @@ public class ItemDispatchDao {
             scriptSQL.append(" itemdispatch.idShop, shopDestinataire.nom,");
             scriptSQL.append(" itemdispatch.idProduto, produit.description");
             scriptSQL.append(" FROM itemdispatch");
-            scriptSQL.append(" LEFT JOIN dispatch ON itemdispatch.idDispatch = dispatch.code");
-            scriptSQL.append(" LEFT JOIN shop as shopExpediteur ON dispatch.idShop = shopExpediteur.code");
-            scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.code");
-            scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.code");
-            scriptSQL.append(" WHERE dispatch.code=? AND produit.code=?");
+            scriptSQL.append(" LEFT JOIN dispatch ON itemdispatch.idDispatch = dispatch.id");
+            scriptSQL.append(" LEFT JOIN shop as shopExpediteur ON dispatch.idShop = shopExpediteur.id");
+            scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.id");
+            scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.id");
+            scriptSQL.append(" WHERE dispatch.id=? AND produit.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeDispatch);
-            prs.setInt(2, codeProduit);
+            prs.setString(1, idDispatch);
+            prs.setString(2, idProduit);
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    Dispatch dispatch = new Dispatch(res.getInt(2));
+                    Dispatch dispatch = new Dispatch(res.getString(2));
                     dispatch.setDateHeure(res.getTimestamp(3));
                     dispatch.setValide(res.getInt(4) == 1);
 
-                    Shop shopExpediteur = new Shop(res.getInt(5));
+                    Shop shopExpediteur = new Shop(res.getString(5));
                     shopExpediteur.setNom(res.getString(6));
                     dispatch.setShop(shopExpediteur);
 
-                    Produit produit = new Produit(res.getInt(9));
+                    Produit produit = new Produit(res.getString(9));
                     produit.setDescription(res.getString(10));
 
                     ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(1));
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(3));
 
-                    Shop shopDestinataire = new Shop(res.getInt(7));
+                    Shop shopDestinataire = new Shop(res.getString(7));
                     shopDestinataire.setNom(res.getString(8));
                     itemDispatch.setShop(shopDestinataire);
 

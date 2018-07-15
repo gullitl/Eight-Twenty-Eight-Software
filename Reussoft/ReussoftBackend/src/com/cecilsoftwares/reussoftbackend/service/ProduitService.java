@@ -26,16 +26,16 @@ public class ProduitService {
         return ProduitDao.getInstance().listerTousLesProduits();
     }
 
-    public Produit selectionnerProduitParCode(int codeProduit) throws ClassNotFoundException, SQLException {
-        return ProduitDao.getInstance().selectionnerProduitParCode(codeProduit);
+    public Produit selectionnerProduitParId(String idProduit) throws ClassNotFoundException, SQLException {
+        return ProduitDao.getInstance().selectionnerProduitParId(idProduit);
     }
 
     public boolean enregistrerProduit(Produit produit) throws ClassNotFoundException, SQLException {
         return ProduitDao.getInstance().enregistrerProduit(produit);
     }
 
-    public boolean exclureProduit(int codeProduit) throws ClassNotFoundException, SQLException {
-        return ProduitDao.getInstance().exclureProduit(codeProduit);
+    public boolean exclureProduit(String idProduit) throws ClassNotFoundException, SQLException {
+        return ProduitDao.getInstance().exclureProduit(idProduit);
     }
 
 }

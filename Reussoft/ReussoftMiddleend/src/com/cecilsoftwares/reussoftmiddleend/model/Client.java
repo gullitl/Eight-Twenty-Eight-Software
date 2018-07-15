@@ -5,7 +5,7 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Client {
 
-    private int code;
+    private String id;
     private String nom;
     private String entreprise;
     private String telephone;
@@ -15,16 +15,16 @@ public class Client {
 
     }
 
-    public Client(int code) {
-        this.code = code;
+    public Client(String id) {
+        this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNom() {

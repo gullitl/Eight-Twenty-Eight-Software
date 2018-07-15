@@ -37,21 +37,21 @@ public class TauxCarteDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeTauxCartes = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateHeure, tauxcarte.valeur,");
+            scriptSQL = new StringBuilder("SELECT tauxcarte.id, tauxcarte.dateHeure, tauxcarte.valeur,");
             scriptSQL.append(" tauxcarte.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM tauxcarte");
-            scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.code");
+            scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    TauxCarte tauxCarte = new TauxCarte(res.getInt(1));
+                    TauxCarte tauxCarte = new TauxCarte(res.getString(1));
                     tauxCarte.setDateHeure(res.getTimestamp(2));
                     tauxCarte.setValeur(new BigDecimal(res.getString(3)));
 
-                    Shop shop = new Shop(res.getInt(4));
+                    Shop shop = new Shop(res.getString(4));
                     shop.setNom(res.getString(5));
                     shop.setAdresse(res.getString(6));
                     tauxCarte.setShop(shop);
@@ -66,29 +66,29 @@ public class TauxCarteDao {
         return listeTauxCartes;
     }
 
-    public TauxCarte selectionnerTauxCarteParCode(int codeTauxCarte) throws ClassNotFoundException, SQLException {
+    public TauxCarte selectionnerTauxCarteParId(String idTauxCarte) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT tauxcarte.code, tauxcarte.dateHeure, tauxcarte.valeur,");
+            scriptSQL = new StringBuilder("SELECT tauxcarte.id, tauxcarte.dateHeure, tauxcarte.valeur,");
             scriptSQL.append(" tauxcarte.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM tauxcarte");
-            scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.code");
-            scriptSQL.append(" WHERE tauxcarte.code=?");
+            scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.id");
+            scriptSQL.append(" WHERE tauxcarte.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeTauxCarte);
+            prs.setString(1, idTauxCarte);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
 
-                    TauxCarte tauxCarte = new TauxCarte(res.getInt(1));
+                    TauxCarte tauxCarte = new TauxCarte(res.getString(1));
                     tauxCarte.setDateHeure(res.getTimestamp(2));
                     tauxCarte.setValeur(new BigDecimal(res.getString(3)));
 
-                    Shop shop = new Shop(res.getInt(4));
+                    Shop shop = new Shop(res.getString(4));
                     shop.setNom(res.getString(5));
                     shop.setAdresse(res.getString(6));
                     tauxCarte.setShop(shop);
@@ -112,22 +112,16 @@ public class TauxCarteDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            if (tauxCarte.getCode() == 0) {
-                scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
-                scriptSQL.append(" dateHeure, valeur, idShop, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?)");
-            } else {
-                scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
-                scriptSQL.append(" SET dateHeure=?, valeur=?, idShop=?");
-                scriptSQL.append(" WHERE code=?");
-            }
+            scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
+            scriptSQL.append(" dateHeure, valeur, idShop, id )");
+            scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setTimestamp(1, new Timestamp(tauxCarte.getDateHeure().getTime()));
             prs.setBigDecimal(2, tauxCarte.getValeur());
-            prs.setInt(3, tauxCarte.getShop().getCode());
-            prs.setInt(4, tauxCarte.getCode());
+            prs.setString(3, tauxCarte.getShop().getId());
+            prs.setString(4, tauxCarte.getId());
 
             prs.execute();
             prs.close();
@@ -136,14 +130,37 @@ public class TauxCarteDao {
         return true;
     }
 
-    public boolean exclureTauxCarte(int codeTauxCarte) throws ClassNotFoundException, SQLException {
+    public boolean actualiserTauxCarte(TauxCarte tauxCarte) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM tauxcarte WHERE code=?");
+
+            scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
+            scriptSQL.append(" SET dateHeure=?, valeur=?, idShop=?");
+            scriptSQL.append(" WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeTauxCarte);
+
+            prs.setTimestamp(1, new Timestamp(tauxCarte.getDateHeure().getTime()));
+            prs.setBigDecimal(2, tauxCarte.getValeur());
+            prs.setString(3, tauxCarte.getShop().getId());
+            prs.setString(4, tauxCarte.getId());
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+        return true;
+    }
+
+    public boolean exclureTauxCarte(String idTauxCarte) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM tauxcarte WHERE id=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setString(1, idTauxCarte);
 
             prs.execute();
             prs.close();

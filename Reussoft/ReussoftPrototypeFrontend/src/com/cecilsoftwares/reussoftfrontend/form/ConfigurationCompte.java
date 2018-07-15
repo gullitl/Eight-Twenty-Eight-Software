@@ -6,7 +6,6 @@ import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -21,7 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class ConfigurationCompte extends JInternalFrame {
 
-    private int codeCollaborateur;
+    private String idCollaborateur;
     private boolean btnConsulterCollaborateurClickable;
     private boolean btnConsulterProfilUtilisateurClickable;
     private boolean btnEnregistrerClickable;
@@ -54,7 +53,6 @@ public class ConfigurationCompte extends JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         tfdIdProfilUtilisateur = new javax.swing.JTextField();
         btnConsulterProfilUtilisateur = new javax.swing.JButton();
-        lblDescriptionProfilUtilisateur = new javax.swing.JLabel();
         pwfMotDePasse = new javax.swing.JPasswordField();
         pwfConfirmerMotDePasse = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
@@ -109,8 +107,6 @@ public class ConfigurationCompte extends JInternalFrame {
             }
         });
 
-        lblDescriptionProfilUtilisateur.setText("jLabel9");
-
         jLabel9.setText("Profil d'utilisateur:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -123,11 +119,8 @@ public class ConfigurationCompte extends JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfdNomUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(tfdIdProfilUtilisateur)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterProfilUtilisateur)))
+                            .addComponent(tfdNomUtilisateur, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                            .addComponent(tfdIdProfilUtilisateur, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -138,7 +131,7 @@ public class ConfigurationCompte extends JInternalFrame {
                                 .addComponent(jLabel1)
                                 .addGap(145, 145, 145)
                                 .addComponent(jLabel8))
-                            .addComponent(lblDescriptionProfilUtilisateur)))
+                            .addComponent(btnConsulterProfilUtilisateur)))
                     .addComponent(jLabel9))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -160,8 +153,7 @@ public class ConfigurationCompte extends JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdIdProfilUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterProfilUtilisateur)
-                    .addComponent(lblDescriptionProfilUtilisateur))
+                    .addComponent(btnConsulterProfilUtilisateur))
                 .addGap(21, 21, 21))
         );
 
@@ -238,14 +230,13 @@ public class ConfigurationCompte extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            Collaborateur collaborateur = new Collaborateur(codeCollaborateur);
+            Collaborateur collaborateur = new Collaborateur(idCollaborateur);
             collaborateur.setPrenom(tfdPrenom.getText());
             collaborateur.setNom(tfdNom.getText());
             collaborateur.setPostnom(tfdPostnom.getText());
             collaborateur.setSurnom(tfdSurnom.getText());
             collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
             collaborateur.setMotDePasse(pwfMotDePasse.getText());
-            collaborateur.setShop(new Shop(1));
 
             ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(Integer.parseInt(tfdIdProfilUtilisateur.getText()));
             collaborateur.setProfilUtilisateur(profilUtilisateur);
@@ -303,7 +294,7 @@ public class ConfigurationCompte extends JInternalFrame {
 
     private void collaborateurSelectionne(Collaborateur collaborateur) {
         if (collaborateur != null) {
-            codeCollaborateur = collaborateur.getCode();
+            idCollaborateur = collaborateur.getCode();
             tfdPrenom.setText(collaborateur.getPrenom());
             tfdNom.setText(collaborateur.getNom());
             tfdPostnom.setText(collaborateur.getPostnom());
@@ -353,7 +344,7 @@ public class ConfigurationCompte extends JInternalFrame {
     }//GEN-LAST:event_tfdNomUtilisateurFocusGained
 
     private void effacerFormulaire() {
-        codeCollaborateur = 0;
+        idCollaborateur = 0;
         tfdPrenom.setText("");
         tfdPrenom.requestFocus();
         tfdNom.setText("");
@@ -475,7 +466,6 @@ public class ConfigurationCompte extends JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblDescriptionProfilUtilisateur;
     private javax.swing.JPasswordField pwfConfirmerMotDePasse;
     private javax.swing.JPasswordField pwfMotDePasse;
     private javax.swing.JTextField tfdIdProfilUtilisateur;

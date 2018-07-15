@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public abstract class PrixProduit {
 
-    private int code;
+    private String id;
     private Produit produit;
     private BigDecimal valeurUSD;
     private Date dateHeure;
@@ -17,16 +17,16 @@ public abstract class PrixProduit {
 
     }
 
-    public PrixProduit(int code) {
-        this.code = code;
+    public PrixProduit(String id) {
+        this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Produit getProduit() {

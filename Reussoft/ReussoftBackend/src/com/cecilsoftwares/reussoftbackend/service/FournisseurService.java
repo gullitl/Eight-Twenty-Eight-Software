@@ -22,12 +22,16 @@ public class FournisseurService {
         return uniqueInstance;
     }
 
-    public Fournisseur selectionnerFournisseurParCode(int codeFournisseur) throws ClassNotFoundException, SQLException {
-        return FournisseurDao.getInstance().selectionnerFournisseurParCode(codeFournisseur);
+    public Fournisseur selectionnerFournisseurParId(String idFournisseur) throws ClassNotFoundException, SQLException {
+        return FournisseurDao.getInstance().selectionnerFournisseurParId(idFournisseur);
     }
 
     public boolean enregistrerFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
         return FournisseurDao.getInstance().enregistrerFournisseur(fournisseur);
+    }
+
+    public boolean actualiserFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
+        return FournisseurDao.getInstance().actualiserFournisseur(fournisseur);
     }
 
     public List<Fournisseur> listerTousLesFournisseurs() throws ClassNotFoundException, SQLException {

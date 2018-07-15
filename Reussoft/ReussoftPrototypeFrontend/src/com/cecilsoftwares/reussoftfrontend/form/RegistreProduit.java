@@ -29,8 +29,9 @@ import javax.swing.JOptionPane;
 public class RegistreProduit extends JInternalFrame {
 
     private int codeProduit;
-    private int codePrixVenteProduit;
-    private BigDecimal valeurPrixVenteProduitInicial;
+    private PrixAchatProduit prixAchatProduit;
+//    private int codePrixVenteProduit;
+//    private BigDecimal valeurPrixVenteProduitInicial;
     private boolean modeEdition;
     private boolean btnConsulterProduitClickable;
     private boolean btnConsulterReseauClickable;
@@ -234,17 +235,22 @@ public class RegistreProduit extends JInternalFrame {
             CategorieProduit categorieProduit = new CategorieProduit(Integer.parseInt(tfdIdCategorieProduit.getText()));
             produit.setCategorieProduit(categorieProduit);
 
-            PrixAchatProduit prixAchatProduit = new PrixAchatProduit();
-            prixAchatProduit.setDateHeure(new Date());
-            prixAchatProduit.setProduit(produit);
-            prixAchatProduit.setValeurUSD(new BigDecimal(tfdPrixAchat.getText()));
             try {
-                if (!valeurPrixVenteProduitInicial.equals(new BigDecimal(tfdPrixAchat.getText()))) {
-                    PrixAchatProduitService.getInstance().enregistrerPrixAchatProduit(prixAchatProduit);
-                    codePrixVenteProduit = PrixAchatProduitService.getInstance().selectionnerDernierPrixAchatProduit(produit);
+
+                if (modeEdition) {
+                    if (prixAchatProduit.getValeurUSD().equals(new BigDecimal(tfdPrixAchat.getText()))) {
+                        PrixAchatProduitService.getInstance().enregistrerPrixAchatProduit(prixAchatProduit);
+                        prixAchatProduit = PrixAchatProduitService.getInstance().selectionnerDernierPrixAchatProduit(produit);
+                    }
+
+                } else {
+                    prixAchatProduit = new PrixAchatProduit();
+                    prixAchatProduit.setDateHeure(new Date());
+                    prixAchatProduit.setProduit(produit);
+                    prixAchatProduit.setValeurUSD(new BigDecimal(tfdPrixAchat.getText()));
                 }
 
-                produit.setPrixAchatProduit(new PrixAchatProduit(codePrixVenteProduit));
+                produit.setPrixAchatProduit(new PrixAchatProduit(prixAchatProduit.getCode()));
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(RegistreProduit.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -373,8 +379,10 @@ public class RegistreProduit extends JInternalFrame {
             tfdIdCategorieProduit.setText(String.valueOf(produit.getCategorieProduit().getCode()));
             lblDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
 
-            codePrixVenteProduit = produit.getCode();
-            tfdPrixAchat.setText(DecimalFormatter.getInstance().getFormattedValue(produit.getPrixAchatProduit().getValeurUSD()));
+            if (produit.getPrixAchatProduit().getValeurUSD() != null) {
+                tfdPrixAchat.setText(DecimalFormatter.getInstance().getFormattedValue(produit.getPrixAchatProduit().getValeurUSD()));
+                prixAchatProduit = produit.getPrixAchatProduit();
+            }
             chbActiver.setVisible(true);
             chbActiver.setSelected(produit.isActive());
             btnEnregistrer.setText("ACTUALISER");
@@ -443,11 +451,10 @@ public class RegistreProduit extends JInternalFrame {
             nio.add(3);
         }
 
-        if (tfdPrixAchat.getText().isEmpty()) {
-            notification.append("\nPrix d'achat USD");
-            nio.add(4);
-        }
-
+//        if (tfdPrixAchat.getText().isEmpty()) {
+//            notification.append("\nPrix d'achat USD");
+//            nio.add(4);
+//        }
         if (notification.toString().isEmpty()) {
             return true;
         } else {

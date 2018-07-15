@@ -9,8 +9,8 @@ public class TauxMonnaie extends Taux {
         super();
     }
 
-    public TauxMonnaie(int code) {
-        super(code);
+    public TauxMonnaie(String id) {
+        super(id);
     }
 
 }

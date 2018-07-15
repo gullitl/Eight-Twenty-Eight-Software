@@ -27,15 +27,15 @@ public class PrixAchatProduitService {
         return PrixAchatProduitDao.getInstance().listerTousLesPrixAchatProduits();
     }
 
-    public PrixAchatProduit selectionnerPrixAchatProduitParCode(int codePrixAchatProduit) throws ClassNotFoundException, SQLException {
-        return PrixAchatProduitDao.getInstance().selectionnerPrixAchatProduitParCode(codePrixAchatProduit);
+    public PrixAchatProduit selectionnerPrixAchatProduitParId(String idPrixAchatProduit) throws ClassNotFoundException, SQLException {
+        return PrixAchatProduitDao.getInstance().selectionnerPrixAchatProduitParId(idPrixAchatProduit);
     }
 
     public boolean enregistrerPrixAchatProduit(PrixAchatProduit prixAchatProduit) throws ClassNotFoundException, SQLException {
         return PrixAchatProduitDao.getInstance().enregistrerPrixAchatProduit(prixAchatProduit);
     }
 
-    public int selectionnerDernierPrixAchatProduit(Produit produit) throws ClassNotFoundException, SQLException {
+    public PrixAchatProduit selectionnerDernierPrixAchatProduit(Produit produit) throws ClassNotFoundException, SQLException {
         return PrixAchatProduitDao.getInstance().selectionnerDernierPrixAchatProduit(produit);
     }
 

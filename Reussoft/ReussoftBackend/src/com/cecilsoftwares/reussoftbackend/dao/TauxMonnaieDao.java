@@ -36,7 +36,7 @@ public class TauxMonnaieDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeTauxMonnaies = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT tauxmonnaie.code, tauxmonnaie.dateHeure, tauxmonnaie.valeur,");
+            scriptSQL = new StringBuilder("SELECT tauxmonnaie.id, tauxmonnaie.dateHeure, tauxmonnaie.valeur,");
             scriptSQL.append(" FROM tauxmonnaie");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -44,7 +44,7 @@ public class TauxMonnaieDao {
             if (res != null) {
                 while (res.next()) {
 
-                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getInt(1));
+                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getString(1));
                     tauxMonnaie.setDateHeure(res.getTimestamp(2));
                     tauxMonnaie.setValeur(new BigDecimal(res.getString(3)));
 
@@ -58,23 +58,23 @@ public class TauxMonnaieDao {
         return listeTauxMonnaies;
     }
 
-    public TauxMonnaie selectionnerTauxMonnaieParCode(int codeTauxMonnaie) throws ClassNotFoundException, SQLException {
+    public TauxMonnaie selectionnerTauxMonnaieParId(String idTauxMonnaie) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT tauxmonnaie.code, tauxmonnaie.dateHeure, tauxmonnaie.valeur,");
+            scriptSQL = new StringBuilder("SELECT tauxmonnaie.id, tauxmonnaie.dateHeure, tauxmonnaie.valeur,");
             scriptSQL.append(" FROM tauxmonnaie");
-            scriptSQL.append(" WHERE tauxmonnaie.code=?");
+            scriptSQL.append(" WHERE tauxmonnaie.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeTauxMonnaie);
+            prs.setString(1, idTauxMonnaie);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
 
-                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getInt(1));
+                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getString(1));
                     tauxMonnaie.setDateHeure(res.getTimestamp(2));
                     tauxMonnaie.setValeur(new BigDecimal(res.getString(3)));
 
@@ -96,20 +96,15 @@ public class TauxMonnaieDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            if (tauxMonnaie.getCode() == 0) {
-                scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
-                scriptSQL.append(" dateHeure, valeur, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?)");
-            } else {
-                scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
-                scriptSQL.append(" SET dateHeure=?, valeur=?");
-                scriptSQL.append(" WHERE code=?");
-            }
+            scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
+            scriptSQL.append(" dateHeure, valeur, id )");
+            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setTimestamp(1, new Timestamp(tauxMonnaie.getDateHeure().getTime()));
             prs.setBigDecimal(2, tauxMonnaie.getValeur());
-            prs.setInt(3, tauxMonnaie.getCode());
+            prs.setString(3, tauxMonnaie.getId());
 
             prs.execute();
             prs.close();
@@ -118,14 +113,35 @@ public class TauxMonnaieDao {
         return true;
     }
 
-    public boolean exclureTauxMonnaie(int codeTauxMonnaie) throws ClassNotFoundException, SQLException {
+    public boolean actualiserTauxMonnaie(TauxMonnaie tauxMonnaie) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM tauxmonnaie WHERE code=?");
+
+            scriptSQL = new StringBuilder("UPDATE sessionutilisateur");
+            scriptSQL.append(" SET dateHeure=?, valeur=?");
+            scriptSQL.append(" WHERE id=?");
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+            prs.setTimestamp(1, new Timestamp(tauxMonnaie.getDateHeure().getTime()));
+            prs.setBigDecimal(2, tauxMonnaie.getValeur());
+            prs.setString(3, tauxMonnaie.getId());
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+        return true;
+    }
+
+    public boolean exclureTauxMonnaie(String idTauxMonnaie) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM tauxmonnaie WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeTauxMonnaie);
+            prs.setString(1, idTauxMonnaie);
 
             prs.execute();
             prs.close();

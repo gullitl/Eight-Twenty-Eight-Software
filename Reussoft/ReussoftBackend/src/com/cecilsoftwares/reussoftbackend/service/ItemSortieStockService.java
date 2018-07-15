@@ -26,16 +26,17 @@ public class ItemSortieStockService {
         return ItemSortieStockDao.getInstance().listerTousLesItemsSortieStock();
     }
 
-    public List<ItemSortieStock> listerItemsSortieStockParCodeSortieStock(int codeSortieStock) throws ClassNotFoundException, SQLException {
-        return ItemSortieStockDao.getInstance().listerItemsSortieStockParCodeSortieStock(codeSortieStock);
+    public List<ItemSortieStock> listerItemsSortieStockParIdSortieStock(String idSortieStock) throws ClassNotFoundException, SQLException {
+        return ItemSortieStockDao.getInstance().listerItemsSortieStockParIdSortieStock(idSortieStock);
     }
 
-    public List<ItemSortieStock> listerItemsSortieStockParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
-        return ItemSortieStockDao.getInstance().listerItemsSortieStockParCodeProduit(codeProduit);
+    public List<ItemSortieStock> listerItemsSortieStockParIdProduit(String idProduit) throws ClassNotFoundException, SQLException {
+        return ItemSortieStockDao.getInstance().listerItemsSortieStockParIdProduit(idProduit);
     }
 
-    public ItemSortieStock selectionnerItemSortieStockParCodeSortieStockECodeProduit(int codeSortieStock, int codeProduit) throws ClassNotFoundException, SQLException {
-        return ItemSortieStockDao.getInstance().selectionnerItemSortieStockParCodeSortieStockECodeProduit(codeSortieStock, codeProduit);
+    public ItemSortieStock selectionnerItemSortieStockParIdSortieStockEIdProduit(String idSortieStock, String idProduit)
+            throws ClassNotFoundException, SQLException {
+        return ItemSortieStockDao.getInstance().selectionnerItemSortieStockParIdSortieStockEIdProduit(idSortieStock, idProduit);
     }
 
 }

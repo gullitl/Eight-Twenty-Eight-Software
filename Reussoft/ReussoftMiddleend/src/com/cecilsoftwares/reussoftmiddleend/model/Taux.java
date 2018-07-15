@@ -8,23 +8,23 @@ import java.util.Date;
  */
 public abstract class Taux {
 
-    private int code;
+    private String id;
     private BigDecimal valeur;
     private Date dateHeure;
 
     public Taux() {
     }
 
-    public Taux(int code) {
-        this.code = code;
+    public Taux(String id) {
+        this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public BigDecimal getValeur() {

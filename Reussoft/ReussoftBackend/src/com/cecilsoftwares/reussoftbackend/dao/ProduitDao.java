@@ -37,35 +37,35 @@ public class ProduitDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeProduits = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.active,");
+            scriptSQL = new StringBuilder("SELECT produit.id, produit.description, produit.active,");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
             scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege,");
-            scriptSQL.append(" produit.idPrixAchatProduit, prixachatproduit.valeur, prixachatproduit.dateHeure");
+            scriptSQL.append(" prixachatproduit.id, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM produit");
-            scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.code");
-            scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.code");
-            scriptSQL.append(" LEFT JOIN prixachatproduit ON produit.idPrixAchatProduit = prixachatproduit.code");
+            scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.id");
+            scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.id");
+            scriptSQL.append(" LEFT JOIN prixachatproduit ON produit.id = prixachatproduit.idProduit");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new Produit(res.getInt(1));
+                    Produit produit = new Produit(res.getString(1));
                     produit.setDescription(res.getString(2));
                     produit.setActive(res.getInt(3) == 1);
 
-                    CategorieProduit categorieProduit = new CategorieProduit(res.getInt(4));
+                    CategorieProduit categorieProduit = new CategorieProduit(res.getString(4));
                     categorieProduit.setDescription(res.getString(5));
                     categorieProduit.setDescriptionAbregee(res.getString(6));
                     produit.setCategorieProduit(categorieProduit);
 
-                    Reseau reseau = new Reseau(res.getInt(7));
+                    Reseau reseau = new Reseau(res.getString(7));
                     reseau.setNom(res.getString(8));
                     reseau.setNomAbrege(res.getString(9));
                     produit.setReseau(reseau);
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getInt(10));
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(10));
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(11));
                     prixAchatProduit.setDateHeure(res.getTimestamp(12));
                     produit.setPrixAchatProduit(prixAchatProduit);
@@ -80,43 +80,43 @@ public class ProduitDao {
         return listeProduits;
     }
 
-    public Produit selectionnerProduitParCode(int codeProduit) throws ClassNotFoundException, SQLException {
+    public Produit selectionnerProduitParId(String idProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT produit.code, produit.description, produit.active,");
+            scriptSQL = new StringBuilder("SELECT produit.id, produit.description, produit.active,");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
             scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege,");
             scriptSQL.append(" produit.idPrixAchatProduit, prixachatproduit.valeur, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM produit");
-            scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.code");
-            scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.code");
-            scriptSQL.append(" WHERE produit.code=?");
+            scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.id");
+            scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.id");
+            scriptSQL.append(" WHERE produit.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeProduit);
+            prs.setString(1, idProduit);
             res = prs.executeQuery();
 
             if (res != null) {
                 if (res.next()) {
 
-                    Produit produit = new Produit(res.getInt(1));
+                    Produit produit = new Produit(res.getString(1));
                     produit.setDescription(res.getString(2));
                     produit.setActive(res.getInt(3) == 1);
 
-                    CategorieProduit categorieProduit = new CategorieProduit(res.getInt(4));
+                    CategorieProduit categorieProduit = new CategorieProduit(res.getString(4));
                     categorieProduit.setDescription(res.getString(5));
                     categorieProduit.setDescriptionAbregee(res.getString(6));
                     produit.setCategorieProduit(categorieProduit);
 
-                    Reseau reseau = new Reseau(res.getInt(7));
+                    Reseau reseau = new Reseau(res.getString(7));
                     reseau.setNom(res.getString(8));
                     reseau.setNomAbrege(res.getString(9));
                     produit.setReseau(reseau);
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getInt(10));
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(10));
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(11));
                     prixAchatProduit.setDateHeure(res.getTimestamp(12));
                     produit.setPrixAchatProduit(prixAchatProduit);
@@ -139,26 +139,17 @@ public class ProduitDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            if (produit.getCode() == 0) {
-
-                scriptSQL = new StringBuilder("INSERT INTO produit(");
-                scriptSQL.append(" description, idCategorieProduit, idReseau, active, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
-
-            } else {
-
-                scriptSQL = new StringBuilder("UPDATE produit");
-                scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, active=?");
-                scriptSQL.append(" WHERE code=?");
-            }
+            scriptSQL = new StringBuilder("INSERT INTO produit(");
+            scriptSQL.append(" description, idCategorieProduit, idReseau, active, id )");
+            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, produit.getDescription());
-            prs.setInt(2, produit.getCategorieProduit().getCode());
-            prs.setInt(3, produit.getReseau().getCode());
+            prs.setString(2, produit.getCategorieProduit().getId());
+            prs.setString(3, produit.getReseau().getId());
             prs.setInt(4, produit.isActive() ? 1 : 0);
-            prs.setInt(5, produit.getCode());
+            prs.setString(5, produit.getId());
 
             prs.execute();
             prs.close();
@@ -167,14 +158,38 @@ public class ProduitDao {
         return true;
     }
 
-    public boolean exclureProduit(int codeProduit) throws ClassNotFoundException, SQLException {
+    public boolean actualiserProduit(Produit produit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM produit WHERE code=?");
+
+            scriptSQL = new StringBuilder("UPDATE produit");
+            scriptSQL.append(" SET description=?, idCategorieProduit=?, idReseau=?, active=?");
+            scriptSQL.append(" WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeProduit);
+
+            prs.setString(1, produit.getDescription());
+            prs.setString(2, produit.getCategorieProduit().getId());
+            prs.setString(3, produit.getReseau().getId());
+            prs.setInt(4, produit.isActive() ? 1 : 0);
+            prs.setString(5, produit.getId());
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+        return true;
+    }
+
+    public boolean exclureProduit(String idProduit) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM produit WHERE id=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setString(1, idProduit);
 
             prs.execute();
             prs.close();

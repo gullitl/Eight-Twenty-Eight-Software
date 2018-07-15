@@ -7,8 +7,8 @@ public class PrixVenteProduit extends PrixProduit {
 
     private Shop shop;
 
-    public PrixVenteProduit(int code) {
-        super(code);
+    public PrixVenteProduit(String id) {
+        super(id);
     }
 
     public PrixVenteProduit() {

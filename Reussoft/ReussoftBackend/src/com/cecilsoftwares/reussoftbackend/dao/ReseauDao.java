@@ -32,7 +32,7 @@ public class ReseauDao {
         List<Reseau> listeReseaus;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, nom, nomAbrege, active");
+            scriptSQL = new StringBuilder("SELECT id, nom, nomAbrege, active");
             scriptSQL.append(" FROM reseau");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -42,7 +42,7 @@ public class ReseauDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Reseau reseau = new Reseau(res.getInt(1));
+                    Reseau reseau = new Reseau(res.getString(1));
                     reseau.setNom(res.getString(2));
                     reseau.setNomAbrege(res.getString(3));
                     reseau.setActive(res.getInt(4) == 1);
@@ -57,23 +57,23 @@ public class ReseauDao {
         return listeReseaus;
     }
 
-    public Reseau selectionnerReseauParCode(int codeReseau) throws ClassNotFoundException, SQLException {
+    public Reseau selectionnerReseauParId(String idReseau) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT code, nom, nomAbrege, active");
+            scriptSQL = new StringBuilder("SELECT id, nom, nomAbrege, active");
             scriptSQL.append(" FROM reseau");
-            scriptSQL.append(" WHERE reseau.code=?");
+            scriptSQL.append(" WHERE reseau.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeReseau);
+            prs.setString(1, idReseau);
             res = prs.executeQuery();
 
             if (res != null) {
                 if (res.next()) {
 
-                    Reseau reseau = new Reseau(res.getInt(1));
+                    Reseau reseau = new Reseau(res.getString(1));
                     reseau.setNom(res.getString(2));
                     reseau.setNomAbrege(res.getString(3));
                     reseau.setActive(res.getInt(4) == 1);
@@ -96,23 +96,16 @@ public class ReseauDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            if (reseau.getCode() == 0) {
+            scriptSQL = new StringBuilder("INSERT INTO reseau(");
+            scriptSQL.append(" nom, nomAbrege, active, id)");
+            scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
-                scriptSQL = new StringBuilder("INSERT INTO reseau(");
-                scriptSQL.append(" nom, nomAbrege, active, code)");
-                scriptSQL.append(" VALUES (?, ?, ?, ?)");
-            } else {
-
-                scriptSQL = new StringBuilder("UPDATE reseau");
-                scriptSQL.append(" SET nom=?, nomAbrege=?, active=?");
-                scriptSQL.append(" WHERE code=?");
-            }
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, reseau.getNom());
             prs.setString(2, reseau.getNomAbrege());
             prs.setInt(3, reseau.isActive() ? 1 : 0);
-            prs.setInt(4, reseau.getCode());
+            prs.setString(4, reseau.getId());
 
             prs.execute();
             prs.close();
@@ -121,14 +114,36 @@ public class ReseauDao {
         return true;
     }
 
-    public boolean exclureReseau(int codeReseau) throws ClassNotFoundException, SQLException {
+    public boolean actualiserReseau(Reseau reseau) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM reseau WHERE code=?");
+
+            scriptSQL = new StringBuilder("UPDATE reseau");
+            scriptSQL.append(" SET nom=?, nomAbrege=?, active=?");
+            scriptSQL.append(" WHERE id=?");
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+            prs.setString(1, reseau.getNom());
+            prs.setString(2, reseau.getNomAbrege());
+            prs.setInt(3, reseau.isActive() ? 1 : 0);
+            prs.setString(4, reseau.getId());
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+        return true;
+    }
+
+    public boolean exclureReseau(String idReseau) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM reseau WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeReseau);
+            prs.setString(1, idReseau);
 
             prs.execute();
             prs.close();

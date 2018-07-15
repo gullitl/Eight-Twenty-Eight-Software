@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class SortieStock {
 
-    private int code;
+    private String id;
     private Shop shop;
     private Client client;
     private TauxMonnaie tauxMonnaie;
@@ -19,16 +19,16 @@ public class SortieStock {
 
     }
 
-    public SortieStock(int code) {
-        this.code = code;
+    public SortieStock(String id) {
+        this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Shop getShop() {

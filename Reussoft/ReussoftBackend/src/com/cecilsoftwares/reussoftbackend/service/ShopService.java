@@ -26,16 +26,16 @@ public class ShopService {
         return ShopDao.getInstance().listerTousLesShops();
     }
 
-    public Shop selectionnerShopParCode(int codeShop) throws ClassNotFoundException, SQLException {
-        return ShopDao.getInstance().selectionnerShopParCode(codeShop);
+    public Shop selectionnerShopParId(String idShop) throws ClassNotFoundException, SQLException {
+        return ShopDao.getInstance().selectionnerShopParId(idShop);
     }
 
     public boolean enregistrerShop(Shop shop) throws ClassNotFoundException, SQLException {
         return ShopDao.getInstance().enregistrerShop(shop);
     }
 
-    public boolean exclureShop(int codeShop) throws ClassNotFoundException, SQLException {
-        return ShopDao.getInstance().exclureShop(codeShop);
+    public boolean exclureShop(String idShop) throws ClassNotFoundException, SQLException {
+        return ShopDao.getInstance().exclureShop(idShop);
     }
 
 }

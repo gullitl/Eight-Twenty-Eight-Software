@@ -5,7 +5,7 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Version {
 
-    private int code;
+    private String id;
     private String description;
     private int xmajeur;
     private int ymineur;
@@ -17,16 +17,16 @@ public class Version {
 
     }
 
-    public Version(int code) {
-        this.code = code;
+    public Version(String id) {
+        this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {

@@ -33,9 +33,9 @@ public class ClientDao {
         List<Client> listeClients;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, ");
+            scriptSQL = new StringBuilder("SELECT client.id, client.nom, client.entreprise, client.telephone, ");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.active");
-            scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.code");
+            scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -44,12 +44,12 @@ public class ClientDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Client client = new Client(res.getInt(1));
+                    Client client = new Client(res.getString(1));
                     client.setNom(res.getString(2));
                     client.setEntreprise(res.getString(3));
                     client.setTelephone(res.getString(4));
 
-                    Shop shop = new Shop(res.getInt(5));
+                    Shop shop = new Shop(res.getString(5));
                     shop.setNom(res.getString(6));
                     shop.setAdresse(res.getString(7));
                     shop.setActive(res.getInt(8) == 0);
@@ -66,29 +66,29 @@ public class ClientDao {
         return listeClients;
     }
 
-    public Client selectionnerClientParCode(int codeClient) throws ClassNotFoundException, SQLException {
+    public Client selectionnerClientParId(String idClient) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.code, client.nom, client.entreprise, client.telephone, ");
+            scriptSQL = new StringBuilder("SELECT client.id, client.nom, client.entreprise, client.telephone, ");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.active");
-            scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.code");
-            scriptSQL.append(" WHERE client.code=?");
+            scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.id");
+            scriptSQL.append(" WHERE client.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeClient);
+            prs.setString(1, idClient);
             res = prs.executeQuery();
 
             if (res != null) {
                 if (res.next()) {
 
-                    Client client = new Client(res.getInt(1));
+                    Client client = new Client(res.getString(1));
                     client.setNom(res.getString(2));
                     client.setEntreprise(res.getString(3));
                     client.setTelephone(res.getString(4));
 
-                    Shop shop = new Shop(res.getInt(5));
+                    Shop shop = new Shop(res.getString(5));
                     shop.setNom(res.getString(6));
                     shop.setAdresse(res.getString(7));
                     shop.setActive(res.getInt(8) == 0);
@@ -114,22 +114,17 @@ public class ClientDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            if (client.getCode() == 0) {
-                scriptSQL = new StringBuilder("INSERT INTO client(");
-                scriptSQL.append(" nom, entreprise, telephone, idShop, code )");
-                scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
-            } else {
-                scriptSQL = new StringBuilder("UPDATE client");
-                scriptSQL.append(" SET nom=?, entreprise=?, telephone=?, idShop=?");
-                scriptSQL.append(" WHERE code=?");
-            }
+            scriptSQL = new StringBuilder("INSERT INTO client(");
+            scriptSQL.append(" nom, entreprise, telephone, idShop, id )");
+            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, client.getNom());
             prs.setString(2, client.getEntreprise());
             prs.setString(3, client.getTelephone());
-            prs.setInt(4, client.getShop().getCode());
-            prs.setInt(5, client.getCode());
+            prs.setString(4, client.getShop().getId());
+            prs.setString(5, client.getId());
 
             prs.execute();
             prs.close();
@@ -138,14 +133,37 @@ public class ClientDao {
         return true;
     }
 
-    public boolean exclureClient(int codeClient) throws ClassNotFoundException, SQLException {
+    public boolean actualiserClient(Client client) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM client WHERE code=?");
+
+            scriptSQL = new StringBuilder("UPDATE client");
+            scriptSQL.append(" SET nom=?, entreprise=?, telephone=?, idShop=?");
+            scriptSQL.append(" WHERE id=?");
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+            prs.setString(1, client.getNom());
+            prs.setString(2, client.getEntreprise());
+            prs.setString(3, client.getTelephone());
+            prs.setString(4, client.getShop().getId());
+            prs.setString(5, client.getId());
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+        return true;
+    }
+
+    public boolean exclureClient(String idClient) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM client WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeClient);
+            prs.setString(1, idClient);
 
             prs.execute();
             prs.close();

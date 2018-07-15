@@ -30,8 +30,8 @@ public class DispatchService {
         return DispatchDao.getInstance().listerTousLesDispatchsAvecItems();
     }
 
-    public Dispatch selectionnerDispatchParCode(int codeDispatch) throws ClassNotFoundException, SQLException {
-        return DispatchDao.getInstance().selectionnerDispatchParCode(codeDispatch);
+    public Dispatch selectionnerDispatchParId(String idDispatch) throws ClassNotFoundException, SQLException {
+        return DispatchDao.getInstance().selectionnerDispatchParId(idDispatch);
     }
 
     public boolean enregistrerDispatch(Dispatch sortieStock) throws ClassNotFoundException, SQLException {

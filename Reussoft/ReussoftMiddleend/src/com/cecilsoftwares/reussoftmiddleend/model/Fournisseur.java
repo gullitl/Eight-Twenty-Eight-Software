@@ -5,7 +5,7 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class Fournisseur {
 
-    private int code;
+    private String id;
     private String entreprise;
     private String responsable;
     private String telephone;
@@ -14,16 +14,16 @@ public class Fournisseur {
 
     }
 
-    public Fournisseur(int code) {
-        this.code = code;
+    public Fournisseur(String id) {
+        this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEntreprise() {

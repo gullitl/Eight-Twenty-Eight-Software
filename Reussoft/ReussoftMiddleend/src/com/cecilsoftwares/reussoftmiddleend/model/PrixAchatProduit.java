@@ -5,8 +5,8 @@ package com.cecilsoftwares.reussoftmiddleend.model;
  */
 public class PrixAchatProduit extends PrixProduit {
 
-    public PrixAchatProduit(int code) {
-        super(code);
+    public PrixAchatProduit(String id) {
+        super(id);
     }
 
     public PrixAchatProduit() {

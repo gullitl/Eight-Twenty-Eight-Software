@@ -34,8 +34,8 @@ public class StockProduitDao {
             scriptSQL = new StringBuilder("SELECT count(*) FROM stockproduit WHERE idProduit=? AND idShop=?");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, produit.getCode());
-            prs.setInt(2, shop.getCode());
+            prs.setString(1, produit.getId());
+            prs.setString(2, shop.getId());
             res = prs.executeQuery();
 
             if (res != null) {
@@ -51,8 +51,8 @@ public class StockProduitDao {
                 prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
                 prs.setInt(1, quantiteMouvement);
-                prs.setInt(2, produit.getCode());
-                prs.setInt(3, shop.getCode());
+                prs.setString(2, produit.getId());
+                prs.setString(3, shop.getId());
 
                 prs.execute();
                 conexao.close();
@@ -67,8 +67,8 @@ public class StockProduitDao {
                 prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
                 prs.setInt(1, quantiteMouvement);
-                prs.setInt(2, produit.getCode());
-                prs.setInt(3, shop.getCode());
+                prs.setString(2, produit.getId());
+                prs.setString(3, shop.getId());
 
                 prs.execute();
                 conexao.close();
@@ -90,7 +90,7 @@ public class StockProduitDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, produit.getCode());
+            prs.setString(1, produit.getId());
             prs.setInt(2, quantiteMouvement);
 
             prs.execute();
@@ -107,7 +107,7 @@ public class StockProduitDao {
     public boolean sortirStock(Produit produit, Shop shop, int quantiteMouvement)
             throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
-        StringBuilder scriptSQL;
+
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO sortiestock(");
             scriptSQL.append("idProduto, quantiteProduit)");
@@ -115,7 +115,7 @@ public class StockProduitDao {
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
-            prs.setInt(1, produit.getCode());
+            prs.setString(1, produit.getId());
             prs.setInt(2, quantiteMouvement);
 
             prs.execute();
@@ -129,12 +129,12 @@ public class StockProduitDao {
         return true;
     }
 
-    public int selectionnerCodeCollaborateurSubsequent() throws ClassNotFoundException, SQLException {
+    public int selectionnerIdCollaborateurSubsequent() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT Max(codeCollaborateur)+1 FROM collaborateur");
+            scriptSQL = new StringBuilder("SELECT Max(idCollaborateur)+1 FROM collaborateur");
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
@@ -155,14 +155,14 @@ public class StockProduitDao {
         return 0;
     }
 
-    public boolean exclureStock(int codeStock) throws ClassNotFoundException, SQLException {
+    public boolean exclureStock(String idStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM stock WHERE code=?");
+            scriptSQL = new StringBuilder("DELETE FROM stock WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeStock);
+            prs.setString(1, idStock);
 
             prs.execute();
             prs.close();

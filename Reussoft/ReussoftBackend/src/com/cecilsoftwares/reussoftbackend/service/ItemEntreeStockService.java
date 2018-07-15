@@ -26,16 +26,17 @@ public class ItemEntreeStockService {
         return ItemEntreeStockDao.getInstance().listerTousLesItemsEntreeStock();
     }
 
-    public List<ItemEntreeStock> listerItemsEntreeStocksParCodeEntreeStock(int codeEntreeStock) throws ClassNotFoundException, SQLException {
-        return ItemEntreeStockDao.getInstance().listerItemsEntreeStockParCodeEntreeStock(codeEntreeStock);
+    public List<ItemEntreeStock> listerItemsEntreeStockParIdEntreeStock(String idEntreeStock) throws ClassNotFoundException, SQLException {
+        return ItemEntreeStockDao.getInstance().listerItemsEntreeStockParIdEntreeStock(idEntreeStock);
     }
 
-    public List<ItemEntreeStock> listerItemsEntreeStocksParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
-        return ItemEntreeStockDao.getInstance().listerItemsEntreeStockParCodeProduit(codeProduit);
+    public List<ItemEntreeStock> listerItemsEntreeStocksParIdProduit(String idProduit) throws ClassNotFoundException, SQLException {
+        return ItemEntreeStockDao.getInstance().listerItemsEntreeStockParIdProduit(idProduit);
     }
 
-    public ItemEntreeStock selectionnerItemEntreeStockParCodeEntreeStockECodeProduit(int codeEntreeStock, int codeProduit) throws ClassNotFoundException, SQLException {
-        return ItemEntreeStockDao.getInstance().selectionnerItemEntreeStockParCodeEntreeStockECodeProduit(codeEntreeStock, codeProduit);
+    public ItemEntreeStock selectionnerItemEntreeStockParIdEntreeStockEIdProduit(String idEntreeStock, String idProduit)
+            throws ClassNotFoundException, SQLException {
+        return ItemEntreeStockDao.getInstance().selectionnerItemEntreeStockParIdEntreeStockEIdProduit(idEntreeStock, idProduit);
     }
 
 }

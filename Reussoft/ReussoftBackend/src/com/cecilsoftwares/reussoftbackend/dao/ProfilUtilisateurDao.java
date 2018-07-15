@@ -35,7 +35,7 @@ public class ProfilUtilisateurDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             profilUtilisateurs = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee");
+            scriptSQL = new StringBuilder("SELECT id, description, descriptionAbregee");
             scriptSQL.append(" FROM profilutilisateur");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -43,7 +43,7 @@ public class ProfilUtilisateurDao {
             if (res != null) {
                 while (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getInt(1));
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getString(1));
                     profilUtilisateur.setDescription(res.getString(2));
                     profilUtilisateur.setDescriptionAbregee(res.getString(3));
 
@@ -57,24 +57,24 @@ public class ProfilUtilisateurDao {
         return profilUtilisateurs;
     }
 
-    public ProfilUtilisateur selectionnerProfilUtilisateurParCode(int codeProfilUtilisateur)
+    public ProfilUtilisateur selectionnerProfilUtilisateurParId(String idProfilUtilisateur)
             throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT code, description, descriptionAbregee");
+            scriptSQL = new StringBuilder("SELECT id, description, descriptionAbregee");
             scriptSQL.append(" FROM profilutilisateur");
-            scriptSQL.append(" WHERE code=?");
+            scriptSQL.append(" WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeProfilUtilisateur);
+            prs.setString(1, idProfilUtilisateur);
             res = prs.executeQuery();
             if (res != null) {
                 if (res.next()) {
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getInt(1));
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getString(1));
                     profilUtilisateur.setDescription(res.getString(2));
                     profilUtilisateur.setDescriptionAbregee(res.getString(3));
 
@@ -96,23 +96,15 @@ public class ProfilUtilisateurDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            if (profilUtilisateur.getCode() == 0) {
-
-                scriptSQL = new StringBuilder("INSERT INTO profilutilisateur(");
-                scriptSQL.append(" description, descriptionAbregee, code )");
-                scriptSQL.append(" VALUES (?, ?, ?)");
-
-            } else {
-                scriptSQL = new StringBuilder("UPDATE profilutilisateur");
-                scriptSQL.append(" SET description=?, descriptionAbregee=?");
-                scriptSQL.append(" WHERE code=?");
-            }
+            scriptSQL = new StringBuilder("INSERT INTO profilutilisateur(");
+            scriptSQL.append(" description, descriptionAbregee, id )");
+            scriptSQL.append(" VALUES (?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, profilUtilisateur.getDescription());
             prs.setString(2, profilUtilisateur.getDescriptionAbregee());
-            prs.setInt(3, profilUtilisateur.getCode());
+            prs.setString(3, profilUtilisateur.getId());
 
             prs.execute();
             prs.close();
@@ -121,14 +113,36 @@ public class ProfilUtilisateurDao {
         return true;
     }
 
-    public boolean exclureProfilUtilisateur(int codeProfilUtilisateur) throws ClassNotFoundException, SQLException {
+    public boolean actualiserProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("DELETE FROM profilutilisateur WHERE code=?");
+
+            scriptSQL = new StringBuilder("UPDATE profilutilisateur");
+            scriptSQL.append(" SET description=?, descriptionAbregee=?");
+            scriptSQL.append(" WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeProfilUtilisateur);
+
+            prs.setString(1, profilUtilisateur.getDescription());
+            prs.setString(2, profilUtilisateur.getDescriptionAbregee());
+            prs.setString(3, profilUtilisateur.getId());
+
+            prs.execute();
+            prs.close();
+            conexao.close();
+        }
+        return true;
+    }
+
+    public boolean exclureProfilUtilisateur(String idProfilUtilisateur) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("DELETE FROM profilutilisateur WHERE id=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setString(1, idProfilUtilisateur);
 
             prs.execute();
             prs.close();

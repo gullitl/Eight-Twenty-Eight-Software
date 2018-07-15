@@ -46,37 +46,37 @@ public class ItemSortieStockDao {
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
             scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" FROM itemsortiestock");
-            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
-            scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.code");
-            scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.code");
-            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.code");
-            scriptSQL.append(" LEFT JOIN prixventeproduit ON itemsortiestock.idPrixVenteProduit = prixventeproduit.code");
+            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.id");
+            scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.id");
+            scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.id");
+            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.id");
+            scriptSQL.append(" LEFT JOIN prixventeproduit ON itemsortiestock.idPrixVenteProduit = prixventeproduit.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    SortieStock sortieStock = new SortieStock(res.getInt(2));
+                    SortieStock sortieStock = new SortieStock(res.getString(2));
                     sortieStock.setDateHeure(res.getTimestamp(3));
 
-                    Shop shop = new Shop(res.getInt(4));
+                    Shop shop = new Shop(res.getString(4));
                     shop.setNom(res.getString(5));
                     sortieStock.setShop(shop);
 
-                    Client client = new Client(res.getInt(6));
+                    Client client = new Client(res.getString(6));
                     client.setNom(res.getString(7));
                     client.setEntreprise(res.getString(8));
                     client.setTelephone(res.getString(9));
                     sortieStock.setClient(client);
 
-                    Produit produit = new Produit(res.getInt(10));
+                    Produit produit = new Produit(res.getString(10));
                     produit.setDescription(res.getString(11));
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
                     itemSortieStock.setQuantiteProduit(res.getBigDecimal(1));
 
-                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
+                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getString(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
                     prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
@@ -91,7 +91,7 @@ public class ItemSortieStockDao {
         return listeItemsSortieStock;
     }
 
-    public List<ItemSortieStock> listerItemsSortieStockParCodeSortieStock(int codeSortieStock) throws ClassNotFoundException, SQLException {
+    public List<ItemSortieStock> listerItemsSortieStockParIdSortieStock(String idSortieStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<ItemSortieStock> listeItemsSortieStock;
@@ -106,39 +106,39 @@ public class ItemSortieStockDao {
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
             scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" FROM itemsortiestock");
-            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
-            scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.code");
-            scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.code");
-            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.code");
-            scriptSQL.append(" LEFT JOIN prixventeproduit ON itemsortiestock.idPrixVenteProduit = prixventeproduit.code");
-            scriptSQL.append(" WHERE sortiestock.code=?");
+            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.id");
+            scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.id");
+            scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.id");
+            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.id");
+            scriptSQL.append(" LEFT JOIN prixventeproduit ON itemsortiestock.idPrixVenteProduit = prixventeproduit.id");
+            scriptSQL.append(" WHERE sortiestock.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeSortieStock);
+            prs.setString(1, idSortieStock);
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    SortieStock sortieStock = new SortieStock(res.getInt(2));
+                    SortieStock sortieStock = new SortieStock(res.getString(2));
                     sortieStock.setDateHeure(res.getTimestamp(3));
 
-                    Shop shop = new Shop(res.getInt(4));
+                    Shop shop = new Shop(res.getString(4));
                     shop.setNom(res.getString(5));
                     sortieStock.setShop(shop);
 
-                    Client client = new Client(res.getInt(6));
+                    Client client = new Client(res.getString(6));
                     client.setNom(res.getString(7));
                     client.setEntreprise(res.getString(8));
                     client.setTelephone(res.getString(9));
                     sortieStock.setClient(client);
 
-                    Produit produit = new Produit(res.getInt(10));
+                    Produit produit = new Produit(res.getString(10));
                     produit.setDescription(res.getString(11));
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
                     itemSortieStock.setQuantiteProduit(res.getBigDecimal(1));
 
-                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
+                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getString(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
                     prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
@@ -153,7 +153,7 @@ public class ItemSortieStockDao {
         return listeItemsSortieStock;
     }
 
-    public List<ItemSortieStock> listerItemsSortieStockParCodeProduit(int codeProduit) throws ClassNotFoundException, SQLException {
+    public List<ItemSortieStock> listerItemsSortieStockParIdProduit(String idProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<ItemSortieStock> listeItemsSortieStock;
@@ -168,39 +168,39 @@ public class ItemSortieStockDao {
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
             scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" FROM itemsortiestock");
-            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
-            scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.code");
-            scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.code");
-            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.code");
-            scriptSQL.append(" LEFT JOIN prixventeproduit ON itemsortiestock.idPrixVenteProduit = prixventeproduit.code");
-            scriptSQL.append(" WHERE produit.code=?");
+            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.id");
+            scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.id");
+            scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.id");
+            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.id");
+            scriptSQL.append(" LEFT JOIN prixventeproduit ON itemsortiestock.idPrixVenteProduit = prixventeproduit.id");
+            scriptSQL.append(" WHERE produit.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeProduit);
+            prs.setString(1, idProduit);
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    SortieStock sortieStock = new SortieStock(res.getInt(2));
+                    SortieStock sortieStock = new SortieStock(res.getString(2));
                     sortieStock.setDateHeure(res.getTimestamp(3));
 
-                    Shop shop = new Shop(res.getInt(4));
+                    Shop shop = new Shop(res.getString(4));
                     shop.setNom(res.getString(5));
                     sortieStock.setShop(shop);
 
-                    Client client = new Client(res.getInt(6));
+                    Client client = new Client(res.getString(6));
                     client.setNom(res.getString(7));
                     client.setEntreprise(res.getString(8));
                     client.setTelephone(res.getString(9));
                     sortieStock.setClient(client);
 
-                    Produit produit = new Produit(res.getInt(10));
+                    Produit produit = new Produit(res.getString(10));
                     produit.setDescription(res.getString(11));
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
                     itemSortieStock.setQuantiteProduit(res.getBigDecimal(1));
 
-                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
+                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getString(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
                     prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
@@ -215,7 +215,7 @@ public class ItemSortieStockDao {
         return listeItemsSortieStock;
     }
 
-    public ItemSortieStock selectionnerItemSortieStockParCodeSortieStockECodeProduit(int codeSortieStock, int codeProduit) throws ClassNotFoundException, SQLException {
+    public ItemSortieStock selectionnerItemSortieStockParIdSortieStockEIdProduit(String idSortieStock, String idProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
@@ -228,40 +228,40 @@ public class ItemSortieStockDao {
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
             scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" FROM itemsortiestock");
-            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.code");
-            scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.code");
-            scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.code");
-            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.code");
-            scriptSQL.append(" LEFT JOIN prixventeproduit ON itemsortiestock.idPrixVenteProduit = prixventeproduit.code");
-            scriptSQL.append(" WHERE sortiestock.code=? AND produit.code=?");
+            scriptSQL.append(" LEFT JOIN sortiestock ON itemsortiestock.idEntreestock = entreestock.id");
+            scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.id");
+            scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.id");
+            scriptSQL.append(" LEFT JOIN produit ON itemsortiestock.idProduit = produit.id");
+            scriptSQL.append(" LEFT JOIN prixventeproduit ON itemsortiestock.idPrixVenteProduit = prixventeproduit.id");
+            scriptSQL.append(" WHERE sortiestock.id=? AND produit.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, codeSortieStock);
-            prs.setInt(2, codeProduit);
+            prs.setString(1, idSortieStock);
+            prs.setString(2, idProduit);
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
 
-                    SortieStock sortieStock = new SortieStock(res.getInt(2));
+                    SortieStock sortieStock = new SortieStock(res.getString(2));
                     sortieStock.setDateHeure(res.getTimestamp(3));
 
-                    Shop shop = new Shop(res.getInt(4));
+                    Shop shop = new Shop(res.getString(4));
                     shop.setNom(res.getString(5));
                     sortieStock.setShop(shop);
 
-                    Client client = new Client(res.getInt(6));
+                    Client client = new Client(res.getString(6));
                     client.setNom(res.getString(7));
                     client.setEntreprise(res.getString(8));
                     client.setTelephone(res.getString(9));
                     sortieStock.setClient(client);
 
-                    Produit produit = new Produit(res.getInt(10));
+                    Produit produit = new Produit(res.getString(10));
                     produit.setDescription(res.getString(11));
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
                     itemSortieStock.setQuantiteProduit(res.getBigDecimal(1));
 
-                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getInt(12));
+                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getString(12));
                     prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
                     prixVenteProduit.setDateHeure(res.getTimestamp(14));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);

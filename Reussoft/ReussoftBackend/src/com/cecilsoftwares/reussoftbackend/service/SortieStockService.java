@@ -31,7 +31,7 @@ public class SortieStockService {
     }
 
     public SortieStock selectionnerSortieStockParCode(int codeSortieStock) throws ClassNotFoundException, SQLException {
-        return SortieStockDao.getInstance().selectionnerSortieStockParCode(codeSortieStock);
+        return SortieStockDao.getInstance().selectionnerSortieStockParId(codeSortieStock);
     }
 
     public boolean enregistrerSortieStock(SortieStock sortieStock) throws ClassNotFoundException, SQLException {

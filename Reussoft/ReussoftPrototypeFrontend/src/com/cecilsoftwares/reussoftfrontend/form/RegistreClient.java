@@ -162,7 +162,7 @@ public class RegistreClient extends JInternalFrame {
             client.setShop(new Shop(2));
 
             try {
-                if (ClientService.getInstance().enregistrerClient(client)) {
+                if (ClientService.getInstance().actualiserClient(client)) {
                     String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                     effacerFormulaire();
                     JOptionPane.showMessageDialog(null, notification);
