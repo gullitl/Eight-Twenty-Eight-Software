@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistreShop extends JInternalFrame {
 
-    private int codeShop;
+    private String idShop;
     private boolean modeEdition;
     private boolean btnConsulterShopClickable;
     private boolean btnEnregistrerClickable;
@@ -244,7 +244,7 @@ public class RegistreShop extends JInternalFrame {
                     .append("@").append(tfdDistrict.getText())
                     .toString();
 
-            Shop shop = new Shop(codeShop);
+            Shop shop = new Shop(idShop);
             shop.setNom(tfdNom.getText());
             shop.setAdresse(adresse);
             shop.setActive(modeEdition ? chbActiver.isSelected() : true);
@@ -253,7 +253,7 @@ public class RegistreShop extends JInternalFrame {
                 if (ShopService.getInstance().enregistrerShop(shop)) {
                     String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                     effacerFormulaire();
-                    if (shop.getCode() == SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop().getCode()) {
+                    if (shop.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop().getId())) {
                         JOptionPane.showMessageDialog(null, notification
                                 + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
                         System.exit(0);
@@ -291,8 +291,7 @@ public class RegistreShop extends JInternalFrame {
 
     public void shopSelectionne(Shop shop) {
         if (shop != null) {
-
-            codeShop = shop.getCode();
+            idShop = shop.getId();
             tfdNom.setText(shop.getNom());
 
             String[] adresse = shop.getAdresse().split("@");
@@ -323,7 +322,7 @@ public class RegistreShop extends JInternalFrame {
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
 
-        if (codeShop == 1) {
+        if (idShop.equals("1")) {
             JOptionPane.showMessageDialog(null, "Ce shop ne peux pas être exclue");
             return;
         }
@@ -342,7 +341,7 @@ public class RegistreShop extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
             try {
-                ShopService.getInstance().exclureShop(codeShop);
+                ShopService.getInstance().exclureShop(idShop);
 
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
@@ -382,7 +381,7 @@ public class RegistreShop extends JInternalFrame {
     }
 
     private void effacerFormulaire() {
-        codeShop = 0;
+        idShop = "";
         tfdNom.setText("");
         tfdNom.requestFocus();
         tfdAvenue.setText("");

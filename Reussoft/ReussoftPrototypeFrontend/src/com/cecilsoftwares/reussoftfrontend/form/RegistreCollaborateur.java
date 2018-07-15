@@ -7,6 +7,7 @@ import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
+import static gullit.IdGenerator.generateId;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -20,8 +21,9 @@ import javax.swing.JOptionPane;
  * @author Plamedi L. Lusembo
  */
 public class RegistreCollaborateur extends JInternalFrame {
-    
-    private int codeCollaborateur;
+
+    private String idCollaborateur;
+    private String idProfilUtilisateur;
     private boolean modeEdition;
     private boolean btnConsulterCollaborateurClickable;
     private boolean btnConsulterShopClickable;
@@ -29,7 +31,7 @@ public class RegistreCollaborateur extends JInternalFrame {
     private boolean btnEnregistrerClickable;
     private boolean btnExclureClickable;
     private boolean btnAnnulerClickable;
-    
+
     public RegistreCollaborateur() {
         initComponents();
         effacerFormulaire();
@@ -55,9 +57,8 @@ public class RegistreCollaborateur extends JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        tfdIdProfilUtilisateur = new javax.swing.JTextField();
+        tfdDescriptionProfilUtilisateur = new javax.swing.JTextField();
         btnConsulterProfilUtilisateur = new javax.swing.JButton();
-        lblDescriptionProfilUtilisateur = new javax.swing.JLabel();
         pwfMotDePasse = new javax.swing.JPasswordField();
         pwfConfirmerMotDePasse = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
@@ -119,7 +120,7 @@ public class RegistreCollaborateur extends JInternalFrame {
 
         jLabel8.setText("Confirmer mot de passe:");
 
-        tfdIdProfilUtilisateur.setEditable(false);
+        tfdDescriptionProfilUtilisateur.setEditable(false);
 
         btnConsulterProfilUtilisateur.setText("...");
         btnConsulterProfilUtilisateur.setFocusable(false);
@@ -128,8 +129,6 @@ public class RegistreCollaborateur extends JInternalFrame {
                 btnConsulterProfilUtilisateurActionPerformed(evt);
             }
         });
-
-        lblDescriptionProfilUtilisateur.setText("jLabel9");
 
         jLabel9.setText("Profil d'utilisateur:");
 
@@ -143,11 +142,8 @@ public class RegistreCollaborateur extends JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfdNomUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(tfdIdProfilUtilisateur)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterProfilUtilisateur)))
+                            .addComponent(tfdNomUtilisateur, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                            .addComponent(tfdDescriptionProfilUtilisateur, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -158,7 +154,7 @@ public class RegistreCollaborateur extends JInternalFrame {
                                 .addComponent(jLabel1)
                                 .addGap(145, 145, 145)
                                 .addComponent(jLabel8))
-                            .addComponent(lblDescriptionProfilUtilisateur)))
+                            .addComponent(btnConsulterProfilUtilisateur)))
                     .addComponent(jLabel9))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -179,9 +175,8 @@ public class RegistreCollaborateur extends JInternalFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdProfilUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterProfilUtilisateur)
-                    .addComponent(lblDescriptionProfilUtilisateur))
+                    .addComponent(tfdDescriptionProfilUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterProfilUtilisateur))
                 .addGap(21, 21, 21))
         );
 
@@ -258,41 +253,71 @@ public class RegistreCollaborateur extends JInternalFrame {
     private void btnEffacerFormulaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerFormulaireActionPerformed
         effacerFormulaire();
     }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
-    
+
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-        
+
         if (isInformationObligatoiresRemplies()) {
-            
+
             if (!isMotdePasseConfirme()) {
                 return;
             }
-            
+
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
-            
-            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(Integer.parseInt(tfdIdProfilUtilisateur.getText()));
-            Collaborateur collaborateur = new Collaborateur(codeCollaborateur);
-            collaborateur.setPrenom(tfdPrenom.getText());
-            collaborateur.setNom(tfdNom.getText());
-            collaborateur.setPostnom(tfdPostnom.getText());
-            collaborateur.setSurnom(tfdSurnom.getText());
-            collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
-            collaborateur.setMotDePasse(pwfMotDePasse.getText());
-            collaborateur.setProfilUtilisateur(profilUtilisateur);
-            collaborateur.setActive(modeEdition ? chbActiver.isSelected() : true);
             try {
-                if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                    effacerFormulaire();
-                    
-                    if (collaborateur.getCode() == SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getCode()) {
-                        JOptionPane.showMessageDialog(null, notification
-                                + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
-                        System.exit(0);
-                    } else {
-                        JOptionPane.showMessageDialog(null, notification);
+                if (!modeEdition) {
+                    Collaborateur collaborateur = new Collaborateur(generateId());
+                    collaborateur.setPrenom(tfdPrenom.getText());
+                    collaborateur.setNom(tfdNom.getText());
+                    collaborateur.setPostnom(tfdPostnom.getText());
+                    collaborateur.setSurnom(tfdSurnom.getText());
+                    collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
+                    collaborateur.setMotDePasse(pwfMotDePasse.getText());
+
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
+                    collaborateur.setProfilUtilisateur(profilUtilisateur);
+                    collaborateur.setActive(modeEdition ? chbActiver.isSelected() : true);
+
+                    if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
+                        String notification = "Sauvegarde effectuée avec succès";
+                        effacerFormulaire();
+
+                        if (collaborateur.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getId())) {
+                            JOptionPane.showMessageDialog(null, notification
+                                    + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
+                            System.exit(0);
+                        } else {
+                            JOptionPane.showMessageDialog(null, notification);
+                        }
+
                     }
-                    
+
+                } else {
+                    Collaborateur collaborateur = new Collaborateur(idCollaborateur);
+                    collaborateur.setPrenom(tfdPrenom.getText());
+                    collaborateur.setNom(tfdNom.getText());
+                    collaborateur.setPostnom(tfdPostnom.getText());
+                    collaborateur.setSurnom(tfdSurnom.getText());
+                    collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
+                    collaborateur.setMotDePasse(pwfMotDePasse.getText());
+
+                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
+                    collaborateur.setProfilUtilisateur(profilUtilisateur);
+                    collaborateur.setActive(modeEdition ? chbActiver.isSelected() : true);
+
+                    if (CollaborateurService.getInstance().actualiserCollaborateur(collaborateur)) {
+                        String notification = "Actualisation effectuée avec succès";
+                        effacerFormulaire();
+
+                        if (collaborateur.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getId())) {
+                            JOptionPane.showMessageDialog(null, notification
+                                    + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
+                            System.exit(0);
+                        } else {
+                            JOptionPane.showMessageDialog(null, notification);
+                        }
+
+                    }
                 }
             } catch (SQLException ex) {
                 StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");
@@ -310,19 +335,21 @@ public class RegistreCollaborateur extends JInternalFrame {
             } catch (ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le collaborateur :(");
                 habiliterComposantFormulaire(true);
+            } catch (Exception ex) {
+                Logger.getLogger(RegistreCollaborateur.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 setCursor(Cursor.getDefaultCursor());
             }
-            
+
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnEnregistrerActionPerformed
-    
+
     private void btnConsulterCollaborateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCollaborateurActionPerformed
         if (btnConsulterCollaborateurClickable) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
-            
+
             try {
                 ConsultationCollaborateur consultationCollaborateur = new ConsultationCollaborateur(null, true, CollaborateurService.getInstance()
                         .listerTousLesCollaborateurs());
@@ -331,15 +358,15 @@ public class RegistreCollaborateur extends JInternalFrame {
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(RegistreCollaborateur.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterCollaborateurActionPerformed
-    
+
     public void collaborateurSelectionne(Collaborateur collaborateur) {
         if (collaborateur != null) {
-            codeCollaborateur = collaborateur.getCode();
+            idCollaborateur = collaborateur.getId();
             tfdPrenom.setText(collaborateur.getPrenom());
             tfdNom.setText(collaborateur.getNom());
             tfdPostnom.setText(collaborateur.getPostnom());
@@ -347,8 +374,7 @@ public class RegistreCollaborateur extends JInternalFrame {
             tfdNomUtilisateur.setText(collaborateur.getNomUtilisateur());
             pwfMotDePasse.setText(collaborateur.getMotDePasse());
             pwfConfirmerMotDePasse.setText(collaborateur.getMotDePasse());
-            tfdIdProfilUtilisateur.setText(String.valueOf(collaborateur.getProfilUtilisateur().getCode()));
-            lblDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getDescription());
+            tfdDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getDescription());
             chbActiver.setVisible(true);
             chbActiver.setSelected(collaborateur.isActive());
             btnEnregistrer.setText("ACTUALISER");
@@ -356,12 +382,12 @@ public class RegistreCollaborateur extends JInternalFrame {
             btnExclure.setEnabled(true);
         }
     }
-    
+
     private void btnConsulterProfilUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProfilUtilisateurActionPerformed
         if (btnConsulterProfilUtilisateurClickable) {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
-            
+
             try {
                 ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true, ProfilUtilisateurService.getInstance()
                         .listerTousLesProfilUtilisateurs());
@@ -370,20 +396,19 @@ public class RegistreCollaborateur extends JInternalFrame {
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(RegistreCollaborateur.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             habiliterComposantFormulaire(true);
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
-    
+
     public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
         if (profilUtilisateur != null) {
-            tfdIdProfilUtilisateur.setText(String.valueOf(profilUtilisateur.getCode()));
-            lblDescriptionProfilUtilisateur.setText(profilUtilisateur.getDescription());
-            tfdIdProfilUtilisateur.requestFocus();
+            tfdDescriptionProfilUtilisateur.setText(profilUtilisateur.getDescription());
+            tfdDescriptionProfilUtilisateur.requestFocus();
         }
     }
-    
+
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
@@ -399,7 +424,7 @@ public class RegistreCollaborateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
             try {
-                CollaborateurService.getInstance().exclureCollaborateur(codeCollaborateur);
+                CollaborateurService.getInstance().exclureCollaborateur(idCollaborateur);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException ex) {
@@ -422,18 +447,18 @@ public class RegistreCollaborateur extends JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnExclureActionPerformed
-    
+
     private void tfdNomUtilisateurFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdNomUtilisateurFocusGained
         if (tfdNomUtilisateur.getText().isEmpty() && !tfdNom.getText().isEmpty() && !tfdPostnom.getText().isEmpty()) {
             char premiereLettrePrenom = tfdPrenom.getText().toLowerCase().charAt(0);
             tfdNomUtilisateur.setText(new StringBuilder().append(premiereLettrePrenom)
                     .append(tfdPostnom.getText().toLowerCase()).toString());
         }
-        
+
     }//GEN-LAST:event_tfdNomUtilisateurFocusGained
-    
+
     private void effacerFormulaire() {
-        codeCollaborateur = 0;
+        idCollaborateur = "";
         tfdPrenom.setText("");
         tfdPrenom.requestFocus();
         tfdNom.setText("");
@@ -442,15 +467,14 @@ public class RegistreCollaborateur extends JInternalFrame {
         tfdNomUtilisateur.setText("");
         pwfMotDePasse.setText("");
         pwfConfirmerMotDePasse.setText("");
-        tfdIdProfilUtilisateur.setText("");
-        lblDescriptionProfilUtilisateur.setText("");
+        tfdDescriptionProfilUtilisateur.setText("");
         chbActiver.setVisible(false);
         modeEdition = false;
         btnEnregistrer.setText("ENREGISTRER");
         habiliterComposantFormulaire(true);
         btnExclure.setEnabled(false);
     }
-    
+
     private void habiliterComposantFormulaire(boolean hcf) {
         tfdPrenom.setEditable(hcf);
         tfdNom.setEditable(hcf);
@@ -467,7 +491,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         btnExclureClickable = hcf;
         btnAnnulerClickable = hcf;
     }
-    
+
     private boolean isMotdePasseConfirme() {
         if (pwfMotDePasse.getText().equals(pwfConfirmerMotDePasse.getText())) {
             return true;
@@ -476,12 +500,12 @@ public class RegistreCollaborateur extends JInternalFrame {
             return false;
         }
     }
-    
+
     private boolean isInformationObligatoiresRemplies() {
-        
+
         StringBuilder notification = new StringBuilder();
         Queue<Integer> nio = new LinkedList<>();
-        
+
         if (tfdPrenom.getText().isEmpty()) {
             notification.append("\nPrénom");
             nio.add(1);
@@ -494,12 +518,12 @@ public class RegistreCollaborateur extends JInternalFrame {
             notification.append("\nPostnom");
             nio.add(3);
         }
-        
+
         if (tfdSurnom.getText().isEmpty()) {
             notification.append("\nSurnom");
             nio.add(4);
         }
-        
+
         if (tfdNomUtilisateur.getText().isEmpty()) {
             notification.append("\nnom d'utilisateur");
             nio.add(5);
@@ -508,12 +532,12 @@ public class RegistreCollaborateur extends JInternalFrame {
             notification.append("\nMot de passe");
             nio.add(6);
         }
-        
-        if (tfdIdProfilUtilisateur.getText().isEmpty()) {
+
+        if (tfdDescriptionProfilUtilisateur.getText().isEmpty()) {
             notification.append("\nprofil d'utilisateur");
             nio.add(7);
         }
-        
+
         if (notification.toString().isEmpty()) {
             return true;
         } else {
@@ -523,14 +547,14 @@ public class RegistreCollaborateur extends JInternalFrame {
                 case 1:
                     tfdPrenom.requestFocus();
                     break;
-                
+
                 case 2:
                     tfdNom.requestFocus();
                     break;
                 case 3:
                     tfdPostnom.requestFocus();
                     break;
-                
+
                 case 4:
                     tfdSurnom.requestFocus();
                     break;
@@ -565,10 +589,9 @@ public class RegistreCollaborateur extends JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblDescriptionProfilUtilisateur;
     private javax.swing.JPasswordField pwfConfirmerMotDePasse;
     private javax.swing.JPasswordField pwfMotDePasse;
-    private javax.swing.JTextField tfdIdProfilUtilisateur;
+    private javax.swing.JTextField tfdDescriptionProfilUtilisateur;
     private javax.swing.JTextField tfdNom;
     private javax.swing.JTextField tfdNomUtilisateur;
     private javax.swing.JTextField tfdPostnom;

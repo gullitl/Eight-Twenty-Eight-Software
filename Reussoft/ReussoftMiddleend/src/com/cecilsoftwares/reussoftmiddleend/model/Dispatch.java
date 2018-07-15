@@ -9,6 +9,7 @@ import java.util.List;
 public class Dispatch {
 
     private String id;
+    private String numeroDispatch;
     private Shop shop;
     private Date dateHeure;
     private boolean valide;
@@ -23,6 +24,14 @@ public class Dispatch {
 
     public String getId() {
         return id;
+    }
+
+    public String getNumeroDispatch() {
+        return numeroDispatch;
+    }
+
+    public void setNumeroDispatch(String numeroDispatch) {
+        this.numeroDispatch = numeroDispatch;
     }
 
     public void setId(String id) {

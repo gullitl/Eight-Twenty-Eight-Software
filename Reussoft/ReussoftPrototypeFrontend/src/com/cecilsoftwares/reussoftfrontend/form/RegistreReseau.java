@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistreReseau extends JInternalFrame {
 
-    private int codeReseau;
+    private String idReseau;
     private boolean modeEdition;
     private boolean btnConsulterReseauClickable;
     private boolean btnEnregistrerClickable;
@@ -145,7 +145,7 @@ public class RegistreReseau extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            Reseau reseau = new Reseau(codeReseau);
+            Reseau reseau = new Reseau(idReseau);
             reseau.setNom(tfdNom.getText());
             reseau.setNomAbrege(tfdNomAbrege.getText());
             reseau.setActive(modeEdition ? chbActiver.isSelected() : true);
@@ -187,7 +187,7 @@ public class RegistreReseau extends JInternalFrame {
 
     public void reseauSelectionne(Reseau reseau) {
         if (reseau != null) {
-            codeReseau = reseau.getCode();
+            idReseau = reseau.getId();
             tfdNom.setText(reseau.getNom());
             tfdNomAbrege.setText(reseau.getNomAbrege());
             chbActiver.setVisible(true);
@@ -213,7 +213,7 @@ public class RegistreReseau extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
             try {
-                ReseauService.getInstance().exclureReseau(codeReseau);
+                ReseauService.getInstance().exclureReseau(idReseau);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException ex) {
@@ -246,7 +246,7 @@ public class RegistreReseau extends JInternalFrame {
     }
 
     private void effacerFormulaire() {
-        codeReseau = 0;
+        idReseau = "";
         tfdNom.setText("");
         tfdNom.requestFocus();
         tfdNomAbrege.setText("");

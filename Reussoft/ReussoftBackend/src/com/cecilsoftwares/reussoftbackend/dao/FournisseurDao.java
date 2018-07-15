@@ -135,14 +135,14 @@ public class FournisseurDao {
         return true;
     }
 
-    public boolean exclureFournisseur(int idFournisseur) throws ClassNotFoundException, SQLException {
+    public boolean exclureFournisseur(String idFournisseur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM fournisseur WHERE id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
-            prs.setInt(1, idFournisseur);
+            prs.setString(1, idFournisseur);
 
             prs.execute();
             prs.close();

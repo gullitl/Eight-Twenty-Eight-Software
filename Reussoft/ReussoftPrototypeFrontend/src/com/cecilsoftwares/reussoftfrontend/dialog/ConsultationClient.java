@@ -53,8 +53,8 @@ public class ConsultationClient extends javax.swing.JDialog {
     private void listerClients(List<Client> clients) {
         defaultTableModel.setRowCount(0);
         clients.forEach(c -> {
-            dataRows[0] = c.getCode();
-            dataRows[1] = c.getNom();
+            dataRows[0] = c.getNom();
+            dataRows[1] = c.getEntreprise();
             defaultTableModel.addRow(dataRows);
         });
 
@@ -87,11 +87,11 @@ public class ConsultationClient extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Nom"
+                "Nom", "Entreprise"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -114,7 +114,7 @@ public class ConsultationClient extends javax.swing.JDialog {
         if (tblClient.getColumnModel().getColumnCount() > 0) {
             tblClient.getColumnModel().getColumn(0).setResizable(false);
             tblClient.getColumnModel().getColumn(1).setResizable(false);
-            tblClient.getColumnModel().getColumn(1).setPreferredWidth(300);
+            tblClient.getColumnModel().getColumn(1).setPreferredWidth(150);
         }
 
         lblNombreClient.setText("jLabel1");
@@ -158,9 +158,11 @@ public class ConsultationClient extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblClient.getSelectedRow();
 
-                client = clients.stream()
-                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                client = clients.get(row);
+
+//                client = clients.stream()
+//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
             }
             dispose();
         }

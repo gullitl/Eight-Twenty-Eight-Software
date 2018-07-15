@@ -34,11 +34,11 @@ public class Login extends javax.swing.JFrame {
         initComponents();
 
         this.shop = shop;
-        lblShopSelectionne.setText(this.shop.getCode() + " " + this.shop.getNom());
+        lblShopSelectionne.setText(this.shop.getNom().toUpperCase());
 
         try {
             Collaborateur collaborateur = CollaborateurService.getInstance().rappelToiDeLUtilisateur();
-            if (shop.getCode() == collaborateur.getCode()) {
+            if (shop.getId().equals(collaborateur.getId())) {
                 cbxRappelToiDeMoi.setSelected(true);
                 tfdUtilisateur.setText(collaborateur.getNomUtilisateur());
                 pwfMotDePasse.setText(collaborateur.getMotDePasse());
@@ -189,6 +189,8 @@ public class Login extends javax.swing.JFrame {
                     setCursor(Cursor.getDefaultCursor());
 
                 } catch (ClassNotFoundException | SQLException | IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

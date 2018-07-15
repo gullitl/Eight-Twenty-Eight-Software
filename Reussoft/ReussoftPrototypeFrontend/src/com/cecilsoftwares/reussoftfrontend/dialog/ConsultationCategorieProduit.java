@@ -162,9 +162,11 @@ public class ConsultationCategorieProduit extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblCategorieProduit.getSelectedRow();
 
-                categorieProduit = categoriesProduits.stream()
-                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                categorieProduit = categoriesProduits.get(row);
+
+//                categorieProduit = categoriesProduits.stream()
+//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
             }
             dispose();
         }

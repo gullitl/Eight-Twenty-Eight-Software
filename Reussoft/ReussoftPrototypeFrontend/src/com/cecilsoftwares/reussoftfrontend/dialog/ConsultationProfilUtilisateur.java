@@ -62,8 +62,8 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
         defaultTableModel.setRowCount(0);
 
         profilsUtilisateur.forEach(pu -> {
-            dataRows[0] = pu.getCode();
-            dataRows[1] = pu.getDescription();
+            dataRows[0] = pu.getDescription();
+            dataRows[1] = pu.getDescriptionAbregee();
             defaultTableModel.addRow(dataRows);
         });
 
@@ -104,11 +104,11 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Description"
+                "Description", "Description abrégée"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -130,8 +130,8 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblProfilUtilisateur);
         if (tblProfilUtilisateur.getColumnModel().getColumnCount() > 0) {
             tblProfilUtilisateur.getColumnModel().getColumn(0).setResizable(false);
+            tblProfilUtilisateur.getColumnModel().getColumn(0).setPreferredWidth(150);
             tblProfilUtilisateur.getColumnModel().getColumn(1).setResizable(false);
-            tblProfilUtilisateur.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
         lblNombreProfilUtilisateur.setText("jLabel1");
@@ -175,9 +175,11 @@ public class ConsultationProfilUtilisateur extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblProfilUtilisateur.getSelectedRow();
 
-                profilUtilisateur = profilsUtilisateur.stream()
-                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                profilUtilisateur = profilsUtilisateur.get(row);
+
+//                profilUtilisateur = profilsUtilisateur.stream()
+//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
             }
             dispose();
         }

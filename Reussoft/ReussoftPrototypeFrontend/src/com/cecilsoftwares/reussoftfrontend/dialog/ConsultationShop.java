@@ -57,8 +57,8 @@ public class ConsultationShop extends javax.swing.JDialog {
     private void listerShops(List<Shop> shops) {
         defaultTableModel.setRowCount(0);
         shops.forEach(s -> {
-            dataRows[0] = s.getCode();
-            dataRows[1] = s.getNom();
+            dataRows[0] = s.getNom();
+            dataRows[1] = s.getAdresse();
             defaultTableModel.addRow(dataRows);
         });
 
@@ -91,11 +91,11 @@ public class ConsultationShop extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Nom"
+                "Nom", "Situation"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -117,10 +117,8 @@ public class ConsultationShop extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblShop);
         if (tblShop.getColumnModel().getColumnCount() > 0) {
             tblShop.getColumnModel().getColumn(0).setResizable(false);
-            tblShop.getColumnModel().getColumn(0).setHeaderValue("Code");
             tblShop.getColumnModel().getColumn(1).setResizable(false);
-            tblShop.getColumnModel().getColumn(1).setPreferredWidth(300);
-            tblShop.getColumnModel().getColumn(1).setHeaderValue("Nom");
+            tblShop.getColumnModel().getColumn(1).setPreferredWidth(200);
         }
 
         lblNombreShop.setText("jLabel1");
@@ -163,10 +161,10 @@ public class ConsultationShop extends javax.swing.JDialog {
         if (evt.getClickCount() == 2) {
             if (frameAncetre != null) {
                 int row = tblShop.getSelectedRow();
-
-                shop = shops.stream()
-                        .filter(s -> s.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                shop = shops.get(row);
+//                shop = shops.stream()
+//                        .filter(s -> s.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
             }
             dispose();
         }

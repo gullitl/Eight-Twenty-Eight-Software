@@ -38,8 +38,8 @@ public class FournisseurService {
         return FournisseurDao.getInstance().listerTousLesFournisseurs();
     }
 
-    public boolean exclureFournisseur(int codeFournisseur) throws ClassNotFoundException, SQLException {
-        return FournisseurDao.getInstance().exclureFournisseur(codeFournisseur);
+    public boolean exclureFournisseur(String idFournisseur) throws ClassNotFoundException, SQLException {
+        return FournisseurDao.getInstance().exclureFournisseur(idFournisseur);
     }
 
 }

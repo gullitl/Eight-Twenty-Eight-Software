@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistreProfilUtilisateur extends JInternalFrame {
 
-    private int codeProfilUtilisateur;
+    private String idProfilUtilisateur;
     private boolean modeEdition;
     private boolean btnConsulterProfilUtilisateurClickable;
     private boolean btnEnregistrerClickable;
@@ -138,7 +138,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(codeProfilUtilisateur);
+            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
             profilUtilisateur.setDescription(tfdDescription.getText());
             profilUtilisateur.setDescriptionAbregee(tfdDescriptionAbregee.getText());
 
@@ -146,7 +146,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {
                     String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                     effacerFormulaire();
-                    if (profilUtilisateur.getCode() == SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getProfilUtilisateur().getCode()) {
+                    if (profilUtilisateur.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getProfilUtilisateur().getId())) {
                         JOptionPane.showMessageDialog(null, notification
                                 + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
                         System.exit(0);
@@ -183,7 +183,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
 
-        if (codeProfilUtilisateur == 1 || codeProfilUtilisateur == 2) {
+        if (idProfilUtilisateur.equals("1") || idProfilUtilisateur.equals("2")) {
             JOptionPane.showMessageDialog(null, "Ce profil d'utilisateur ne peux pas être exclue");
             return;
         }
@@ -202,7 +202,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
             try {
-                ProfilUtilisateurService.getInstance().exclureProfilUtilisateur(codeProfilUtilisateur);
+                ProfilUtilisateurService.getInstance().exclureProfilUtilisateur(idProfilUtilisateur);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException ex) {
@@ -228,7 +228,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
     public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
         if (profilUtilisateur != null) {
-            codeProfilUtilisateur = profilUtilisateur.getCode();
+            idProfilUtilisateur = profilUtilisateur.getId();
             tfdDescription.setText(profilUtilisateur.getDescription());
             tfdDescriptionAbregee.setText(profilUtilisateur.getDescriptionAbregee());
             btnEnregistrer.setText("ACTUALISER");
@@ -238,7 +238,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }
 
     private void effacerFormulaire() {
-        codeProfilUtilisateur = 0;
+        idProfilUtilisateur = "";
         tfdDescription.setText("");
         tfdDescription.requestFocus();
         tfdDescriptionAbregee.setText("");

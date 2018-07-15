@@ -53,11 +53,11 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
     private void listerCollaborateurs(List<Collaborateur> collaborateurs) {
         defaultTableModel.setRowCount(0);
         collaborateurs.forEach(c -> {
-            dataRows[0] = c.getCode();
-            dataRows[1] = new StringBuilder(c.getPrenom())
+            dataRows[0] = new StringBuilder(c.getPrenom())
                     .append(" ").append(c.getNom())
                     .append(" ").append(c.getPostnom())
                     .append(" ").append(c.getSurnom());
+            dataRows[1] = c.getNom();
             defaultTableModel.addRow(dataRows);
         });
 
@@ -90,11 +90,11 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Nom"
+                "Nom", "Nom d'utilisateur"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -116,10 +116,8 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblCollaborateur);
         if (tblCollaborateur.getColumnModel().getColumnCount() > 0) {
             tblCollaborateur.getColumnModel().getColumn(0).setResizable(false);
-            tblCollaborateur.getColumnModel().getColumn(0).setHeaderValue("Code");
+            tblCollaborateur.getColumnModel().getColumn(0).setPreferredWidth(150);
             tblCollaborateur.getColumnModel().getColumn(1).setResizable(false);
-            tblCollaborateur.getColumnModel().getColumn(1).setPreferredWidth(300);
-            tblCollaborateur.getColumnModel().getColumn(1).setHeaderValue("Nom");
         }
 
         lblNombreCollaborateur.setText("jLabel1");
@@ -163,9 +161,11 @@ public class ConsultationCollaborateur extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblCollaborateur.getSelectedRow();
 
-                collaborateur = collaborateurs.stream()
-                        .filter(c -> c.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                collaborateur = collaborateurs.get(row);
+
+//                collaborateur = collaborateurs.stream()
+//                        .filter(c -> c.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
             }
             dispose();
         }

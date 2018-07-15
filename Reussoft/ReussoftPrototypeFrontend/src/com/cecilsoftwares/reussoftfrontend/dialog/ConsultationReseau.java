@@ -57,8 +57,8 @@ public class ConsultationReseau extends javax.swing.JDialog {
     private void listerReseaux(List<Reseau> reseaux) {
         defaultTableModel.setRowCount(0);
         reseaux.forEach(r -> {
-            dataRows[0] = r.getCode();
-            dataRows[1] = r.getNom();
+            dataRows[0] = r.getNom();
+            dataRows[1] = r.getNomAbrege();
             defaultTableModel.addRow(dataRows);
         });
 
@@ -91,11 +91,11 @@ public class ConsultationReseau extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Nom"
+                "Nom", "Nom abrégé"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -117,10 +117,8 @@ public class ConsultationReseau extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblReseau);
         if (tblReseau.getColumnModel().getColumnCount() > 0) {
             tblReseau.getColumnModel().getColumn(0).setResizable(false);
-            tblReseau.getColumnModel().getColumn(0).setHeaderValue("Code");
+            tblReseau.getColumnModel().getColumn(0).setPreferredWidth(150);
             tblReseau.getColumnModel().getColumn(1).setResizable(false);
-            tblReseau.getColumnModel().getColumn(1).setPreferredWidth(300);
-            tblReseau.getColumnModel().getColumn(1).setHeaderValue("Nom");
         }
 
         lblNombreReseau.setText("jLabel1");
@@ -163,10 +161,10 @@ public class ConsultationReseau extends javax.swing.JDialog {
         if (evt.getClickCount() == 2) {
             if (frameAncetre != null) {
                 int row = tblReseau.getSelectedRow();
-
-                reseau = reseaux.stream()
-                        .filter(r -> r.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                reseau = reseaux.get(row);
+//                reseau = reseaux.stream()
+//                        .filter(r -> r.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
 
             }
             dispose();

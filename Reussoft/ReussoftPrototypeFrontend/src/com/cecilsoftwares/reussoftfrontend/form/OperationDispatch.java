@@ -33,7 +33,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class OperationDispatch extends JInternalFrame {
 
-    private int codeDispatch;
+    private String idDispatch;
     private boolean modeEdition;
     private boolean modeEditionItemDispatch;
 
@@ -67,9 +67,8 @@ public class OperationDispatch extends JInternalFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        tfdIdProduit = new javax.swing.JTextField();
+        tfdDescriptionProduit = new javax.swing.JTextField();
         btnConsulterProduit = new javax.swing.JButton();
-        lblDescriptionProduit = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         btnAjouterProduit = new javax.swing.JButton();
         spnQuantiteProduit = new javax.swing.JSpinner();
@@ -79,17 +78,14 @@ public class OperationDispatch extends JInternalFrame {
         btnEffacerChampsProduits = new javax.swing.JButton();
         lblNombreItemDispatch = new javax.swing.JLabel();
         btnConsulterShop = new javax.swing.JButton();
-        lblNomShop = new javax.swing.JLabel();
-        tfdIdShop = new javax.swing.JTextField();
+        tfdNomShop = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
-        tfdDateHeureDispatch = new javax.swing.JTextField();
+        tfdNumeroDispatch = new javax.swing.JTextField();
         btnConsulterDispatch = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -97,7 +93,7 @@ public class OperationDispatch extends JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Produits"));
 
-        tfdIdProduit.setEditable(false);
+        tfdDescriptionProduit.setEditable(false);
 
         btnConsulterProduit.setText("...");
         btnConsulterProduit.addActionListener(new java.awt.event.ActionListener() {
@@ -105,8 +101,6 @@ public class OperationDispatch extends JInternalFrame {
                 btnConsulterProduitActionPerformed(evt);
             }
         });
-
-        lblDescriptionProduit.setText("jLabel2");
 
         jLabel12.setText("Code:");
 
@@ -182,9 +176,7 @@ public class OperationDispatch extends JInternalFrame {
             }
         });
 
-        lblNomShop.setText("jLabel5");
-
-        tfdIdShop.setEditable(false);
+        tfdNomShop.setEditable(false);
 
         jLabel1.setText("Shop:");
 
@@ -195,16 +187,6 @@ public class OperationDispatch extends JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(tfdIdProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterProduit)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblDescriptionProduit)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -222,12 +204,18 @@ public class OperationDispatch extends JInternalFrame {
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel1)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(tfdIdShop, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfdNomShop, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterShop)
+                                .addComponent(btnConsulterShop)))
+                        .addGap(0, 12, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(tfdDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblNomShop)))
-                        .addGap(0, 12, Short.MAX_VALUE))))
+                                .addComponent(btnConsulterProduit)))
+                        .addContainerGap(336, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,16 +224,14 @@ public class OperationDispatch extends JInternalFrame {
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterProduit)
-                    .addComponent(lblDescriptionProduit))
+                    .addComponent(tfdDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterProduit))
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterShop)
-                    .addComponent(lblNomShop))
+                    .addComponent(tfdNomShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterShop))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -276,9 +262,9 @@ public class OperationDispatch extends JInternalFrame {
         });
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel15.setText("Date:");
+        jLabel15.setText("Numero:");
 
-        tfdDateHeureDispatch.setEditable(false);
+        tfdNumeroDispatch.setEditable(false);
 
         btnConsulterDispatch.setText("...");
         btnConsulterDispatch.addActionListener(new java.awt.event.ActionListener() {
@@ -288,10 +274,6 @@ public class OperationDispatch extends JInternalFrame {
         });
 
         jCheckBox1.setText("Activer");
-
-        jLabel2.setText("Code:");
-
-        jLabel3.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -307,33 +289,24 @@ public class OperationDispatch extends JInternalFrame {
                             .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(8, 8, 8))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel15)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(tfdDateHeureDispatch, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnConsulterDispatch)))
-                            .addGap(25, 25, 25)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel2)))))
+                            .addGap(8, 8, 8)))
+                    .addComponent(jLabel15)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(tfdNumeroDispatch, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnConsulterDispatch)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdDateHeureDispatch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterDispatch)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                    .addComponent(tfdNumeroDispatch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterDispatch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox1)
@@ -353,7 +326,8 @@ public class OperationDispatch extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            Dispatch dispatch = new Dispatch(codeDispatch);
+            Dispatch dispatch = new Dispatch(idDispatch);
+            dispatch.setNumeroDispatch(tfdNumeroDispatch.getText());
             dispatch.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
             dispatch.setDateHeure(new Date());
             dispatch.setItemsDispatch(itemsDispatch);
@@ -375,7 +349,7 @@ public class OperationDispatch extends JInternalFrame {
 
     public void dispatchSelectionne(Dispatch dispatch) {
         if (dispatch != null) {
-            tfdDateHeureDispatch.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(dispatch.getDateHeure()));
+            tfdNumeroDispatch.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(dispatch.getDateHeure()));
             itemsDispatch = dispatch.getItemsDispatch();
 
             chargerTableauItemDispatch();
@@ -395,7 +369,7 @@ public class OperationDispatch extends JInternalFrame {
 
             if (modeEditionItemDispatch) {
                 for (ItemDispatch ids : itemsDispatch) {
-                    if (ids.getProduit().getCode() == codeDispatch) {
+                    if (ids.getProduit().getId().equals(idDispatch)) {
                         ids.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getValue().toString()));
                         break;
                     }
@@ -403,13 +377,13 @@ public class OperationDispatch extends JInternalFrame {
 
             } else {
 
-                Dispatch dispatch = new Dispatch(codeDispatch);
+                Dispatch dispatch = new Dispatch(idDispatch);
 
                 ItemDispatch itemDispatch = new ItemDispatch(dispatch, produitSelectionne);
                 itemDispatch.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getValue().toString()));
 
                 for (ItemDispatch ids : itemsDispatch) {
-                    if (ids.getProduit().getCode() == itemDispatch.getProduit().getCode()) {
+                    if (ids.getProduit().getId().equals(itemDispatch.getProduit().getId())) {
                         JOptionPane.showMessageDialog(null, "Ce produit a déjà été ajouté");
                         return;
                     }
@@ -468,8 +442,7 @@ public class OperationDispatch extends JInternalFrame {
 
     public void shopSelectionne(Shop shop) {
         if (shop != null) {
-            tfdIdShop.setText(String.valueOf(shop.getCode()));
-            lblNomShop.setText(shop.getNom());
+            tfdNomShop.setText(String.valueOf(shop.getNom()));
         }
     }
 
@@ -499,11 +472,10 @@ public class OperationDispatch extends JInternalFrame {
     }//GEN-LAST:event_btnEffacerChampsProduitsActionPerformed
 
     public void effacerChampsItemStock() {
-        tfdIdProduit.setText("");
-        lblDescriptionProduit.setText("");
+        tfdDescriptionProduit.setText("");
         spnQuantiteProduit.setValue(0);
         modeEditionItemDispatch = false;
-        tfdIdProduit.requestFocus();
+        tfdDescriptionProduit.requestFocus();
     }
 
     private void tblItemsDispatchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemsDispatchMouseClicked
@@ -512,15 +484,14 @@ public class OperationDispatch extends JInternalFrame {
 
             ItemDispatch itemDispatch;
 
-            itemDispatch = itemsDispatch.stream()
-                    .filter(ies -> ies.getProduit().getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
+            itemDispatch = itemsDispatch.get(row);
 
+//            itemDispatch = itemsDispatch.stream()
+//                    .filter(ies -> ies.getProduit().getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                    .findFirst().orElse(null);
             if (itemDispatch != null) {
-                tfdIdShop.setText(String.valueOf(itemDispatch.getShop().getCode()));
-                lblNomShop.setText(String.valueOf(itemDispatch.getShop().getNom()));
-                tfdIdProduit.setText(String.valueOf(itemDispatch.getProduit().getCode()));
-                lblDescriptionProduit.setText(String.valueOf(itemDispatch.getProduit().getDescription()));
+                tfdNomShop.setText(itemDispatch.getShop().getId());
+                tfdDescriptionProduit.setText(itemDispatch.getProduit().getId());
                 spnQuantiteProduit.setValue(itemDispatch.getQuantiteProduit());
                 modeEditionItemDispatch = true;
 
@@ -537,7 +508,8 @@ public class OperationDispatch extends JInternalFrame {
             int row = tblItemsDispatch.getSelectedRow();
 
             for (ItemDispatch ids : listeItemsDispatch) {
-                if (ids.getProduit().getCode() == (int) defaultTableModel.getValueAt(row, 0)) {
+
+                if (ids.getProduit().getId().equals(itemsDispatch.get(row).getProduit().getId())) {
                     itemsDispatch.remove(ids);
                     exclu = true;
                     break;
@@ -571,21 +543,18 @@ public class OperationDispatch extends JInternalFrame {
     public void setProduitSelectionne(Produit produit) {
         if (produit != null) {
             produitSelectionne = produit;
-            tfdIdProduit.setText(String.valueOf(produitSelectionne.getCode()));
-            lblDescriptionProduit.setText(produitSelectionne.getDescription());
+            tfdDescriptionProduit.setText(produitSelectionne.getId());
         }
     }
 
     private void effacerFormulaire() {
 
-        tfdDateHeureDispatch.setText("");
-        tfdDateHeureDispatch.requestFocus();
+        tfdNumeroDispatch.setText("");
+        tfdNumeroDispatch.requestFocus();
 
-        tfdIdShop.setText("");
-        lblNomShop.setText("");
+        tfdNomShop.setText("");
 
-        tfdIdProduit.setText("");
-        lblDescriptionProduit.setText("");
+        tfdDescriptionProduit.setText("");
         spnQuantiteProduit.setValue(0);
         modeEditionItemDispatch = false;
 
@@ -615,7 +584,7 @@ public class OperationDispatch extends JInternalFrame {
         StringBuilder notification = new StringBuilder();
         Queue<Integer> nio = new LinkedList<>();
 
-        if (tfdIdShop.getText().isEmpty()) {
+        if (tfdNomShop.getText().isEmpty()) {
             notification.append("\nFournisseur");
             nio.add(1);
         }
@@ -631,11 +600,11 @@ public class OperationDispatch extends JInternalFrame {
                     .append(notification));
             switch (nio.poll()) {
                 case 1:
-                    tfdIdShop.requestFocus();
+                    tfdNomShop.requestFocus();
                     break;
 
                 case 2:
-                    tfdIdProduit.requestFocus();
+                    tfdDescriptionProduit.requestFocus();
                     break;
                 default:
             }
@@ -655,18 +624,14 @@ public class OperationDispatch extends JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblDescriptionProduit;
-    private javax.swing.JLabel lblNomShop;
     private javax.swing.JLabel lblNombreItemDispatch;
     private javax.swing.JSpinner spnQuantiteProduit;
     private javax.swing.JTable tblItemsDispatch;
-    private javax.swing.JTextField tfdDateHeureDispatch;
-    private javax.swing.JTextField tfdIdProduit;
-    private javax.swing.JTextField tfdIdShop;
+    private javax.swing.JTextField tfdDescriptionProduit;
+    private javax.swing.JTextField tfdNomShop;
+    private javax.swing.JTextField tfdNumeroDispatch;
     // End of variables declaration//GEN-END:variables
 }

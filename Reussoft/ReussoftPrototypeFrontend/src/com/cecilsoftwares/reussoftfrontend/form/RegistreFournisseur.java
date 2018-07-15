@@ -3,6 +3,7 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationFournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
+import static gullit.IdGenerator.generateId;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistreFournisseur extends JInternalFrame {
 
-    private int codeFournisseur;
+    private String idFournisseur;
     private boolean modeEdition;
     private boolean btnConsulterFournisseurClickable;
     private boolean btnEnregistrerClickable;
@@ -151,21 +152,33 @@ public class RegistreFournisseur extends JInternalFrame {
 
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
-
-            Fournisseur fournisseur = new Fournisseur(codeFournisseur);
-            fournisseur.setEntreprise(tfdEntreprise.getText());
-            fournisseur.setResponsable(tfdResponsable.getText());
-            fournisseur.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
-
             try {
-                if (FournisseurService.getInstance().enregistrerFournisseur(fournisseur)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                    effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, notification);
+                if (!modeEdition) {
+                    Fournisseur fournisseur = new Fournisseur(generateId());
+                    fournisseur.setEntreprise(tfdEntreprise.getText());
+                    fournisseur.setResponsable(tfdResponsable.getText());
+                    fournisseur.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
+
+                    if (FournisseurService.getInstance().enregistrerFournisseur(fournisseur)) {
+                        effacerFormulaire();
+                        JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+                    }
+                } else {
+                    Fournisseur fournisseur = new Fournisseur(idFournisseur);
+                    fournisseur.setEntreprise(tfdEntreprise.getText());
+                    fournisseur.setResponsable(tfdResponsable.getText());
+                    fournisseur.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
+
+                    if (FournisseurService.getInstance().actualiserFournisseur(fournisseur)) {
+                        effacerFormulaire();
+                        JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès");
+                    }
                 }
             } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Fournisseur");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(RegistreFournisseur.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             setCursor(Cursor.getDefaultCursor());
@@ -194,7 +207,7 @@ public class RegistreFournisseur extends JInternalFrame {
 
     public void fournisseurSelectionne(Fournisseur fournisseur) {
         if (fournisseur != null) {
-            codeFournisseur = fournisseur.getCode();
+            idFournisseur = fournisseur.getId();
             tfdResponsable.setText(fournisseur.getResponsable());
             tfdTelephone.setText(fournisseur.getTelephone());
             tfdEntreprise.setText(fournisseur.getEntreprise());
@@ -219,7 +232,7 @@ public class RegistreFournisseur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
             try {
-                FournisseurService.getInstance().exclureFournisseur(codeFournisseur);
+                FournisseurService.getInstance().exclureFournisseur(idFournisseur);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException ex) {
@@ -244,7 +257,7 @@ public class RegistreFournisseur extends JInternalFrame {
     }//GEN-LAST:event_btnExclureActionPerformed
 
     private void effacerFormulaire() {
-        codeFournisseur = 0;
+        idFournisseur = "";
         tfdEntreprise.setText("");
         tfdEntreprise.requestFocus();
         tfdResponsable.setText("");

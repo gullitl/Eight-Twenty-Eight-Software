@@ -54,7 +54,7 @@ public class ConsultationSortieStock extends javax.swing.JDialog {
     private void listerSortiesStock(List<SortieStock> sortiesStock) {
         defaultTableModel.setRowCount(0);
         sortiesStock.forEach(ms -> {
-            dataRows[0] = ms.getCode();
+            dataRows[0] = ms.getNumeroSortieStock();
             dataRows[1] = ms.getDateHeure();
             defaultTableModel.addRow(dataRows);
         });
@@ -96,11 +96,11 @@ public class ConsultationSortieStock extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Date/Heure"
+                "Numéro", "Date/Heure"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -165,10 +165,10 @@ public class ConsultationSortieStock extends javax.swing.JDialog {
         if (evt.getClickCount() == 2) {
             if (frameAncetre != null) {
                 int row = tblSortieStock.getSelectedRow();
-
-                sortieStock = sortiesStock.stream()
-                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                sortieStock = sortiesStock.get(row);
+//                sortieStock = sortiesStock.stream()
+//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
             }
             dispose();
         }

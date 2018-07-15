@@ -29,6 +29,8 @@ import javax.swing.table.DefaultTableModel;
 public class RegistrePrixVenteProduit extends JInternalFrame {
 
     private List<PrixVenteProduitShop> prixVenteProduitShops;
+    private String idProduit;
+    private String idShop;
 
     private boolean modeEditionPrixVenteProduitShop;
     private boolean btnConsulterProduitClickable;
@@ -58,12 +60,10 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
         btnAnnuler = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnConsulterProduit = new javax.swing.JButton();
-        tfdIdProduit = new javax.swing.JTextField();
-        lblDescriptionProduit = new javax.swing.JLabel();
+        tfdDescriptionProduit = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        tfdIdShop = new javax.swing.JTextField();
+        tfdNomShop = new javax.swing.JTextField();
         btnConsulterShop = new javax.swing.JButton();
-        lblNomShop = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         btnAjouterShop = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -101,13 +101,11 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
             }
         });
 
-        tfdIdProduit.setEditable(false);
-
-        lblDescriptionProduit.setText("jLabel8");
+        tfdDescriptionProduit.setEditable(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()));
 
-        tfdIdShop.setEditable(false);
+        tfdNomShop.setEditable(false);
 
         btnConsulterShop.setText("...");
         btnConsulterShop.addActionListener(new java.awt.event.ActionListener() {
@@ -115,8 +113,6 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
                 btnConsulterShopActionPerformed(evt);
             }
         });
-
-        lblNomShop.setText("jLabel2");
 
         jLabel12.setText("Shop:");
 
@@ -129,20 +125,20 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
 
         tblPrixVenteProduitShop.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Code", "Shop", "Prix de vente"
+                "Shop", "Prix de vente"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -166,10 +162,9 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
         jScrollPane1.setViewportView(tblPrixVenteProduitShop);
         if (tblPrixVenteProduitShop.getColumnModel().getColumnCount() > 0) {
             tblPrixVenteProduitShop.getColumnModel().getColumn(0).setResizable(false);
+            tblPrixVenteProduitShop.getColumnModel().getColumn(0).setPreferredWidth(350);
             tblPrixVenteProduitShop.getColumnModel().getColumn(1).setResizable(false);
-            tblPrixVenteProduitShop.getColumnModel().getColumn(1).setPreferredWidth(350);
-            tblPrixVenteProduitShop.getColumnModel().getColumn(2).setResizable(false);
-            tblPrixVenteProduitShop.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tblPrixVenteProduitShop.getColumnModel().getColumn(1).setPreferredWidth(100);
         }
 
         btnEffacerChampsShop.setText("<-");
@@ -205,15 +200,12 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel12)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(tfdIdShop, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnConsulterShop)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblNomShop)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel12)
+                                .addGap(0, 413, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(tfdNomShop)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnConsulterShop)))
                         .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
@@ -223,9 +215,8 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterShop)
-                    .addComponent(lblNomShop))
+                    .addComponent(tfdNomShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterShop))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -254,13 +245,12 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
                         .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel3)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(tfdIdProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnConsulterProduit)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(lblDescriptionProduit))
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tfdDescriptionProduit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnConsulterProduit))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -270,16 +260,15 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterProduit)
-                    .addComponent(lblDescriptionProduit))
+                    .addComponent(tfdDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterProduit))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAnnuler, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -295,11 +284,11 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            Produit produit = new Produit(Integer.parseInt(tfdIdProduit.getText()));
-            produit.setDescription(lblDescriptionProduit.getText());
-
             PrixVenteProduit prixVenteProduit = new PrixVenteProduit();
             prixVenteProduit.setDateHeure(new Date());
+
+            Produit produit = new Produit(idProduit);
+            produit.setDescription(tfdDescriptionProduit.getText());
             prixVenteProduit.setProduit(produit);
             prixVenteProduit.setValeurUSD(new BigDecimal(tfdValeur.getText()));
 
@@ -358,8 +347,8 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
 
     private void btnAjouterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjouterShopActionPerformed
 
-        Shop shop = new Shop(Integer.parseInt(tfdIdShop.getText()));
-        shop.setNom(lblNomShop.getText());
+        Shop shop = new Shop(idShop);
+        shop.setNom(tfdNomShop.getText());
 
         PrixVenteProduitShop prixVenteProduitShop = new PrixVenteProduitShop();
         prixVenteProduitShop.setShop(shop);
@@ -375,9 +364,8 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
         defaultTableModel.setRowCount(0);
 
         prixVenteProduitShops.forEach(pvps -> {
-            dataRows[0] = pvps.getShop().getCode();
-            dataRows[1] = pvps.getShop().getNom();
-            dataRows[2] = pvps.getValeurUSD();
+            dataRows[0] = pvps.getShop().getNom();
+            dataRows[1] = pvps.getValeurUSD();
 
             defaultTableModel.addRow(dataRows);
         });
@@ -388,9 +376,8 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
     }
 
     private void effacerChampsShop() {
-        tfdIdShop.setText("");
-        lblNomShop.setText("");
-        tfdIdShop.requestFocus();
+        tfdNomShop.setText("");
+        tfdNomShop.requestFocus();
     }
 
     private void tblPrixVenteProduitShopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblPrixVenteProduitShopKeyReleased
@@ -402,7 +389,7 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
             int row = tblPrixVenteProduitShop.getSelectedRow();
 
             for (PrixVenteProduitShop prixVenteProduitShop : listePrixVenteProduitShop) {
-                if (prixVenteProduitShop.getShop().getCode() == (int) defaultTableModel.getValueAt(row, 0)) {
+                if (prixVenteProduitShop.getShop().getId().equals(prixVenteProduitShops.get(row).getShop().getId())) {
                     prixVenteProduitShops.remove(prixVenteProduitShop);
                     exclu = true;
                     break;
@@ -426,13 +413,14 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
 
             PrixVenteProduitShop prixVenteProduitShop;
 
-            prixVenteProduitShop = prixVenteProduitShops.stream()
-                    .filter(ies -> ies.getShop().getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
+            prixVenteProduitShop = prixVenteProduitShops.get(row);
 
+//            
+//            prixVenteProduitShop = prixVenteProduitShops.stream()
+//                    .filter(ies -> ies.getShop().getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                    .findFirst().orElse(null);
             if (prixVenteProduitShop != null) {
-                tfdIdShop.setText(String.valueOf(prixVenteProduitShop.getShop().getCode()));
-                lblNomShop.setText(String.valueOf(prixVenteProduitShop.getShop().getNom()));
+                tfdNomShop.setText(prixVenteProduitShop.getShop().getNom());
                 tfdValeur.setText(prixVenteProduitShop.getValeurUSD().toString());
                 modeEditionPrixVenteProduitShop = true;
 
@@ -442,11 +430,11 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
 
     public void produitSelectionne(Produit produit) {
         if (produit != null) {
-            tfdIdProduit.setText(String.valueOf(produit.getCode()));
-            lblDescriptionProduit.setText(produit.getDescription());
+            tfdDescriptionProduit.setText(produit.getDescription());
+            idProduit = produit.getId();
             try {
                 List<PrixVenteProduit> listePrixVenteProduit = PrixVenteProduitService.getInstance()
-                        .selectionnerPrixVenteProduitParCodeProduit(produit.getCode());
+                        .selectionnerPrixVenteProduitParIdProduit(produit.getId());
 
                 prixVenteProduitShops.clear();
 
@@ -468,16 +456,14 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
 
     public void shopSelectionne(Shop shop) {
         if (shop != null) {
-            tfdIdShop.setText(String.valueOf(shop.getCode()));
-            lblNomShop.setText(shop.getNom());
+            tfdNomShop.setText(shop.getNom());
+            idShop = shop.getId();
         }
     }
 
     private void effacerFormulaire() {
-        tfdIdProduit.setText("");
-        lblDescriptionProduit.setText("");
-        tfdIdShop.setText("");
-        lblNomShop.setText("");
+        tfdDescriptionProduit.setText("");
+        tfdNomShop.setText("");
         tfdValeur.setText("");
         habiliterComposantFormulaire(true);
     }
@@ -496,7 +482,7 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
         StringBuilder notification = new StringBuilder();
         Queue<Integer> nio = new LinkedList<>();
 
-        if (tfdIdProduit.getText().isEmpty()) {
+        if (tfdDescriptionProduit.getText().isEmpty()) {
             notification.append("\nRéseau");
             nio.add(1);
         }
@@ -512,10 +498,10 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
                     .append(notification));
             switch (nio.poll()) {
                 case 1:
-                    tfdIdProduit.requestFocus();
+                    tfdDescriptionProduit.requestFocus();
                     break;
                 case 2:
-                    tfdIdShop.requestFocus();
+                    tfdNomShop.requestFocus();
                     break;
                 default:
             }
@@ -535,12 +521,10 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblDescriptionProduit;
-    private javax.swing.JLabel lblNomShop;
     private javax.swing.JLabel lblNombreShop;
     private javax.swing.JTable tblPrixVenteProduitShop;
-    private javax.swing.JTextField tfdIdProduit;
-    private javax.swing.JTextField tfdIdShop;
+    private javax.swing.JTextField tfdDescriptionProduit;
+    private javax.swing.JTextField tfdNomShop;
     private javax.swing.JTextField tfdValeur;
     // End of variables declaration//GEN-END:variables
 }

@@ -32,7 +32,7 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
         enFermantDialog();
 
         defaultTableModel = (DefaultTableModel) tblFournisseur.getModel();
-        dataRows = new Object[3];
+        dataRows = new Object[2];
 
         this.fournisseurs = fournisseurs;
         listerFournisseur(this.fournisseurs);
@@ -57,9 +57,8 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
     private void listerFournisseur(List<Fournisseur> fournisseurs) {
         defaultTableModel.setRowCount(0);
         fournisseurs.forEach(f -> {
-            dataRows[0] = f.getCode();
-            dataRows[1] = f.getEntreprise();
-            dataRows[2] = f.getResponsable();
+            dataRows[0] = f.getEntreprise();
+            dataRows[1] = f.getResponsable();
             defaultTableModel.addRow(dataRows);
         });
         String formeNombre = fournisseurs.size() > 1 ? "Shops" : "Shop";
@@ -99,14 +98,14 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Entreprise", "Responsable"
+                "Entreprise", "Responsable"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -125,10 +124,9 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblFournisseur);
         if (tblFournisseur.getColumnModel().getColumnCount() > 0) {
             tblFournisseur.getColumnModel().getColumn(0).setResizable(false);
+            tblFournisseur.getColumnModel().getColumn(0).setPreferredWidth(200);
             tblFournisseur.getColumnModel().getColumn(1).setResizable(false);
             tblFournisseur.getColumnModel().getColumn(1).setPreferredWidth(200);
-            tblFournisseur.getColumnModel().getColumn(2).setResizable(false);
-            tblFournisseur.getColumnModel().getColumn(2).setPreferredWidth(200);
         }
 
         lblNombreFournisseur.setText("jLabel1");
@@ -171,10 +169,10 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
         if (evt.getClickCount() == 2) {
             if (frameAncetre != null) {
                 int row = tblFournisseur.getSelectedRow();
-
-                fournisseur = fournisseurs.stream()
-                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                fournisseur = fournisseurs.get(row);
+//                fournisseur = fournisseurs.stream()
+//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
             }
             dispose();
         }

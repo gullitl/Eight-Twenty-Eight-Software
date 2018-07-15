@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 public class ConfigurationCompte extends JInternalFrame {
 
     private String idCollaborateur;
+    private String idProfilUtilisateur;
     private boolean btnConsulterCollaborateurClickable;
     private boolean btnConsulterProfilUtilisateurClickable;
     private boolean btnEnregistrerClickable;
@@ -51,7 +52,7 @@ public class ConfigurationCompte extends JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        tfdIdProfilUtilisateur = new javax.swing.JTextField();
+        tfdDescriptionProfilUtilisateur = new javax.swing.JTextField();
         btnConsulterProfilUtilisateur = new javax.swing.JButton();
         pwfMotDePasse = new javax.swing.JPasswordField();
         pwfConfirmerMotDePasse = new javax.swing.JPasswordField();
@@ -97,7 +98,7 @@ public class ConfigurationCompte extends JInternalFrame {
 
         jLabel8.setText("Confirmer mot de passe:");
 
-        tfdIdProfilUtilisateur.setEditable(false);
+        tfdDescriptionProfilUtilisateur.setEditable(false);
 
         btnConsulterProfilUtilisateur.setText("...");
         btnConsulterProfilUtilisateur.setFocusable(false);
@@ -120,7 +121,7 @@ public class ConfigurationCompte extends JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfdNomUtilisateur, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-                            .addComponent(tfdIdProfilUtilisateur, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(tfdDescriptionProfilUtilisateur, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -152,7 +153,7 @@ public class ConfigurationCompte extends JInternalFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdProfilUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdDescriptionProfilUtilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsulterProfilUtilisateur))
                 .addGap(21, 21, 21))
         );
@@ -238,7 +239,7 @@ public class ConfigurationCompte extends JInternalFrame {
             collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
             collaborateur.setMotDePasse(pwfMotDePasse.getText());
 
-            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(Integer.parseInt(tfdIdProfilUtilisateur.getText()));
+            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
             collaborateur.setProfilUtilisateur(profilUtilisateur);
             collaborateur.setActive(true);
 
@@ -250,7 +251,7 @@ public class ConfigurationCompte extends JInternalFrame {
                     && collaborateur.getSurnom().equals(collab.getSurnom())
                     && collaborateur.getNomUtilisateur().equals(collab.getNomUtilisateur())
                     && collaborateur.getMotDePasse().equals(collab.getMotDePasse())
-                    && collaborateur.getProfilUtilisateur().getCode() == collab.getProfilUtilisateur().getCode()) {
+                    && collaborateur.getProfilUtilisateur().getId().equals(collab.getProfilUtilisateur().getId())) {
 
                 JOptionPane.showMessageDialog(null, "Il n'y a eu aucune necessité d'actualiser le collaborateur."
                         + "\nAucune alteration a été réalisée!");
@@ -294,7 +295,7 @@ public class ConfigurationCompte extends JInternalFrame {
 
     private void collaborateurSelectionne(Collaborateur collaborateur) {
         if (collaborateur != null) {
-            idCollaborateur = collaborateur.getCode();
+            idCollaborateur = collaborateur.getId();
             tfdPrenom.setText(collaborateur.getPrenom());
             tfdNom.setText(collaborateur.getNom());
             tfdPostnom.setText(collaborateur.getPostnom());
@@ -302,8 +303,7 @@ public class ConfigurationCompte extends JInternalFrame {
             tfdNomUtilisateur.setText(collaborateur.getNomUtilisateur());
             pwfMotDePasse.setText(collaborateur.getMotDePasse());
             pwfConfirmerMotDePasse.setText(collaborateur.getMotDePasse());
-            tfdIdProfilUtilisateur.setText(String.valueOf(collaborateur.getProfilUtilisateur().getCode()));
-            lblDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getDescription());
+            tfdDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getId());
         }
     }
 
@@ -328,9 +328,9 @@ public class ConfigurationCompte extends JInternalFrame {
 
     public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
         if (profilUtilisateur != null) {
-            tfdIdProfilUtilisateur.setText(String.valueOf(profilUtilisateur.getCode()));
-            lblDescriptionProfilUtilisateur.setText(profilUtilisateur.getDescription());
-            tfdIdProfilUtilisateur.requestFocus();
+            tfdDescriptionProfilUtilisateur.setText(profilUtilisateur.getDescription());
+            idProfilUtilisateur = profilUtilisateur.getId();
+            tfdDescriptionProfilUtilisateur.requestFocus();
         }
     }
 
@@ -344,7 +344,7 @@ public class ConfigurationCompte extends JInternalFrame {
     }//GEN-LAST:event_tfdNomUtilisateurFocusGained
 
     private void effacerFormulaire() {
-        idCollaborateur = 0;
+        idCollaborateur = "";
         tfdPrenom.setText("");
         tfdPrenom.requestFocus();
         tfdNom.setText("");
@@ -353,8 +353,7 @@ public class ConfigurationCompte extends JInternalFrame {
         tfdNomUtilisateur.setText("");
         pwfMotDePasse.setText("");
         pwfConfirmerMotDePasse.setText("");
-        tfdIdProfilUtilisateur.setText("");
-        lblDescriptionProfilUtilisateur.setText("");
+        tfdDescriptionProfilUtilisateur.setText("");
         habiliterComposantFormulaire(true);
     }
 
@@ -413,7 +412,7 @@ public class ConfigurationCompte extends JInternalFrame {
             nio.add(6);
         }
 
-        if (tfdIdProfilUtilisateur.getText().isEmpty()) {
+        if (tfdDescriptionProfilUtilisateur.getText().isEmpty()) {
             notification.append("\nprofil d'utilisateur");
             nio.add(7);
         }
@@ -468,7 +467,7 @@ public class ConfigurationCompte extends JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField pwfConfirmerMotDePasse;
     private javax.swing.JPasswordField pwfMotDePasse;
-    private javax.swing.JTextField tfdIdProfilUtilisateur;
+    private javax.swing.JTextField tfdDescriptionProfilUtilisateur;
     private javax.swing.JTextField tfdNom;
     private javax.swing.JTextField tfdNomUtilisateur;
     private javax.swing.JTextField tfdPostnom;

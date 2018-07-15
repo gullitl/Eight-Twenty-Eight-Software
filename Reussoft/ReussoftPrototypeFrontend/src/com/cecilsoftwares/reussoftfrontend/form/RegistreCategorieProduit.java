@@ -3,6 +3,7 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
+import static gullit.IdGenerator.generateId;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistreCategorieProduit extends JInternalFrame {
 
-    private int codeCategorieProduit;
+    private String idCategorieProduit;
     private boolean modeEdition;
     private boolean btnConsulterCategorieProduitClickable;
     private boolean btnEnregistrerClickable;
@@ -131,25 +132,38 @@ public class RegistreCategorieProduit extends JInternalFrame {
     }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-
         if (isInformationObligatoiresRemplies()) {
 
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
-
-            CategorieProduit categorieProduit = new CategorieProduit(codeCategorieProduit);
-            categorieProduit.setDescription(tfdDescription.getText());
-            categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
-
             try {
-                if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                    effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, notification);
+
+                if (!modeEdition) {
+                    CategorieProduit categorieProduit = new CategorieProduit(generateId());
+                    categorieProduit.setDescription(tfdDescription.getText());
+                    categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
+
+                    if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
+                        effacerFormulaire();
+                        JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+                    }
+
+                } else {
+                    CategorieProduit categorieProduit = new CategorieProduit(idCategorieProduit);
+                    categorieProduit.setDescription(tfdDescription.getText());
+                    categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
+
+                    if (CategorieProduitService.getInstance().actualiserCategorieProduit(categorieProduit)) {
+                        effacerFormulaire();
+                        JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès");
+                    }
                 }
+
             } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(RegistreCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             setCursor(Cursor.getDefaultCursor());
@@ -178,7 +192,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
 
     public void categorieProduitSelectionnee(CategorieProduit categorieProduit) {
         if (categorieProduit != null) {
-            codeCategorieProduit = categorieProduit.getCode();
+            idCategorieProduit = categorieProduit.getId();
             tfdDescription.setText(categorieProduit.getDescription());
             tfdDescriptionAbregee.setText(categorieProduit.getDescriptionAbregee());
             btnEnregistrer.setText("ACTUALISER");
@@ -202,7 +216,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
             try {
-                CategorieProduitService.getInstance().exclureCategorieProduit(codeCategorieProduit);
+                CategorieProduitService.getInstance().exclureCategorieProduit(idCategorieProduit);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException ex) {
@@ -227,7 +241,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
     }//GEN-LAST:event_btnExclureActionPerformed
 
     private void effacerFormulaire() {
-        codeCategorieProduit = 0;
+        idCategorieProduit = "";
         tfdDescription.setText("");
         tfdDescription.requestFocus();
         tfdDescriptionAbregee.setText("");

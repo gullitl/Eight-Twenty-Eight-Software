@@ -61,12 +61,12 @@ public class ConsultationProduit extends javax.swing.JDialog {
     private void listerProduits(List<Produit> produits) {
         defaultTableModel.setRowCount(0);
         produits.forEach(p -> {
-            dataRows[0] = p.getCode();
-            dataRows[1] = p.getDescription();
+            dataRows[0] = p.getDescription();
+            dataRows[1] = p.getReseau().getNom();
             defaultTableModel.addRow(dataRows);
         });
 
-        String formeNombre = produits.size() > 1 ? "Shops" : "Shop";
+        String formeNombre = produits.size() > 1 ? "Produits" : "Produit";
         lblNombreProduit.setText(produits.size() + " " + formeNombre);
     }
 
@@ -95,11 +95,11 @@ public class ConsultationProduit extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Description"
+                "Description", "Réseau"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -121,8 +121,8 @@ public class ConsultationProduit extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblProduit);
         if (tblProduit.getColumnModel().getColumnCount() > 0) {
             tblProduit.getColumnModel().getColumn(0).setResizable(false);
+            tblProduit.getColumnModel().getColumn(0).setPreferredWidth(150);
             tblProduit.getColumnModel().getColumn(1).setResizable(false);
-            tblProduit.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
         lblNombreProduit.setText("jLabel1");
@@ -166,9 +166,11 @@ public class ConsultationProduit extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblProduit.getSelectedRow();
 
-                produit = produits.stream()
-                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                produit = produits.get(row);
+
+//                produit = produits.stream()
+//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
             }
             dispose();
 

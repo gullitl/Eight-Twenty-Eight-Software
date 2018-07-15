@@ -15,7 +15,6 @@ import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -32,8 +31,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class OperationEntreeStock extends JInternalFrame {
 
-    private int codeEntreeStock;
-    private int codeTauxMonnaie;
+    private String idEntreeStock;
+    private String idFournisseur;
+    private String idTauxMonnaie;
     private boolean modeEdition;
 //    private boolean modeEditionFournisseur;
     private boolean modeEditionItemEntreeStock;
@@ -68,9 +68,8 @@ public class OperationEntreeStock extends JInternalFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        tfdIdProduit = new javax.swing.JTextField();
+        tfdDescriptionProduit = new javax.swing.JTextField();
         btnConsulterProduit = new javax.swing.JButton();
-        lblDescriptionProduit = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         lblProduitStockActuel = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -86,13 +85,12 @@ public class OperationEntreeStock extends JInternalFrame {
         btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
-        tfdDateHeureEntreeStock = new javax.swing.JTextField();
+        tfdNumeroEntreeStock = new javax.swing.JTextField();
         btnConsulterEntreeStock = new javax.swing.JButton();
         lblTauxcarte = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         btnConsulterFournisseur = new javax.swing.JButton();
-        lblInfoFournisseur = new javax.swing.JLabel();
-        tfdIdFournisseur = new javax.swing.JTextField();
+        tfdEntrepriseFournisseur = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lblTotalAPayer = new javax.swing.JLabel();
@@ -101,9 +99,9 @@ public class OperationEntreeStock extends JInternalFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Entrée Stock");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Produits"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()));
 
-        tfdIdProduit.setEditable(false);
+        tfdDescriptionProduit.setEditable(false);
 
         btnConsulterProduit.setText("...");
         btnConsulterProduit.addActionListener(new java.awt.event.ActionListener() {
@@ -112,9 +110,7 @@ public class OperationEntreeStock extends JInternalFrame {
             }
         });
 
-        lblDescriptionProduit.setText("jLabel2");
-
-        jLabel12.setText("Code:");
+        jLabel12.setText("Produit:");
 
         lblProduitStockActuel.setText("jLabel5");
 
@@ -135,20 +131,20 @@ public class OperationEntreeStock extends JInternalFrame {
 
         tblItemsEntreeStock.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Code", "Produit", "Quantité", "Prix d'achat", "Total"
+                "Produit", "Quantité", "Prix d'achat", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -172,13 +168,12 @@ public class OperationEntreeStock extends JInternalFrame {
         jScrollPane1.setViewportView(tblItemsEntreeStock);
         if (tblItemsEntreeStock.getColumnModel().getColumnCount() > 0) {
             tblItemsEntreeStock.getColumnModel().getColumn(0).setResizable(false);
+            tblItemsEntreeStock.getColumnModel().getColumn(0).setPreferredWidth(250);
             tblItemsEntreeStock.getColumnModel().getColumn(1).setResizable(false);
-            tblItemsEntreeStock.getColumnModel().getColumn(1).setPreferredWidth(250);
+            tblItemsEntreeStock.getColumnModel().getColumn(1).setPreferredWidth(70);
             tblItemsEntreeStock.getColumnModel().getColumn(2).setResizable(false);
-            tblItemsEntreeStock.getColumnModel().getColumn(2).setPreferredWidth(70);
             tblItemsEntreeStock.getColumnModel().getColumn(3).setResizable(false);
-            tblItemsEntreeStock.getColumnModel().getColumn(4).setResizable(false);
-            tblItemsEntreeStock.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tblItemsEntreeStock.getColumnModel().getColumn(3).setPreferredWidth(100);
         }
 
         btnEffacerChampsProduits.setText("<-");
@@ -199,14 +194,14 @@ public class OperationEntreeStock extends JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(tfdIdProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel12)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(tfdDescriptionProduit)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterProduit)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblDescriptionProduit)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnConsulterProduit)))
+                        .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -239,9 +234,8 @@ public class OperationEntreeStock extends JInternalFrame {
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterProduit)
-                    .addComponent(lblDescriptionProduit))
+                    .addComponent(tfdDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterProduit))
                 .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -259,7 +253,7 @@ public class OperationEntreeStock extends JInternalFrame {
                     .addComponent(btnEffacerChampsProduits))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(lblNombreItemEntreeStock)
                 .addContainerGap())
         );
@@ -279,9 +273,9 @@ public class OperationEntreeStock extends JInternalFrame {
         });
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel15.setText("Date:");
+        jLabel15.setText("Numéro:");
 
-        tfdDateHeureEntreeStock.setEditable(false);
+        tfdNumeroEntreeStock.setEditable(false);
 
         btnConsulterEntreeStock.setText("...");
         btnConsulterEntreeStock.addActionListener(new java.awt.event.ActionListener() {
@@ -301,9 +295,7 @@ public class OperationEntreeStock extends JInternalFrame {
             }
         });
 
-        lblInfoFournisseur.setText("jLabel5");
-
-        tfdIdFournisseur.setEditable(false);
+        tfdEntrepriseFournisseur.setEditable(false);
 
         jLabel1.setText("Fournisseur:");
 
@@ -317,35 +309,34 @@ public class OperationEntreeStock extends JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTotalAPayer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(tfdIdFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnConsulterFournisseur)
+                            .addComponent(lblTotalAPayer)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(lblInfoFournisseur)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfdDateHeureEntreeStock, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterEntreeStock))
-                            .addComponent(jLabel15))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel13)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(tfdNumeroEntreeStock, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnConsulterEntreeStock))
+                                .addComponent(jLabel15))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel13)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblTauxcarte)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(tfdEntrepriseFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTauxcarte)))
+                        .addComponent(btnConsulterFournisseur)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -355,17 +346,16 @@ public class OperationEntreeStock extends JInternalFrame {
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdDateHeureEntreeStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdNumeroEntreeStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsulterEntreeStock)
                     .addComponent(jLabel13)
                     .addComponent(lblTauxcarte))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterFournisseur)
-                    .addComponent(lblInfoFournisseur))
+                    .addComponent(tfdEntrepriseFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterFournisseur))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -386,9 +376,10 @@ public class OperationEntreeStock extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            EntreeStock entreeStock = new EntreeStock(codeEntreeStock);
-            entreeStock.setFournisseur(new Fournisseur(Integer.parseInt(tfdIdFournisseur.getText())));
-            entreeStock.setTauxMonnaie(new TauxMonnaie(codeTauxMonnaie));
+            EntreeStock entreeStock = new EntreeStock(idEntreeStock);
+            entreeStock.setNumeroEntreeStock(tfdNumeroEntreeStock.getText());
+            entreeStock.setFournisseur(new Fournisseur(idFournisseur));
+            entreeStock.setTauxMonnaie(new TauxMonnaie(idTauxMonnaie));
             entreeStock.setDateHeure(new Date());
             entreeStock.setItemsEntreeStock(itemsEntreeStock);
 
@@ -408,9 +399,8 @@ public class OperationEntreeStock extends JInternalFrame {
 
     public void entreeStockSelectionnee(EntreeStock entreeStock) {
         if (entreeStock != null) {
-            tfdDateHeureEntreeStock.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(entreeStock.getDateHeure()));
-            tfdIdFournisseur.setText(String.valueOf(entreeStock.getFournisseur().getCode()));
-            lblInfoFournisseur.setText(new StringBuilder(entreeStock.getFournisseur().getEntreprise())
+            tfdNumeroEntreeStock.setText(entreeStock.getNumeroEntreeStock());
+            tfdEntrepriseFournisseur.setText(new StringBuilder(entreeStock.getFournisseur().getEntreprise()).append(" - ")
                     .append(entreeStock.getFournisseur().getResponsable()).toString());
 
             itemsEntreeStock = entreeStock.getItemsEntreeStock();
@@ -432,7 +422,7 @@ public class OperationEntreeStock extends JInternalFrame {
 
             if (modeEditionItemEntreeStock) {
                 for (ItemEntreeStock ies : itemsEntreeStock) {
-                    if (ies.getProduit().getCode() == codeEntreeStock) {
+                    if (ies.getProduit().getId().equals(idEntreeStock)) {
                         ies.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getValue().toString()));
                         break;
                     }
@@ -440,13 +430,13 @@ public class OperationEntreeStock extends JInternalFrame {
 
             } else {
 
-                EntreeStock entreeStock = new EntreeStock(codeEntreeStock);
+                EntreeStock entreeStock = new EntreeStock(idEntreeStock);
 
                 ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produitSelectionne);
                 itemEntreeStock.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getValue().toString()));
 
                 for (ItemEntreeStock ies : itemsEntreeStock) {
-                    if (ies.getProduit().getCode() == itemEntreeStock.getProduit().getCode()) {
+                    if (ies.getProduit().getId().equals(itemEntreeStock.getProduit().getId())) {
                         JOptionPane.showMessageDialog(null, "Ce produit a déjà été ajouté");
                         return;
                     }
@@ -507,9 +497,8 @@ public class OperationEntreeStock extends JInternalFrame {
         if (fournisseur != null) {
 //            modeEditionFournisseur = true;
 
-            tfdIdFournisseur.setText(String.valueOf(fournisseur.getCode()));
-            lblInfoFournisseur.setText(new StringBuilder(fournisseur.getEntreprise())
-                    .append(" ").append(fournisseur.getResponsable()).toString());
+            tfdEntrepriseFournisseur.setText(new StringBuilder(fournisseur.getEntreprise())
+                    .append(" - ").append(fournisseur.getResponsable()).toString());
         }
     }
 
@@ -539,13 +528,12 @@ public class OperationEntreeStock extends JInternalFrame {
     }//GEN-LAST:event_btnEffacerChampsProduitsActionPerformed
 
     private void effacerChampsItemStock() {
-        tfdIdProduit.setText("");
-        lblDescriptionProduit.setText("");
+        tfdDescriptionProduit.setText("");
         spnQuantiteProduit.setValue(0);
         lblPrixAchat.setText("");
         lblProduitStockActuel.setText("");
         modeEditionItemEntreeStock = false;
-        tfdIdProduit.requestFocus();
+        tfdDescriptionProduit.requestFocus();
     }
 
     private void tblItemsEntreeStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemsEntreeStockMouseClicked
@@ -554,13 +542,13 @@ public class OperationEntreeStock extends JInternalFrame {
 
             ItemEntreeStock itemEntreeStock;
 
-            itemEntreeStock = itemsEntreeStock.stream()
-                    .filter(ies -> ies.getProduit().getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                    .findFirst().orElse(null);
+            itemEntreeStock = itemsEntreeStock.get(row);
 
+//            itemEntreeStock = itemsEntreeStock.stream()
+//                    .filter(ies -> ies.getProduit().getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                    .findFirst().orElse(null);
             if (itemEntreeStock != null) {
-                tfdIdProduit.setText(String.valueOf(itemEntreeStock.getProduit().getCode()));
-                lblDescriptionProduit.setText(String.valueOf(itemEntreeStock.getProduit().getDescription()));
+                tfdDescriptionProduit.setText(itemEntreeStock.getProduit().getDescription());
                 spnQuantiteProduit.setValue(itemEntreeStock.getQuantiteProduit());
                 modeEditionItemEntreeStock = true;
 
@@ -577,7 +565,7 @@ public class OperationEntreeStock extends JInternalFrame {
             int row = tblItemsEntreeStock.getSelectedRow();
 
             for (ItemEntreeStock ies : listeItemsEntreeStock) {
-                if (ies.getProduit().getCode() == (int) defaultTableModel.getValueAt(row, 0)) {
+                if (ies.getProduit().getId().equals(itemsEntreeStock.get(row).getProduit().getId())) {
                     itemsEntreeStock.remove(ies);
                     exclu = true;
                     break;
@@ -596,11 +584,10 @@ public class OperationEntreeStock extends JInternalFrame {
         defaultTableModel.setRowCount(0);
 
         itemsEntreeStock.forEach(ies -> {
-            dataRows[0] = ies.getProduit().getCode();
-            dataRows[1] = ies.getProduit().getDescription();
-            dataRows[2] = ies.getQuantiteProduit();
-            dataRows[3] = new StringBuilder(ies.getPrixAchatProduit().getValeurUSD().toString()).append(" $");
-            dataRows[4] = new StringBuilder(ies.getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()).toString()).append(" $");
+            dataRows[0] = ies.getProduit().getDescription();
+            dataRows[1] = ies.getQuantiteProduit();
+            dataRows[2] = new StringBuilder(ies.getPrixAchatProduit().getValeurUSD().toString()).append(" $");
+            dataRows[3] = new StringBuilder(ies.getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()).toString()).append(" $");
 
             totalAPayer.add(ies.getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()));
             defaultTableModel.addRow(dataRows);
@@ -615,23 +602,20 @@ public class OperationEntreeStock extends JInternalFrame {
     public void setProduitSelectionne(Produit produit) {
         if (produit != null) {
             produitSelectionne = produit;
-            tfdIdProduit.setText(String.valueOf(produitSelectionne.getCode()));
-            lblDescriptionProduit.setText(produitSelectionne.getDescription());
+            tfdDescriptionProduit.setText(produitSelectionne.getDescription());
             lblPrixAchat.setText(new StringBuilder(produitSelectionne.getPrixAchatProduit().toString()).append(" $").toString());
         }
     }
 
     private void effacerFormulaire() {
 
-        tfdDateHeureEntreeStock.setText("");
-        tfdDateHeureEntreeStock.requestFocus();
+        tfdNumeroEntreeStock.setText("");
+        tfdNumeroEntreeStock.requestFocus();
 
         lblTauxcarte.setText("");
-        tfdIdFournisseur.setText("");
-        lblInfoFournisseur.setText("");
+        tfdEntrepriseFournisseur.setText("");
 
-        tfdIdProduit.setText("");
-        lblDescriptionProduit.setText("");
+        tfdDescriptionProduit.setText("");
         spnQuantiteProduit.setValue(0);
         lblPrixAchat.setText("");
         lblProduitStockActuel.setText("");
@@ -663,7 +647,7 @@ public class OperationEntreeStock extends JInternalFrame {
         StringBuilder notification = new StringBuilder();
         Queue<Integer> nio = new LinkedList<>();
 
-        if (tfdIdFournisseur.getText().isEmpty()) {
+        if (tfdEntrepriseFournisseur.getText().isEmpty()) {
             notification.append("\nFournisseur");
             nio.add(1);
         }
@@ -679,11 +663,11 @@ public class OperationEntreeStock extends JInternalFrame {
                     .append(notification));
             switch (nio.poll()) {
                 case 1:
-                    tfdIdFournisseur.requestFocus();
+                    tfdEntrepriseFournisseur.requestFocus();
                     break;
 
                 case 2:
-                    tfdIdProduit.requestFocus();
+                    tfdDescriptionProduit.requestFocus();
                     break;
                 default:
             }
@@ -709,8 +693,6 @@ public class OperationEntreeStock extends JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblDescriptionProduit;
-    private javax.swing.JLabel lblInfoFournisseur;
     private javax.swing.JLabel lblNombreItemEntreeStock;
     private javax.swing.JLabel lblPrixAchat;
     private javax.swing.JLabel lblProduitStockActuel;
@@ -718,8 +700,8 @@ public class OperationEntreeStock extends JInternalFrame {
     private javax.swing.JLabel lblTotalAPayer;
     private javax.swing.JSpinner spnQuantiteProduit;
     private javax.swing.JTable tblItemsEntreeStock;
-    private javax.swing.JTextField tfdDateHeureEntreeStock;
-    private javax.swing.JTextField tfdIdFournisseur;
-    private javax.swing.JTextField tfdIdProduit;
+    private javax.swing.JTextField tfdDescriptionProduit;
+    private javax.swing.JTextField tfdEntrepriseFournisseur;
+    private javax.swing.JTextField tfdNumeroEntreeStock;
     // End of variables declaration//GEN-END:variables
 }

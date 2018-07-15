@@ -2,8 +2,9 @@ package com.cecilsoftwares.reussoftfrontend.form;
 
 import com.cecilsoftwares.reussoftbackend.service.ClientService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationClient;
+import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import static gullit.IdGenerator.generateId;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -18,7 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistreClient extends JInternalFrame {
 
-    private int codeClient;
+    private String idClient;
     private boolean modeEdition;
     private boolean btnConsulterClientClickable;
     private boolean btnEnregistrerClickable;
@@ -154,22 +155,36 @@ public class RegistreClient extends JInternalFrame {
 
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
-
-            Client client = new Client(codeClient);
-            client.setEntreprise(tfdEntreprise.getText());
-            client.setNom(tfdNom.getText());
-            client.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
-            client.setShop(new Shop(2));
-
             try {
-                if (ClientService.getInstance().actualiserClient(client)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                    effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, notification);
+                if (!modeEdition) {
+                    Client client = new Client(generateId());
+                    client.setEntreprise(tfdEntreprise.getText());
+                    client.setNom(tfdNom.getText());
+                    client.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
+                    client.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
+
+                    if (ClientService.getInstance().enregistrerClient(client)) {
+                        effacerFormulaire();
+                        JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+                    }
+                } else {
+                    Client client = new Client(idClient);
+                    client.setEntreprise(tfdEntreprise.getText());
+                    client.setNom(tfdNom.getText());
+                    client.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
+                    client.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
+
+                    if (ClientService.getInstance().actualiserClient(client)) {
+                        effacerFormulaire();
+                        JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès");
+                    }
                 }
+
             } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Client");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(RegistreClient.class.getName()).log(Level.SEVERE, null, ex);
             }
             setCursor(Cursor.getDefaultCursor());
         }
@@ -210,7 +225,7 @@ public class RegistreClient extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
             try {
-                ClientService.getInstance().exclureClient(codeClient);
+                ClientService.getInstance().exclureClient(idClient);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException ex) {
@@ -240,7 +255,7 @@ public class RegistreClient extends JInternalFrame {
 
     public void clientSelectionne(Client client) {
         if (client != null) {
-            codeClient = client.getCode();
+            idClient = client.getId();
             tfdNom.setText(client.getNom());
             tfdEntreprise.setText(client.getEntreprise());
             tfdTelephone.setText(client.getTelephone());
@@ -251,7 +266,7 @@ public class RegistreClient extends JInternalFrame {
     }
 
     private void effacerFormulaire() {
-        codeClient = 0;
+        idClient = "";
         tfdNom.setText("");
         tfdNom.requestFocus();
         tfdEntreprise.setText("");

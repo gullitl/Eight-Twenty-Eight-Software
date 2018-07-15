@@ -54,7 +54,7 @@ public class ConsultationDispatch extends javax.swing.JDialog {
     private void listerMouvementsStock(List<Dispatch> mouvementsStock) {
         defaultTableModel.setRowCount(0);
         mouvementsStock.forEach(ms -> {
-            dataRows[0] = ms.getCode();
+            dataRows[0] = ms.getNumeroDispatch();
             dataRows[1] = ms.getDateHeure();
             defaultTableModel.addRow(dataRows);
         });
@@ -96,11 +96,11 @@ public class ConsultationDispatch extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Code", "Date/Heure"
+                "Numéro", "Date/Heure"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -166,9 +166,11 @@ public class ConsultationDispatch extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblDispatch.getSelectedRow();
 
-                dispatch = dispatchs.stream()
-                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-                        .findFirst().orElse(null);
+                dispatch = dispatchs.get(row);
+
+//                dispatch = dispatchs.stream()
+//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
+//                        .findFirst().orElse(null);
             }
             dispose();
         }

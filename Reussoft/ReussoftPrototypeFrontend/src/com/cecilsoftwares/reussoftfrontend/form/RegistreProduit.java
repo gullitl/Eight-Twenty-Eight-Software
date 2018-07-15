@@ -28,7 +28,9 @@ import javax.swing.JOptionPane;
  */
 public class RegistreProduit extends JInternalFrame {
 
-    private int codeProduit;
+    private String idProduit;
+    private String idReseau;
+    private String idCategorieProduit;
     private PrixAchatProduit prixAchatProduit;
 //    private int codePrixVenteProduit;
 //    private BigDecimal valeurPrixVenteProduitInicial;
@@ -60,11 +62,9 @@ public class RegistreProduit extends JInternalFrame {
         btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         btnConsulterReseau = new javax.swing.JButton();
-        tfdIdReseau = new javax.swing.JTextField();
-        lblDescriptionReseau = new javax.swing.JLabel();
-        tfdIdCategorieProduit = new javax.swing.JTextField();
+        tfdNomReseau = new javax.swing.JTextField();
+        tfdDescriptionCategorieProduit = new javax.swing.JTextField();
         btnConsulterCategorieProduit = new javax.swing.JButton();
-        lblDescriptionCategorieProduit = new javax.swing.JLabel();
         btnExclure = new javax.swing.JButton();
 
         setClosable(true);
@@ -111,11 +111,9 @@ public class RegistreProduit extends JInternalFrame {
             }
         });
 
-        tfdIdReseau.setEditable(false);
+        tfdNomReseau.setEditable(false);
 
-        lblDescriptionReseau.setText("jLabel8");
-
-        tfdIdCategorieProduit.setEditable(false);
+        tfdDescriptionCategorieProduit.setEditable(false);
 
         btnConsulterCategorieProduit.setText("...");
         btnConsulterCategorieProduit.setFocusable(false);
@@ -124,8 +122,6 @@ public class RegistreProduit extends JInternalFrame {
                 btnConsulterCategorieProduitActionPerformed(evt);
             }
         });
-
-        lblDescriptionCategorieProduit.setText("jLabel8");
 
         btnExclure.setText("EXCLURE");
         btnExclure.addActionListener(new java.awt.event.ActionListener() {
@@ -143,23 +139,20 @@ public class RegistreProduit extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(tfdIdReseau, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnConsulterReseau)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDescriptionReseau))
                     .addComponent(jLabel6)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(tfdIdCategorieProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnConsulterCategorieProduit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDescriptionCategorieProduit))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel4)
                         .addComponent(tfdPrixAchat, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(chbActiver)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tfdDescriptionCategorieProduit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnConsulterCategorieProduit))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tfdNomReseau)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnConsulterReseau))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(tfdDescription)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -169,8 +162,7 @@ public class RegistreProduit extends JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(chbActiver)))
+                                .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -186,16 +178,14 @@ public class RegistreProduit extends JInternalFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdReseau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterReseau)
-                    .addComponent(lblDescriptionReseau))
+                    .addComponent(tfdNomReseau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterReseau))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdIdCategorieProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterCategorieProduit)
-                    .addComponent(lblDescriptionCategorieProduit))
+                    .addComponent(tfdDescriptionCategorieProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsulterCategorieProduit))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -208,7 +198,7 @@ public class RegistreProduit extends JInternalFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -225,14 +215,13 @@ public class RegistreProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
 
-            Produit produit = new Produit(codeProduit);
+            Produit produit = new Produit(idProduit);
             produit.setDescription(tfdDescription.getText());
 
-            Reseau reseau = new Reseau(Integer.parseInt(tfdIdReseau.getText()));
-
+            Reseau reseau = new Reseau(idReseau);
             produit.setReseau(reseau);
 
-            CategorieProduit categorieProduit = new CategorieProduit(Integer.parseInt(tfdIdCategorieProduit.getText()));
+            CategorieProduit categorieProduit = new CategorieProduit(idCategorieProduit);
             produit.setCategorieProduit(categorieProduit);
 
             try {
@@ -250,7 +239,7 @@ public class RegistreProduit extends JInternalFrame {
                     prixAchatProduit.setValeurUSD(new BigDecimal(tfdPrixAchat.getText()));
                 }
 
-                produit.setPrixAchatProduit(new PrixAchatProduit(prixAchatProduit.getCode()));
+                produit.setPrixAchatProduit(new PrixAchatProduit(prixAchatProduit.getId()));
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(RegistreProduit.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -346,7 +335,7 @@ public class RegistreProduit extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
             try {
-                ProduitService.getInstance().exclureProduit(codeProduit);
+                ProduitService.getInstance().exclureProduit(idProduit);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException ex) {
@@ -372,12 +361,10 @@ public class RegistreProduit extends JInternalFrame {
 
     public void produitSelectionne(Produit produit) {
         if (produit != null) {
-            codeProduit = produit.getCode();
+            idProduit = produit.getId();
             tfdDescription.setText(produit.getDescription());
-            tfdIdReseau.setText(String.valueOf(produit.getReseau().getCode()));
-            lblDescriptionReseau.setText(produit.getReseau().getNom());
-            tfdIdCategorieProduit.setText(String.valueOf(produit.getCategorieProduit().getCode()));
-            lblDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
+            tfdNomReseau.setText(produit.getReseau().getNom());
+            tfdDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
 
             if (produit.getPrixAchatProduit().getValeurUSD() != null) {
                 tfdPrixAchat.setText(DecimalFormatter.getInstance().getFormattedValue(produit.getPrixAchatProduit().getValeurUSD()));
@@ -393,27 +380,25 @@ public class RegistreProduit extends JInternalFrame {
 
     public void reseauSelectionne(Reseau reseau) {
         if (reseau != null) {
-            tfdIdReseau.setText(String.valueOf(reseau.getCode()));
-            lblDescriptionReseau.setText(reseau.getNom());
+            tfdNomReseau.setText(reseau.getNom());
+            idReseau = reseau.getId();
         }
     }
 
     public void categorieProduitSelectionne(CategorieProduit categorieProduit) {
         if (categorieProduit != null) {
-            tfdIdCategorieProduit.setText(String.valueOf(categorieProduit.getCode()));
-            lblDescriptionCategorieProduit.setText(categorieProduit.getDescription());
+            tfdDescriptionCategorieProduit.setText(categorieProduit.getDescription());
+            idCategorieProduit = categorieProduit.getId();
         }
     }
 
     private void effacerFormulaire() {
-        codeProduit = 0;
+        idProduit = "";
         tfdDescription.setText("");
         tfdDescription.requestFocus();
-        tfdIdReseau.setText("");
-        lblDescriptionReseau.setText("");
+        tfdNomReseau.setText("");
         tfdPrixAchat.setText("");
-        tfdIdCategorieProduit.setText("");
-        lblDescriptionCategorieProduit.setText("");
+        tfdDescriptionCategorieProduit.setText("");
         chbActiver.setVisible(false);
         chbActiver.setSelected(true);
         modeEdition = false;
@@ -442,11 +427,11 @@ public class RegistreProduit extends JInternalFrame {
             notification.append("\nDescription");
             nio.add(1);
         }
-        if (tfdIdReseau.getText().isEmpty()) {
+        if (tfdNomReseau.getText().isEmpty()) {
             notification.append("\nRéseau");
             nio.add(2);
         }
-        if (tfdIdCategorieProduit.getText().isEmpty()) {
+        if (tfdDescriptionCategorieProduit.getText().isEmpty()) {
             notification.append("\nCatégorie de Produit");
             nio.add(3);
         }
@@ -466,10 +451,10 @@ public class RegistreProduit extends JInternalFrame {
                     break;
 
                 case 2:
-                    tfdIdReseau.requestFocus();
+                    tfdNomReseau.requestFocus();
                     break;
                 case 3:
-                    tfdIdCategorieProduit.requestFocus();
+                    tfdDescriptionCategorieProduit.requestFocus();
                     break;
 
                 case 4:
@@ -493,11 +478,9 @@ public class RegistreProduit extends JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel lblDescriptionCategorieProduit;
-    private javax.swing.JLabel lblDescriptionReseau;
     private javax.swing.JTextField tfdDescription;
-    private javax.swing.JTextField tfdIdCategorieProduit;
-    private javax.swing.JTextField tfdIdReseau;
+    private javax.swing.JTextField tfdDescriptionCategorieProduit;
+    private javax.swing.JTextField tfdNomReseau;
     private javax.swing.JTextField tfdPrixAchat;
     // End of variables declaration//GEN-END:variables
 }
