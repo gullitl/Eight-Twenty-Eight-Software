@@ -7,7 +7,6 @@ import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
-import static gullit.IdGenerator.generateId;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -264,60 +263,31 @@ public class RegistreCollaborateur extends JInternalFrame {
 
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
+
+            Collaborateur collaborateur = new Collaborateur(idCollaborateur);
+            collaborateur.setPrenom(tfdPrenom.getText());
+            collaborateur.setNom(tfdNom.getText());
+            collaborateur.setPostnom(tfdPostnom.getText());
+            collaborateur.setSurnom(tfdSurnom.getText());
+            collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
+            collaborateur.setMotDePasse(pwfMotDePasse.getText());
+
+            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
+            collaborateur.setProfilUtilisateur(profilUtilisateur);
+            collaborateur.setActive(modeEdition ? chbActiver.isSelected() : true);
             try {
-                if (!modeEdition) {
-                    Collaborateur collaborateur = new Collaborateur(generateId());
-                    collaborateur.setPrenom(tfdPrenom.getText());
-                    collaborateur.setNom(tfdNom.getText());
-                    collaborateur.setPostnom(tfdPostnom.getText());
-                    collaborateur.setSurnom(tfdSurnom.getText());
-                    collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
-                    collaborateur.setMotDePasse(pwfMotDePasse.getText());
+                if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
+                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                    effacerFormulaire();
 
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
-                    collaborateur.setProfilUtilisateur(profilUtilisateur);
-                    collaborateur.setActive(modeEdition ? chbActiver.isSelected() : true);
-
-                    if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
-                        String notification = "Sauvegarde effectuée avec succès";
-                        effacerFormulaire();
-
-                        if (collaborateur.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getId())) {
-                            JOptionPane.showMessageDialog(null, notification
-                                    + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
-                            System.exit(0);
-                        } else {
-                            JOptionPane.showMessageDialog(null, notification);
-                        }
-
+                    if (collaborateur.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getId())) {
+                        JOptionPane.showMessageDialog(null, notification
+                                + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
+                        System.exit(0);
+                    } else {
+                        JOptionPane.showMessageDialog(null, notification);
                     }
 
-                } else {
-                    Collaborateur collaborateur = new Collaborateur(idCollaborateur);
-                    collaborateur.setPrenom(tfdPrenom.getText());
-                    collaborateur.setNom(tfdNom.getText());
-                    collaborateur.setPostnom(tfdPostnom.getText());
-                    collaborateur.setSurnom(tfdSurnom.getText());
-                    collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
-                    collaborateur.setMotDePasse(pwfMotDePasse.getText());
-
-                    ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
-                    collaborateur.setProfilUtilisateur(profilUtilisateur);
-                    collaborateur.setActive(modeEdition ? chbActiver.isSelected() : true);
-
-                    if (CollaborateurService.getInstance().actualiserCollaborateur(collaborateur)) {
-                        String notification = "Actualisation effectuée avec succès";
-                        effacerFormulaire();
-
-                        if (collaborateur.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getId())) {
-                            JOptionPane.showMessageDialog(null, notification
-                                    + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
-                            System.exit(0);
-                        } else {
-                            JOptionPane.showMessageDialog(null, notification);
-                        }
-
-                    }
                 }
             } catch (SQLException ex) {
                 StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");

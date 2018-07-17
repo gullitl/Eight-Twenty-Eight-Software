@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.FournisseurDao;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
+import static gullit.IdGenerator.generateId;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -26,12 +27,13 @@ public class FournisseurService {
         return FournisseurDao.getInstance().selectionnerFournisseurParId(idFournisseur);
     }
 
-    public boolean enregistrerFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
-        return FournisseurDao.getInstance().enregistrerFournisseur(fournisseur);
-    }
-
-    public boolean actualiserFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
-        return FournisseurDao.getInstance().actualiserFournisseur(fournisseur);
+    public boolean enregistrerFournisseur(Fournisseur fournisseur) throws ClassNotFoundException, SQLException, Exception {
+        if (fournisseur.getId().isEmpty()) {
+            fournisseur.setId(generateId());
+            return FournisseurDao.getInstance().enregistrerFournisseur(fournisseur);
+        } else {
+            return FournisseurDao.getInstance().actualiserFournisseur(fournisseur);
+        }
     }
 
     public List<Fournisseur> listerTousLesFournisseurs() throws ClassNotFoundException, SQLException {

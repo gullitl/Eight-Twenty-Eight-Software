@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.CategorieProduitDao;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
+import static gullit.IdGenerator.generateId;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -30,12 +31,14 @@ public class CategorieProduitService {
         return CategorieProduitDao.getInstance().selectionnerCategorieProduitParId(idCategorieProduit);
     }
 
-    public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
-        return CategorieProduitDao.getInstance().enregistrerCategorieProduit(categorieProduit);
-    }
-
-    public boolean actualiserCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
-        return CategorieProduitDao.getInstance().actualiserCategorieProduit(categorieProduit);
+    public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit)
+            throws ClassNotFoundException, SQLException, Exception {
+        if (categorieProduit.getId().isEmpty()) {
+            categorieProduit.setId(generateId());
+            return CategorieProduitDao.getInstance().enregistrerCategorieProduit(categorieProduit);
+        } else {
+            return CategorieProduitDao.getInstance().actualiserCategorieProduit(categorieProduit);
+        }
     }
 
     public boolean exclureCategorieProduit(String idCategorieProduit) throws ClassNotFoundException, SQLException {

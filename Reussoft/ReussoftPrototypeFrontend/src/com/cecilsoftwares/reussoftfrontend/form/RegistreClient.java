@@ -4,7 +4,6 @@ import com.cecilsoftwares.reussoftbackend.service.ClientService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationClient;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
-import static gullit.IdGenerator.generateId;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -155,29 +154,17 @@ public class RegistreClient extends JInternalFrame {
 
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
+
+            Client client = new Client(idClient);
+            client.setEntreprise(tfdEntreprise.getText());
+            client.setNom(tfdNom.getText());
+            client.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
+            client.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
             try {
-                if (!modeEdition) {
-                    Client client = new Client(generateId());
-                    client.setEntreprise(tfdEntreprise.getText());
-                    client.setNom(tfdNom.getText());
-                    client.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
-                    client.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
-
-                    if (ClientService.getInstance().enregistrerClient(client)) {
-                        effacerFormulaire();
-                        JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
-                    }
-                } else {
-                    Client client = new Client(idClient);
-                    client.setEntreprise(tfdEntreprise.getText());
-                    client.setNom(tfdNom.getText());
-                    client.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
-                    client.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
-
-                    if (ClientService.getInstance().actualiserClient(client)) {
-                        effacerFormulaire();
-                        JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès");
-                    }
+                if (ClientService.getInstance().enregistrerClient(client)) {
+                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, notification);
                 }
 
             } catch (ClassNotFoundException | SQLException ex) {

@@ -106,12 +106,13 @@ public class CollaborateurService {
         return CollaborateurDao.getInstance().selectionnerCollaborateurParId(codeCollaborateur);
     }
 
-    public boolean enregistrerCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
-        return CollaborateurDao.getInstance().enregistrerCollaborateur(collaborateur);
-    }
-
-    public boolean actualiserCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
-        return CollaborateurDao.getInstance().actualiserCollaborateur(collaborateur);
+    public boolean enregistrerCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException, Exception {
+        if (collaborateur.getId().isEmpty()) {
+            collaborateur.setId(generateId());
+            return CollaborateurDao.getInstance().enregistrerCollaborateur(collaborateur);
+        } else {
+            return CollaborateurDao.getInstance().actualiserCollaborateur(collaborateur);
+        }
     }
 
     public boolean exclureCollaborateur(String idCollaborateur) throws ClassNotFoundException, SQLException {

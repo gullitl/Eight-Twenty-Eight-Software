@@ -3,7 +3,6 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import static gullit.IdGenerator.generateId;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -136,27 +135,15 @@ public class RegistreCategorieProduit extends JInternalFrame {
 
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
+
+            CategorieProduit categorieProduit = new CategorieProduit(idCategorieProduit);
+            categorieProduit.setDescription(tfdDescription.getText());
+            categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
             try {
-
-                if (!modeEdition) {
-                    CategorieProduit categorieProduit = new CategorieProduit(generateId());
-                    categorieProduit.setDescription(tfdDescription.getText());
-                    categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
-
-                    if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
-                        effacerFormulaire();
-                        JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
-                    }
-
-                } else {
-                    CategorieProduit categorieProduit = new CategorieProduit(idCategorieProduit);
-                    categorieProduit.setDescription(tfdDescription.getText());
-                    categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
-
-                    if (CategorieProduitService.getInstance().actualiserCategorieProduit(categorieProduit)) {
-                        effacerFormulaire();
-                        JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès");
-                    }
+                if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
+                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, notification);
                 }
 
             } catch (ClassNotFoundException | SQLException ex) {
