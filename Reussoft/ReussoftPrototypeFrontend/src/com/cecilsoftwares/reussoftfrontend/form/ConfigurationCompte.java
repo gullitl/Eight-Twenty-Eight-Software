@@ -284,6 +284,8 @@ public class ConfigurationCompte extends JInternalFrame {
                 } catch (ClassNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le collaborateur :(");
                     habiliterComposantFormulaire(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(ConfigurationCompte.class.getName()).log(Level.SEVERE, null, ex);
                 } finally {
                     setCursor(Cursor.getDefaultCursor());
                 }
