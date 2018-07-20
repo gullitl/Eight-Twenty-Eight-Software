@@ -22,47 +22,6 @@ CREATE DATABASE IF NOT EXISTS makservicedb;
 USE makservicedb;
 
 --
--- Definition of table `Itemdispatch`
---
-
-DROP TABLE IF EXISTS `Itemdispatch`;
-CREATE TABLE `Itemdispatch` (
-  `idDispatch` varchar(45) DEFAULT NULL,
-  `idProduit` varchar(45) DEFAULT NULL,
-  `idShop` varchar(45) DEFAULT NULL,
-  `quantite` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `Itemdispatch`
---
-
-/*!40000 ALTER TABLE `Itemdispatch` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Itemdispatch` ENABLE KEYS */;
-
-
---
--- Definition of table `Itementreestock`
---
-
-DROP TABLE IF EXISTS `Itementreestock`;
-CREATE TABLE `Itementreestock` (
-  `idEntreeStock` varchar(45) NOT NULL,
-  `idProduit` varchar(45) NOT NULL,
-  `prixAchat` decimal(10,2) DEFAULT NULL,
-  `quantite` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`idEntreeStock`,`idProduit`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `Itementreestock`
---
-
-/*!40000 ALTER TABLE `Itementreestock` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Itementreestock` ENABLE KEYS */;
-
-
---
 -- Definition of table `Itemsortiestock`
 --
 
@@ -83,27 +42,6 @@ CREATE TABLE `Itemsortiestock` (
 
 
 --
--- Definition of table `Produit`
---
-
-DROP TABLE IF EXISTS `Produit`;
-CREATE TABLE `Produit` (
-  `id` varchar(45) NOT NULL,
-  `idShop` varchar(45) DEFAULT NULL,
-  `valeur` decimal(10,2) DEFAULT NULL,
-  `dateHeure` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `Produit`
---
-
-/*!40000 ALTER TABLE `Produit` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Produit` ENABLE KEYS */;
-
-
---
 -- Definition of table `categorieproduit`
 --
 
@@ -120,9 +58,6 @@ CREATE TABLE `categorieproduit` (
 --
 
 /*!40000 ALTER TABLE `categorieproduit` DISABLE KEYS */;
-INSERT INTO `categorieproduit` (`id`,`description`,`descriptionAbregee`) VALUES 
- ('1','Teste description','Tst da'),
- ('2','Flash unité','Fl unt');
 /*!40000 ALTER TABLE `categorieproduit` ENABLE KEYS */;
 
 
@@ -137,7 +72,9 @@ CREATE TABLE `client` (
   `nom` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `telephone` varchar(10) DEFAULT NULL,
   `idShop` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `FK_client_shop` (`idShop`),
+  CONSTRAINT `FK_client_shop` FOREIGN KEY (`idShop`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -145,9 +82,6 @@ CREATE TABLE `client` (
 --
 
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` (`id`,`entreprise`,`nom`,`telephone`,`idShop`) VALUES 
- ('1','fhgfyhtfy','gydygdfgfjht','5646345544','2'),
- ('4','Une entreprise','Un client de plus','5646900000','2');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 
 
@@ -167,7 +101,11 @@ CREATE TABLE `collaborateur` (
   `active` tinyint(1) unsigned DEFAULT NULL,
   `nomUtilisateur` varchar(45) DEFAULT NULL,
   `motDePasse` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `FK_collaborateur_profilutilisateur` (`idProfilUtilisateur`),
+  KEY `FK_collaborateur_shop` (`idShop`),
+  CONSTRAINT `FK_collaborateur_profilutilisateur` FOREIGN KEY (`idProfilUtilisateur`) REFERENCES `profilutilisateur` (`id`),
+  CONSTRAINT `FK_collaborateur_shop` FOREIGN KEY (`idShop`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -175,10 +113,6 @@ CREATE TABLE `collaborateur` (
 --
 
 /*!40000 ALTER TABLE `collaborateur` DISABLE KEYS */;
-INSERT INTO `collaborateur` (`id`,`idProfilUtilisateur`,`idShop`,`nom`,`prenom`,`postnom`,`surnom`,`active`,`nomUtilisateur`,`motDePasse`) VALUES 
- ('1','1','1','Luzolo','Plamedi','Lusembo','Gulit',1,'plam.l','12345'),
- ('6','2',NULL,'Luzolo','Nadine','Nsambu','Nana',1,'nluzolo','12345'),
- ('9','2',NULL,'Luzolo','Patricia','Lusembo','Pati',1,'pluzolo','12345');
 /*!40000 ALTER TABLE `collaborateur` ENABLE KEYS */;
 
 
@@ -192,7 +126,9 @@ CREATE TABLE `dispatch` (
   `idShop` varchar(45) DEFAULT NULL,
   `dateHeure` timestamp NULL DEFAULT NULL,
   `valide` tinyint(1) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `FK_dispatch_shop` (`idShop`),
+  CONSTRAINT `FK_dispatch_shop` FOREIGN KEY (`idShop`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -215,7 +151,9 @@ CREATE TABLE `entreestock` (
   `ValeuTotalCoutUSD` decimal(10,2) DEFAULT NULL,
   `ValeurTotalCoutFC` decimal(10,2) DEFAULT NULL,
   `ValeurTauxMonnaie` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `FK_entreestock_fournisseur` (`idFournisseur`),
+  CONSTRAINT `FK_entreestock_fournisseur` FOREIGN KEY (`idFournisseur`) REFERENCES `fournisseur` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -244,10 +182,47 @@ CREATE TABLE `fournisseur` (
 --
 
 /*!40000 ALTER TABLE `fournisseur` DISABLE KEYS */;
-INSERT INTO `fournisseur` (`id`,`entreprise`,`responsable`,`telephone`) VALUES 
- ('1','tESTW TWEFEWFUYF','tESTEGSDUG IUSDGUI','4564630000'),
- ('3','Teste fournisseur','Responssabçle fouirniskçk','7896098799');
 /*!40000 ALTER TABLE `fournisseur` ENABLE KEYS */;
+
+
+--
+-- Definition of table `itemdispatch`
+--
+
+DROP TABLE IF EXISTS `itemdispatch`;
+CREATE TABLE `itemdispatch` (
+  `idDispatch` varchar(45) NOT NULL,
+  `idProduit` varchar(45) NOT NULL,
+  `idShop` varchar(45) NOT NULL,
+  `quantite` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `itemdispatch`
+--
+
+/*!40000 ALTER TABLE `itemdispatch` DISABLE KEYS */;
+/*!40000 ALTER TABLE `itemdispatch` ENABLE KEYS */;
+
+
+--
+-- Definition of table `itementreestock`
+--
+
+DROP TABLE IF EXISTS `itementreestock`;
+CREATE TABLE `itementreestock` (
+  `idEntreeStock` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `idProduit` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `prixAchat` decimal(10,2) DEFAULT NULL,
+  `quantite` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `itementreestock`
+--
+
+/*!40000 ALTER TABLE `itementreestock` DISABLE KEYS */;
+/*!40000 ALTER TABLE `itementreestock` ENABLE KEYS */;
 
 
 --
@@ -304,7 +279,9 @@ CREATE TABLE `produit` (
   `description` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `idCategorieProduit` varchar(45) DEFAULT NULL,
   `active` tinyint(1) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `FK_produit_reseau` (`idReseau`),
+  CONSTRAINT `FK_produit_reseau` FOREIGN KEY (`idReseau`) REFERENCES `reseau` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -312,9 +289,6 @@ CREATE TABLE `produit` (
 --
 
 /*!40000 ALTER TABLE `produit` DISABLE KEYS */;
-INSERT INTO `produit` (`id`,`idReseau`,`description`,`idCategorieProduit`,`active`) VALUES 
- ('2','2','Teste2 JKHILHKJHK','1',1),
- ('3','1','jhlnskjhnlkjn','2',1);
 /*!40000 ALTER TABLE `produit` ENABLE KEYS */;
 
 
@@ -335,9 +309,6 @@ CREATE TABLE `profilutilisateur` (
 --
 
 /*!40000 ALTER TABLE `profilutilisateur` DISABLE KEYS */;
-INSERT INTO `profilutilisateur` (`id`,`description`,`descriptionAbregee`) VALUES 
- ('1','Administrateur','Admini'),
- ('2','Utilisateur','Utl');
 /*!40000 ALTER TABLE `profilutilisateur` ENABLE KEYS */;
 
 
@@ -359,10 +330,6 @@ CREATE TABLE `reseau` (
 --
 
 /*!40000 ALTER TABLE `reseau` DISABLE KEYS */;
-INSERT INTO `reseau` (`id`,`nom`,`nomAbrege`,`active`) VALUES 
- ('1','Congo Chine Télécom','CCT',1),
- ('2','Vodacom','Voda',1),
- ('6','Orange','org',1);
 /*!40000 ALTER TABLE `reseau` ENABLE KEYS */;
 
 
@@ -377,7 +344,8 @@ CREATE TABLE `sessionutilisateur` (
   `actionEntree` tinyint(3) unsigned DEFAULT NULL,
   `dateHeure` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `FK_sessionutilisateur_collaborateur` (`idCollaborateur`)
+  KEY `FK_sessionutilisateur_collaborateur` (`idCollaborateur`),
+  CONSTRAINT `FK_sessionutilisateur_collaborateur` FOREIGN KEY (`idCollaborateur`) REFERENCES `collaborateur` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -385,57 +353,6 @@ CREATE TABLE `sessionutilisateur` (
 --
 
 /*!40000 ALTER TABLE `sessionutilisateur` DISABLE KEYS */;
-INSERT INTO `sessionutilisateur` (`id`,`idCollaborateur`,`actionEntree`,`dateHeure`) VALUES 
- ('1','1',1,'2018-07-03 01:19:09'),
- ('10','1',1,'2018-07-07 00:27:11'),
- ('11','1',1,'2018-07-07 00:33:45'),
- ('12','1',1,'2018-07-07 01:02:12'),
- ('13','1',1,'2018-07-07 01:02:52'),
- ('14','1',1,'2018-07-08 18:03:18'),
- ('15','1',1,'2018-07-08 18:04:42'),
- ('16','1',1,'2018-07-08 18:12:56'),
- ('17','1',1,'2018-07-08 18:19:19'),
- ('18','1',1,'2018-07-08 18:34:18'),
- ('19','1',1,'2018-07-08 18:34:47'),
- ('2','1',1,'2018-07-03 01:53:58'),
- ('20','1',1,'2018-07-08 19:05:22'),
- ('21','1',1,'2018-07-08 19:33:09'),
- ('22','1',1,'2018-07-08 19:38:08'),
- ('23','1',1,'2018-07-08 19:51:09'),
- ('24','1',1,'2018-07-10 16:33:56'),
- ('25','1',1,'2018-07-10 16:35:49'),
- ('26','1',1,'2018-07-10 16:39:30'),
- ('27','1',1,'2018-07-10 16:50:31'),
- ('28','1',1,'2018-07-10 16:52:07'),
- ('29','1',1,'2018-07-10 16:54:44'),
- ('3','1',1,'2018-07-03 02:07:46'),
- ('30','1',1,'2018-07-11 02:30:44'),
- ('31','1',1,'2018-07-11 02:42:25'),
- ('32','1',1,'2018-07-11 02:43:20'),
- ('33','1',1,'2018-07-11 02:44:24'),
- ('34','1',1,'2018-07-11 16:34:48'),
- ('35','1',1,'2018-07-11 16:36:22'),
- ('36','1',1,'2018-07-11 16:42:01'),
- ('37','1',1,'2018-07-11 16:43:57'),
- ('38','1',1,'2018-07-11 16:47:48'),
- ('39','1',1,'2018-07-11 16:54:23'),
- ('4','1',1,'2018-07-06 23:10:13'),
- ('40','1',1,'2018-07-11 17:09:28'),
- ('41','1',1,'2018-07-11 17:11:05'),
- ('42','1',1,'2018-07-12 13:58:36'),
- ('43','1',1,'2018-07-12 14:00:17'),
- ('44','1',1,'2018-07-14 18:44:07'),
- ('45','1',1,'2018-07-14 18:59:36'),
- ('46','1',1,'2018-07-14 19:02:24'),
- ('47','1',1,'2018-07-14 19:03:25'),
- ('48','1',1,'2018-07-14 19:06:09'),
- ('49','1',1,'2018-07-14 22:33:14'),
- ('5','1',1,'2018-07-06 23:13:01'),
- ('50','1',1,'2018-07-14 22:34:33'),
- ('6','1',1,'2018-07-07 00:02:35'),
- ('7','1',1,'2018-07-07 00:05:47'),
- ('8','1',1,'2018-07-07 00:09:59'),
- ('9','1',1,'2018-07-07 00:19:16');
 /*!40000 ALTER TABLE `sessionutilisateur` ENABLE KEYS */;
 
 
@@ -457,12 +374,6 @@ CREATE TABLE `shop` (
 --
 
 /*!40000 ALTER TABLE `shop` DISABLE KEYS */;
-INSERT INTO `shop` (`id`,`nom`,`adresse`,`active`) VALUES 
- ('1','La source','Avenue Lutendele@4786@Quartier 7@N\'djili@Kinshasa@Teste',1),
- ('2','Quartier 7','Avenue Lutendele@4786@Quartier 7@N\'djili@Kinshasa@Teste',1),
- ('3','Masina','Teste gfjhfj@546@uigug Teste@Teste ugiugi@Kinshasa@Teste yguogi',1),
- ('4','Centre Ville','Teste gfjhfj@546@uigug Teste@Teste ugiugi@Kinshasa@Teste yguogi',1),
- ('5','Quartier 9','Teste gfjhfj@546@uigug Teste@Teste ugiugi@Kinshasa@Teste yguogi',1);
 /*!40000 ALTER TABLE `shop` ENABLE KEYS */;
 
 
@@ -479,7 +390,11 @@ CREATE TABLE `sortiestock` (
   `ValeurTauxMonnaie` decimal(10,2) DEFAULT NULL,
   `ValeuTotalVenteUSD` decimal(10,2) DEFAULT NULL,
   `ValeurTotalVenteFC` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `FK_sortiestock_shop` (`idShop`),
+  KEY `FK_sortiestock_client` (`idClient`),
+  CONSTRAINT `FK_sortiestock_client` FOREIGN KEY (`idClient`) REFERENCES `client` (`id`),
+  CONSTRAINT `FK_sortiestock_shop` FOREIGN KEY (`idShop`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -502,7 +417,10 @@ CREATE TABLE `stockproduit` (
   `quantiteMaximumStock` decimal(10,0) DEFAULT NULL,
   `quantiteMinimumStock` decimal(10,0) DEFAULT NULL,
   `observation` varchar(245) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  PRIMARY KEY (`idProduit`,`idShop`)
+  PRIMARY KEY (`idProduit`,`idShop`),
+  KEY `FK_stockproduit_shop` (`idShop`),
+  CONSTRAINT `FK_stockproduit_produit` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`id`),
+  CONSTRAINT `FK_stockproduit_shop` FOREIGN KEY (`idShop`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -523,7 +441,9 @@ CREATE TABLE `tauxcarte` (
   `idShop` varchar(45) DEFAULT NULL,
   `valeur` decimal(10,0) DEFAULT NULL,
   `dateHeure` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `FK_tauxcarte_shop` (`idShop`),
+  CONSTRAINT `FK_tauxcarte_shop` FOREIGN KEY (`idShop`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
