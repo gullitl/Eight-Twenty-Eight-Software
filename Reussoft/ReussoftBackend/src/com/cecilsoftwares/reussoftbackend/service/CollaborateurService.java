@@ -2,12 +2,12 @@ package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.CollaborateurDao;
 import com.cecilsoftwares.reussoftbackend.dao.SessionUtilisateurDao;
+import com.cecilsoftwares.reussoftbackend.util.IdGenerator;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.google.gson.Gson;
-import static gullit.IdGenerator.generateId;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,7 +59,7 @@ public class CollaborateurService {
             if (collaborateur.getShop().getId().equals(shopUtilisateur.getId())) {
 
                 SessionUtilisateur sessionUtilisateur = new SessionUtilisateur();
-                sessionUtilisateur.setId(generateId());
+                sessionUtilisateur.setId(IdGenerator.generateId());
                 sessionUtilisateur.setCollaborateur(collaborateur);
                 sessionUtilisateur.setActionEntree(true);
                 sessionUtilisateur.setDateHeure(new Date());
@@ -108,7 +108,7 @@ public class CollaborateurService {
 
     public boolean enregistrerCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException, Exception {
         if (collaborateur.getId().isEmpty()) {
-            collaborateur.setId(generateId());
+            collaborateur.setId(IdGenerator.generateId());
             return CollaborateurDao.getInstance().enregistrerCollaborateur(collaborateur);
         } else {
             return CollaborateurDao.getInstance().actualiserCollaborateur(collaborateur);

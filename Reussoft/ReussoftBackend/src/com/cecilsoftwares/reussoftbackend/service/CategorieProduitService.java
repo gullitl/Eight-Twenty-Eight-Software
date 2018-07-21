@@ -1,8 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.CategorieProduitDao;
+import com.cecilsoftwares.reussoftbackend.util.IdGenerator;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
-import static gullit.IdGenerator.generateId;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class CategorieProduitService {
     public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit)
             throws ClassNotFoundException, SQLException, Exception {
         if (categorieProduit.getId().isEmpty()) {
-            categorieProduit.setId(generateId());
+            categorieProduit.setId(IdGenerator.generateId());
             return CategorieProduitDao.getInstance().enregistrerCategorieProduit(categorieProduit);
         } else {
             return CategorieProduitDao.getInstance().actualiserCategorieProduit(categorieProduit);

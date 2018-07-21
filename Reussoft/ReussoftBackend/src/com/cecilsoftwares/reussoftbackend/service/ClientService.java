@@ -1,8 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ClientDao;
+import com.cecilsoftwares.reussoftbackend.util.IdGenerator;
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
-import static gullit.IdGenerator.generateId;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class ClientService {
 
     public boolean enregistrerClient(Client client) throws ClassNotFoundException, SQLException, Exception {
         if (client.getId().isEmpty()) {
-            client.setId(generateId());
+            client.setId(IdGenerator.generateId());
             return ClientDao.getInstance().enregistrerClient(client);
         } else {
             return ClientDao.getInstance().actualiserClient(client);
