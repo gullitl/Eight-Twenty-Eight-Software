@@ -157,6 +157,8 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(RegistreProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
             }
             setCursor(Cursor.getDefaultCursor());
         }
