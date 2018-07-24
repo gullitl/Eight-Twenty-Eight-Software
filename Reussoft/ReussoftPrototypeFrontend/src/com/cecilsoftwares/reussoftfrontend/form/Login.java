@@ -38,7 +38,7 @@ public class Login extends javax.swing.JFrame {
 
         try {
             Collaborateur collaborateur = CollaborateurService.getInstance().rappelToiDeLUtilisateur();
-            if (shop.getId().equals(collaborateur.getId())) {
+            if (shop.getId().equals(collaborateur.getShop().getId())) {
                 cbxRappelToiDeMoi.setSelected(true);
                 tfdUtilisateur.setText(collaborateur.getNomUtilisateur());
                 pwfMotDePasse.setText(collaborateur.getMotDePasse());

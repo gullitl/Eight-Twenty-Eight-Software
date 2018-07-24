@@ -60,7 +60,7 @@ public class ConfigurationCompte extends JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre de Collaborateur");
+        setTitle("Configuration du compte");
 
         jLabel2.setText("Prénom:");
 
@@ -222,77 +222,74 @@ public class ConfigurationCompte extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (isInformationObligatoiresRemplies()) {
-
-            if (!isMotdePasseConfirme()) {
-                return;
-            }
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            Collaborateur collaborateur = new Collaborateur(idCollaborateur);
-            collaborateur.setPrenom(tfdPrenom.getText());
-            collaborateur.setNom(tfdNom.getText());
-            collaborateur.setPostnom(tfdPostnom.getText());
-            collaborateur.setSurnom(tfdSurnom.getText());
-            collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
-            collaborateur.setMotDePasse(pwfMotDePasse.getText());
-
-            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
-            collaborateur.setProfilUtilisateur(profilUtilisateur);
-            collaborateur.setActive(true);
-
-            Collaborateur collab = SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur();
-
-            if (collaborateur.getPrenom().equals(collab.getPrenom())
-                    && collaborateur.getNom().equals(collab.getNom())
-                    && collaborateur.getPostnom().equals(collab.getPostnom())
-                    && collaborateur.getSurnom().equals(collab.getSurnom())
-                    && collaborateur.getNomUtilisateur().equals(collab.getNomUtilisateur())
-                    && collaborateur.getMotDePasse().equals(collab.getMotDePasse())
-                    && collaborateur.getProfilUtilisateur().getId().equals(collab.getProfilUtilisateur().getId())) {
-
-                JOptionPane.showMessageDialog(null, "Il n'y a eu aucune necessité d'actualiser le collaborateur."
-                        + "\nAucune alteration a été réalisée!");
-
-            } else {
-
-                try {
-                    //Editer le nom d'utilisateur dans la base de donnée pour être "unique"
-                    if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
-                        effacerFormulaire();
-                        JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès."
-                                + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
-
-                        System.exit(0);
-
-                    }
-                } catch (SQLException ex) {
-                    StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");
-                    switch (ex.getErrorCode()) {
-                        case 1062:
-                            notification.append("\n\nLe nom d'utilisateur de ce collaborateur est déjà utilisé!");
-                            tfdNomUtilisateur.selectAll();
-                            break;
-                        default:
-                            break;
-                    }
-                    JOptionPane.showMessageDialog(null, notification);
-                    habiliterComposantFormulaire(true);
-                    Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le collaborateur :(");
-                    habiliterComposantFormulaire(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(ConfigurationCompte.class.getName()).log(Level.SEVERE, null, ex);
-                } finally {
-                    setCursor(Cursor.getDefaultCursor());
-                }
-            }
-
-            setCursor(Cursor.getDefaultCursor());
+        if (!isInformationObligatoiresRemplies() || !isMotdePasseConfirme()) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        Collaborateur collaborateur = new Collaborateur(idCollaborateur);
+        collaborateur.setPrenom(tfdPrenom.getText());
+        collaborateur.setNom(tfdNom.getText());
+        collaborateur.setPostnom(tfdPostnom.getText());
+        collaborateur.setSurnom(tfdSurnom.getText());
+        collaborateur.setNomUtilisateur(tfdNomUtilisateur.getText());
+        collaborateur.setMotDePasse(pwfMotDePasse.getText());
+
+        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
+        collaborateur.setProfilUtilisateur(profilUtilisateur);
+        collaborateur.setActive(true);
+
+        Collaborateur collab = SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur();
+
+        if (collaborateur.getPrenom().equals(collab.getPrenom())
+                && collaborateur.getNom().equals(collab.getNom())
+                && collaborateur.getPostnom().equals(collab.getPostnom())
+                && collaborateur.getSurnom().equals(collab.getSurnom())
+                && collaborateur.getNomUtilisateur().equals(collab.getNomUtilisateur())
+                && collaborateur.getMotDePasse().equals(collab.getMotDePasse())
+                && collaborateur.getProfilUtilisateur().getId().equals(collab.getProfilUtilisateur().getId())) {
+
+            JOptionPane.showMessageDialog(null, "Il n'y a eu aucune necessité d'actualiser le collaborateur."
+                    + "\nAucune alteration a été réalisée!");
+
+        } else {
+
+            try {
+                //Editer le nom d'utilisateur dans la base de donnée pour être "unique"
+                if (CollaborateurService.getInstance().enregistrerCollaborateur(collaborateur)) {
+                    effacerFormulaire();
+                    JOptionPane.showMessageDialog(null, "Actualisation effectuée avec succès."
+                            + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
+
+                    System.exit(0);
+
+                }
+            } catch (SQLException ex) {
+                StringBuilder notification = new StringBuilder("Une faille est survenue en sauvegardant le collaborateur :(");
+                switch (ex.getErrorCode()) {
+                    case 1062:
+                        notification.append("\n\nLe nom d'utilisateur de ce collaborateur est déjà utilisé!");
+                        tfdNomUtilisateur.selectAll();
+                        break;
+                    default:
+                        break;
+                }
+                JOptionPane.showMessageDialog(null, notification);
+
+                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le collaborateur :(");
+            } catch (Exception ex) {
+                Logger.getLogger(ConfigurationCompte.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void collaborateurSelectionne(Collaborateur collaborateur) {
@@ -305,7 +302,8 @@ public class ConfigurationCompte extends JInternalFrame {
             tfdNomUtilisateur.setText(collaborateur.getNomUtilisateur());
             pwfMotDePasse.setText(collaborateur.getMotDePasse());
             pwfConfirmerMotDePasse.setText(collaborateur.getMotDePasse());
-            tfdDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getId());
+            idProfilUtilisateur = collaborateur.getProfilUtilisateur().getId();
+            tfdDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getDescription());
         }
     }
 
@@ -342,7 +340,6 @@ public class ConfigurationCompte extends JInternalFrame {
             tfdNomUtilisateur.setText(new StringBuilder().append(premiereLettrePrenom)
                     .append(tfdPostnom.getText().toLowerCase()).toString());
         }
-
     }//GEN-LAST:event_tfdNomUtilisateurFocusGained
 
     private void effacerFormulaire() {
@@ -378,6 +375,7 @@ public class ConfigurationCompte extends JInternalFrame {
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Le mot de passe ne correspond pas!");
+            pwfConfirmerMotDePasse.requestFocus();
             return false;
         }
     }
@@ -414,11 +412,6 @@ public class ConfigurationCompte extends JInternalFrame {
             nio.add(6);
         }
 
-        if (tfdDescriptionProfilUtilisateur.getText().isEmpty()) {
-            notification.append("\nprofil d'utilisateur");
-            nio.add(7);
-        }
-
         if (notification.toString().isEmpty()) {
             return true;
         } else {
@@ -443,9 +436,6 @@ public class ConfigurationCompte extends JInternalFrame {
                     tfdNomUtilisateur.requestFocus();
                     break;
                 case 6:
-                    pwfMotDePasse.requestFocus();
-                    break;
-                case 7:
                     pwfMotDePasse.requestFocus();
                     break;
                 default:
