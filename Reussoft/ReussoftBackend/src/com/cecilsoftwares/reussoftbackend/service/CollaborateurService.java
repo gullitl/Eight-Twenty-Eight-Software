@@ -2,7 +2,6 @@ package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.CollaborateurDao;
 import com.cecilsoftwares.reussoftbackend.dao.SessionUtilisateurDao;
-import com.cecilsoftwares.reussoftbackend.util.IdGenerator;
 import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
@@ -110,7 +109,7 @@ public class CollaborateurService {
 
     public boolean enregistrerCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException, Exception {
         if (collaborateur.getId().isEmpty()) {
-            collaborateur.setId(IdGenerator.generateId());
+            collaborateur.setId(generateId());
             return CollaborateurDao.getInstance().enregistrerCollaborateur(collaborateur);
         } else {
             return CollaborateurDao.getInstance().actualiserCollaborateur(collaborateur);

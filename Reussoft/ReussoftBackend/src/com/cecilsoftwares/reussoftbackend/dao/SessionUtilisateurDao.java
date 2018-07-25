@@ -133,15 +133,15 @@ public class SessionUtilisateurDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO sessionutilisateur(");
             scriptSQL.append(" id, idCollaborateur, idShop, dateHeure, actionEntree )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, sessionUtilisateur.getId());
             prs.setString(2, sessionUtilisateur.getCollaborateur().getId());
-            prs.setString(2, sessionUtilisateur.getShop().getId());
-            prs.setTimestamp(3, new Timestamp(sessionUtilisateur.getDateHeure().getTime()));
-            prs.setInt(4, sessionUtilisateur.isActionEntree() ? 1 : 0);
+            prs.setString(3, sessionUtilisateur.getShop().getId());
+            prs.setTimestamp(4, new Timestamp(sessionUtilisateur.getDateHeure().getTime()));
+            prs.setInt(5, sessionUtilisateur.isActionEntree() ? 1 : 0);
 
             prs.execute();
             prs.close();

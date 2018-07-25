@@ -160,40 +160,40 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrerActionPerformed
-        if (isInformationObligatoiresRemplies()) {
-            if (btnEntrerClickable) {
-                try {
-                    setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    habiliterComposantFormulaire(false);
+        if (!isInformationObligatoiresRemplies() || !btnEntrerClickable) {
+            return;
+        }
 
-                    switch (CollaborateurService.getInstance()
-                            .login(shop, tfdUtilisateur.getText(), pwfMotDePasse.getText(), cbxRappelToiDeMoi.isSelected())) {
-                        case 0:
-                            JOptionPane.showMessageDialog(null, "Login incorrect!");
-                            habiliterComposantFormulaire(true);
-                            break;
-                        case 1:
-                            retournerAuChoixShop = false;
-                            java.awt.EventQueue.invokeLater(() -> {
-                                MDI mdi = new MDI();
-                                mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                                mdi.setVisible(true);
-                                this.dispose();
-                            });
-                            break;
-                        case 2:
-                            JOptionPane.showMessageDialog(null, "Désolé, mais vous n'êtes pas autorisé à acceder à ce shop!");
-                            habiliterComposantFormulaire(true);
-                            break;
-                    }
-                    setCursor(Cursor.getDefaultCursor());
+        try {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            habiliterComposantFormulaire(false);
 
-                } catch (ClassNotFoundException | SQLException | IOException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            switch (CollaborateurService.getInstance()
+                    .login(shop, tfdUtilisateur.getText(), pwfMotDePasse.getText(), cbxRappelToiDeMoi.isSelected())) {
+                case 0:
+                    JOptionPane.showMessageDialog(null, "Login incorrect!");
+                    habiliterComposantFormulaire(true);
+                    break;
+                case 1:
+                    retournerAuChoixShop = false;
+                    java.awt.EventQueue.invokeLater(() -> {
+                        MDI mdi = new MDI();
+                        mdi.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        mdi.setVisible(true);
+                        this.dispose();
+                    });
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Désolé, mais vous n'êtes pas autorisé à acceder à ce shop!");
+                    habiliterComposantFormulaire(true);
+                    break;
             }
+            setCursor(Cursor.getDefaultCursor());
+
+        } catch (ClassNotFoundException | SQLException | IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEntrerActionPerformed
 

@@ -316,6 +316,7 @@ public class RegistreCollaborateur extends JInternalFrame {
         if (!btnConsulterCollaborateurClickable) {
             return;
         }
+
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
@@ -372,11 +373,12 @@ public class RegistreCollaborateur extends JInternalFrame {
     }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
 
     public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
-        if (profilUtilisateur != null) {
-            idProfilUtilisateur = profilUtilisateur.getId();
-            tfdDescriptionProfilUtilisateur.setText(profilUtilisateur.getDescription());
-            tfdDescriptionProfilUtilisateur.requestFocus();
+        if (profilUtilisateur == null) {
+            return;
         }
+        idProfilUtilisateur = profilUtilisateur.getId();
+        tfdDescriptionProfilUtilisateur.setText(profilUtilisateur.getDescription());
+        tfdDescriptionProfilUtilisateur.requestFocus();
     }
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed

@@ -293,45 +293,50 @@ public class ConfigurationCompte extends JInternalFrame {
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void collaborateurSelectionne(Collaborateur collaborateur) {
-        if (collaborateur != null) {
-            idCollaborateur = collaborateur.getId();
-            tfdPrenom.setText(collaborateur.getPrenom());
-            tfdNom.setText(collaborateur.getNom());
-            tfdPostnom.setText(collaborateur.getPostnom());
-            tfdSurnom.setText(collaborateur.getSurnom());
-            tfdNomUtilisateur.setText(collaborateur.getNomUtilisateur());
-            pwfMotDePasse.setText(collaborateur.getMotDePasse());
-            pwfConfirmerMotDePasse.setText(collaborateur.getMotDePasse());
-            idProfilUtilisateur = collaborateur.getProfilUtilisateur().getId();
-            tfdDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getDescription());
+        if (collaborateur == null) {
+            return;
         }
+
+        idCollaborateur = collaborateur.getId();
+        tfdPrenom.setText(collaborateur.getPrenom());
+        tfdNom.setText(collaborateur.getNom());
+        tfdPostnom.setText(collaborateur.getPostnom());
+        tfdSurnom.setText(collaborateur.getSurnom());
+        tfdNomUtilisateur.setText(collaborateur.getNomUtilisateur());
+        pwfMotDePasse.setText(collaborateur.getMotDePasse());
+        pwfConfirmerMotDePasse.setText(collaborateur.getMotDePasse());
+        idProfilUtilisateur = collaborateur.getProfilUtilisateur().getId();
+        tfdDescriptionProfilUtilisateur.setText(collaborateur.getProfilUtilisateur().getDescription());
     }
 
     private void btnConsulterProfilUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProfilUtilisateurActionPerformed
-        if (btnConsulterProfilUtilisateurClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-                ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true, ProfilUtilisateurService.getInstance()
-                        .listerTousLesProfilUtilisateurs());
-                consultationProfilUtilisateur.setFrameAncetre(this);
-                consultationProfilUtilisateur.setVisible(true);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConfigurationCompte.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterProfilUtilisateurClickable) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+            ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true, ProfilUtilisateurService.getInstance()
+                    .listerTousLesProfilUtilisateurs());
+            consultationProfilUtilisateur.setFrameAncetre(this);
+            consultationProfilUtilisateur.setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConfigurationCompte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
 
     public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
-        if (profilUtilisateur != null) {
-            tfdDescriptionProfilUtilisateur.setText(profilUtilisateur.getDescription());
-            idProfilUtilisateur = profilUtilisateur.getId();
-            tfdDescriptionProfilUtilisateur.requestFocus();
+        if (profilUtilisateur == null) {
+            return;
         }
+
+        tfdDescriptionProfilUtilisateur.setText(profilUtilisateur.getDescription());
+        idProfilUtilisateur = profilUtilisateur.getId();
+        tfdDescriptionProfilUtilisateur.requestFocus();
     }
 
     private void tfdNomUtilisateurFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdNomUtilisateurFocusGained

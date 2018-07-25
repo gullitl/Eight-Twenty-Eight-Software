@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ShopDao;
+import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.SQLException;
 import java.util.List;
@@ -30,8 +31,13 @@ public class ShopService {
         return ShopDao.getInstance().selectionnerShopParId(idShop);
     }
 
-    public boolean enregistrerShop(Shop shop) throws ClassNotFoundException, SQLException {
-        return ShopDao.getInstance().enregistrerShop(shop);
+    public boolean enregistrerShop(Shop shop) throws ClassNotFoundException, SQLException, Exception {
+        if (shop.getId().isEmpty()) {
+            shop.setId(generateId());
+            return ShopDao.getInstance().enregistrerShop(shop);
+        } else {
+            return ShopDao.getInstance().actualiserShop(shop);
+        }
     }
 
     public boolean exclureShop(String idShop) throws ClassNotFoundException, SQLException {

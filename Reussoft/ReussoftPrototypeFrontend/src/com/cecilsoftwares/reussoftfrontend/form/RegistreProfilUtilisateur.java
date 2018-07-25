@@ -133,54 +133,56 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (isInformationObligatoiresRemplies()) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
-            profilUtilisateur.setDescription(tfdDescription.getText());
-            profilUtilisateur.setDescriptionAbregee(tfdDescriptionAbregee.getText());
-
-            try {
-                if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                    effacerFormulaire();
-                    if (profilUtilisateur.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getProfilUtilisateur().getId())) {
-                        JOptionPane.showMessageDialog(null, notification
-                                + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
-                        System.exit(0);
-                    } else {
-                        JOptionPane.showMessageDialog(null, notification);
-                    }
-                }
-            } catch (ClassNotFoundException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
-                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(RegistreProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            setCursor(Cursor.getDefaultCursor());
+        if (!isInformationObligatoiresRemplies()) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
+        profilUtilisateur.setDescription(tfdDescription.getText());
+        profilUtilisateur.setDescriptionAbregee(tfdDescriptionAbregee.getText());
+
+        try {
+            if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                effacerFormulaire();
+                if (profilUtilisateur.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getProfilUtilisateur().getId())) {
+                    JOptionPane.showMessageDialog(null, notification
+                            + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
+                    System.exit(0);
+                } else {
+                    JOptionPane.showMessageDialog(null, notification);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
+            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(RegistreProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterProfilUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProfilUtilisateurActionPerformed
         if (btnConsulterProfilUtilisateurClickable) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-            try {
-                ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true, ProfilUtilisateurService.getInstance()
-                        .listerTousLesProfilUtilisateurs());
-                consultationProfilUtilisateur.setFrameAncetre(this);
-                consultationProfilUtilisateur.setVisible(true);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(RegistreProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+        try {
+            ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true, ProfilUtilisateurService.getInstance()
+                    .listerTousLesProfilUtilisateurs());
+            consultationProfilUtilisateur.setFrameAncetre(this);
+            consultationProfilUtilisateur.setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(RegistreProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
@@ -229,14 +231,15 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }//GEN-LAST:event_btnExclureActionPerformed
 
     public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
-        if (profilUtilisateur != null) {
-            idProfilUtilisateur = profilUtilisateur.getId();
-            tfdDescription.setText(profilUtilisateur.getDescription());
-            tfdDescriptionAbregee.setText(profilUtilisateur.getDescriptionAbregee());
-            btnEnregistrer.setText("ACTUALISER");
-            btnExclure.setEnabled(true);
-            modeEdition = true;
+        if (profilUtilisateur == null) {
+            return;
         }
+        idProfilUtilisateur = profilUtilisateur.getId();
+        tfdDescription.setText(profilUtilisateur.getDescription());
+        tfdDescriptionAbregee.setText(profilUtilisateur.getDescriptionAbregee());
+        btnEnregistrer.setText("ACTUALISER");
+        btnExclure.setEnabled(true);
+        modeEdition = true;
     }
 
     private void effacerFormulaire() {

@@ -1,7 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ProfilUtilisateurDao;
-import com.cecilsoftwares.reussoftbackend.util.IdGenerator;
+import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import java.sql.SQLException;
 import java.util.List;
@@ -34,7 +34,7 @@ public class ProfilUtilisateurService {
     public boolean enregistrerProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException, Exception {
 
         if (profilUtilisateur.getId().isEmpty()) {
-            profilUtilisateur.setId(IdGenerator.generateId());
+            profilUtilisateur.setId(generateId());
             return ProfilUtilisateurDao.getInstance().enregistrerProfilUtilisateur(profilUtilisateur);
         } else {
             return ProfilUtilisateurDao.getInstance().actualiserProfilUtilisateur(profilUtilisateur);

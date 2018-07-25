@@ -1,14 +1,18 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
+import com.cecilsoftwares.reussoftbackend.service.SessionUtilisateurService;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import java.awt.Cursor;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import javax.swing.event.InternalFrameAdapter;
@@ -55,6 +59,17 @@ public class MDI extends javax.swing.JFrame {
 
                 if (n == 1) {
                     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                } else {
+                    setVisible(false);
+                    try {
+                        SessionUtilisateurKS.getInstance().getSessionUtilisateur().setDateHeure(new Date());
+                        SessionUtilisateurKS.getInstance().getSessionUtilisateur().setActionEntree(false);
+                        SessionUtilisateurService.getInstance()
+                                .sauvegarderSessionUtilisateur(SessionUtilisateurKS.getInstance().getSessionUtilisateur());
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        Logger.getLogger(MDI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 }
             }
         }

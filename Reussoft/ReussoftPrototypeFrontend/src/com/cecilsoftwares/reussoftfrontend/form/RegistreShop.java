@@ -231,93 +231,98 @@ public class RegistreShop extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (isInformationObligatoiresRemplies()) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            String adresse = new StringBuilder(tfdAvenue.getText())
-                    .append("@").append(tfdNumero.getText())
-                    .append("@").append(tfdQuartier.getText())
-                    .append("@").append(tfdCommune.getText())
-                    .append("@").append(cbxProvince.getSelectedItem().toString())
-                    .append("@").append(tfdDistrict.getText())
-                    .toString();
-
-            Shop shop = new Shop(idShop);
-            shop.setNom(tfdNom.getText());
-            shop.setAdresse(adresse);
-            shop.setActive(modeEdition ? chbActiver.isSelected() : true);
-
-            try {
-                if (ShopService.getInstance().enregistrerShop(shop)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                    effacerFormulaire();
-                    if (shop.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop().getId())) {
-                        JOptionPane.showMessageDialog(null, notification
-                                + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
-                        System.exit(0);
-                    } else {
-                        JOptionPane.showMessageDialog(null, notification);
-                    }
-                }
-            } catch (ClassNotFoundException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le nouveau Shop");
-                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            setCursor(Cursor.getDefaultCursor());
+        if (!isInformationObligatoiresRemplies()) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        String adresse = new StringBuilder(tfdAvenue.getText())
+                .append("@").append(tfdNumero.getText())
+                .append("@").append(tfdQuartier.getText())
+                .append("@").append(tfdCommune.getText())
+                .append("@").append(cbxProvince.getSelectedItem().toString())
+                .append("@").append(tfdDistrict.getText())
+                .toString();
+
+        Shop shop = new Shop(idShop);
+        shop.setNom(tfdNom.getText());
+        shop.setAdresse(adresse);
+        shop.setActive(modeEdition ? chbActiver.isSelected() : true);
+
+        try {
+            if (ShopService.getInstance().enregistrerShop(shop)) {
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                effacerFormulaire();
+                if (shop.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop().getId())) {
+                    JOptionPane.showMessageDialog(null, notification
+                            + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
+                    System.exit(0);
+                } else {
+                    JOptionPane.showMessageDialog(null, notification);
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le nouveau Shop");
+            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
-        if (btnConsulterShopClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-
-                ConsultationShop consultationShop = new ConsultationShop(null, true, ShopService.getInstance().listerTousLesShops());
-                consultationShop.setFrameAncetre(this);
-                consultationShop.setVisible(true);
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationShop.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterShopClickable) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+
+            ConsultationShop consultationShop = new ConsultationShop(null, true, ShopService.getInstance().listerTousLesShops());
+            consultationShop.setFrameAncetre(this);
+            consultationShop.setVisible(true);
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationShop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterShopActionPerformed
 
     public void shopSelectionne(Shop shop) {
-        if (shop != null) {
-            idShop = shop.getId();
-            tfdNom.setText(shop.getNom());
-
-            String[] adresse = shop.getAdresse().split("@");
-            tfdAvenue.setText(adresse[0]);
-            tfdNumero.setText(adresse[1]);
-            tfdQuartier.setText(adresse[2]);
-            tfdCommune.setText(adresse[3]);
-            switch (adresse[4]) {
-                case "Kinshasa":
-                    cbxProvince.setSelectedIndex(0);
-                    break;
-                case "Kasaï":
-                    cbxProvince.setSelectedIndex(1);
-                    break;
-                case "Kongo-Central":
-                    cbxProvince.setSelectedIndex(2);
-                    break;
-            }
-            tfdDistrict.setText(adresse[5]);
-
-            chbActiver.setVisible(true);
-            chbActiver.setSelected(shop.isActive());
-            btnEnregistrer.setText("ACTUALISER");
-            btnExclure.setEnabled(true);
-            modeEdition = true;
+        if (shop == null) {
+            return;
         }
+        idShop = shop.getId();
+        tfdNom.setText(shop.getNom());
+
+        String[] adresse = shop.getAdresse().split("@");
+        tfdAvenue.setText(adresse[0]);
+        tfdNumero.setText(adresse[1]);
+        tfdQuartier.setText(adresse[2]);
+        tfdCommune.setText(adresse[3]);
+        switch (adresse[4]) {
+            case "Kinshasa":
+                cbxProvince.setSelectedIndex(0);
+                break;
+            case "Kasaï":
+                cbxProvince.setSelectedIndex(1);
+                break;
+            case "Kongo-Central":
+                cbxProvince.setSelectedIndex(2);
+                break;
+        }
+        tfdDistrict.setText(adresse[5]);
+
+        chbActiver.setVisible(true);
+        chbActiver.setSelected(shop.isActive());
+        btnEnregistrer.setText("ACTUALISER");
+        btnExclure.setEnabled(true);
+        modeEdition = true;
     }
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
