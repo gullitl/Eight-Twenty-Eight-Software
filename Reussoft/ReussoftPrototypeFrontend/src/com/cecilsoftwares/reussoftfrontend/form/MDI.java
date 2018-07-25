@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
@@ -53,7 +54,7 @@ public class MDI extends javax.swing.JFrame {
                         options[0]); //default button title
 
                 if (n == 1) {
-                    System.out.println("Ne pas quitter");
+                    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                 }
             }
         }

@@ -3,6 +3,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 import com.cecilsoftwares.reussoftbackend.dao.CollaborateurDao;
 import com.cecilsoftwares.reussoftbackend.dao.SessionUtilisateurDao;
 import com.cecilsoftwares.reussoftbackend.util.IdGenerator;
+import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
@@ -59,8 +60,9 @@ public class CollaborateurService {
             if (collaborateur.getShop().getId().equals(shopUtilisateur.getId())) {
 
                 SessionUtilisateur sessionUtilisateur = new SessionUtilisateur();
-                sessionUtilisateur.setId(IdGenerator.generateId());
+                sessionUtilisateur.setId(generateId());
                 sessionUtilisateur.setCollaborateur(collaborateur);
+                sessionUtilisateur.setShop(shopUtilisateur);
                 sessionUtilisateur.setActionEntree(true);
                 sessionUtilisateur.setDateHeure(new Date());
 

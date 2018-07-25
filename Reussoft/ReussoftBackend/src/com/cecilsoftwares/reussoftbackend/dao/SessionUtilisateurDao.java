@@ -39,10 +39,10 @@ public class SessionUtilisateurDao {
 
             scriptSQL = new StringBuilder("SELECT sessionutilisateur.id, sessionutilisateur.dateHeure, sessionutilisateur.action,");
             scriptSQL.append(" sessionutilisateur.idCollaborateur, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
-            scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse");
+            scriptSQL.append(" sessionutilisateur.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM sessionutilisateur");
             scriptSQL.append(" LEFT JOIN collaborateur ON sessionutilisateur.idSessionUtilisateur = collaborateur.id");
-            scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.id");
+            scriptSQL.append(" LEFT JOIN shop ON sessionutilisateur.idShop = shop.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -84,10 +84,10 @@ public class SessionUtilisateurDao {
 
             scriptSQL = new StringBuilder("SELECT sessionutilisateur.id, sessionutilisateur.dateHeure, sessionutilisateur.action,");
             scriptSQL.append(" sessionutilisateur.idCollaborateur, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
-            scriptSQL.append(" collaborateur.idShop, shop.nom, shop.adresse");
+            scriptSQL.append(" sessionutilisateur.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM sessionutilisateur");
             scriptSQL.append(" LEFT JOIN collaborateur ON sessionutilisateur.idSessionUtilisateur = collaborateur.id");
-            scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.id");
+            scriptSQL.append(" LEFT JOIN shop ON sessionutilisateur.idShop = shop.id");
             scriptSQL.append(" WHERE sessionutilisateur.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -132,13 +132,14 @@ public class SessionUtilisateurDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO sessionutilisateur(");
-            scriptSQL.append(" id, idCollaborateur, dateHeure, actionEntree )");
+            scriptSQL.append(" id, idCollaborateur, idShop, dateHeure, actionEntree )");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, sessionUtilisateur.getId());
             prs.setString(2, sessionUtilisateur.getCollaborateur().getId());
+            prs.setString(2, sessionUtilisateur.getShop().getId());
             prs.setTimestamp(3, new Timestamp(sessionUtilisateur.getDateHeure().getTime()));
             prs.setInt(4, sessionUtilisateur.isActionEntree() ? 1 : 0);
 
