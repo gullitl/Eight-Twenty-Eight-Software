@@ -159,6 +159,8 @@ public class RegistreReseau extends JInternalFrame {
             } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Reseau");
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(RegistreReseau.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             setCursor(Cursor.getDefaultCursor());
