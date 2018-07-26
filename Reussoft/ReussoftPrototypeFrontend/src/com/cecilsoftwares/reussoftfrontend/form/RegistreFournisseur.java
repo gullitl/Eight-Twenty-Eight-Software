@@ -147,62 +147,64 @@ public class RegistreFournisseur extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (isInformationObligatoiresRemplies()) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            Fournisseur fournisseur = new Fournisseur(idFournisseur);
-            fournisseur.setEntreprise(tfdEntreprise.getText());
-            fournisseur.setResponsable(tfdResponsable.getText());
-            fournisseur.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
-            try {
-                if (FournisseurService.getInstance().enregistrerFournisseur(fournisseur)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                    effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, notification);
-                }
-            } catch (ClassNotFoundException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Fournisseur");
-                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(RegistreFournisseur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            setCursor(Cursor.getDefaultCursor());
+        if (!isInformationObligatoiresRemplies()) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        Fournisseur fournisseur = new Fournisseur(idFournisseur);
+        fournisseur.setEntreprise(tfdEntreprise.getText());
+        fournisseur.setResponsable(tfdResponsable.getText());
+        fournisseur.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
+        try {
+            if (FournisseurService.getInstance().enregistrerFournisseur(fournisseur)) {
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                effacerFormulaire();
+                JOptionPane.showMessageDialog(null, notification);
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Fournisseur");
+            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(RegistreFournisseur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        setCursor(Cursor.getDefaultCursor());
 
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterFournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterFournisseurActionPerformed
-        if (btnConsulterFournisseurClickable) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-                ConsultationFournisseur consultationFournisseur = new ConsultationFournisseur(null, true, FournisseurService.getInstance()
-                        .listerTousLesFournisseurs());
-                consultationFournisseur.setFrameAncetre(this);
-                consultationFournisseur.setVisible(true);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterFournisseurClickable) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+            ConsultationFournisseur consultationFournisseur = new ConsultationFournisseur(null, true, FournisseurService.getInstance()
+                    .listerTousLesFournisseurs());
+            consultationFournisseur.setFrameAncetre(this);
+            consultationFournisseur.setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterFournisseurActionPerformed
 
     public void fournisseurSelectionne(Fournisseur fournisseur) {
-        if (fournisseur != null) {
-            idFournisseur = fournisseur.getId();
-            tfdResponsable.setText(fournisseur.getResponsable());
-            tfdTelephone.setText(fournisseur.getTelephone());
-            tfdEntreprise.setText(fournisseur.getEntreprise());
-            btnEnregistrer.setText("ACTUALISER");
-            modeEdition = true;
-            btnExclure.setEnabled(true);
+        if (fournisseur == null) {
+            return;
         }
+        idFournisseur = fournisseur.getId();
+        tfdResponsable.setText(fournisseur.getResponsable());
+        tfdTelephone.setText(fournisseur.getTelephone());
+        tfdEntreprise.setText(fournisseur.getEntreprise());
+        btnEnregistrer.setText("ACTUALISER");
+        modeEdition = true;
+        btnExclure.setEnabled(true);
     }
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed

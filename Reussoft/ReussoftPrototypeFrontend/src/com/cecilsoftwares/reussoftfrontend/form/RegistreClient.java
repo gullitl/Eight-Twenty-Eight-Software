@@ -150,51 +150,53 @@ public class RegistreClient extends JInternalFrame {
     }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-        if (isInformationObligatoiresRemplies()) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            Client client = new Client(idClient);
-            client.setEntreprise(tfdEntreprise.getText());
-            client.setNom(tfdNom.getText());
-            client.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
-            client.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
-            try {
-                if (ClientService.getInstance().enregistrerClient(client)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                    effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, notification);
-                }
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Client");
-                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(RegistreClient.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            setCursor(Cursor.getDefaultCursor());
+        if (!isInformationObligatoiresRemplies()) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        Client client = new Client(idClient);
+        client.setEntreprise(tfdEntreprise.getText());
+        client.setNom(tfdNom.getText());
+        client.setTelephone(tfdTelephone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
+        client.setShop(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getShop());
+        try {
+            if (ClientService.getInstance().enregistrerClient(client)) {
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                effacerFormulaire();
+                JOptionPane.showMessageDialog(null, notification);
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Client");
+            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(RegistreClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterClientActionPerformed
-        if (btnConsulterClientClickable) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-                ConsultationClient consultationClient = new ConsultationClient(null, true, ClientService.getInstance()
-                        .listerTousLesClients());
-                consultationClient.setFrameAncetre(this);
-                consultationClient.setVisible(true);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationClient.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterClientClickable) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+            ConsultationClient consultationClient = new ConsultationClient(null, true, ClientService.getInstance()
+                    .listerTousLesClients());
+            consultationClient.setFrameAncetre(this);
+            consultationClient.setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterClientActionPerformed
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
@@ -236,20 +238,17 @@ public class RegistreClient extends JInternalFrame {
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 
-    private void consulterClient() {
-
-    }
-
     public void clientSelectionne(Client client) {
-        if (client != null) {
-            idClient = client.getId();
-            tfdNom.setText(client.getNom());
-            tfdEntreprise.setText(client.getEntreprise());
-            tfdTelephone.setText(client.getTelephone());
-            btnEnregistrer.setText("ACTUALISER");
-            modeEdition = true;
-            btnExclure.setEnabled(true);
+        if (client == null) {
+            return;
         }
+        idClient = client.getId();
+        tfdNom.setText(client.getNom());
+        tfdEntreprise.setText(client.getEntreprise());
+        tfdTelephone.setText(client.getTelephone());
+        btnEnregistrer.setText("ACTUALISER");
+        modeEdition = true;
+        btnExclure.setEnabled(true);
     }
 
     private void effacerFormulaire() {
