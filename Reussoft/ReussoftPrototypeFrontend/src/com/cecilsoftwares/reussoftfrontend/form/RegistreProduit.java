@@ -15,7 +15,6 @@ import com.cecilsoftwares.reussoftmiddleend.util.DecimalFormatter;
 import java.awt.Cursor;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -31,6 +30,8 @@ public class RegistreProduit extends JInternalFrame {
     private String idProduit;
     private String idReseau;
     private String idCategorieProduit;
+    private String idPrixAchatProduit;
+
     private PrixAchatProduit prixAchatProduit;
 //    private int codePrixVenteProduit;
 //    private BigDecimal valeurPrixVenteProduitInicial;
@@ -210,114 +211,113 @@ public class RegistreProduit extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (isInformationObligatoiresRemplies()) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            Produit produit = new Produit(idProduit);
-            produit.setDescription(tfdDescription.getText());
-
-            Reseau reseau = new Reseau(idReseau);
-            produit.setReseau(reseau);
-
-            CategorieProduit categorieProduit = new CategorieProduit(idCategorieProduit);
-            produit.setCategorieProduit(categorieProduit);
-
-            try {
-
-                if (modeEdition) {
-                    if (prixAchatProduit.getValeurUSD().equals(new BigDecimal(tfdPrixAchat.getText()))) {
-                        PrixAchatProduitService.getInstance().enregistrerPrixAchatProduit(prixAchatProduit);
-                        prixAchatProduit = PrixAchatProduitService.getInstance().selectionnerDernierPrixAchatProduit(produit);
-                    }
-
-                } else {
-                    prixAchatProduit = new PrixAchatProduit();
-                    prixAchatProduit.setDateHeure(new Date());
-                    prixAchatProduit.setProduit(produit);
-                    prixAchatProduit.setValeurUSD(new BigDecimal(tfdPrixAchat.getText()));
-                }
-
-                produit.setPrixAchatProduit(new PrixAchatProduit(prixAchatProduit.getId()));
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(RegistreProduit.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            produit.setActive(modeEdition ? chbActiver.isSelected() : true);
-
-            try {
-                if (ProduitService.getInstance().enregistrerProduit(produit)) {
-                    effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
-                }
-            } catch (ClassNotFoundException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Produit");
-                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            setCursor(Cursor.getDefaultCursor());
+        if (!isInformationObligatoiresRemplies()) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        Produit produit = new Produit(idProduit);
+        produit.setDescription(tfdDescription.getText());
+
+        produit.setReseau(new Reseau(idReseau));
+        produit.setCategorieProduit(new CategorieProduit(idCategorieProduit));
+
+        try {
+
+            if (modeEdition) {
+                if (prixAchatProduit.getValeurUSD().equals(new BigDecimal(tfdPrixAchat.getText()))) {
+                    PrixAchatProduitService.getInstance().enregistrerPrixAchatProduit(prixAchatProduit);
+                    prixAchatProduit = PrixAchatProduitService.getInstance().selectionnerDernierPrixAchatProduit(produit);
+                }
+
+            } else {
+                prixAchatProduit = new PrixAchatProduit(idPrixAchatProduit);
+                prixAchatProduit.setValeurUSD(new BigDecimal(tfdPrixAchat.getText()));
+            }
+
+            produit.setPrixAchatProduit(new PrixAchatProduit(prixAchatProduit.getId()));
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(RegistreProduit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        produit.setActive(modeEdition ? chbActiver.isSelected() : true);
+
+        try {
+            if (ProduitService.getInstance().enregistrerProduit(produit)) {
+                effacerFormulaire();
+                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Produit");
+            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProduitActionPerformed
-        if (btnConsulterProduitClickable) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-
-                ConsultationProduit consultationProduit = new ConsultationProduit(null, true, ProduitService.getInstance()
-                        .listerTousLesProduits());
-                consultationProduit.setFrameAncetre(this);
-                consultationProduit.setVisible(true);
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationProduit.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterProduitClickable) {
+            return;
         }
 
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+
+            ConsultationProduit consultationProduit = new ConsultationProduit(null, true, ProduitService.getInstance()
+                    .listerTousLesProduits());
+            consultationProduit.setFrameAncetre(this);
+            consultationProduit.setVisible(true);
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationProduit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterProduitActionPerformed
 
     private void btnConsulterReseauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterReseauActionPerformed
-        if (btnConsulterReseauClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            ConsultationReseau consultationReseau;
-            try {
-                consultationReseau = new ConsultationReseau(null, true, ReseauService.getInstance().listerTousLesReseaux());
-                consultationReseau.setFrameAncetre(this);
-                consultationReseau.setVisible(true);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(RegistreProduit.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterReseauClickable) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        ConsultationReseau consultationReseau;
+        try {
+            consultationReseau = new ConsultationReseau(null, true, ReseauService.getInstance().listerTousLesReseaux());
+            consultationReseau.setFrameAncetre(this);
+            consultationReseau.setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(RegistreProduit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterReseauActionPerformed
 
     private void btnConsulterCategorieProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCategorieProduitActionPerformed
-        if (btnConsulterCategorieProduitClickable) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-            try {
-                ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true, CategorieProduitService.getInstance()
-                        .listerTousLesCategorieProduits());
-                consultationCategorieProduit.setFrameAncetre(this);
-                consultationCategorieProduit.setVisible(true);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterCategorieProduitClickable) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+        try {
+            ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true, CategorieProduitService.getInstance()
+                    .listerTousLesCategorieProduits());
+            consultationCategorieProduit.setFrameAncetre(this);
+            consultationCategorieProduit.setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterCategorieProduitActionPerformed
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
@@ -360,29 +360,33 @@ public class RegistreProduit extends JInternalFrame {
     }//GEN-LAST:event_btnExclureActionPerformed
 
     public void produitSelectionne(Produit produit) {
-        if (produit != null) {
-            idProduit = produit.getId();
-            tfdDescription.setText(produit.getDescription());
-            tfdNomReseau.setText(produit.getReseau().getNom());
-            tfdDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
-
-            if (produit.getPrixAchatProduit().getValeurUSD() != null) {
-                tfdPrixAchat.setText(DecimalFormatter.getInstance().getFormattedValue(produit.getPrixAchatProduit().getValeurUSD()));
-                prixAchatProduit = produit.getPrixAchatProduit();
-            }
-            chbActiver.setVisible(true);
-            chbActiver.setSelected(produit.isActive());
-            btnEnregistrer.setText("ACTUALISER");
-            modeEdition = true;
-            btnExclure.setEnabled(true);
+        if (produit == null) {
+            return;
         }
+
+        idProduit = produit.getId();
+        tfdDescription.setText(produit.getDescription());
+        tfdNomReseau.setText(produit.getReseau().getNom());
+        tfdDescriptionCategorieProduit.setText(produit.getCategorieProduit().getDescription());
+
+        if (produit.getPrixAchatProduit().getValeurUSD() != null) {
+            tfdPrixAchat.setText(DecimalFormatter.getInstance().getFormattedValue(produit.getPrixAchatProduit().getValeurUSD()));
+            prixAchatProduit = produit.getPrixAchatProduit();
+        }
+        chbActiver.setVisible(true);
+        chbActiver.setSelected(produit.isActive());
+        btnEnregistrer.setText("ACTUALISER");
+        modeEdition = true;
+        btnExclure.setEnabled(true);
     }
 
     public void reseauSelectionne(Reseau reseau) {
-        if (reseau != null) {
-            tfdNomReseau.setText(reseau.getNom());
-            idReseau = reseau.getId();
+        if (reseau == null) {
+            return;
         }
+
+        tfdNomReseau.setText(reseau.getNom());
+        idReseau = reseau.getId();
     }
 
     public void categorieProduitSelectionne(CategorieProduit categorieProduit) {
@@ -436,10 +440,10 @@ public class RegistreProduit extends JInternalFrame {
             nio.add(3);
         }
 
-//        if (tfdPrixAchat.getText().isEmpty()) {
-//            notification.append("\nPrix d'achat USD");
-//            nio.add(4);
-//        }
+        if (tfdPrixAchat.getText().isEmpty()) {
+            notification.append("\nPrix d'achat USD");
+            nio.add(4);
+        }
         if (notification.toString().isEmpty()) {
             return true;
         } else {

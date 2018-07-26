@@ -131,61 +131,64 @@ public class RegistreCategorieProduit extends JInternalFrame {
     }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-        if (isInformationObligatoiresRemplies()) {
+        if (!isInformationObligatoiresRemplies()) {
+            return;
+        }
 
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
 
-            CategorieProduit categorieProduit = new CategorieProduit(idCategorieProduit);
-            categorieProduit.setDescription(tfdDescription.getText());
-            categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
-            try {
-                if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
-                    String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
-                    effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, notification);
-                }
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
-                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(RegistreCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
+        CategorieProduit categorieProduit = new CategorieProduit(idCategorieProduit);
+        categorieProduit.setDescription(tfdDescription.getText());
+        categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
+        try {
+            if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
+                String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
+                effacerFormulaire();
+                JOptionPane.showMessageDialog(null, notification);
             }
 
-            setCursor(Cursor.getDefaultCursor());
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
+            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(RegistreCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterCategorieProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCategorieProduitActionPerformed
-        if (btnConsulterCategorieProduitClickable) {
-
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-                ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true, CategorieProduitService.getInstance()
-                        .listerTousLesCategorieProduits());
-                consultationCategorieProduit.setFrameAncetre(this);
-                consultationCategorieProduit.setVisible(true);
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterCategorieProduitClickable) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+            ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true, CategorieProduitService.getInstance()
+                    .listerTousLesCategorieProduits());
+            consultationCategorieProduit.setFrameAncetre(this);
+            consultationCategorieProduit.setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterCategorieProduitActionPerformed
 
     public void categorieProduitSelectionnee(CategorieProduit categorieProduit) {
-        if (categorieProduit != null) {
-            idCategorieProduit = categorieProduit.getId();
-            tfdDescription.setText(categorieProduit.getDescription());
-            tfdDescriptionAbregee.setText(categorieProduit.getDescriptionAbregee());
-            btnEnregistrer.setText("ACTUALISER");
-            modeEdition = true;
-            btnExclure.setEnabled(true);
+        if (categorieProduit == null) {
+            return;
         }
+        idCategorieProduit = categorieProduit.getId();
+        tfdDescription.setText(categorieProduit.getDescription());
+        tfdDescriptionAbregee.setText(categorieProduit.getDescriptionAbregee());
+        btnEnregistrer.setText("ACTUALISER");
+        modeEdition = true;
+        btnExclure.setEnabled(true);
     }
 
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
