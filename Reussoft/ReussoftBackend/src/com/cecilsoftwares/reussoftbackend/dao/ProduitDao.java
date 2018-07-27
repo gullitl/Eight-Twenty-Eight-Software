@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +41,11 @@ public class ProduitDao {
             scriptSQL = new StringBuilder("SELECT produit.id, produit.description, produit.active,");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
             scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege,");
-            scriptSQL.append(" prixachatproduit.id, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
+            scriptSQL.append(" produit.idPrixachat, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM produit");
             scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.id");
             scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.id");
-            scriptSQL.append(" LEFT JOIN prixachatproduit ON produit.id = prixachatproduit.idProduit");
+            scriptSQL.append(" LEFT JOIN prixachatproduit ON produit.idPrixAchat = prixachatproduit.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -152,6 +153,28 @@ public class ProduitDao {
             prs.setString(5, produit.getId());
 
             prs.execute();
+
+            scriptSQL = new StringBuilder("INSERT INTO prixachatproduit(");
+            scriptSQL.append(" idProduit, valeurUSD, dateHeure, id)");
+            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+            prs.setString(1, produit.getId());
+            prs.setBigDecimal(2, produit.getPrixAchatProduit().getValeurUSD());
+            prs.setTimestamp(3, new Timestamp(produit.getPrixAchatProduit().getDateHeure().getTime()));
+            prs.setString(4, produit.getPrixAchatProduit().getId());
+
+            prs.execute();
+
+            scriptSQL = new StringBuilder("UPDATE produit SET idPrixAchat=? WHERE id=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+            prs.setString(1, produit.getPrixAchatProduit().getId());
+            prs.setString(2, produit.getId());
+
+            prs.execute();
             prs.close();
             conexao.close();
         }
@@ -176,6 +199,31 @@ public class ProduitDao {
             prs.setString(5, produit.getId());
 
             prs.execute();
+
+            if (produit.getPrixAchatProduit() != null) {
+                scriptSQL = new StringBuilder("INSERT INTO prixachatproduit(");
+                scriptSQL.append(" idProduit, valeurUSD, dateHeure, id)");
+                scriptSQL.append(" VALUES (?, ?, ?, ?)");
+
+                prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+                prs.setString(1, produit.getId());
+                prs.setBigDecimal(2, produit.getPrixAchatProduit().getValeurUSD());
+                prs.setTimestamp(3, new Timestamp(produit.getPrixAchatProduit().getDateHeure().getTime()));
+                prs.setString(4, produit.getPrixAchatProduit().getId());
+
+                prs.execute();
+
+                scriptSQL = new StringBuilder("UPDATE produit SET idPrixAchat=? WHERE id=?");
+
+                prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+                prs.setString(1, produit.getPrixAchatProduit().getId());
+                prs.setString(2, produit.getId());
+
+                prs.execute();
+            }
+
             prs.close();
             conexao.close();
         }

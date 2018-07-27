@@ -33,7 +33,7 @@ public class ConsultationProduit extends javax.swing.JDialog {
         enFermantDialog();
 
         defaultTableModel = (DefaultTableModel) tblProduit.getModel();
-        dataRows = new Object[2];
+        dataRows = new Object[3];
 
         this.produits = produits;
         listerProduits(this.produits);
@@ -62,7 +62,8 @@ public class ConsultationProduit extends javax.swing.JDialog {
         defaultTableModel.setRowCount(0);
         produits.forEach(p -> {
             dataRows[0] = p.getDescription();
-            dataRows[1] = p.getReseau().getNom();
+            dataRows[1] = p.getCategorieProduit().getDescription();
+            dataRows[2] = p.getReseau().getNom();
             defaultTableModel.addRow(dataRows);
         });
 
@@ -95,14 +96,14 @@ public class ConsultationProduit extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Description", "Réseau"
+                "Description", "Catégorie", "Réseau"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -121,8 +122,9 @@ public class ConsultationProduit extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblProduit);
         if (tblProduit.getColumnModel().getColumnCount() > 0) {
             tblProduit.getColumnModel().getColumn(0).setResizable(false);
-            tblProduit.getColumnModel().getColumn(0).setPreferredWidth(150);
+            tblProduit.getColumnModel().getColumn(0).setPreferredWidth(120);
             tblProduit.getColumnModel().getColumn(1).setResizable(false);
+            tblProduit.getColumnModel().getColumn(2).setResizable(false);
         }
 
         lblNombreProduit.setText("jLabel1");
@@ -146,7 +148,7 @@ public class ConsultationProduit extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdRechercheDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

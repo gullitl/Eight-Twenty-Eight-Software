@@ -109,7 +109,7 @@ public class PrixAchatProduitDao {
         PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO prixAchatProduit(");
+            scriptSQL = new StringBuilder("INSERT INTO prixachatproduit(");
             scriptSQL.append(" idProduit, valeurUSD, dateHeure, id)");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
