@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftbackend.util;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -27,8 +28,8 @@ public class IdGenerator {
         Date today;
         String output;
         SimpleDateFormat formatter;
-        String pattern = "ddMMyyHHmmssSSS";
-        String alphabet = "_-=+%#$";
+        String pattern = "ddMMyyyyHHmmssSSS";
+        String alphabet = "_-#@";
 
         formatter = new SimpleDateFormat(pattern, Locale.CANADA);
         today = new Date();
@@ -39,34 +40,10 @@ public class IdGenerator {
 
         String idGen = output;
 
-        return new StringBuilder(idGen).insert(idGen.length() - generatedInt, ins).toString();
-
+        idGen = new StringBuilder(idGen).insert(idGen.length() - generatedInt, ins).toString();
+        return randomAlphabetic(3) + idGen + randomAlphabetic(1);
     }
 
-//    private static byte[] encrypt(String input) throws Exception {
-//
-//        String IV = "AAAAAAAAAAAAAAAA";
-//        String encryptKey = "0123456789abcdef";
-//
-//        Cipher encripta = Cipher.getInstance("AES/CBC/PKCS5Padding", "SunJCE");
-//        SecretKeySpec key = new SecretKeySpec(encryptKey.getBytes("UTF-8"), "AES");
-//        encripta.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(IV.getBytes("UTF-8")));
-//        return encripta.doFinal(input.getBytes("UTF-8"));
-//    }
-//    private static String cripto(String input) throws NoSuchAlgorithmException {
-//        MessageDigest md = MessageDigest.getInstance("SHA-1");
-//        md.update(input.getBytes());
-//        byte[] hash = md.digest();
-//        StringBuffer hexString = new StringBuffer();
-//        for (int i = 0; i < hash.length / 3; i++) {
-//            if ((0xff & hash[i]) < 0x10) {
-//                hexString.append("0" + Integer.toHexString((0xFF & hash[i])));
-//            } else {
-//                hexString.append(Integer.toHexString(0xFF & hash[i]));
-//            }
-//        }
-//        return hexString.toString();
-//    }
     public static String random(int count) {
         return random(count, false, false);
     }

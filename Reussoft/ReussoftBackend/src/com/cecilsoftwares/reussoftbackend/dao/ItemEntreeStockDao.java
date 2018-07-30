@@ -57,9 +57,6 @@ public class ItemEntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
-
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
                     entreeStock.setDateHeure(res.getTimestamp(3));
 
@@ -73,13 +70,16 @@ public class ItemEntreeStockDao {
                     fournisseur.setTelephone(res.getString(9));
                     entreeStock.setFournisseur(fournisseur);
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
-                    itemEntreeStock.setQuantiteProduit(res.getBigDecimal(1));
+                    Produit produit = new Produit(res.getString(10));
+                    produit.setDescription(res.getString(11));
 
                     PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(12));
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(13));
                     prixAchatProduit.setDateHeure(res.getTimestamp(14));
-                    itemEntreeStock.setPrixAchatProduit(prixAchatProduit);
+                    produit.setPrixAchatProduit(prixAchatProduit);
+
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(res.getBigDecimal(1));
 
                     listeItemsEntreeStock.add(itemEntreeStock);
                 }
@@ -119,9 +119,6 @@ public class ItemEntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
-
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
                     entreeStock.setDateHeure(res.getTimestamp(3));
 
@@ -135,13 +132,17 @@ public class ItemEntreeStockDao {
                     fournisseur.setTelephone(res.getString(9));
                     entreeStock.setFournisseur(fournisseur);
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
-                    itemEntreeStock.setQuantiteProduit(res.getBigDecimal(1));
+                    Produit produit = new Produit(res.getString(10));
+                    produit.setDescription(res.getString(11));
 
                     PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(12));
+
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(13));
                     prixAchatProduit.setDateHeure(res.getTimestamp(14));
-                    itemEntreeStock.setPrixAchatProduit(prixAchatProduit);
+                    produit.setPrixAchatProduit(prixAchatProduit);
+
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(res.getBigDecimal(1));
 
                     listeItemsEntreeStock.add(itemEntreeStock);
                 }
@@ -181,9 +182,6 @@ public class ItemEntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
-
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
                     entreeStock.setDateHeure(res.getTimestamp(3));
 
@@ -197,13 +195,16 @@ public class ItemEntreeStockDao {
                     fournisseur.setTelephone(res.getString(9));
                     entreeStock.setFournisseur(fournisseur);
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
-                    itemEntreeStock.setQuantiteProduit(res.getBigDecimal(1));
+                    Produit produit = new Produit(res.getString(10));
+                    produit.setDescription(res.getString(11));
 
                     PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(12));
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(13));
                     prixAchatProduit.setDateHeure(res.getTimestamp(14));
-                    itemEntreeStock.setPrixAchatProduit(prixAchatProduit);
+                    produit.setPrixAchatProduit(prixAchatProduit);
+
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(res.getBigDecimal(1));
 
                     listeItemsEntreeStock.add(itemEntreeStock);
                 }
@@ -242,9 +243,6 @@ public class ItemEntreeStockDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
-
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
                     entreeStock.setDateHeure(res.getTimestamp(3));
 
@@ -258,13 +256,16 @@ public class ItemEntreeStockDao {
                     fournisseur.setTelephone(res.getString(9));
                     entreeStock.setFournisseur(fournisseur);
 
-                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
-                    itemEntreeStock.setQuantiteProduit(res.getBigDecimal(1));
+                    Produit produit = new Produit(res.getString(10));
+                    produit.setDescription(res.getString(11));
 
                     PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(12));
                     prixAchatProduit.setValeurUSD(res.getBigDecimal(13));
                     prixAchatProduit.setDateHeure(res.getTimestamp(14));
-                    itemEntreeStock.setPrixAchatProduit(prixAchatProduit);
+                    produit.setPrixAchatProduit(prixAchatProduit);
+
+                    ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
+                    itemEntreeStock.setQuantiteProduit(res.getBigDecimal(1));
 
                     prs.close();
                     res.close();

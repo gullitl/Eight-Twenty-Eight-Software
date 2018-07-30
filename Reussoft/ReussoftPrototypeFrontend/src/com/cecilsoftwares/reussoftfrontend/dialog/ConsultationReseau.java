@@ -162,9 +162,6 @@ public class ConsultationReseau extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblReseau.getSelectedRow();
                 reseau = reseaux.get(row);
-//                reseau = reseaux.stream()
-//                        .filter(r -> r.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-//                        .findFirst().orElse(null);
 
             }
             dispose();
