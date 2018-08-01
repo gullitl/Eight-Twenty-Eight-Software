@@ -98,6 +98,7 @@ public class MDI extends javax.swing.JFrame {
     private RegistreFournisseur registreFournisseur;
     private RegistreProfilUtilisateur registreProfilUtilisateur;
     private RegistreProduit registreProduit;
+    private RegistreTaux registreTaux;
     private RegistreReseau registreReseau;
     private RegistreShop registreShop;
     private AideAPropos aideAPropos;
@@ -118,6 +119,7 @@ public class MDI extends javax.swing.JFrame {
         jmiRegistreReseau = new javax.swing.JMenuItem();
         jmiRegistreCategorieProduit = new javax.swing.JMenuItem();
         jmiRegistreProduit = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jmiRegistreFournisseur = new javax.swing.JMenuItem();
         jmiRegistreClient = new javax.swing.JMenuItem();
         jmiRegistreProfilUtilisateur = new javax.swing.JMenuItem();
@@ -227,6 +229,14 @@ public class MDI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jmiRegistreProduit);
+
+        jMenuItem3.setText("Taux");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
 
         jmiRegistreFournisseur.setText("Fournisseur");
         jmiRegistreFournisseur.addActionListener(new java.awt.event.ActionListener() {
@@ -842,6 +852,27 @@ public class MDI extends javax.swing.JFrame {
         sortir();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        if (registreTaux == null) {
+            registreTaux = new RegistreTaux();
+            jDesktopPane.add(registreTaux);
+
+            registreTaux.addInternalFrameListener(new InternalFrameAdapter() {
+                @Override
+                public void internalFrameClosing(InternalFrameEvent e) {
+                    registreTaux = null;
+                }
+            });
+        }
+        registreTaux.setLocation(
+                jDesktopPane.getWidth() / 2 - registreTaux.getWidth() / 2,
+                jDesktopPane.getHeight() / 2 - registreTaux.getHeight() / 2);
+
+        registreTaux.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JMenu jMenu1;
@@ -852,6 +883,7 @@ public class MDI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem jmiAideApropos;
     private javax.swing.JMenuItem jmiConfigurationMonCompte;

@@ -1,6 +1,5 @@
 package com.cecilsoftwares.reussoftbackend.util;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -42,6 +41,19 @@ public class IdGenerator {
 
         idGen = new StringBuilder(idGen).insert(idGen.length() - generatedInt, ins).toString();
         return randomAlphabetic(3) + idGen + randomAlphabetic(1);
+    }
+
+    public static String generateOperationNumber() throws Exception {
+        Date today;
+        String output;
+        SimpleDateFormat formatter;
+        String pattern = "ddMMyyyyHHmmssSSS";
+
+        formatter = new SimpleDateFormat(pattern, Locale.CANADA);
+        today = new Date();
+        output = formatter.format(today);
+
+        return output;
     }
 
     public static String random(int count) {

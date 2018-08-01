@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.EntreeStockDao;
+import com.cecilsoftwares.reussoftbackend.util.IdGenerator;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import java.sql.SQLException;
 import java.util.List;
@@ -34,7 +35,14 @@ public class EntreeStockService {
         return EntreeStockDao.getInstance().selectionnerEntreeStockParId(idEntreeStock);
     }
 
-    public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
-        return EntreeStockDao.getInstance().enregistrerEntreeStock(entreeStock);
+    public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException, Exception {
+        if (entreeStock.getId().isEmpty()) {
+            entreeStock.setId(IdGenerator.generateId());
+            entreeStock.setNumeroEntreeStock(IdGenerator.generateOperationNumber());
+            return EntreeStockDao.getInstance().enregistrerEntreeStock(entreeStock);
+        } else {
+            return EntreeStockDao.getInstance().actualiserEntreeStock(entreeStock);
+        }
+
     }
 }

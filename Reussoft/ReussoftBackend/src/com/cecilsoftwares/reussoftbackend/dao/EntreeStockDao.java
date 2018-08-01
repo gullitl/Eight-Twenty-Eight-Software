@@ -257,6 +257,44 @@ public class EntreeStockDao {
             for (ItemEntreeStock itemEntreeStock : entreeStock.getItemsEntreeStock()) {
 
                 scriptSQL = new StringBuilder("INSERT INTO itementreestock(");
+                scriptSQL.append(" idEntreeStock, idProduit, idPrixAchat, quantite )");
+                scriptSQL.append(" VALUES (?, ?, ?, ?)");
+
+                prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+                prs.setString(1, itemEntreeStock.getEntreeStock().getId());
+                prs.setString(2, itemEntreeStock.getProduit().getId());
+                prs.setString(3, itemEntreeStock.getProduit().getPrixAchatProduit().getId());
+                prs.setBigDecimal(4, itemEntreeStock.getQuantiteProduit());
+                prs.execute();
+            }
+
+            prs.close();
+            conexao.close();
+        }
+        return true;
+    }
+
+    public boolean actualiserEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+
+            scriptSQL = new StringBuilder("INSERT INTO entreestock(");
+            scriptSQL.append(" idFournisseur, idTauxCarte, dateHeure, id )");
+            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+            prs.setString(1, entreeStock.getFournisseur().getId());
+            prs.setString(2, entreeStock.getTauxMonnaie().getId());
+            prs.setTimestamp(3, new Timestamp(entreeStock.getDateHeure().getTime()));
+            prs.setString(4, entreeStock.getId());
+            prs.execute();
+
+            for (ItemEntreeStock itemEntreeStock : entreeStock.getItemsEntreeStock()) {
+
+                scriptSQL = new StringBuilder("INSERT INTO itementreestock(");
                 scriptSQL.append(" idEntreeStock, idProduit, idPrixAchatProduit, quantite )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
 

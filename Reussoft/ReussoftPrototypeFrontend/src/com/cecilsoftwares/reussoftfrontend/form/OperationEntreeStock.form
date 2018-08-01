@@ -48,9 +48,7 @@
                               <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lblTauxcarte" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblTauxCarte" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -83,8 +81,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="tfdNumeroEntreeStock" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnConsulterEntreeStock" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblTauxcarte" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblTauxCarte" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -383,14 +380,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsulterEntreeStockActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblTauxcarte">
+    <Component class="javax.swing.JLabel" name="lblTauxCarte">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel10"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel13">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Taux carte:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnConsulterFournisseur">
@@ -417,6 +409,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfdValeurUSD">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
