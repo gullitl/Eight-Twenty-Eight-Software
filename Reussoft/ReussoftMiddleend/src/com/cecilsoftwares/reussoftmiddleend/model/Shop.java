@@ -8,6 +8,7 @@ public class Shop {
     private String id;
     private String nom;
     private String adresse;
+    private TauxCarte tauxCarte;
     private boolean active;
 
     public Shop() {
@@ -40,6 +41,14 @@ public class Shop {
 
     public void setAdresse(String adresse) {
         this.adresse = adresse;
+    }
+
+    public TauxCarte getTauxCarte() {
+        return tauxCarte;
+    }
+
+    public void setTauxCarte(TauxCarte tauxCarte) {
+        this.tauxCarte = tauxCarte;
     }
 
     public boolean isActive() {

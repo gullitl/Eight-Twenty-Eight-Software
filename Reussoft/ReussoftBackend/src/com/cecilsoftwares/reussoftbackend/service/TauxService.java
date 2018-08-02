@@ -24,12 +24,12 @@ public class TauxService {
         return uniqueInstance;
     }
 
-    public List<TauxCarte> listerTousLesTauxCartes() throws ClassNotFoundException, SQLException {
-        return TauxDao.getInstance().listerTousLesTauxCartes();
+    public List<TauxCarte> listerTousLesTauxCartesActuelParShop() throws ClassNotFoundException, SQLException {
+        return TauxDao.getInstance().listerTousLesTauxCartesActuelParShop();
     }
 
-    public List<TauxMonnaie> listerTousLesTauxMonnaies() throws ClassNotFoundException, SQLException {
-        return TauxDao.getInstance().listerTousLesTauxMonnaies();
+    public List<TauxMonnaie> listerTousLesTauxMonnaiesActuelParShop() throws ClassNotFoundException, SQLException {
+        return TauxDao.getInstance().listerTousLesTauxMonnaiesActuelParShop();
     }
 
     public TauxCarte selectionnerTauxCarteParId(String idTauxCarte) throws ClassNotFoundException, SQLException {

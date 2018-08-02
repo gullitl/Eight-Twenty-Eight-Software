@@ -1,6 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,8 +34,10 @@ public class ShopDao {
         List<Shop> listeShops;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT id, nom, adresse, active");
-            scriptSQL.append(" FROM shop");
+
+            scriptSQL = new StringBuilder("SELECT shop.id, shop.nom, shop.adresse, shop.active,");
+            scriptSQL.append(" shop.idTauxCarte, tauxcarte.id, tauxcarte.valeur, tauxcarte.dateHeure");
+            scriptSQL.append(" FROM shop JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -46,6 +50,12 @@ public class ShopDao {
                     shop.setNom(res.getString(2));
                     shop.setAdresse(res.getString(3));
                     shop.setActive(res.getInt(4) == 1);
+
+                    TauxCarte tauxCarte = new TauxCarte(res.getString(5));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(6)));
+                    tauxCarte.setDateHeure(res.getTimestamp(7));
+
+                    shop.setTauxCarte(tauxCarte);
 
                     listeShops.add(shop);
                 }
@@ -62,9 +72,10 @@ public class ShopDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT id, nom, adresse, active");
-            scriptSQL.append(" FROM shop");
-            scriptSQL.append(" WHERE id=?");
+            scriptSQL = new StringBuilder("SELECT shop.id, shop.nom, shop.adresse, shop.active,");
+            scriptSQL.append(" shop.idTauxCarte, tauxcarte.id, tauxcarte.valeur, tauxcarte.dateHeure");
+            scriptSQL.append(" FROM shop JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
+            scriptSQL.append(" WHERE shop.id=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idShop);
@@ -77,6 +88,12 @@ public class ShopDao {
                     shop.setNom(res.getString(2));
                     shop.setAdresse(res.getString(3));
                     shop.setActive(res.getInt(4) == 1);
+
+                    TauxCarte tauxCarte = new TauxCarte(res.getString(5));
+                    tauxCarte.setValeur(new BigDecimal(res.getString(6)));
+                    tauxCarte.setDateHeure(res.getTimestamp(7));
+
+                    shop.setTauxCarte(tauxCarte);
 
                     prs.close();
                     res.close();
