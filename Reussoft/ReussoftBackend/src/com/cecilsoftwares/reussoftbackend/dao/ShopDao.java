@@ -36,7 +36,7 @@ public class ShopDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT shop.id, shop.nom, shop.adresse, shop.active,");
-            scriptSQL.append(" shop.idTauxCarte, tauxcarte.id, tauxcarte.valeur, tauxcarte.dateHeure");
+            scriptSQL.append(" shop.idTauxCarte, tauxcarte.valeur, tauxcarte.dateHeure");
             scriptSQL.append(" FROM shop JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));

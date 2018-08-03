@@ -162,9 +162,6 @@ public class ConsultationShop extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblShop.getSelectedRow();
                 shop = shops.get(row);
-//                shop = shops.stream()
-//                        .filter(s -> s.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-//                        .findFirst().orElse(null);
             }
             dispose();
         }
