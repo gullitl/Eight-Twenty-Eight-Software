@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ShopDao;
 import com.cecilsoftwares.reussoftbackend.dao.TauxDao;
+import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxMonnaie;
@@ -38,16 +39,9 @@ public class TauxService {
         return ShopDao.getInstance().listerTousLesShops();
     }
 
-    public boolean sauvegarderTauxCarte(List<TauxCarte> listeTauxCarte) throws ClassNotFoundException, SQLException {
-        return TauxDao.getInstance().sauvegarderTauxCarte(listeTauxCarte);
-    }
-
-    public boolean actualiserTauxCarte(TauxCarte tauxCarte) throws ClassNotFoundException, SQLException {
-        return TauxDao.getInstance().actualiserTauxCarte(tauxCarte);
-    }
-
-    public TauxCarte selectionnerDerniersTauxCarteShopEnDate() throws ClassNotFoundException, SQLException {
-        return TauxDao.getInstance().selectionnerDerniersTauxCarteShopEnDate();
+    public boolean enregistrerShopTauxCarte(Shop shopTauxCarte) throws ClassNotFoundException, SQLException, Exception {
+        shopTauxCarte.setId(generateId());
+        return TauxDao.getInstance().enregistrerShopTauxCarte(shopTauxCarte);
     }
 
     //Taux Monnaie
@@ -60,15 +54,7 @@ public class TauxService {
     }
 
     public boolean sauvegarderTauxMonnaie(TauxMonnaie tauxMonnaie) throws ClassNotFoundException, SQLException {
-        return TauxDao.getInstance().sauvegarderTauxMonnaie(tauxMonnaie);
-    }
-
-    public boolean actualiserTauxMonnaie(TauxMonnaie tauxMonnaie) throws ClassNotFoundException, SQLException {
-        return TauxDao.getInstance().actualiserTauxMonnaie(tauxMonnaie);
-    }
-
-    public TauxMonnaie selectionnerDerniersTauxMonnaieEnDate() throws ClassNotFoundException, SQLException {
-        return TauxDao.getInstance().selectionnerDerniersTauxMonnaieEnDate();
+        return TauxDao.getInstance().enregistrerTauxMonnaie(tauxMonnaie);
     }
 
 }
