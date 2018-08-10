@@ -41,7 +41,7 @@ public class CollaborateurDao {
             scriptSQL.append(" FROM collaborateur");
             scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.id");
             scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = profilutilisateur.id");
-            scriptSQL.append(" WHERE collaborateur.nomUtilisateur=? AND collaborateur.motDePasse=?");
+            scriptSQL.append(" WHERE collaborateur.nomUtilisateur COLLATE latin1_general_cs=? AND collaborateur.motDePasse COLLATE latin1_general_cs=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setString(1, nomUtilisateur);

@@ -429,8 +429,7 @@ public class RegistreCollaborateur extends JInternalFrame {
 
     private void tfdNomUtilisateurFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdNomUtilisateurFocusGained
         if (tfdNomUtilisateur.getText().isEmpty() && !tfdNom.getText().isEmpty() && !tfdPostnom.getText().isEmpty()) {
-            char premiereLettrePrenom = tfdPrenom.getText().toLowerCase().charAt(0);
-            tfdNomUtilisateur.setText(new StringBuilder().append(premiereLettrePrenom)
+            tfdNomUtilisateur.setText(new StringBuilder().append(tfdPrenom.getText().toLowerCase()).append(".")
                     .append(tfdPostnom.getText().toLowerCase()).toString());
         }
 
