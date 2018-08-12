@@ -110,7 +110,7 @@ public class TauxDao {
     }
 
     public boolean enregistrerShopTauxCarte(Shop shopTauxCarte) throws ClassNotFoundException, SQLException {
-        PreparedStatement prs = null;
+        PreparedStatement prs;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 

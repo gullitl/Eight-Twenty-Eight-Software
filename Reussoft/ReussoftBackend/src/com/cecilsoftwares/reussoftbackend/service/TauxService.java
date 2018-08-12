@@ -40,7 +40,7 @@ public class TauxService {
     }
 
     public boolean enregistrerShopTauxCarte(Shop shopTauxCarte) throws ClassNotFoundException, SQLException, Exception {
-        shopTauxCarte.setId(generateId());
+        shopTauxCarte.getTauxCarte().setId(generateId());
         return TauxDao.getInstance().enregistrerShopTauxCarte(shopTauxCarte);
     }
 

@@ -131,7 +131,7 @@ public class RegistreCategorieProduit extends JInternalFrame {
     }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-        if (!isInformationObligatoiresRemplies()) {
+        if (!btnEnregistrerClickable || !isInformationObligatoiresRemplies()) {
             return;
         }
 

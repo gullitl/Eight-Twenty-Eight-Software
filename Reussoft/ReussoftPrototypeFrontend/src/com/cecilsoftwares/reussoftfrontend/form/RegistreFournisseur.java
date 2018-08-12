@@ -147,7 +147,7 @@ public class RegistreFournisseur extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (!isInformationObligatoiresRemplies()) {
+        if (!btnEnregistrerClickable || !isInformationObligatoiresRemplies()) {
             return;
         }
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));

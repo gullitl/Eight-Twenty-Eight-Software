@@ -209,7 +209,7 @@ public class RegistreProduit extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (!isInformationObligatoiresRemplies()) {
+        if (!btnEnregistrerClickable || !isInformationObligatoiresRemplies()) {
             return;
         }
 

@@ -280,29 +280,30 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
 
-        if (isInformationObligatoiresRemplies()) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            PrixVenteProduit prixVenteProduit = new PrixVenteProduit();
-            prixVenteProduit.setDateHeure(new Date());
-
-            Produit produit = new Produit(idProduit);
-            produit.setDescription(tfdDescriptionProduit.getText());
-            prixVenteProduit.setProduit(produit);
-            prixVenteProduit.setValeurUSD(new BigDecimal(tfdValeur.getText()));
-
-            try {
-                if (PrixVenteProduitService.getInstance().enregistrerPrixVenteProduitShop(prixVenteProduit, prixVenteProduitShops)) {
-                    effacerFormulaire();
-                    JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
-                }
-            } catch (ClassNotFoundException | SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Produit");
-                Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnEnregistrerClickable || !isInformationObligatoiresRemplies()) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        PrixVenteProduit prixVenteProduit = new PrixVenteProduit();
+        prixVenteProduit.setDateHeure(new Date());
+
+        Produit produit = new Produit(idProduit);
+        produit.setDescription(tfdDescriptionProduit.getText());
+        prixVenteProduit.setProduit(produit);
+        prixVenteProduit.setValeurUSD(new BigDecimal(tfdValeur.getText()));
+
+        try {
+            if (PrixVenteProduitService.getInstance().enregistrerPrixVenteProduitShop(prixVenteProduit, prixVenteProduitShops)) {
+                effacerFormulaire();
+                JOptionPane.showMessageDialog(null, "Sauvegarde effectuée avec succès");
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant le Produit");
+            Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void btnConsulterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProduitActionPerformed
@@ -415,7 +416,7 @@ public class RegistrePrixVenteProduit extends JInternalFrame {
 
             prixVenteProduitShop = prixVenteProduitShops.get(row);
 
-//            
+//
 //            prixVenteProduitShop = prixVenteProduitShops.stream()
 //                    .filter(ies -> ies.getShop().getCode() == (int) defaultTableModel.getValueAt(row, 0))
 //                    .findFirst().orElse(null);
