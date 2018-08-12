@@ -3,14 +3,16 @@ package com.cecilsoftwares.reussoftfrontend.form;
 import com.cecilsoftwares.reussoftbackend.service.EntreeStockService;
 import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
+import com.cecilsoftwares.reussoftbackend.service.TauxService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationEntreeStock;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationFournisseur;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProduit;
+import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.TauxMonnaie;
+import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
@@ -33,9 +35,10 @@ public class OperationEntreeStock extends JInternalFrame {
 
     private String idEntreeStock;
     private String idFournisseur;
-    private String idTauxMonnaie;
     private boolean modeEdition;
     private boolean modeEditionItemEntreeStock;
+
+    private TauxCarte tauxCarte;
 
     private boolean btnConsulterEntreeStockClickable;
     private boolean btnConsulterFournisseurClickable;
@@ -60,6 +63,30 @@ public class OperationEntreeStock extends JInternalFrame {
         dataRows = new Object[4];
 
         effacerFormulaire();
+        onInit();
+    }
+
+    private void onInit() {
+        new Thread() {
+            @Override
+            public void run() {
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                habiliterComposantFormulaire(false);
+                try {
+                    tauxCarte = TauxService.getInstance()
+                            .selectionnerTauxCarteParId(SessionUtilisateurKS.getInstance()
+                                    .getSessionUtilisateur().getShop().getTauxCarte().getId());
+
+                    lblTauxCarte.setText("Taux cartes: " + tauxCarte.getValeur().toString());
+
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(RegistreTaux.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                setCursor(Cursor.getDefaultCursor());
+                habiliterComposantFormulaire(true);
+            }
+        }.start();
     }
 
     @SuppressWarnings("unchecked")
@@ -184,6 +211,11 @@ public class OperationEntreeStock extends JInternalFrame {
         lblNombreItemEntreeStock.setText("jLabel2");
 
         btnEditarPrixAchat.setText("s");
+        btnEditarPrixAchat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarPrixAchatActionPerformed(evt);
+            }
+        });
 
         lblTotalAPayer.setText("jLabel3");
 
@@ -306,6 +338,12 @@ public class OperationEntreeStock extends JInternalFrame {
 
         jLabel3.setText("+");
 
+        tfdValeurFC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfdValeurFCKeyReleased(evt);
+            }
+        });
+
         jLabel5.setText("$");
 
         jLabel6.setText("FC");
@@ -389,7 +427,7 @@ public class OperationEntreeStock extends JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-        if (!isInformationObligatoiresRemplies()) {
+        if (!btnEnregistrerClickable || !isInformationObligatoiresRemplies()) {
             return;
         }
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -397,7 +435,6 @@ public class OperationEntreeStock extends JInternalFrame {
 
         EntreeStock entreeStock = new EntreeStock(idEntreeStock);
         entreeStock.setFournisseur(new Fournisseur(idFournisseur));
-        entreeStock.setTauxMonnaie(new TauxMonnaie(idTauxMonnaie));
         entreeStock.setDateHeure(new Date());
         entreeStock.setItemsEntreeStock(itemsEntreeStock);
 
@@ -469,23 +506,24 @@ public class OperationEntreeStock extends JInternalFrame {
 //        lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
 //    }
     private void btnConsulterEntreeStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterEntreeStockActionPerformed
-        if (btnConsulterEntreeStockClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-                List<EntreeStock> entreesStock = EntreeStockService.getInstance().listerTousLesEntreesStockSansItems();
-                ConsultationEntreeStock consultationEntreeStock = new ConsultationEntreeStock(null, true, entreesStock);
-                consultationEntreeStock.setFrameAncetre(this);
-                consultationEntreeStock.setVisible(true);
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(OperationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterEntreeStockClickable) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+            List<EntreeStock> entreesStock = EntreeStockService.getInstance().listerTousLesEntreesStockSansItems();
+            ConsultationEntreeStock consultationEntreeStock = new ConsultationEntreeStock(null, true, entreesStock);
+            consultationEntreeStock.setFrameAncetre(this);
+            consultationEntreeStock.setVisible(true);
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(OperationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterEntreeStockActionPerformed
 
     public void entreeStockSelectionnee(EntreeStock entreeStock) {
@@ -505,24 +543,25 @@ public class OperationEntreeStock extends JInternalFrame {
     }
 
     private void btnConsulterFournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterFournisseurActionPerformed
-        if (btnConsulterFournisseurClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-
-                ConsultationFournisseur consultationFournisseur = new ConsultationFournisseur(null, true, FournisseurService.getInstance()
-                        .listerTousLesFournisseurs());
-                consultationFournisseur.setFrameAncetre(this);
-                consultationFournisseur.setVisible(true);
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterFournisseurClickable) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+
+            ConsultationFournisseur consultationFournisseur = new ConsultationFournisseur(null, true, FournisseurService.getInstance()
+                    .listerTousLesFournisseurs());
+            consultationFournisseur.setFrameAncetre(this);
+            consultationFournisseur.setVisible(true);
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterFournisseurActionPerformed
 
     public void fournisseurSelectionne(Fournisseur fournisseur) {
@@ -533,24 +572,26 @@ public class OperationEntreeStock extends JInternalFrame {
     }
 
     private void btnConsulterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProduitActionPerformed
-        if (btnConsulterProduitClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-
-                ConsultationProduit consultationProduit = new ConsultationProduit(null, true, ProduitService.getInstance()
-                        .listerTousLesProduits());
-                consultationProduit.setFrameAncetre(this);
-                consultationProduit.setVisible(true);
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterProduitClickable) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+
+            ConsultationProduit consultationProduit = new ConsultationProduit(null, true, ProduitService.getInstance()
+                    .listerTousLesProduits());
+            consultationProduit.setFrameAncetre(this);
+            consultationProduit.setVisible(true);
+            spnQuantiteProduit.requestFocus();
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterProduitActionPerformed
 
     public void setProduitSelectionne(Produit produit) {
@@ -592,7 +633,6 @@ public class OperationEntreeStock extends JInternalFrame {
             modeEditionItemEntreeStock = true;
 //            btnAjouterProduit.setEnabled(true);
             setProduitSelectionne(itemEntreeStock.getProduit());
-
         }
     }//GEN-LAST:event_tblItemsEntreeStockMouseClicked
 
@@ -617,6 +657,15 @@ public class OperationEntreeStock extends JInternalFrame {
             }
         }
     }//GEN-LAST:event_tblItemsEntreeStockKeyReleased
+
+    private void btnEditarPrixAchatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPrixAchatActionPerformed
+
+    }//GEN-LAST:event_btnEditarPrixAchatActionPerformed
+
+    private void tfdValeurFCKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdValeurFCKeyReleased
+        BigDecimal convert = new BigDecimal(tfdValeurFC.getText()).multiply(tauxCarte.getValeur());
+        tfdValeurUSD.setText(new BigDecimal(tfdValeurUSD.getText()).subtract(convert).toString());
+    }//GEN-LAST:event_tfdValeurFCKeyReleased
 
     private void listerItemsEntreeStock(List<ItemEntreeStock> itemsEntreeStock) {
         BigDecimal totalAPayer = new BigDecimal("0");
@@ -645,7 +694,6 @@ public class OperationEntreeStock extends JInternalFrame {
 
         idEntreeStock = "";
         idFournisseur = "";
-        idTauxMonnaie = "";
 
         modeEdition = false;
 

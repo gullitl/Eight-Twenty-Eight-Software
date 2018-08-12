@@ -335,6 +335,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="s"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarPrixAchatActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblTotalAPayer">
           <Properties>
@@ -419,6 +422,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfdValeurFC">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfdValeurFCKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
