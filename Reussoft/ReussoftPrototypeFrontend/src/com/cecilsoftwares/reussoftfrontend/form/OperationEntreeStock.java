@@ -16,6 +16,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -435,7 +436,8 @@ public class OperationEntreeStock extends JInternalFrame {
 
         EntreeStock entreeStock = new EntreeStock(idEntreeStock);
         entreeStock.setFournisseur(new Fournisseur(idFournisseur));
-        entreeStock.setDateHeure(new Date());
+        entreeStock.setValeurTotalCoutUSD(new BigDecimal(tfdValeurUSD.getText()));
+        entreeStock.setValeurTotalCoutFC(new BigDecimal(tfdValeurFC.getText()));
         entreeStock.setItemsEntreeStock(itemsEntreeStock);
 
         try {
@@ -485,26 +487,13 @@ public class OperationEntreeStock extends JInternalFrame {
                 itemsEntreeStock.add(itemEntreeStock);
             }
 
-            listerItemsEntreeStock(itemsEntreeStock);
+            listerItemsEntreeStock();
 
             effacerChampsItemStock();
         }
 
     }//GEN-LAST:event_btnAjouterProduitActionPerformed
 
-//    private void listerItemsEntreeStock(List<ItemEntreeStock> itemsEntreeStock) {
-//        defaultTableModel.setRowCount(0);
-//        itemsEntreeStock.forEach(r -> {
-//            dataRows[0] = r.getProduit().getDescription();
-//            dataRows[1] = r.getQuantiteProduit();
-//            dataRows[2] = r.getPrixAchatProduit().getValeurUSD();
-//            dataRows[3] = r.getQuantiteProduit().multiply(r.getPrixAchatProduit().getValeurUSD());
-//            defaultTableModel.addRow(dataRows);
-//        });
-//
-//        String formeNombre = itemsEntreeStock.size() > 1 ? "Items" : "Item";
-//        lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
-//    }
     private void btnConsulterEntreeStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterEntreeStockActionPerformed
         if (!btnConsulterEntreeStockClickable) {
             return;
@@ -538,7 +527,7 @@ public class OperationEntreeStock extends JInternalFrame {
 
         itemsEntreeStock = entreeStock.getItemsEntreeStock();
 
-        listerItemsEntreeStock(itemsEntreeStock);
+        listerItemsEntreeStock();
 
     }
 
@@ -584,7 +573,6 @@ public class OperationEntreeStock extends JInternalFrame {
                     .listerTousLesProduits());
             consultationProduit.setFrameAncetre(this);
             consultationProduit.setVisible(true);
-            spnQuantiteProduit.requestFocus();
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
@@ -610,6 +598,8 @@ public class OperationEntreeStock extends JInternalFrame {
                 .append(" temp").toString());
 
         btnAjouterProduit.setEnabled(true);
+
+        spnQuantiteProduit.requestFocus();
 
     }
 
@@ -653,7 +643,7 @@ public class OperationEntreeStock extends JInternalFrame {
             }
 
             if (exclu) {
-                listerItemsEntreeStock(itemsEntreeStock);
+                listerItemsEntreeStock();
             }
         }
     }//GEN-LAST:event_tblItemsEntreeStockKeyReleased
@@ -663,11 +653,25 @@ public class OperationEntreeStock extends JInternalFrame {
     }//GEN-LAST:event_btnEditarPrixAchatActionPerformed
 
     private void tfdValeurFCKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdValeurFCKeyReleased
+
+        if (tfdValeurFC.getText().isEmpty()) {
+            tfdValeurUSD.setText(getTotalValeurItems().toString());
+            return;
+        }
+
         BigDecimal convert = new BigDecimal(tfdValeurFC.getText()).multiply(tauxCarte.getValeur());
-        tfdValeurUSD.setText(new BigDecimal(tfdValeurUSD.getText()).subtract(convert).toString());
+
+        if (convert.compareTo(getTotalValeurItems()) > 0) {
+            evt.consume();
+            tfdValeurFC.setText(getTotalValeurItems().divide(tauxCarte.getValeur(), 2, RoundingMode.HALF_EVEN).toString());
+            tfdValeurUSD.setText("0");
+            return;
+        }
+
+        tfdValeurUSD.setText(getTotalValeurItems().subtract(convert).toString());
     }//GEN-LAST:event_tfdValeurFCKeyReleased
 
-    private void listerItemsEntreeStock(List<ItemEntreeStock> itemsEntreeStock) {
+    private void listerItemsEntreeStock() {
         BigDecimal totalAPayer = new BigDecimal("0");
         defaultTableModel.setRowCount(0);
 
@@ -688,6 +692,17 @@ public class OperationEntreeStock extends JInternalFrame {
                 .append(totalAPayer.toString()).toString());
 
         tfdValeurUSD.setText(totalAPayer.toString());
+    }
+
+    private BigDecimal getTotalValeurItems() {
+        BigDecimal totalAPayer = new BigDecimal("0");
+
+        for (ItemEntreeStock ies : itemsEntreeStock) {
+            totalAPayer = totalAPayer.add(ies.getProduit().getPrixAchatProduit().getValeurUSD()
+                    .multiply(ies.getQuantiteProduit()));
+        }
+
+        return totalAPayer;
     }
 
     private void effacerFormulaire() {

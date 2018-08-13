@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,9 @@ public class EntreeStock {
     private String id;
     private String numeroEntreeStock;
     private Fournisseur fournisseur;
-    private TauxMonnaie tauxMonnaie;
+    private BigDecimal valeurTotalCoutUSD;
+    private BigDecimal valeurTotalCoutFC;
+    private BigDecimal valeurTauxCarte;
     private Date dateHeure;
     private List<ItemEntreeStock> itemsEntreeStock;
 
@@ -47,12 +50,28 @@ public class EntreeStock {
         this.fournisseur = fournisseur;
     }
 
-    public TauxMonnaie getTauxMonnaie() {
-        return tauxMonnaie;
+    public BigDecimal getValeurTotalCoutUSD() {
+        return valeurTotalCoutUSD;
     }
 
-    public void setTauxMonnaie(TauxMonnaie tauxMonnaie) {
-        this.tauxMonnaie = tauxMonnaie;
+    public void setValeurTotalCoutUSD(BigDecimal valeurTotalCoutUSD) {
+        this.valeurTotalCoutUSD = valeurTotalCoutUSD;
+    }
+
+    public BigDecimal getValeurTotalCoutFC() {
+        return valeurTotalCoutFC;
+    }
+
+    public void setValeurTotalCoutFC(BigDecimal valeurTotalCoutFC) {
+        this.valeurTotalCoutFC = valeurTotalCoutFC;
+    }
+
+    public BigDecimal getValeurTauxCarte() {
+        return valeurTauxCarte;
+    }
+
+    public void setValeurTauxCarte(BigDecimal valeurTauxCarte) {
+        this.valeurTauxCarte = valeurTauxCarte;
     }
 
     public Date getDateHeure() {

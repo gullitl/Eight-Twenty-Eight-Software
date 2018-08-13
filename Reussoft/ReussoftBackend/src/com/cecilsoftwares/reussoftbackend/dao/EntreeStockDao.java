@@ -40,11 +40,10 @@ public class EntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeEntreesStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT entreestock.id, entreestock.dateHeure,");
-            scriptSQL.append(" entreestock.idTauxCarte, tauxcarte.valeur,");
+            scriptSQL = new StringBuilder("SELECT entreestock.id, entreestock.numeroEntreeStock, entreestock.dateHeure,");
+            scriptSQL.append(" entreestock.valeuTotalCoutUSD, entreestock.valeurTotalCoutFC, entreestock.valeurTauxCarte,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone");
             scriptSQL.append(" FROM entreestock");
-            scriptSQL.append(" LEFT JOIN tauxmonnaie ON entreestock.idTauxmonnaie = tauxmonnaie.id");
             scriptSQL.append(" LEFT JOIN fournisseur ON entreestock.idFournisseur = fournisseur.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -53,16 +52,16 @@ public class EntreeStockDao {
                 while (res.next()) {
 
                     EntreeStock entreeStock = new EntreeStock(res.getString(1));
-                    entreeStock.setDateHeure(res.getTimestamp(2));
+                    entreeStock.setNumeroEntreeStock(res.getString(2));
+                    entreeStock.setDateHeure(res.getTimestamp(3));
+                    entreeStock.setValeurTotalCoutUSD(res.getBigDecimal(4));
+                    entreeStock.setValeurTotalCoutFC(res.getBigDecimal(5));
+                    entreeStock.setValeurTauxCarte(res.getBigDecimal(6));
 
-                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getString(3));
-                    tauxMonnaie.setValeur(res.getBigDecimal(4));
-                    entreeStock.setTauxMonnaie(tauxMonnaie);
-
-                    Fournisseur fournisseur = new Fournisseur(res.getString(5));
-                    fournisseur.setEntreprise(res.getString(6));
-                    fournisseur.setResponsable(res.getString(7));
-                    fournisseur.setTelephone(res.getString(8));
+                    Fournisseur fournisseur = new Fournisseur(res.getString(7));
+                    fournisseur.setEntreprise(res.getString(8));
+                    fournisseur.setResponsable(res.getString(9));
+                    fournisseur.setTelephone(res.getString(10));
                     entreeStock.setFournisseur(fournisseur);
 
                     listeEntreesStock.add(entreeStock);
@@ -83,21 +82,21 @@ public class EntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeEntreesStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.quantite,");
-            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
-            scriptSQL.append(" entreestock.idTauxMonnaie, tauxmonnaie.valeur,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
+            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.valeuTotalCoutUSD, entreestock.valeurTotalCoutFC,");
+            scriptSQL.append(" entreestock.valeurTauxCarte, entreestock.dateHeure, entreestock.numeroEntreeStock,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
             scriptSQL.append(" itementreestock.idProduit, produit.description,");
             scriptSQL.append(" itementreestock.idPrixAchatProduit, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM itementreestock");
             scriptSQL.append(" LEFT JOIN entreestock ON itementreestock.idEntreestock = entreestock.id");
-            scriptSQL.append(" LEFT JOIN tauxmonnaie ON entreestock.idTauxmonnaie = tauxcarte.id");
             scriptSQL.append(" LEFT JOIN fournisseur ON entreestock.idFournisseur = fournisseur.id");
             scriptSQL.append(" LEFT JOIN produit ON itementreestock.idProduit = produit.id");
             scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
-            scriptSQL.append(" GROUP BY itementreestock.idEntreeStock, entreestock.dateHeure, entreestock.idTauxMonnaie, tauxmonnaie.valeur,");
+            scriptSQL.append(" GROUP BY itementreestock.quantite, itementreestock.idEntreeStock, entreestock.valeuTotalCoutUSD, entreestock.valeurTotalCoutFC,");
+            scriptSQL.append(" entreestock.valeurTauxCarte, entreestock.dateHeure, entreestock.numeroEntreeStock,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
-            scriptSQL.append(" itementreestock.idProduit, produit.description, itementreestock.quantite,");
+            scriptSQL.append(" itementreestock.idProduit, produit.description,");
             scriptSQL.append(" itementreestock.idPrixAchatProduit, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -243,15 +242,18 @@ public class EntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("INSERT INTO entreestock(");
-            scriptSQL.append(" idFournisseur, idTauxCarte, dateHeure, id )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+            scriptSQL.append(" idFournisseur, valeuTotalCoutUSD, valeurTotalCoutFC, valeurTauxCarte, dateHeure, numeroEntreeStock, id )");
+            scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, entreeStock.getFournisseur().getId());
-            prs.setString(2, entreeStock.getTauxMonnaie().getId());
-            prs.setTimestamp(3, new Timestamp(entreeStock.getDateHeure().getTime()));
-            prs.setString(4, entreeStock.getId());
+            prs.setBigDecimal(2, entreeStock.getValeurTotalCoutUSD());
+            prs.setBigDecimal(3, entreeStock.getValeurTotalCoutFC());
+            prs.setBigDecimal(4, entreeStock.getValeurTauxCarte());
+            prs.setTimestamp(5, new Timestamp(entreeStock.getDateHeure().getTime()));
+            prs.setString(6, entreeStock.getNumeroEntreeStock());
+            prs.setString(7, entreeStock.getId());
             prs.execute();
 
             for (ItemEntreeStock itemEntreeStock : entreeStock.getItemsEntreeStock()) {
@@ -280,17 +282,26 @@ public class EntreeStockDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("INSERT INTO entreestock(");
-            scriptSQL.append(" idFournisseur, idTauxCarte, dateHeure, id )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+            scriptSQL = new StringBuilder("UPDATE entreestock");
+            scriptSQL.append(" SET idFournisseur=?, valeuTotalCoutUSD=?, valeurTotalCoutFC=?, valeurTauxCarte=?,");
+            scriptSQL.append(" dateHeure=?, numeroEntreeStock=?");
+            scriptSQL.append(" WHERE id=?)");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, entreeStock.getFournisseur().getId());
-            prs.setString(2, entreeStock.getTauxMonnaie().getId());
-            prs.setTimestamp(3, new Timestamp(entreeStock.getDateHeure().getTime()));
-            prs.setString(4, entreeStock.getId());
+            prs.setBigDecimal(2, entreeStock.getValeurTotalCoutUSD());
+            prs.setBigDecimal(3, entreeStock.getValeurTotalCoutFC());
+            prs.setBigDecimal(4, entreeStock.getValeurTauxCarte());
+            prs.setTimestamp(5, new Timestamp(entreeStock.getDateHeure().getTime()));
+            prs.setString(6, entreeStock.getNumeroEntreeStock());
+            prs.setString(7, entreeStock.getId());
             prs.execute();
+
+            scriptSQL = new StringBuilder("DELETE FROM itementreestock WHERE idEntreeStock=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setString(1, entreeStock.getId());
 
             for (ItemEntreeStock itemEntreeStock : entreeStock.getItemsEntreeStock()) {
 

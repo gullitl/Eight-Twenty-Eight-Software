@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftbackend.dao.EntreeStockDao;
 import com.cecilsoftwares.reussoftbackend.util.IdGenerator;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,7 +40,9 @@ public class EntreeStockService {
         if (entreeStock.getId().isEmpty()) {
             entreeStock.setId(IdGenerator.generateId());
             entreeStock.setNumeroEntreeStock(IdGenerator.generateOperationNumber());
+            entreeStock.setDateHeure(new Date());
             return EntreeStockDao.getInstance().enregistrerEntreeStock(entreeStock);
+
         } else {
             return EntreeStockDao.getInstance().actualiserEntreeStock(entreeStock);
         }
