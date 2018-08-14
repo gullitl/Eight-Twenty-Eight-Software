@@ -89,6 +89,7 @@ public class MDI extends javax.swing.JFrame {
     private RapportCollaborateur rapportCollaborateur;
     private RapportDispatch rapportDispatch;
     private RapportEntreeStock rapportEntreeStock;
+    private RapportStockProduit rapportStockProduit;
     private RapportFournisseur rapportFournisseur;
     private RapportShop rapportShop;
     private RapportVentes rapportVentes;
@@ -131,6 +132,7 @@ public class MDI extends javax.swing.JFrame {
         jmiOperationVente = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jmiRapportEntreeStock = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jmiRapportDispatch = new javax.swing.JMenuItem();
         jmiRapportVentes = new javax.swing.JMenuItem();
         jmiRapportShop = new javax.swing.JMenuItem();
@@ -317,6 +319,14 @@ public class MDI extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jmiRapportEntreeStock);
+
+        jMenuItem4.setText("Stock produits");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
 
         jmiRapportDispatch.setText("Dispatch");
         jmiRapportDispatch.addActionListener(new java.awt.event.ActionListener() {
@@ -873,6 +883,27 @@ public class MDI extends javax.swing.JFrame {
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        if (rapportStockProduit == null) {
+            rapportStockProduit = new RapportStockProduit();
+            jDesktopPane.add(rapportStockProduit);
+
+            rapportStockProduit.addInternalFrameListener(new InternalFrameAdapter() {
+                @Override
+                public void internalFrameClosing(InternalFrameEvent e) {
+                    rapportStockProduit = null;
+                }
+            });
+        }
+        rapportStockProduit.setLocation(
+                jDesktopPane.getWidth() / 2 - rapportStockProduit.getWidth() / 2,
+                jDesktopPane.getHeight() / 2 - rapportStockProduit.getHeight() / 2);
+
+        rapportEntreeStock.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JMenu jMenu1;
@@ -884,6 +915,7 @@ public class MDI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem jmiAideApropos;
     private javax.swing.JMenuItem jmiConfigurationMonCompte;

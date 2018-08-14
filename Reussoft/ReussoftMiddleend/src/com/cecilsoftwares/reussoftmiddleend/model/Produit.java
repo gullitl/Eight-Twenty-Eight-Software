@@ -1,5 +1,7 @@
 package com.cecilsoftwares.reussoftmiddleend.model;
 
+import java.math.BigDecimal;
+
 /**
  * @author Plamedi L. Lusembo
  */
@@ -10,6 +12,7 @@ public class Produit {
     private String description;
     private CategorieProduit categorieProduit;
     private PrixAchatProduit prixAchatProduit;
+    private BigDecimal quantiteStockMininum;
     private boolean active;
 
     public Produit() {
@@ -58,6 +61,14 @@ public class Produit {
 
     public void setPrixAchatProduit(PrixAchatProduit prixAchatProduit) {
         this.prixAchatProduit = prixAchatProduit;
+    }
+
+    public BigDecimal getQuantiteStockMininum() {
+        return quantiteStockMininum;
+    }
+
+    public void setQuantiteStockMininum(BigDecimal quantiteStockMininum) {
+        this.quantiteStockMininum = quantiteStockMininum;
     }
 
     public boolean isActive() {

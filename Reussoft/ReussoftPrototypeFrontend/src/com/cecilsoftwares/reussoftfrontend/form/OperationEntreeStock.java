@@ -438,6 +438,7 @@ public class OperationEntreeStock extends JInternalFrame {
         entreeStock.setFournisseur(new Fournisseur(idFournisseur));
         entreeStock.setValeurTotalCoutUSD(new BigDecimal(tfdValeurUSD.getText()));
         entreeStock.setValeurTotalCoutFC(new BigDecimal(tfdValeurFC.getText()));
+        entreeStock.setValeurTauxCarte(tauxCarte.getValeur());
         entreeStock.setItemsEntreeStock(itemsEntreeStock);
 
         try {
@@ -555,6 +556,7 @@ public class OperationEntreeStock extends JInternalFrame {
 
     public void fournisseurSelectionne(Fournisseur fournisseur) {
         if (fournisseur != null) {
+            idFournisseur = fournisseur.getId();
             tfdEntrepriseFournisseur.setText(new StringBuilder(fournisseur.getEntreprise())
                     .append(" - ").append(fournisseur.getResponsable()).toString());
         }

@@ -10,8 +10,6 @@ public class StockProduit {
     private Produit produit;
     private Shop shop;
     private BigDecimal QuantiteStock;
-    private BigDecimal quantiteMaximumStock;
-    private BigDecimal quantiteMinimumStock;
 
     public StockProduit() {
 
@@ -43,22 +41,6 @@ public class StockProduit {
 
     public void setQuantiteStock(BigDecimal QuantiteStock) {
         this.QuantiteStock = QuantiteStock;
-    }
-
-    public BigDecimal getQuantiteMaximumStock() {
-        return quantiteMaximumStock;
-    }
-
-    public void setQuantiteMaximumStock(BigDecimal quantiteMaximumStock) {
-        this.quantiteMaximumStock = quantiteMaximumStock;
-    }
-
-    public BigDecimal getQuantiteMinimumStock() {
-        return quantiteMinimumStock;
-    }
-
-    public void setQuantiteMinimumStock(BigDecimal quantiteMinimumStock) {
-        this.quantiteMinimumStock = quantiteMinimumStock;
     }
 
 }

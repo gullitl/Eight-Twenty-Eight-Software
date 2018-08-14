@@ -5,7 +5,6 @@ import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.TauxMonnaie;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,15 +38,14 @@ public class ItemEntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.quantite,");
-            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
-            scriptSQL.append(" entreestock.idTauxMonnaie, tauxmonnaie.valeur,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
+            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.valeurTotalCoutUSD, entreestock.valeurTotalCoutFC,");
+            scriptSQL.append(" entreestock.valeurTauxCarte, entreestock.dateHeure, entreestock.numeroEntreeStock,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
             scriptSQL.append(" itementreestock.idProduit, produit.description,");
             scriptSQL.append(" itementreestock.idPrixAchatProduit, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM itementreestock");
             scriptSQL.append(" LEFT JOIN entreestock ON itementreestock.idEntreestock = entreestock.id");
-            scriptSQL.append(" LEFT JOIN tauxmonnaie ON entreestock.idTauxmonnaie = tauxcarte.id");
             scriptSQL.append(" LEFT JOIN fournisseur ON entreestock.idFournisseur = fournisseur.id");
             scriptSQL.append(" LEFT JOIN produit ON itementreestock.idProduit = produit.id");
             scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
@@ -58,24 +56,24 @@ public class ItemEntreeStockDao {
                 while (res.next()) {
 
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
-                    entreeStock.setDateHeure(res.getTimestamp(3));
+                    entreeStock.setValeurTotalCoutUSD(res.getBigDecimal(3));
+                    entreeStock.setValeurTotalCoutFC(res.getBigDecimal(4));
+                    entreeStock.setValeurTauxCarte(res.getBigDecimal(5));
+                    entreeStock.setDateHeure(res.getTimestamp(6));
+                    entreeStock.setNumeroEntreeStock(res.getString(7));
 
-                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getString(4));
-                    tauxMonnaie.setValeur(res.getBigDecimal(5));
-                    entreeStock.setTauxMonnaie(tauxMonnaie);
-
-                    Fournisseur fournisseur = new Fournisseur(res.getString(6));
-                    fournisseur.setEntreprise(res.getString(7));
-                    fournisseur.setResponsable(res.getString(8));
-                    fournisseur.setTelephone(res.getString(9));
+                    Fournisseur fournisseur = new Fournisseur(res.getString(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
                     entreeStock.setFournisseur(fournisseur);
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
+                    Produit produit = new Produit(res.getString(12));
+                    produit.setDescription(res.getString(13));
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(12));
-                    prixAchatProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixAchatProduit.setDateHeure(res.getTimestamp(14));
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(14));
+                    prixAchatProduit.setValeurUSD(res.getBigDecimal(15));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(16));
                     produit.setPrixAchatProduit(prixAchatProduit);
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
@@ -99,15 +97,14 @@ public class ItemEntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.quantite,");
-            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
-            scriptSQL.append(" entreestock.idTauxMonnaie, tauxmonnaie.valeur,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
+            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.valeurTotalCoutUSD, entreestock.valeurTotalCoutFC,");
+            scriptSQL.append(" entreestock.valeurTauxCarte, entreestock.dateHeure, entreestock.numeroEntreeStock,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
             scriptSQL.append(" itementreestock.idProduit, produit.description,");
             scriptSQL.append(" itementreestock.idPrixAchatProduit, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM itementreestock");
             scriptSQL.append(" LEFT JOIN entreestock ON itementreestock.idEntreestock = entreestock.id");
-            scriptSQL.append(" LEFT JOIN tauxmonnaie ON entreestock.idTauxmonnaie = tauxcarte.id");
             scriptSQL.append(" LEFT JOIN fournisseur ON entreestock.idFournisseur = fournisseur.id");
             scriptSQL.append(" LEFT JOIN produit ON itementreestock.idProduit = produit.id");
             scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
@@ -120,25 +117,24 @@ public class ItemEntreeStockDao {
                 while (res.next()) {
 
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
-                    entreeStock.setDateHeure(res.getTimestamp(3));
+                    entreeStock.setValeurTotalCoutUSD(res.getBigDecimal(3));
+                    entreeStock.setValeurTotalCoutFC(res.getBigDecimal(4));
+                    entreeStock.setValeurTauxCarte(res.getBigDecimal(5));
+                    entreeStock.setDateHeure(res.getTimestamp(6));
+                    entreeStock.setNumeroEntreeStock(res.getString(7));
 
-                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getString(4));
-                    tauxMonnaie.setValeur(res.getBigDecimal(5));
-                    entreeStock.setTauxMonnaie(tauxMonnaie);
-
-                    Fournisseur fournisseur = new Fournisseur(res.getString(6));
-                    fournisseur.setEntreprise(res.getString(7));
-                    fournisseur.setResponsable(res.getString(8));
-                    fournisseur.setTelephone(res.getString(9));
+                    Fournisseur fournisseur = new Fournisseur(res.getString(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
                     entreeStock.setFournisseur(fournisseur);
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
+                    Produit produit = new Produit(res.getString(12));
+                    produit.setDescription(res.getString(13));
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(12));
-
-                    prixAchatProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixAchatProduit.setDateHeure(res.getTimestamp(14));
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(14));
+                    prixAchatProduit.setValeurUSD(res.getBigDecimal(15));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(16));
                     produit.setPrixAchatProduit(prixAchatProduit);
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
@@ -162,15 +158,14 @@ public class ItemEntreeStockDao {
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.quantite,");
-            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
-            scriptSQL.append(" entreestock.idTauxMonnaie, tauxmonnaie.valeur,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
+            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.valeurTotalCoutUSD, entreestock.valeurTotalCoutFC,");
+            scriptSQL.append(" entreestock.valeurTauxCarte, entreestock.dateHeure, entreestock.numeroEntreeStock,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
             scriptSQL.append(" itementreestock.idProduit, produit.description,");
             scriptSQL.append(" itementreestock.idPrixAchatProduit, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM itementreestock");
             scriptSQL.append(" LEFT JOIN entreestock ON itementreestock.idEntreestock = entreestock.id");
-            scriptSQL.append(" LEFT JOIN tauxmonnaie ON entreestock.idTauxmonnaie = tauxcarte.id");
             scriptSQL.append(" LEFT JOIN fournisseur ON entreestock.idFournisseur = fournisseur.id");
             scriptSQL.append(" LEFT JOIN produit ON itementreestock.idProduit = produit.id");
             scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
@@ -183,24 +178,24 @@ public class ItemEntreeStockDao {
                 while (res.next()) {
 
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
-                    entreeStock.setDateHeure(res.getTimestamp(3));
+                    entreeStock.setValeurTotalCoutUSD(res.getBigDecimal(3));
+                    entreeStock.setValeurTotalCoutFC(res.getBigDecimal(4));
+                    entreeStock.setValeurTauxCarte(res.getBigDecimal(5));
+                    entreeStock.setDateHeure(res.getTimestamp(6));
+                    entreeStock.setNumeroEntreeStock(res.getString(7));
 
-                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getString(4));
-                    tauxMonnaie.setValeur(res.getBigDecimal(5));
-                    entreeStock.setTauxMonnaie(tauxMonnaie);
-
-                    Fournisseur fournisseur = new Fournisseur(res.getString(6));
-                    fournisseur.setEntreprise(res.getString(7));
-                    fournisseur.setResponsable(res.getString(8));
-                    fournisseur.setTelephone(res.getString(9));
+                    Fournisseur fournisseur = new Fournisseur(res.getString(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
                     entreeStock.setFournisseur(fournisseur);
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
+                    Produit produit = new Produit(res.getString(12));
+                    produit.setDescription(res.getString(13));
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(12));
-                    prixAchatProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixAchatProduit.setDateHeure(res.getTimestamp(14));
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(14));
+                    prixAchatProduit.setValeurUSD(res.getBigDecimal(15));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(16));
                     produit.setPrixAchatProduit(prixAchatProduit);
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
@@ -222,15 +217,14 @@ public class ItemEntreeStockDao {
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.quantite,");
-            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.dateHeure,");
-            scriptSQL.append(" entreestock.idTauxMonnaie, tauxmonnaie.valeur,");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
+            scriptSQL.append(" itementreestock.idEntreeStock, entreestock.valeurTotalCoutUSD, entreestock.valeurTotalCoutFC,");
+            scriptSQL.append(" entreestock.valeurTauxCarte, entreestock.dateHeure, entreestock.numeroEntreeStock,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
             scriptSQL.append(" itementreestock.idProduit, produit.description,");
             scriptSQL.append(" itementreestock.idPrixAchatProduit, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM itementreestock");
             scriptSQL.append(" LEFT JOIN entreestock ON itementreestock.idEntreestock = entreestock.id");
-            scriptSQL.append(" LEFT JOIN tauxmonnaie ON entreestock.idTauxmonnaie = tauxcarte.id");
             scriptSQL.append(" LEFT JOIN fournisseur ON entreestock.idFournisseur = fournisseur.id");
             scriptSQL.append(" LEFT JOIN produit ON itementreestock.idProduit = produit.id");
             scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
@@ -244,24 +238,24 @@ public class ItemEntreeStockDao {
                 while (res.next()) {
 
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
-                    entreeStock.setDateHeure(res.getTimestamp(3));
+                    entreeStock.setValeurTotalCoutUSD(res.getBigDecimal(3));
+                    entreeStock.setValeurTotalCoutFC(res.getBigDecimal(4));
+                    entreeStock.setValeurTauxCarte(res.getBigDecimal(5));
+                    entreeStock.setDateHeure(res.getTimestamp(6));
+                    entreeStock.setNumeroEntreeStock(res.getString(7));
 
-                    TauxMonnaie tauxMonnaie = new TauxMonnaie(res.getString(4));
-                    tauxMonnaie.setValeur(res.getBigDecimal(5));
-                    entreeStock.setTauxMonnaie(tauxMonnaie);
-
-                    Fournisseur fournisseur = new Fournisseur(res.getString(6));
-                    fournisseur.setEntreprise(res.getString(7));
-                    fournisseur.setResponsable(res.getString(8));
-                    fournisseur.setTelephone(res.getString(9));
+                    Fournisseur fournisseur = new Fournisseur(res.getString(8));
+                    fournisseur.setEntreprise(res.getString(9));
+                    fournisseur.setResponsable(res.getString(10));
+                    fournisseur.setTelephone(res.getString(11));
                     entreeStock.setFournisseur(fournisseur);
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
+                    Produit produit = new Produit(res.getString(12));
+                    produit.setDescription(res.getString(13));
 
-                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(12));
-                    prixAchatProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixAchatProduit.setDateHeure(res.getTimestamp(14));
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(14));
+                    prixAchatProduit.setValeurUSD(res.getBigDecimal(15));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(16));
                     produit.setPrixAchatProduit(prixAchatProduit);
 
                     ItemEntreeStock itemEntreeStock = new ItemEntreeStock(entreeStock, produit);
