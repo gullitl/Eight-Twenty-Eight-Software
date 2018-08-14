@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -170,6 +171,57 @@ public class StockProduitDao {
         }
 
         return true;
+    }
+
+    // Considerar a partir daqui
+    public boolean actualiserEstoque(Produit produit, Shop shop, BigDecimal quantiteStockMouvemente)
+            throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+        boolean retorno;
+        int contador = 0;
+        StringBuilder scriptSQL;
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("SELECT count(*) FROM estoque WHERE id_produto = ?");
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+            prs.setString(1, produit.getId());
+            res = prs.executeQuery();
+
+            if (res != null) {
+                while (res.next()) {
+                    contador = res.getInt(1);
+                }
+            }
+
+            if (contador > 0) {
+                scriptSQL = new StringBuilder("UPDATE estoque SET qtde=qtde + ?, valor_unitario= ?");
+                scriptSQL.append(" WHERE id_produto = ?");
+
+                prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+                prs.setBigDecimal(1, quantiteStockMouvemente);
+                prs.setString(3, produit.getId());
+
+                prs.execute();
+                retorno = true;
+            } else {
+                scriptSQL = new StringBuilder("INSERT INTO estoque (qtde, valor_unitario, id_produto)");
+                scriptSQL.append(" VALUES (?, ?, ?)");
+
+                prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+
+                prs.setBigDecimal(1, quantiteStockMouvemente);
+                prs.setString(3, produit.getId());
+
+                prs.execute();
+                retorno = true;
+            }
+            conexao.close();
+        }
+        prs.close();
+        res.close();
+        return retorno;
     }
 
 }

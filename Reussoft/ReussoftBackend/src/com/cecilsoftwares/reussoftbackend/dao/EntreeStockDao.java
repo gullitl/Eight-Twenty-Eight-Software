@@ -1,10 +1,12 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
+import com.cecilsoftwares.reussoftbackend.service.StockProduitService;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -261,6 +263,10 @@ public class EntreeStockDao {
                 prs.setString(2, itemEntreeStock.getProduit().getId());
                 prs.setString(3, itemEntreeStock.getProduit().getPrixAchatProduit().getId());
                 prs.setBigDecimal(4, itemEntreeStock.getQuantiteProduit());
+
+                StockProduitService.getInstance()
+                        .actualiserEstoque(itemEntreeStock.getProduit(), new Shop("Lasource"), itemEntreeStock.getQuantiteProduit());
+
                 prs.execute();
             }
 
