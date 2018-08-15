@@ -33,7 +33,7 @@ public class ClientDao {
         List<Client> listeClients;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.id, client.nom, client.entreprise, client.telephone, ");
+            scriptSQL = new StringBuilder("SELECT client.id, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.id");
 
@@ -71,7 +71,7 @@ public class ClientDao {
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT client.id, client.nom, client.entreprise, client.telephone, ");
+            scriptSQL = new StringBuilder("SELECT client.id, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.id");
             scriptSQL.append(" WHERE client.id=?");

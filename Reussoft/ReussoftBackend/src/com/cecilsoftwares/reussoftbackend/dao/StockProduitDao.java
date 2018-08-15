@@ -2,11 +2,14 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.StockProduit;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Plamedi L. Lusembo
@@ -24,6 +27,48 @@ public class StockProduitDao {
             uniqueInstance = new StockProduitDao();
         }
         return uniqueInstance;
+    }
+
+    public List<StockProduit> listerTousLeStockProduit() throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+        List<StockProduit> listeStocksProduit;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("SELECT stockproduit.idProduit, produit.description, produit.active,");
+            scriptSQL.append(" stockproduit.idShop, shop.nom, shop.adresse, shop.active");
+            scriptSQL.append(" stockproduit.quantiteStock");
+            scriptSQL.append(" FROM stockproduit");
+            scriptSQL.append(" LEFT JOIN produit ON stockproduit.idProduit = produit.id");
+            scriptSQL.append(" LEFT JOIN shop ON stockproduit.idShop = shop.id");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            res = prs.executeQuery();
+
+            listeStocksProduit = new ArrayList();
+            if (res != null) {
+                while (res.next()) {
+
+                    Produit produit = new Produit(res.getString(1));
+                    produit.setDescription(res.getString(2));
+                    produit.setActive(res.getInt(3) == 1);
+
+                    Shop shop = new Shop(res.getString(4));
+                    shop.setNom(res.getString(5));
+                    shop.setAdresse(res.getString(6));
+                    shop.setActive(res.getInt(7) == 0);
+
+                    StockProduit stockProduit = new StockProduit(produit, shop);
+                    stockProduit.setQuantiteStock(res.getBigDecimal(8));
+
+                    listeStocksProduit.add(stockProduit);
+                }
+            }
+            prs.close();
+            res.close();
+            conexao.close();
+        }
+        return listeStocksProduit;
     }
 
     private boolean actualiserStock(Produit produit, Shop shop, int quantiteMouvement) throws ClassNotFoundException, SQLException {

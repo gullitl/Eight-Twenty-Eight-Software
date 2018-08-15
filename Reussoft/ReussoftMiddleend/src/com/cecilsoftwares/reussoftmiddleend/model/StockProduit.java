@@ -15,6 +15,11 @@ public class StockProduit {
 
     }
 
+    public StockProduit(Produit produit, Shop shop) {
+        this.produit = produit;
+        this.shop = shop;
+    }
+
     public StockProduit(Produit produit) {
         this.produit = produit;
     }
