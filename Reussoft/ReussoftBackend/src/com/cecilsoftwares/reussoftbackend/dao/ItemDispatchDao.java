@@ -34,7 +34,7 @@ public class ItemDispatchDao {
         ResultSet res;
         List<ItemDispatch> listeItemsDispatch;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsDispatch = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itemdispatch.quantite,");
@@ -48,7 +48,7 @@ public class ItemDispatchDao {
             scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.id");
             scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
@@ -77,7 +77,7 @@ public class ItemDispatchDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeItemsDispatch;
     }
@@ -87,7 +87,7 @@ public class ItemDispatchDao {
         ResultSet res;
         List<ItemDispatch> listeItemsDispatch;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsDispatch = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itemdispatch.quantite,");
@@ -102,7 +102,7 @@ public class ItemDispatchDao {
             scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.id");
             scriptSQL.append(" WHERE dispatch.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idDispatch);
             res = prs.executeQuery();
             if (res != null) {
@@ -132,7 +132,7 @@ public class ItemDispatchDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeItemsDispatch;
     }
@@ -142,7 +142,7 @@ public class ItemDispatchDao {
         ResultSet res;
         List<ItemDispatch> listeItemsDispatch;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsDispatch = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itemdispatch.quantite,");
@@ -157,7 +157,7 @@ public class ItemDispatchDao {
             scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.id");
             scriptSQL.append(" WHERE produit.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idProduit);
             res = prs.executeQuery();
             if (res != null) {
@@ -187,7 +187,7 @@ public class ItemDispatchDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeItemsDispatch;
     }
@@ -196,7 +196,7 @@ public class ItemDispatchDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT itemdispatch.quantite,");
             scriptSQL.append(" itemdispatch.idDispatch, dispatch.dateHeure, dispatch.valide,");
@@ -210,7 +210,7 @@ public class ItemDispatchDao {
             scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.id");
             scriptSQL.append(" WHERE dispatch.id=? AND produit.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idDispatch);
             prs.setString(2, idProduit);
             res = prs.executeQuery();
@@ -238,14 +238,14 @@ public class ItemDispatchDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return itemDispatch;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }

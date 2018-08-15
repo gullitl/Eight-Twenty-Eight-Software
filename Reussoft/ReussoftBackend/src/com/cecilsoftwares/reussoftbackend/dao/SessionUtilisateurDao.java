@@ -34,7 +34,7 @@ public class SessionUtilisateurDao {
         ResultSet res;
         List<SessionUtilisateur> listeSessionUtilisateurs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeSessionUtilisateurs = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT sessionutilisateur.id, sessionutilisateur.dateHeure, sessionutilisateur.action,");
@@ -44,7 +44,7 @@ public class SessionUtilisateurDao {
             scriptSQL.append(" LEFT JOIN collaborateur ON sessionutilisateur.idSessionUtilisateur = collaborateur.id");
             scriptSQL.append(" LEFT JOIN shop ON sessionutilisateur.idShop = shop.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
@@ -71,7 +71,7 @@ public class SessionUtilisateurDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeSessionUtilisateurs;
     }
@@ -80,7 +80,7 @@ public class SessionUtilisateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT sessionutilisateur.id, sessionutilisateur.dateHeure, sessionutilisateur.action,");
             scriptSQL.append(" sessionutilisateur.idCollaborateur, collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
@@ -90,7 +90,7 @@ public class SessionUtilisateurDao {
             scriptSQL.append(" LEFT JOIN shop ON sessionutilisateur.idShop = shop.id");
             scriptSQL.append(" WHERE sessionutilisateur.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idSessionUtilisateur);
             res = prs.executeQuery();
             if (res != null) {
@@ -115,14 +115,14 @@ public class SessionUtilisateurDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return sessionutilisateur;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -130,12 +130,12 @@ public class SessionUtilisateurDao {
     public boolean sauvegarderSessionUtilisateur(SessionUtilisateur sessionUtilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO sessionutilisateur(");
             scriptSQL.append(" id, idCollaborateur, idShop, dateHeure, actionEntree )");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, sessionUtilisateur.getId());
             prs.setString(2, sessionUtilisateur.getCollaborateur().getId());
@@ -145,7 +145,7 @@ public class SessionUtilisateurDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }

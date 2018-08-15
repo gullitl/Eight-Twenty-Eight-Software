@@ -35,7 +35,7 @@ public class PrixVenteProduitDao {
         ResultSet res;
         List<PrixVenteProduit> listePrixVenteProduits;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT prixventeproduit.id, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" prixventeproduit.idProduit, produit.Description,");
             scriptSQL.append(" prixventeproduit.idShop, shop.nom, shop.adresse, shop.active");
@@ -43,7 +43,7 @@ public class PrixVenteProduitDao {
             scriptSQL.append(" LEFT JOIN produit ON prixventeproduit.idProduit = produit.id");
             scriptSQL.append(" LEFT JOIN shop ON prixventeproduit.idShop = shop.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
 
             listePrixVenteProduits = new ArrayList();
@@ -69,7 +69,7 @@ public class PrixVenteProduitDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listePrixVenteProduits;
     }
@@ -79,7 +79,7 @@ public class PrixVenteProduitDao {
         ResultSet res;
         List<PrixVenteProduit> listePrixVenteProduits;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT prixventeproduit.id, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" prixventeproduit.idProduit, produit.Description,");
             scriptSQL.append(" prixventeproduit.idShop, shop.nom, shop.adresse, shop.active");
@@ -88,7 +88,7 @@ public class PrixVenteProduitDao {
             scriptSQL.append(" LEFT JOIN shop ON prixventeproduit.idShop = shop.id");
             scriptSQL.append(" WHERE prixventeproduit.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idProduit);
             res = prs.executeQuery();
 
@@ -116,7 +116,7 @@ public class PrixVenteProduitDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listePrixVenteProduits;
     }
@@ -125,7 +125,7 @@ public class PrixVenteProduitDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT prixventeproduit.id, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" prixventeproduit.idProduit, produit.Description,");
             scriptSQL.append(" prixventeproduit.idShop, shop.nom, shop.adresse, shop.active");
@@ -134,7 +134,7 @@ public class PrixVenteProduitDao {
             scriptSQL.append(" LEFT JOIN shop ON prixventeproduit.idShop = shop.id");
             scriptSQL.append(" WHERE prixventeproduit.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idPrixVenteProduit);
             res = prs.executeQuery();
 
@@ -157,14 +157,14 @@ public class PrixVenteProduitDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return prixVenteProduit;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -172,12 +172,12 @@ public class PrixVenteProduitDao {
     public boolean enregistrerPrixVenteProduit(PrixVenteProduit prixVenteProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO prixventeproduit(");
             scriptSQL.append(" idProduit, idShop, valeurUSD, dateHeure, id)");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, prixVenteProduit.getProduit().getId());
             prs.setString(2, prixVenteProduit.getShop().getId());
@@ -187,7 +187,7 @@ public class PrixVenteProduitDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -195,12 +195,12 @@ public class PrixVenteProduitDao {
     public boolean enregistrerPrixVenteProduitShop(PrixVenteProduit prixVenteProduit, List<PrixVenteProduitShop> prixVenteProduitShops) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO prixventeproduit(");
             scriptSQL.append(" id, idProduit, , dateHeure, valeurUSD, idShop)");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, prixVenteProduit.getId());
             prs.setString(2, prixVenteProduit.getProduit().getId());
@@ -212,7 +212,7 @@ public class PrixVenteProduitDao {
                 prs.execute();
             }
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -220,15 +220,15 @@ public class PrixVenteProduitDao {
     public boolean exclurePrixVenteProduit(String idPrixVenteProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM prixventeproduit WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idPrixVenteProduit);
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
 
         return true;

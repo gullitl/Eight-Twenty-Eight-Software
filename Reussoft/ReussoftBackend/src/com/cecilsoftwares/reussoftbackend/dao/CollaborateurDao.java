@@ -32,7 +32,7 @@ public class CollaborateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT collaborateur.id, collaborateur.active,");
             scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
             scriptSQL.append(" collaborateur.nomUtilisateur, collaborateur.motDePasse,");
@@ -43,7 +43,7 @@ public class CollaborateurDao {
             scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = profilutilisateur.id");
             scriptSQL.append(" WHERE collaborateur.nomUtilisateur COLLATE latin1_general_cs=? AND collaborateur.motDePasse COLLATE latin1_general_cs=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, nomUtilisateur);
             prs.setString(2, motDePasse);
             res = prs.executeQuery();
@@ -71,7 +71,7 @@ public class CollaborateurDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return collaborateur;
                 }
@@ -79,7 +79,7 @@ public class CollaborateurDao {
 
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -89,7 +89,7 @@ public class CollaborateurDao {
         ResultSet res;
         List<Collaborateur> listeCollaborateurs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT collaborateur.id, collaborateur.active,");
             scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
             scriptSQL.append(" collaborateur.nomUtilisateur, collaborateur.motDePasse,");
@@ -100,7 +100,7 @@ public class CollaborateurDao {
             scriptSQL.append(" LEFT JOIN shop ON collaborateur.idShop = shop.id");
             scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = profilutilisateur.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
 
             listeCollaborateurs = new ArrayList();
@@ -132,7 +132,7 @@ public class CollaborateurDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeCollaborateurs;
     }
@@ -141,7 +141,7 @@ public class CollaborateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT collaborateur.id, collaborateur.active,");
             scriptSQL.append(" collaborateur.prenom, collaborateur.nom, collaborateur.postnom, collaborateur.surnom,");
             scriptSQL.append(" collaborateur.nomUtilisateur, collaborateur.motDePasse,");
@@ -153,7 +153,7 @@ public class CollaborateurDao {
             scriptSQL.append(" LEFT JOIN profilutilisateur ON collaborateur.idProfilUtilisateur = profilutilisateur.id");
             scriptSQL.append(" WHERE collaborateur.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, idCollaborateur);
             res = prs.executeQuery();
 
@@ -182,14 +182,14 @@ public class CollaborateurDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return collaborateur;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -197,7 +197,7 @@ public class CollaborateurDao {
     public boolean enregistrerCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("INSERT INTO collaborateur(");
             scriptSQL.append(" prenom, nom, postnom, surnom, nomUtilisateur, motDePasse, active,");
@@ -206,7 +206,7 @@ public class CollaborateurDao {
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?, ?, ?, ?,");
             scriptSQL.append(collaborateur.getShop() == null ? " ?)" : " ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, collaborateur.getPrenom());
             prs.setString(2, collaborateur.getNom());
@@ -225,7 +225,7 @@ public class CollaborateurDao {
             }
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -233,7 +233,7 @@ public class CollaborateurDao {
     public boolean actualiserCollaborateur(Collaborateur collaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("UPDATE collaborateur");
             scriptSQL.append(" SET prenom=?, nom=?, postnom=?, surnom=?, nomUtilisateur=?, motDePasse=?, active=?,");
@@ -241,7 +241,7 @@ public class CollaborateurDao {
             scriptSQL.append(collaborateur.getShop() == null ? "" : ", idShop=?");
             scriptSQL.append(" WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, collaborateur.getPrenom());
             prs.setString(2, collaborateur.getNom());
@@ -260,7 +260,7 @@ public class CollaborateurDao {
             }
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -268,15 +268,15 @@ public class CollaborateurDao {
     public boolean exclureCollaborateur(String idCollaborateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM collaborateur WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idCollaborateur);
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
 
         return true;

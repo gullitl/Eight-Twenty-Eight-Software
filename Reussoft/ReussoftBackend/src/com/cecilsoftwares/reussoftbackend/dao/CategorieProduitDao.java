@@ -31,11 +31,11 @@ public class CategorieProduitDao {
         ResultSet res;
         List<CategorieProduit> listeCategoriesProduit;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT id, description, descriptionAbregee");
             scriptSQL.append(" FROM categorieproduit");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
 
             listeCategoriesProduit = new ArrayList();
@@ -51,7 +51,7 @@ public class CategorieProduitDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeCategoriesProduit;
     }
@@ -60,11 +60,11 @@ public class CategorieProduitDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT id, description, descriptionAbregee");
             scriptSQL.append(" FROM categorieproduit WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idProduitParId);
             res = prs.executeQuery();
             if (res != null) {
@@ -76,14 +76,14 @@ public class CategorieProduitDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return categorieProduit;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -91,13 +91,13 @@ public class CategorieProduitDao {
     public boolean enregistrerCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("INSERT INTO categorieproduit(");
             scriptSQL.append(" description, descriptionAbregee, id )");
             scriptSQL.append(" VALUES (?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, categorieProduit.getDescription());
             prs.setString(2, categorieProduit.getDescriptionAbregee());
@@ -105,7 +105,7 @@ public class CategorieProduitDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -113,13 +113,13 @@ public class CategorieProduitDao {
     public boolean actualiserCategorieProduit(CategorieProduit categorieProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("UPDATE categorieproduit");
             scriptSQL.append(" SET description=?, descriptionAbregee=?");
             scriptSQL.append(" WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, categorieProduit.getDescription());
             prs.setString(2, categorieProduit.getDescriptionAbregee());
@@ -127,7 +127,7 @@ public class CategorieProduitDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -135,15 +135,15 @@ public class CategorieProduitDao {
     public boolean exclureCategorieProduit(String idCategorieProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM categorieproduit WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idCategorieProduit);
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
 
         return true;

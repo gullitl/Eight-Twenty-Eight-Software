@@ -32,13 +32,13 @@ public class ProfilUtilisateurDao {
         ResultSet res;
         List<ProfilUtilisateur> profilUtilisateurs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             profilUtilisateurs = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT id, description, descriptionAbregee");
             scriptSQL.append(" FROM profilutilisateur");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
@@ -52,7 +52,7 @@ public class ProfilUtilisateurDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return profilUtilisateurs;
     }
@@ -62,13 +62,13 @@ public class ProfilUtilisateurDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT id, description, descriptionAbregee");
             scriptSQL.append(" FROM profilutilisateur");
             scriptSQL.append(" WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idProfilUtilisateur);
             res = prs.executeQuery();
             if (res != null) {
@@ -80,14 +80,14 @@ public class ProfilUtilisateurDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return profilUtilisateur;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -95,12 +95,12 @@ public class ProfilUtilisateurDao {
     public boolean enregistrerProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO profilutilisateur(");
             scriptSQL.append(" description, descriptionAbregee, id )");
             scriptSQL.append(" VALUES (?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, profilUtilisateur.getDescription());
             prs.setString(2, profilUtilisateur.getDescriptionAbregee());
@@ -108,7 +108,7 @@ public class ProfilUtilisateurDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -116,13 +116,13 @@ public class ProfilUtilisateurDao {
     public boolean actualiserProfilUtilisateur(ProfilUtilisateur profilUtilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("UPDATE profilutilisateur");
             scriptSQL.append(" SET description=?, descriptionAbregee=?");
             scriptSQL.append(" WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, profilUtilisateur.getDescription());
             prs.setString(2, profilUtilisateur.getDescriptionAbregee());
@@ -130,7 +130,7 @@ public class ProfilUtilisateurDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -138,15 +138,15 @@ public class ProfilUtilisateurDao {
     public boolean exclureProfilUtilisateur(String idProfilUtilisateur) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM profilutilisateur WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idProfilUtilisateur);
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
 
         return true;

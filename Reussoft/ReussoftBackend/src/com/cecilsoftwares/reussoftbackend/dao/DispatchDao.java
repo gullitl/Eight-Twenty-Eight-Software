@@ -35,7 +35,7 @@ public class DispatchDao {
         ResultSet res;
         List<Dispatch> listeDispatch;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeDispatch = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT dispatch.id, dispatch.dateHeure, dispatch.valide");
@@ -43,7 +43,7 @@ public class DispatchDao {
             scriptSQL.append(" FROM dispatch");
             scriptSQL.append(" LEFT JOIN shop as shop ON dispatch.idShop = shop.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
@@ -61,7 +61,7 @@ public class DispatchDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeDispatch;
     }
@@ -71,7 +71,7 @@ public class DispatchDao {
         ResultSet res;
         List<Dispatch> listeDispatch;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeDispatch = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itemdispatch.quantite,");
@@ -89,7 +89,7 @@ public class DispatchDao {
             scriptSQL.append(" dispatch.idShopDestinataire, shopdestinataire.nom,");
             scriptSQL.append(" itemdispatch.idProduto, produit.description");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
 
@@ -138,7 +138,7 @@ public class DispatchDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeDispatch;
     }
@@ -151,7 +151,7 @@ public class DispatchDao {
 
         List<ItemDispatch> listeItemsDispatch = new ArrayList();
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT itemdispatch.quantite,");
             scriptSQL.append(" itemdispatch.idDispatch, dispatch.dateHeure, dispatch.valide,");
@@ -169,7 +169,7 @@ public class DispatchDao {
             scriptSQL.append(" itemdispatch.idProduto, produit.description");
             scriptSQL.append(" WHERE itemdispatch.idDispatch=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idDispatch);
             res = prs.executeQuery();
 
@@ -209,7 +209,7 @@ public class DispatchDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return dsptch;
     }
@@ -217,13 +217,13 @@ public class DispatchDao {
     public boolean enregistrerDispatch(Dispatch dispatch) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("INSERT INTO dispatch(");
             scriptSQL.append(" idShop, dateHeure, active, id)");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, dispatch.getShop().getId());
             prs.setTimestamp(2, new Timestamp(dispatch.getDateHeure().getTime()));
@@ -238,7 +238,7 @@ public class DispatchDao {
                 scriptSQL.append(" idDispatch, idProduit, idShop, quantite )");
                 scriptSQL.append(" VALUES (?, ?, ?)");
 
-                prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+                prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
                 prs.setString(1, itemDispatch.getDispatch().getId());
                 prs.setString(2, itemDispatch.getProduit().getId());
@@ -248,7 +248,7 @@ public class DispatchDao {
             }
 
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }

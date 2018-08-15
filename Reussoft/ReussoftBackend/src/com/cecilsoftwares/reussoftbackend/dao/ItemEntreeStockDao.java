@@ -35,7 +35,7 @@ public class ItemEntreeStockDao {
         ResultSet res;
         List<ItemEntreeStock> listeItemsEntreeStock;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
@@ -50,7 +50,7 @@ public class ItemEntreeStockDao {
             scriptSQL.append(" LEFT JOIN produit ON itementreestock.idProduit = produit.id");
             scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
@@ -84,7 +84,7 @@ public class ItemEntreeStockDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeItemsEntreeStock;
     }
@@ -94,7 +94,7 @@ public class ItemEntreeStockDao {
         ResultSet res;
         List<ItemEntreeStock> listeItemsEntreeStock;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
@@ -110,7 +110,7 @@ public class ItemEntreeStockDao {
             scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
             scriptSQL.append(" WHERE entreestock.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idEntreeStock);
             res = prs.executeQuery();
             if (res != null) {
@@ -145,7 +145,7 @@ public class ItemEntreeStockDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeItemsEntreeStock;
     }
@@ -155,7 +155,7 @@ public class ItemEntreeStockDao {
         ResultSet res;
         List<ItemEntreeStock> listeItemsEntreeStock;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeItemsEntreeStock = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
@@ -171,7 +171,7 @@ public class ItemEntreeStockDao {
             scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
             scriptSQL.append(" WHERE produit.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idProduit);
             res = prs.executeQuery();
             if (res != null) {
@@ -206,7 +206,7 @@ public class ItemEntreeStockDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeItemsEntreeStock;
     }
@@ -215,7 +215,7 @@ public class ItemEntreeStockDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.valeurTotalCoutUSD, entreestock.valeurTotalCoutFC,");
@@ -230,7 +230,7 @@ public class ItemEntreeStockDao {
             scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
             scriptSQL.append(" WHERE entreestock.id=? AND produit.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idEntreeStock);
             prs.setString(2, idProduit);
             res = prs.executeQuery();
@@ -263,14 +263,14 @@ public class ItemEntreeStockDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return itemEntreeStock;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }

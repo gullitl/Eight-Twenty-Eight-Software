@@ -32,12 +32,12 @@ public class ClientDao {
         ResultSet res;
         List<Client> listeClients;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT client.id, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
 
             listeClients = new ArrayList();
@@ -61,7 +61,7 @@ public class ClientDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeClients;
     }
@@ -70,13 +70,13 @@ public class ClientDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT client.id, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.id");
             scriptSQL.append(" WHERE client.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idClient);
             res = prs.executeQuery();
 
@@ -97,14 +97,14 @@ public class ClientDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return client;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -112,13 +112,13 @@ public class ClientDao {
     public boolean enregistrerClient(Client client) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("INSERT INTO client(");
             scriptSQL.append(" nom, entreprise, telephone, idShop, id )");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, client.getNom());
             prs.setString(2, client.getEntreprise());
@@ -128,7 +128,7 @@ public class ClientDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -136,12 +136,12 @@ public class ClientDao {
     public boolean actualiserClient(Client client) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("UPDATE client");
             scriptSQL.append(" SET nom=?, entreprise=?, telephone=?, idShop=?");
             scriptSQL.append(" WHERE id=?");
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, client.getNom());
             prs.setString(2, client.getEntreprise());
@@ -151,7 +151,7 @@ public class ClientDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -159,15 +159,15 @@ public class ClientDao {
     public boolean exclureClient(String idClient) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM client WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idClient);
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
 
         return true;

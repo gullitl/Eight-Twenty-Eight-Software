@@ -38,7 +38,7 @@ public class SortieStockDao {
         ResultSet res;
         List<SortieStock> listeSortiesStock;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeSortiesStock = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT sortiestock.id, sortiestock.dateHeure,");
@@ -48,7 +48,7 @@ public class SortieStockDao {
             scriptSQL.append(" LEFT JOIN shop ON sortiestock.idShop = shop.id");
             scriptSQL.append(" LEFT JOIN client ON sortiestock.idClient = client.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
@@ -71,7 +71,7 @@ public class SortieStockDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeSortiesStock;
     }
@@ -81,7 +81,7 @@ public class SortieStockDao {
         ResultSet res;
         List<SortieStock> listeSortiesStock;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeSortiesStock = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itemsortiestock.quantiteProduit,");
@@ -102,7 +102,7 @@ public class SortieStockDao {
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
             scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
 
@@ -158,7 +158,7 @@ public class SortieStockDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeSortiesStock;
     }
@@ -169,7 +169,7 @@ public class SortieStockDao {
         SortieStock srtstck = new SortieStock();
         List<ItemSortieStock> listeItemsSortieStock = new ArrayList();
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT itemsortiestock.quantiteProduit,");
             scriptSQL.append(" itemsortiestock.idSortieStock, sortiestock.dateHeure,");
@@ -190,7 +190,7 @@ public class SortieStockDao {
             scriptSQL.append(" itemsortiestock.idPrixVenteProduit, prixventeproduit.valeurUSD, prixventeproduit.dateHeure");
             scriptSQL.append(" WHERE itementreestock.idSortieStock=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setInt(1, idSortieStock);
             res = prs.executeQuery();
             if (res != null) {
@@ -237,7 +237,7 @@ public class SortieStockDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return srtstck;
     }
@@ -245,13 +245,13 @@ public class SortieStockDao {
     public boolean enregistrerSortieStock(SortieStock sortieStock) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("INSERT INTO sortiestock(");
             scriptSQL.append(" idShop, idClient, dateHeure, id)");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, sortieStock.getShop().getId());
             prs.setString(2, sortieStock.getClient().getId());
@@ -264,7 +264,7 @@ public class SortieStockDao {
                 scriptSQL.append(" idSortieStock, idProduit, idPrixVenteProduit, quantite )");
                 scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
-                prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+                prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
                 prs.setString(1, itemSortieStock.getSortieStock().getId());
                 prs.setString(2, itemSortieStock.getProduit().getId());
@@ -274,7 +274,7 @@ public class SortieStockDao {
             }
 
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }

@@ -33,13 +33,13 @@ public class ShopDao {
         ResultSet res;
         List<Shop> listeShops;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT shop.id, shop.nom, shop.adresse, shop.active,");
             scriptSQL.append(" shop.idTauxCarte, tauxcarte.valeur, tauxcarte.dateHeure");
             scriptSQL.append(" FROM shop JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
 
             listeShops = new ArrayList();
@@ -62,7 +62,7 @@ public class ShopDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeShops;
     }
@@ -71,13 +71,13 @@ public class ShopDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT shop.id, shop.nom, shop.adresse, shop.active,");
             scriptSQL.append(" shop.idTauxCarte, tauxcarte.id, tauxcarte.valeur, tauxcarte.dateHeure");
             scriptSQL.append(" FROM shop JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
             scriptSQL.append(" WHERE shop.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idShop);
             res = prs.executeQuery();
 
@@ -97,14 +97,14 @@ public class ShopDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return shop;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -112,12 +112,12 @@ public class ShopDao {
     public boolean enregistrerShop(Shop shop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO shop(");
             scriptSQL.append(" nom, adresse, active, id)");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, shop.getNom());
             prs.setString(2, shop.getAdresse());
@@ -126,7 +126,7 @@ public class ShopDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -134,12 +134,12 @@ public class ShopDao {
     public boolean actualiserShop(Shop shop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("UPDATE shop");
             scriptSQL.append(" SET nom=?, adresse=?, active=?");
             scriptSQL.append(" WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, shop.getNom());
             prs.setString(2, shop.getAdresse());
@@ -148,7 +148,7 @@ public class ShopDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -156,15 +156,15 @@ public class ShopDao {
     public boolean exclureShop(String idShop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM shop WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idShop);
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
 
         return true;

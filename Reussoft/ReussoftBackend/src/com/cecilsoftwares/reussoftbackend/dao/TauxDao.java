@@ -36,7 +36,7 @@ public class TauxDao {
         ResultSet res;
         List<TauxCarte> listeTauxCartes;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeTauxCartes = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT tauxcarte.id, tauxcarte.dateHeure, tauxcarte.valeur,");
@@ -44,7 +44,7 @@ public class TauxDao {
             scriptSQL.append(" FROM tauxcarte");
             scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.id");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
@@ -63,7 +63,7 @@ public class TauxDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeTauxCartes;
     }
@@ -72,7 +72,7 @@ public class TauxDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT tauxcarte.id, tauxcarte.dateHeure, tauxcarte.valeur,");
             scriptSQL.append(" tauxcarte.idShop, shop.nom, shop.adresse");
@@ -80,7 +80,7 @@ public class TauxDao {
             scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.id");
             scriptSQL.append(" WHERE tauxcarte.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idTauxCarte);
             res = prs.executeQuery();
             if (res != null) {
@@ -97,14 +97,14 @@ public class TauxDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return tauxCarte;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -112,13 +112,13 @@ public class TauxDao {
     public boolean enregistrerShopTauxCarte(Shop shopTauxCarte) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
             scriptSQL.append(" dateHeure, valeur, idShop, id )");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setTimestamp(1, new Timestamp(shopTauxCarte.getTauxCarte().getDateHeure().getTime()));
             prs.setBigDecimal(2, shopTauxCarte.getTauxCarte().getValeur());
@@ -131,7 +131,7 @@ public class TauxDao {
             scriptSQL.append(" SET idTauxCarte=?");
             scriptSQL.append(" WHERE id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setString(1, shopTauxCarte.getTauxCarte().getId());
             prs.setString(2, shopTauxCarte.getId());
@@ -139,7 +139,7 @@ public class TauxDao {
             prs.execute();
 
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
@@ -150,13 +150,13 @@ public class TauxDao {
         ResultSet res;
         List<TauxMonnaie> listeTauxMonnaies;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeTauxMonnaies = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT tauxmonnaie.id, tauxmonnaie.dateHeure, tauxmonnaie.valeur,");
             scriptSQL.append(" FROM tauxmonnaie");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
                 while (res.next()) {
@@ -170,7 +170,7 @@ public class TauxDao {
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return listeTauxMonnaies;
     }
@@ -179,13 +179,13 @@ public class TauxDao {
         PreparedStatement prs;
         ResultSet res;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT tauxmonnaie.id, tauxmonnaie.dateHeure, tauxmonnaie.valeur,");
             scriptSQL.append(" FROM tauxmonnaie");
             scriptSQL.append(" WHERE tauxmonnaie.id=?");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idTauxMonnaie);
             res = prs.executeQuery();
             if (res != null) {
@@ -197,14 +197,14 @@ public class TauxDao {
 
                     prs.close();
                     res.close();
-                    conexao.close();
+                    connection.close();
 
                     return tauxMonnaie;
                 }
             }
             prs.close();
             res.close();
-            conexao.close();
+            connection.close();
         }
         return null;
     }
@@ -212,12 +212,12 @@ public class TauxDao {
     public boolean enregistrerTauxMonnaie(TauxMonnaie tauxMonnaie) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
-        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("INSERT INTO tauxcarte(");
             scriptSQL.append(" dateHeure, valeur, id )");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
-            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
             prs.setTimestamp(1, new Timestamp(tauxMonnaie.getDateHeure().getTime()));
             prs.setBigDecimal(2, tauxMonnaie.getValeur());
@@ -225,7 +225,7 @@ public class TauxDao {
 
             prs.execute();
             prs.close();
-            conexao.close();
+            connection.close();
         }
         return true;
     }
