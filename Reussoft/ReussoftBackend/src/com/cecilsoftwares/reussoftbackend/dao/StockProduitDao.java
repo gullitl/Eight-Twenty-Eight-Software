@@ -191,7 +191,7 @@ public class StockProduitDao {
             return true;
 
         } else {
-            scriptSQL = new StringBuilder("INSERT INTO stockproduit (quantiteStock, idProduto, idShop)");
+            scriptSQL = new StringBuilder("INSERT INTO stockproduit (quantiteStock, idProduit, idShop)");
             scriptSQL.append(" VALUES (?, ?, ?)");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));

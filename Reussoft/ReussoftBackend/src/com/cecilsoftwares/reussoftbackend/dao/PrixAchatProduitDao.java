@@ -109,16 +109,39 @@ public class PrixAchatProduitDao {
         PreparedStatement prs;
 
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("INSERT INTO produit(");
+            scriptSQL.append(" description, idCategorieProduit, idReseau, active, id )");
+            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
+
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
+
+            prs.setString(1, produit.getDescription());
+            prs.setString(2, produit.getCategorieProduit().getId());
+            prs.setString(3, produit.getReseau().getId());
+            prs.setInt(4, produit.isActive() ? 1 : 0);
+            prs.setString(5, produit.getId());
+
+            prs.execute();
+
             scriptSQL = new StringBuilder("INSERT INTO prixachatproduit(");
             scriptSQL.append(" idProduit, valeurUSD, dateHeure, id)");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
-            prs.setString(1, prixAchatProduit.getProduit().getId());
-            prs.setBigDecimal(2, prixAchatProduit.getValeurUSD());
-            prs.setTimestamp(3, new Timestamp(prixAchatProduit.getDateHeure().getTime()));
-            prs.setString(4, prixAchatProduit.getId());
+            prs.setString(1, produit.getId());
+            prs.setBigDecimal(2, produit.getPrixAchatProduit().getValeurUSD());
+            prs.setTimestamp(3, new Timestamp(produit.getPrixAchatProduit().getDateHeure().getTime()));
+            prs.setString(4, produit.getPrixAchatProduit().getId());
+
+            prs.execute();
+
+            scriptSQL = new StringBuilder("UPDATE produit SET idPrixAchat=? WHERE id=?");
+
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
+
+            prs.setString(1, produit.getPrixAchatProduit().getId());
+            prs.setString(2, produit.getId());
 
             prs.execute();
             prs.close();

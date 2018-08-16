@@ -11,6 +11,7 @@ import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
+import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
 import java.awt.Cursor;
@@ -19,7 +20,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -651,8 +651,22 @@ public class OperationEntreeStock extends JInternalFrame {
     }//GEN-LAST:event_tblItemsEntreeStockKeyReleased
 
     private void btnEditarPrixAchatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPrixAchatActionPerformed
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
 
+        RegistrePrixAchatRaccourcis registrePrixAchatRaccourcis = new RegistrePrixAchatRaccourcis(null, true, produitSelectionne);
+        registrePrixAchatRaccourcis.setFrameAncetre(this);
+        registrePrixAchatRaccourcis.setVisible(true);
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEditarPrixAchatActionPerformed
+
+    public void prixActualise(PrixAchatProduit prixAchatProduit) {
+        produitSelectionne.setPrixAchatProduit(prixAchatProduit);
+        lblPrixAchat.setText(new StringBuilder("Prix d'achat: $")
+                .append(produitSelectionne.getPrixAchatProduit().getValeurUSD().toString()).toString());
+    }
 
     private void tfdValeurFCKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdValeurFCKeyReleased
 

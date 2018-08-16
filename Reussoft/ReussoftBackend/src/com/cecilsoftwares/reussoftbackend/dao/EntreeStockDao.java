@@ -265,7 +265,8 @@ public class EntreeStockDao {
                 prs.setBigDecimal(4, itemEntreeStock.getQuantiteProduit());
 
                 StockProduitService.getInstance()
-                        .entrerStock(itemEntreeStock.getProduit(), new Shop("Lasource"), itemEntreeStock.getQuantiteProduit(), connection);
+                        .entrerStock(itemEntreeStock.getProduit(),
+                                new Shop("[B@7bb11784652#a6f0bc88e"), itemEntreeStock.getQuantiteProduit(), connection);
 
                 prs.execute();
             }
