@@ -105,24 +105,10 @@ public class PrixAchatProduitDao {
         return null;
     }
 
-    public boolean enregistrerPrixAchatProduit(PrixAchatProduit prixAchatProduit) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerPrixAchatProduit(Produit produit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("INSERT INTO produit(");
-            scriptSQL.append(" description, idCategorieProduit, idReseau, active, id )");
-            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
-
-            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
-
-            prs.setString(1, produit.getDescription());
-            prs.setString(2, produit.getCategorieProduit().getId());
-            prs.setString(3, produit.getReseau().getId());
-            prs.setInt(4, produit.isActive() ? 1 : 0);
-            prs.setString(5, produit.getId());
-
-            prs.execute();
-
             scriptSQL = new StringBuilder("INSERT INTO prixachatproduit(");
             scriptSQL.append(" idProduit, valeurUSD, dateHeure, id)");
             scriptSQL.append(" VALUES (?, ?, ?, ?)");

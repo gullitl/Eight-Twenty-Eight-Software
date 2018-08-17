@@ -1,7 +1,14 @@
 package com.cecilsoftwares.reussoftfrontend.form;
 
+import com.cecilsoftwares.reussoftbackend.service.PrixAchatProduitService;
 import com.cecilsoftwares.reussoftfrontend.form.RegistreClient;
+import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
+import java.awt.Cursor;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 
 /**
@@ -22,7 +29,7 @@ public class RegistrePrixAchatRaccourcis extends javax.swing.JDialog {
         initComponents();
 
         this.produit = produit;
-        selectionnerProduit(produit);
+        selectionnerProduit(this.produit);
 
     }
 
@@ -42,7 +49,7 @@ public class RegistrePrixAchatRaccourcis extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Actualization de Prix d'Achat");
+        setTitle("Actualisation de Prix d'Achat");
         setResizable(false);
 
         btnActualiser.setText("ACTUALISER");
@@ -92,13 +99,32 @@ public class RegistrePrixAchatRaccourcis extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualiserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualiserActionPerformed
-        if (frameAncetre instanceof RegistreClient) {
-            OperationEntreeStock operationEntreeStock = (OperationEntreeStock) frameAncetre;
-            operationEntreeStock.prixActualise(produit.getPrixAchatProduit());
+        if (frameAncetre instanceof OperationEntreeStock) {
 
-            prixAchatProduit = new PrixAchatProduit(idPrixAchatProduit);
-            prixAchatProduit.setValeurUSD(new BigDecimal(tfdPrixAchat.getText()));
-            prixAchatProduit.setDateHeure(new Date());
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            tfdDescription.setEditable(false);
+            tfdPrixAchat.setEditable(false);
+
+            try {
+
+                PrixAchatProduit prixAchatProduit = new PrixAchatProduit("");
+                prixAchatProduit.setValeurUSD(new BigDecimal(tfdPrixAchat.getText()));
+                produit.setPrixAchatProduit(prixAchatProduit);
+
+                prixAchatProduit.setId(PrixAchatProduitService.getInstance().enregistrerPrixAchatProduit(produit));
+
+                OperationEntreeStock operationEntreeStock = (OperationEntreeStock) frameAncetre;
+                operationEntreeStock.prixActualise(prixAchatProduit);
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(RegistrePrixAchatRaccourcis.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(RegistrePrixAchatRaccourcis.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(RegistrePrixAchatRaccourcis.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            setCursor(Cursor.getDefaultCursor());
 
         }
 

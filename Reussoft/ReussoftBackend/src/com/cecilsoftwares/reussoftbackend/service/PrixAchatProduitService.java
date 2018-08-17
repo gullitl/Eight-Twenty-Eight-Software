@@ -1,9 +1,11 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.PrixAchatProduitDao;
+import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,8 +33,22 @@ public class PrixAchatProduitService {
         return PrixAchatProduitDao.getInstance().selectionnerPrixAchatProduitParId(idPrixAchatProduit);
     }
 
-    public boolean enregistrerPrixAchatProduit(PrixAchatProduit prixAchatProduit) throws ClassNotFoundException, SQLException {
-        return PrixAchatProduitDao.getInstance().enregistrerPrixAchatProduit(prixAchatProduit);
+    public String enregistrerPrixAchatProduit(Produit produit) throws ClassNotFoundException, SQLException, Exception {
+
+        String idPrixAchatProduit = generateId();
+
+        if (produit.getPrixAchatProduit().getId().isEmpty()) {
+            produit.getPrixAchatProduit().setId(idPrixAchatProduit);
+        }
+
+        produit.getPrixAchatProduit().setDateHeure(new Date());
+
+        if (PrixAchatProduitDao.getInstance().enregistrerPrixAchatProduit(produit)) {
+            return idPrixAchatProduit;
+        } else {
+            return "";
+        }
+
     }
 
     public PrixAchatProduit selectionnerDernierPrixAchatProduit(Produit produit) throws ClassNotFoundException, SQLException {
