@@ -616,14 +616,9 @@ public class OperationEntreeStock extends JInternalFrame {
             ItemEntreeStock itemEntreeStock;
 
             itemEntreeStock = itemsEntreeStock.get(row);
-//
-//            if (itemEntreeStock == null) {
-//                return;
-//            }
-//            tfdDescriptionProduit.setText(itemEntreeStock.getProduit().getDescription());
+
             spnQuantiteProduit.setValue(itemEntreeStock.getQuantiteProduit());
             modeEditionItemEntreeStock = true;
-//            btnAjouterProduit.setEnabled(true);
             setProduitSelectionne(itemEntreeStock.getProduit());
         }
     }//GEN-LAST:event_tblItemsEntreeStockMouseClicked
@@ -639,6 +634,7 @@ public class OperationEntreeStock extends JInternalFrame {
             for (ItemEntreeStock ies : listeItemsEntreeStock) {
                 if (ies.getProduit().getId().equals(itemsEntreeStock.get(row).getProduit().getId())) {
                     itemsEntreeStock.remove(ies);
+                    modeEditionItemEntreeStock = false;
                     exclu = true;
                     break;
                 }
@@ -670,21 +666,22 @@ public class OperationEntreeStock extends JInternalFrame {
 
     private void tfdValeurFCKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdValeurFCKeyReleased
 
-        if (tfdValeurFC.getText().isEmpty()) {
+        if (tfdValeurFC.getText().isEmpty() || tfdValeurFC.getText().equals("0.00")) {
             tfdValeurUSD.setText(getTotalValeurItems().toString());
             return;
         }
 
-        BigDecimal convert = new BigDecimal(tfdValeurFC.getText()).multiply(tauxCarte.getValeur());
+        BigDecimal convertiUSD = new BigDecimal(tfdValeurFC.getText()).multiply(tauxCarte.getValeur());
 
-        if (convert.compareTo(getTotalValeurItems()) > 0) {
+        if (convertiUSD.compareTo(getTotalValeurItems()) > 0) {
             evt.consume();
-            tfdValeurFC.setText(getTotalValeurItems().divide(tauxCarte.getValeur(), 2, RoundingMode.HALF_EVEN).toString());
-            tfdValeurUSD.setText("0");
+            tfdValeurFC.setText(getTotalValeurItems()
+                    .divide(tauxCarte.getValeur(), 2, RoundingMode.HALF_EVEN).toString());
+            tfdValeurUSD.setText("0.00");
             return;
         }
 
-        tfdValeurUSD.setText(getTotalValeurItems().subtract(convert).toString());
+        tfdValeurUSD.setText(getTotalValeurItems().subtract(convertiUSD).toString());
     }//GEN-LAST:event_tfdValeurFCKeyReleased
 
     private void listerItemsEntreeStock() {
@@ -707,7 +704,32 @@ public class OperationEntreeStock extends JInternalFrame {
         lblTotalAPayer.setText(new StringBuilder("Total à payer: $")
                 .append(totalAPayer.toString()).toString());
 
-        tfdValeurUSD.setText(totalAPayer.toString());
+        if (!tfdValeurFC.getText().isEmpty() && !tfdValeurFC.getText().equals("0.00")) {
+            BigDecimal convertiFC = totalAPayer.divide(tauxCarte.getValeur(), 2, RoundingMode.HALF_EVEN);
+
+            tfdValeurUSD.setText((convertiFC
+                    .subtract(new BigDecimal(tfdValeurFC.getText())).multiply(tauxCarte.getValeur())).toString());
+
+//
+//            if (convertiFC.compareTo(getTotalValeurItems()) > 0) {
+//                tfdValeurFC.setText(getTotalValeurItems()
+//                        .divide(tauxCarte.getValeur(), 2, RoundingMode.HALF_EVEN).toString());
+//                tfdValeurUSD.setText("0.00");
+//                return;
+//            }
+//
+//            tfdValeurUSD.setText(getTotalValeurItems().subtract(convertiFC).toString());
+        } else {
+            tfdValeurUSD.setText(totalAPayer.toString());
+            tfdValeurFC.setEditable(true);
+            tfdValeurFC.setText("0.00");
+        }
+        if (itemsEntreeStock.isEmpty()) {
+            tfdValeurUSD.setText("0.00");
+            tfdValeurFC.setEditable(false);
+            tfdValeurFC.setText("0.00");
+        }
+
     }
 
     private BigDecimal getTotalValeurItems() {
@@ -754,6 +776,7 @@ public class OperationEntreeStock extends JInternalFrame {
 
         tfdValeurUSD.setText("");
         tfdValeurFC.setText("");
+        tfdValeurFC.setEditable(false);
 
         habiliterComposantFormulaire(true);
 
