@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftfrontend.form.OperationEntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JInternalFrame;
@@ -32,7 +33,7 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
         enFermantDialog();
 
         defaultTableModel = (DefaultTableModel) tblEntreeStock.getModel();
-        dataRows = new Object[2];
+        dataRows = new Object[3];
 
         this.entreesStock = entreesStock;
         listerEntreesStock(this.entreesStock);
@@ -55,7 +56,8 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
         defaultTableModel.setRowCount(0);
         sortiesStock.forEach(ms -> {
             dataRows[0] = ms.getNumeroEntreeStock();
-            dataRows[1] = ms.getDateHeure();
+            dataRows[1] = ms.getFournisseur().getEntreprise();
+            dataRows[2] = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(ms.getDateHeure());
             defaultTableModel.addRow(dataRows);
         });
 
@@ -96,14 +98,14 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Numéro", "Date/Heure"
+                "Numéro", "Fournisseur", "Date/Heure"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -122,7 +124,10 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tblEntreeStock);
         if (tblEntreeStock.getColumnModel().getColumnCount() > 0) {
             tblEntreeStock.getColumnModel().getColumn(0).setResizable(false);
+            tblEntreeStock.getColumnModel().getColumn(0).setPreferredWidth(100);
             tblEntreeStock.getColumnModel().getColumn(1).setResizable(false);
+            tblEntreeStock.getColumnModel().getColumn(1).setPreferredWidth(130);
+            tblEntreeStock.getColumnModel().getColumn(2).setResizable(false);
         }
 
         lblNombreEntreeStock.setText("jLabel1");

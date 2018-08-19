@@ -503,7 +503,7 @@ public class OperationEntreeStock extends JInternalFrame {
         habiliterComposantFormulaire(false);
 
         try {
-            List<EntreeStock> entreesStock = EntreeStockService.getInstance().listerTousLesEntreesStockSansItems();
+            List<EntreeStock> entreesStock = EntreeStockService.getInstance().listerTousLesEntreesStockAvecItems();
             ConsultationEntreeStock consultationEntreeStock = new ConsultationEntreeStock(null, true, entreesStock);
             consultationEntreeStock.setFrameAncetre(this);
             consultationEntreeStock.setVisible(true);
@@ -707,18 +707,13 @@ public class OperationEntreeStock extends JInternalFrame {
         if (!tfdValeurFC.getText().isEmpty() && !tfdValeurFC.getText().equals("0.00")) {
             BigDecimal convertiFC = totalAPayer.divide(tauxCarte.getValeur(), 2, RoundingMode.HALF_EVEN);
 
-            tfdValeurUSD.setText((convertiFC
-                    .subtract(new BigDecimal(tfdValeurFC.getText())).multiply(tauxCarte.getValeur())).toString());
-
-//
-//            if (convertiFC.compareTo(getTotalValeurItems()) > 0) {
-//                tfdValeurFC.setText(getTotalValeurItems()
-//                        .divide(tauxCarte.getValeur(), 2, RoundingMode.HALF_EVEN).toString());
-//                tfdValeurUSD.setText("0.00");
-//                return;
-//            }
-//
-//            tfdValeurUSD.setText(getTotalValeurItems().subtract(convertiFC).toString());
+            if (convertiFC.compareTo(new BigDecimal(tfdValeurFC.getText())) < 0) {
+                tfdValeurUSD.setText(totalAPayer.toString());
+                tfdValeurFC.setText("0.00");
+            } else {
+                tfdValeurUSD.setText((convertiFC
+                        .subtract(new BigDecimal(tfdValeurFC.getText())).multiply(tauxCarte.getValeur())).toString());
+            }
         } else {
             tfdValeurUSD.setText(totalAPayer.toString());
             tfdValeurFC.setEditable(true);
