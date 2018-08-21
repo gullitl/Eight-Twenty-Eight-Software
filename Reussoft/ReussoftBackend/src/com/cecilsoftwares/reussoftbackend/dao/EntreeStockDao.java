@@ -130,6 +130,10 @@ public class EntreeStockDao {
 
                     if (id.equals(entreeStock.getId())) {
                         listeItemsEntreeStock.add(itemEntreeStock);
+                        if (res.isLast()) {
+                            etrstck.setItemsEntreeStock(listeItemsEntreeStock);
+                            listeEntreesStock.add(etrstck);
+                        }
                     } else {
                         if (!res.isFirst()) {
                             etrstck.setItemsEntreeStock(listeItemsEntreeStock);
@@ -137,6 +141,7 @@ public class EntreeStockDao {
                         }
                         id = entreeStock.getId();
 
+                        etrstck = new EntreeStock();
                         etrstck.setId(entreeStock.getId());
                         etrstck.setNumeroEntreeStock(entreeStock.getNumeroEntreeStock());
                         etrstck.setValeurTotalCoutUSD(entreeStock.getValeurTotalCoutUSD());
@@ -147,11 +152,6 @@ public class EntreeStockDao {
 
                         listeItemsEntreeStock = new ArrayList();
                         listeItemsEntreeStock.add(itemEntreeStock);
-
-                        if (!res.isLast()) {
-                            etrstck.setItemsEntreeStock(listeItemsEntreeStock);
-                            listeEntreesStock.add(etrstck);
-                        }
 
                     }
                 }

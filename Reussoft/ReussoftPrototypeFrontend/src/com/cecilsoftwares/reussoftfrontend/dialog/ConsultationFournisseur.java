@@ -170,9 +170,6 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblFournisseur.getSelectedRow();
                 fournisseur = fournisseurs.get(row);
-//                fournisseur = fournisseurs.stream()
-//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-//                        .findFirst().orElse(null);
             }
             dispose();
         }

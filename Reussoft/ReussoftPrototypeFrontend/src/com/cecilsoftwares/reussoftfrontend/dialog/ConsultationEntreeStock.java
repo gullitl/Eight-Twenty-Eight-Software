@@ -171,9 +171,6 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblEntreeStock.getSelectedRow();
                 entreeStock = entreesStock.get(row);
-//                entreeStock = entreesStock.stream()
-//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-//                        .findFirst().orElse(null);
             }
             dispose();
         }
@@ -182,7 +179,8 @@ public class ConsultationEntreeStock extends javax.swing.JDialog {
     private void tfdRechercheDateEntreeStockKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfdRechercheDateEntreeStockKeyReleased
         List<EntreeStock> listeEntreesStock = new ArrayList();
 
-        entreesStock.stream().filter((ms) -> (ms.getDateHeure().equals(tfdRechercheDateEntreeStock.getText().toUpperCase())))
+        entreesStock.stream().filter((ms) -> (ms.getNumeroEntreeStock()
+                .startsWith(tfdRechercheDateEntreeStock.getText())))
                 .forEachOrdered((ms) -> {
                     listeEntreesStock.add(ms);
                 });

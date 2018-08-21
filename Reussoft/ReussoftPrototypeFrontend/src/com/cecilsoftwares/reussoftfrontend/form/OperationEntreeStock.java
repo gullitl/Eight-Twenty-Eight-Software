@@ -528,7 +528,34 @@ public class OperationEntreeStock extends JInternalFrame {
 
         itemsEntreeStock = entreeStock.getItemsEntreeStock();
 
-        listerItemsEntreeStock();
+        //Lister
+        BigDecimal totalAPayer = new BigDecimal("0");
+        defaultTableModel.setRowCount(0);
+
+        for (ItemEntreeStock ies : itemsEntreeStock) {
+            dataRows[0] = ies.getProduit().getDescription();
+            dataRows[1] = ies.getQuantiteProduit();
+            dataRows[2] = Double.parseDouble(ies.getProduit().getPrixAchatProduit().getValeurUSD().toString());
+            dataRows[3] = Double.parseDouble(ies.getProduit().getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()).toString());
+
+            totalAPayer = totalAPayer.add(ies.getProduit().getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()));
+            defaultTableModel.addRow(dataRows);
+        }
+
+        String formeNombre = itemsEntreeStock.size() > 1 ? "Items" : "Item";
+        lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
+
+        lblTotalAPayer.setText(new StringBuilder("Total à payer: $")
+                .append(totalAPayer.toString()).toString());
+
+        tfdValeurUSD.setText(entreeStock.getValeurTotalCoutUSD().toString());
+        if (entreeStock.getValeurTotalCoutFC().toString().equals("0.00")) {
+            tfdValeurFC.setText("0.00");
+            tfdValeurFC.setEditable(false);
+        } else {
+            tfdValeurFC.setText(entreeStock.getValeurTotalCoutFC().toString());
+
+        }
 
     }
 
