@@ -1,8 +1,8 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftfrontend.form.ConfigurationCompte;
-import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
-import com.cecilsoftwares.reussoftfrontend.form.RegistreProfilUtilisateur;
+import com.cecilsoftwares.reussoftfrontend.form.configurations.ConfigurationCompte;
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreCollaborateur;
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

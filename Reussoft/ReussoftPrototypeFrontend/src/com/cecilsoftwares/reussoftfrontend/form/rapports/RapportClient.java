@@ -1,13 +1,13 @@
-package com.cecilsoftwares.reussoftfrontend.form;
+package com.cecilsoftwares.reussoftfrontend.form.rapports;
 
 import javax.swing.JInternalFrame;
 
 /**
  * @author Plamedi L. Lusembo
  */
-public class RapportFournisseur extends JInternalFrame {
+public class RapportClient extends JInternalFrame {
 
-    public RapportFournisseur() {
+    public RapportClient() {
         initComponents();
     }
 
@@ -17,17 +17,17 @@ public class RapportFournisseur extends JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Rapport des Fournisseurs");
+        setTitle("Rapport des Clients");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 733, Short.MAX_VALUE)
+            .addGap(0, 582, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 514, Short.MAX_VALUE)
+            .addGap(0, 379, Short.MAX_VALUE)
         );
 
         pack();

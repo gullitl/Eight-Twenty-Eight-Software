@@ -1,4 +1,4 @@
-package com.cecilsoftwares.reussoftfrontend.form;
+package com.cecilsoftwares.reussoftfrontend.form.rapports;
 
 import javax.swing.JInternalFrame;
 

@@ -1,13 +1,13 @@
-package com.cecilsoftwares.reussoftfrontend.form;
+package com.cecilsoftwares.reussoftfrontend.form.rapports;
 
 import javax.swing.JInternalFrame;
 
 /**
  * @author Plamedi L. Lusembo
  */
-public class RapportEntreeStock extends JInternalFrame {
+public class RapportVentes extends JInternalFrame {
 
-    public RapportEntreeStock() {
+    public RapportVentes() {
         initComponents();
     }
 
@@ -17,7 +17,7 @@ public class RapportEntreeStock extends JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Rapport des Entrées de Stock");
+        setTitle("Rapport des Ventes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

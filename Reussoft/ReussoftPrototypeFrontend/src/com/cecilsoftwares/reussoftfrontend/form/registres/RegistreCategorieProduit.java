@@ -1,9 +1,8 @@
-package com.cecilsoftwares.reussoftfrontend.form;
+package com.cecilsoftwares.reussoftfrontend.form.registres;
 
-import com.cecilsoftwares.reussoftbackend.service.ProfilUtilisateurService;
-import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProfilUtilisateur;
-import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
-import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
+import com.cecilsoftwares.reussoftbackend.service.CategorieProduitService;
+import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationCategorieProduit;
+import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -16,16 +15,16 @@ import javax.swing.JOptionPane;
 /**
  * @author Plamedi L. Lusembo
  */
-public class RegistreProfilUtilisateur extends JInternalFrame {
+public class RegistreCategorieProduit extends JInternalFrame {
 
-    private String idProfilUtilisateur;
+    private String idCategorieProduit;
     private boolean modeEdition;
-    private boolean btnConsulterProfilUtilisateurClickable;
+    private boolean btnConsulterCategorieProduitClickable;
     private boolean btnEnregistrerClickable;
     private boolean btnExclureClickable;
     private boolean btnAnnulerClickable;
 
-    public RegistreProfilUtilisateur() {
+    public RegistreCategorieProduit() {
         initComponents();
         effacerFormulaire();
     }
@@ -40,12 +39,12 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
+        btnConsulterCategorieProduit = new javax.swing.JButton();
         btnExclure = new javax.swing.JButton();
-        btnConsulterProfilUtilisateur = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registre de Profil d'utilisateur");
+        setTitle("Registre de Catégorie de Produit");
 
         jLabel2.setText("Description:");
 
@@ -65,18 +64,18 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             }
         });
 
+        btnConsulterCategorieProduit.setText("...");
+        btnConsulterCategorieProduit.setFocusable(false);
+        btnConsulterCategorieProduit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulterCategorieProduitActionPerformed(evt);
+            }
+        });
+
         btnExclure.setText("EXCLURE");
         btnExclure.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExclureActionPerformed(evt);
-            }
-        });
-
-        btnConsulterProfilUtilisateur.setText("...");
-        btnConsulterProfilUtilisateur.setFocusable(false);
-        btnConsulterProfilUtilisateur.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConsulterProfilUtilisateurActionPerformed(evt);
             }
         });
 
@@ -85,43 +84,43 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(tfdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEnregistrer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnConsulterProfilUtilisateur)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                            .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(tfdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnConsulterCategorieProduit))))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterProfilUtilisateur))
+                    .addComponent(btnConsulterCategorieProduit))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdDescriptionAbregee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                    .addComponent(btnEffacerFormulaire, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEnregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExclure, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -132,7 +131,6 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }//GEN-LAST:event_btnEffacerFormulaireActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
-
         if (!btnEnregistrerClickable || !isInformationObligatoiresRemplies()) {
             return;
         }
@@ -140,61 +138,63 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
 
-        ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(idProfilUtilisateur);
-        profilUtilisateur.setDescription(tfdDescription.getText());
-        profilUtilisateur.setDescriptionAbregee(tfdDescriptionAbregee.getText());
-
+        CategorieProduit categorieProduit = new CategorieProduit(idCategorieProduit);
+        categorieProduit.setDescription(tfdDescription.getText());
+        categorieProduit.setDescriptionAbregee(tfdDescriptionAbregee.getText());
         try {
-            if (ProfilUtilisateurService.getInstance().enregistrerProfilUtilisateur(profilUtilisateur)) {
+            if (CategorieProduitService.getInstance().enregistrerCategorieProduit(categorieProduit)) {
                 String notification = modeEdition ? "Actualisation effectuée avec succès" : "Sauvegarde effectuée avec succès";
                 effacerFormulaire();
-                if (profilUtilisateur.getId().equals(SessionUtilisateurKS.getInstance().getSessionUtilisateur().getCollaborateur().getProfilUtilisateur().getId())) {
-                    JOptionPane.showMessageDialog(null, notification
-                            + "\nIl est necessaire de quitter le système pour que les alterations soient appliquée");
-                    System.exit(0);
-                } else {
-                    JOptionPane.showMessageDialog(null, notification);
-                }
+                JOptionPane.showMessageDialog(null, notification);
             }
+
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Une faille est survenue en sauvegardant la Catégorie Produit");
             Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(RegistreProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RegistreCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
-    private void btnConsulterProfilUtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProfilUtilisateurActionPerformed
-        if (btnConsulterProfilUtilisateurClickable) {
+    private void btnConsulterCategorieProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterCategorieProduitActionPerformed
+        if (!btnConsulterCategorieProduitClickable) {
             return;
         }
 
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         habiliterComposantFormulaire(false);
+
         try {
-            ConsultationProfilUtilisateur consultationProfilUtilisateur = new ConsultationProfilUtilisateur(null, true, ProfilUtilisateurService.getInstance()
-                    .listerTousLesProfilUtilisateurs());
-            consultationProfilUtilisateur.setFrameAncetre(this);
-            consultationProfilUtilisateur.setVisible(true);
+            ConsultationCategorieProduit consultationCategorieProduit = new ConsultationCategorieProduit(null, true, CategorieProduitService.getInstance()
+                    .listerTousLesCategorieProduits());
+            consultationCategorieProduit.setFrameAncetre(this);
+            consultationCategorieProduit.setVisible(true);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(RegistreProfilUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultationCategorieProduit.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         habiliterComposantFormulaire(true);
         setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_btnConsulterProfilUtilisateurActionPerformed
+    }//GEN-LAST:event_btnConsulterCategorieProduitActionPerformed
 
-    private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
-
-        if (idProfilUtilisateur.equals("1") || idProfilUtilisateur.equals("2")) {
-            JOptionPane.showMessageDialog(null, "Ce profil d'utilisateur ne peux pas être exclue");
+    public void categorieProduitSelectionnee(CategorieProduit categorieProduit) {
+        if (categorieProduit == null) {
             return;
         }
+        idCategorieProduit = categorieProduit.getId();
+        tfdDescription.setText(categorieProduit.getDescription());
+        tfdDescriptionAbregee.setText(categorieProduit.getDescriptionAbregee());
+        btnEnregistrer.setText("ACTUALISER");
+        modeEdition = true;
+        btnExclure.setEnabled(true);
+    }
 
+    private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
-                "Êtes-vous sûr de vouloir exclure définitivement ce profil d'utilisateur?",
+                "Êtes-vous sûr de vouloir exclure définitivement cette categorie de produit?",
                 "Question",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -206,14 +206,14 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             habiliterComposantFormulaire(false);
             try {
-                ProfilUtilisateurService.getInstance().exclureProfilUtilisateur(idProfilUtilisateur);
+                CategorieProduitService.getInstance().exclureCategorieProduit(idCategorieProduit);
                 effacerFormulaire();
                 JOptionPane.showMessageDialog(null, "Exclusion effectuée avec succès");
             } catch (SQLException ex) {
-                StringBuilder notification = new StringBuilder("Une faille est survenue lors de l'exclusion du profil d'utilisateur :(");
+                StringBuilder notification = new StringBuilder("Une faille est survenue lors de l'exclusion de la catégorie de produit :(");
                 switch (ex.getErrorCode()) {
                     case 1451:
-                        notification.append("\n\nCe profil d'utilisateur est utilisé par un autre registre!");
+                        notification.append("\n\nCette catégorie de produit est utilisée par un autre registre!");
                         break;
                     default:
                         break;
@@ -222,7 +222,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
                 habiliterComposantFormulaire(true);
                 Logger.getLogger(RegistreShop.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion du profil d'utilisateur :(");
+                JOptionPane.showMessageDialog(null, "Une faille est survenue lors de l'exclusion de la Catégorie Produit :(");
                 habiliterComposantFormulaire(true);
             } finally {
                 setCursor(Cursor.getDefaultCursor());
@@ -230,34 +230,21 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
         }
     }//GEN-LAST:event_btnExclureActionPerformed
 
-    public void profilUtilisateurSelectionne(ProfilUtilisateur profilUtilisateur) {
-        if (profilUtilisateur == null) {
-            return;
-        }
-        idProfilUtilisateur = profilUtilisateur.getId();
-        tfdDescription.setText(profilUtilisateur.getDescription());
-        tfdDescriptionAbregee.setText(profilUtilisateur.getDescriptionAbregee());
-        btnEnregistrer.setText("ACTUALISER");
-        btnExclure.setEnabled(true);
-        modeEdition = true;
-    }
-
     private void effacerFormulaire() {
-        idProfilUtilisateur = "";
+        idCategorieProduit = "";
         tfdDescription.setText("");
         tfdDescription.requestFocus();
         tfdDescriptionAbregee.setText("");
-        modeEdition = false;
         btnEnregistrer.setText("ENREGISTRER");
+        modeEdition = false;
         habiliterComposantFormulaire(true);
         btnExclure.setEnabled(false);
-
     }
 
     private void habiliterComposantFormulaire(boolean hcf) {
         tfdDescription.setEditable(hcf);
         tfdDescriptionAbregee.setEditable(hcf);
-        btnConsulterProfilUtilisateurClickable = hcf;
+        btnConsulterCategorieProduitClickable = hcf;
         btnEnregistrerClickable = hcf;
         btnExclureClickable = hcf;
         btnAnnulerClickable = hcf;
@@ -298,7 +285,7 @@ public class RegistreProfilUtilisateur extends JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnConsulterProfilUtilisateur;
+    private javax.swing.JButton btnConsulterCategorieProduit;
     private javax.swing.JButton btnEffacerFormulaire;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnExclure;

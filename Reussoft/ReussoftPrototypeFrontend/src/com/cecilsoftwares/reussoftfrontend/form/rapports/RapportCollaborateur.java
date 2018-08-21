@@ -1,13 +1,13 @@
-package com.cecilsoftwares.reussoftfrontend.form;
+package com.cecilsoftwares.reussoftfrontend.form.rapports;
 
 import javax.swing.JInternalFrame;
 
 /**
  * @author Plamedi L. Lusembo
  */
-public class AideAPropos extends JInternalFrame {
+public class RapportCollaborateur extends JInternalFrame {
 
-    public AideAPropos() {
+    public RapportCollaborateur() {
         initComponents();
     }
 
@@ -16,35 +16,28 @@ public class AideAPropos extends JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("À Propos");
+        setTitle("Rapport des Collaborateurs");
 
-        jLabel1.setText("aujourd'hui encore le monde arabe compte des chrétiens arabes et des juifs arabes.");
-
-        jLabel2.setText("Il faut se garder de confondre arabité et islam:");
+        jLabel1.setText("RapportCollaborateur");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGap(336, 336, 336)
+                .addComponent(jLabel1)
+                .addContainerGap(293, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(78, 78, 78)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28))
+                .addContainerGap(410, Short.MAX_VALUE))
         );
 
         pack();
@@ -52,6 +45,5 @@ public class AideAPropos extends JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,7 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftfrontend.form.RegistreCategorieProduit;
-import com.cecilsoftwares.reussoftfrontend.form.RegistreProduit;
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreCategorieProduit;
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
