@@ -438,6 +438,7 @@ public class OperationEntreeStock extends JInternalFrame {
         habiliterComposantFormulaire(false);
 
         EntreeStock entreeStock = new EntreeStock(idEntreeStock);
+        entreeStock.setNumeroEntreeStock(tfdNumeroEntreeStock.getText());
         entreeStock.setFournisseur(new Fournisseur(idFournisseur));
         entreeStock.setValeurTotalCoutUSD(new BigDecimal(tfdValeurUSD.getText()));
         entreeStock.setValeurTotalCoutFC(new BigDecimal(tfdValeurFC.getText()));
@@ -523,11 +524,14 @@ public class OperationEntreeStock extends JInternalFrame {
         if (entreeStock == null) {
             return;
         }
+        idEntreeStock = entreeStock.getId();
         tfdNumeroEntreeStock.setText(entreeStock.getNumeroEntreeStock());
         tfdEntrepriseFournisseur.setText(new StringBuilder(entreeStock.getFournisseur().getEntreprise()).append(" - ")
                 .append(entreeStock.getFournisseur().getResponsable()).toString());
 
         lblTauxCarte.setText("Taux carte:" + "Valeur");
+
+        idFournisseur = entreeStock.getFournisseur().getId();
 
         itemsEntreeStock = entreeStock.getItemsEntreeStock();
 
@@ -557,8 +561,11 @@ public class OperationEntreeStock extends JInternalFrame {
             tfdValeurFC.setEditable(false);
         } else {
             tfdValeurFC.setText(entreeStock.getValeurTotalCoutFC().toString());
-
+            tfdValeurFC.setEditable(true);
         }
+
+        modeEdition = true;
+        btnEnregistrer.setText("ACTUALISER");
 
     }
 
@@ -648,6 +655,8 @@ public class OperationEntreeStock extends JInternalFrame {
             itemEntreeStock = itemsEntreeStock.get(row);
 
             spnQuantiteProduit.setValue(itemEntreeStock.getQuantiteProduit());
+            spnQuantiteProduit.requestFocus();
+
             modeEditionItemEntreeStock = true;
             setProduitSelectionne(itemEntreeStock.getProduit());
         }
@@ -802,6 +811,8 @@ public class OperationEntreeStock extends JInternalFrame {
         tfdValeurUSD.setText("");
         tfdValeurFC.setText("");
         tfdValeurFC.setEditable(false);
+
+        btnEnregistrer.setText("ENREGISTRER");
 
         habiliterComposantFormulaire(true);
 

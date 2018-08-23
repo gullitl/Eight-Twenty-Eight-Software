@@ -37,12 +37,11 @@ public class EntreeStockService {
     }
 
     public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException, Exception {
+        entreeStock.setDateHeure(new Date());
         if (entreeStock.getId().isEmpty()) {
             entreeStock.setId(IdGenerator.generateId());
             entreeStock.setNumeroEntreeStock(IdGenerator.generateOperationNumber());
-            entreeStock.setDateHeure(new Date());
             return EntreeStockDao.getInstance().enregistrerEntreeStock(entreeStock);
-
         } else {
             return EntreeStockDao.getInstance().actualiserEntreeStock(entreeStock);
         }

@@ -164,8 +164,8 @@ public class ClientDao {
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idClient);
-
             prs.execute();
+
             prs.close();
             connection.close();
         }

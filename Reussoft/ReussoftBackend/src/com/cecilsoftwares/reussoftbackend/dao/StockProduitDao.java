@@ -137,7 +137,7 @@ public class StockProduitDao {
 
         if (res != null) {
             if (res.next()) {
-                if (quantiteMouvement.compareTo(res.getBigDecimal(1)) < 0) {
+                if (quantiteMouvement.compareTo(res.getBigDecimal(1)) > 0) {
                     //Le stock du produit é insufisant
                     prs.close();
                     res.close();
@@ -160,6 +160,9 @@ public class StockProduitDao {
         PreparedStatement prs;
         ResultSet res;
         int conteur = 0;
+
+        String teste = quantiteStockMouvemente.add(new BigDecimal(2)).toString();
+        System.out.println(teste);
 
         scriptSQL = new StringBuilder("SELECT count(*) FROM stockproduit WHERE idProduit=? AND idShop=?");
         prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
