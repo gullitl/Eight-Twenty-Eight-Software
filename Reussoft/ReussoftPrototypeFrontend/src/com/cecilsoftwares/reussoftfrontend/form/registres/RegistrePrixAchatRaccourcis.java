@@ -1,7 +1,8 @@
-package com.cecilsoftwares.reussoftfrontend.form;
+package com.cecilsoftwares.reussoftfrontend.form.registres;
 
 import com.cecilsoftwares.reussoftbackend.service.PrixAchatProduitService;
-import com.cecilsoftwares.reussoftfrontend.form.RegistreClient;
+import com.cecilsoftwares.reussoftfrontend.form.operations.OperationEntreeStock;
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreClient;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import java.awt.Cursor;

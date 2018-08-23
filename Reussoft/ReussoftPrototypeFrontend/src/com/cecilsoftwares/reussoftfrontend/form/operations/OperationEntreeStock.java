@@ -1,5 +1,8 @@
-package com.cecilsoftwares.reussoftfrontend.form;
+package com.cecilsoftwares.reussoftfrontend.form.operations;
 
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistrePrixAchatRaccourcis;
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreShop;
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreTaux;
 import com.cecilsoftwares.reussoftbackend.service.EntreeStockService;
 import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
@@ -503,7 +506,7 @@ public class OperationEntreeStock extends JInternalFrame {
         habiliterComposantFormulaire(false);
 
         try {
-            List<EntreeStock> entreesStock = EntreeStockService.getInstance().listerTousLesEntreesStockSansItems();
+            List<EntreeStock> entreesStock = EntreeStockService.getInstance().listerTousLesEntreesStockAvecItems();
             ConsultationEntreeStock consultationEntreeStock = new ConsultationEntreeStock(null, true, entreesStock);
             consultationEntreeStock.setFrameAncetre(this);
             consultationEntreeStock.setVisible(true);
@@ -528,7 +531,34 @@ public class OperationEntreeStock extends JInternalFrame {
 
         itemsEntreeStock = entreeStock.getItemsEntreeStock();
 
-        listerItemsEntreeStock();
+        //Lister
+        BigDecimal totalAPayer = new BigDecimal("0");
+        defaultTableModel.setRowCount(0);
+
+        for (ItemEntreeStock ies : itemsEntreeStock) {
+            dataRows[0] = ies.getProduit().getDescription();
+            dataRows[1] = ies.getQuantiteProduit();
+            dataRows[2] = Double.parseDouble(ies.getProduit().getPrixAchatProduit().getValeurUSD().toString());
+            dataRows[3] = Double.parseDouble(ies.getProduit().getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()).toString());
+
+            totalAPayer = totalAPayer.add(ies.getProduit().getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()));
+            defaultTableModel.addRow(dataRows);
+        }
+
+        String formeNombre = itemsEntreeStock.size() > 1 ? "Items" : "Item";
+        lblNombreItemEntreeStock.setText(itemsEntreeStock.size() + " " + formeNombre);
+
+        lblTotalAPayer.setText(new StringBuilder("Total à payer: $")
+                .append(totalAPayer.toString()).toString());
+
+        tfdValeurUSD.setText(entreeStock.getValeurTotalCoutUSD().toString());
+        if (entreeStock.getValeurTotalCoutFC().toString().equals("0.00")) {
+            tfdValeurFC.setText("0.00");
+            tfdValeurFC.setEditable(false);
+        } else {
+            tfdValeurFC.setText(entreeStock.getValeurTotalCoutFC().toString());
+
+        }
 
     }
 
@@ -707,18 +737,13 @@ public class OperationEntreeStock extends JInternalFrame {
         if (!tfdValeurFC.getText().isEmpty() && !tfdValeurFC.getText().equals("0.00")) {
             BigDecimal convertiFC = totalAPayer.divide(tauxCarte.getValeur(), 2, RoundingMode.HALF_EVEN);
 
-            tfdValeurUSD.setText((convertiFC
-                    .subtract(new BigDecimal(tfdValeurFC.getText())).multiply(tauxCarte.getValeur())).toString());
-
-//
-//            if (convertiFC.compareTo(getTotalValeurItems()) > 0) {
-//                tfdValeurFC.setText(getTotalValeurItems()
-//                        .divide(tauxCarte.getValeur(), 2, RoundingMode.HALF_EVEN).toString());
-//                tfdValeurUSD.setText("0.00");
-//                return;
-//            }
-//
-//            tfdValeurUSD.setText(getTotalValeurItems().subtract(convertiFC).toString());
+            if (convertiFC.compareTo(new BigDecimal(tfdValeurFC.getText())) < 0) {
+                tfdValeurUSD.setText(totalAPayer.toString());
+                tfdValeurFC.setText("0.00");
+            } else {
+                tfdValeurUSD.setText((convertiFC
+                        .subtract(new BigDecimal(tfdValeurFC.getText())).multiply(tauxCarte.getValeur())).toString());
+            }
         } else {
             tfdValeurUSD.setText(totalAPayer.toString());
             tfdValeurFC.setEditable(true);

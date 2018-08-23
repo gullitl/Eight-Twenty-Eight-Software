@@ -1,4 +1,4 @@
-package com.cecilsoftwares.reussoftfrontend.form;
+package com.cecilsoftwares.reussoftfrontend.form.registres;
 
 import com.cecilsoftwares.reussoftbackend.service.ShopService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationShop;

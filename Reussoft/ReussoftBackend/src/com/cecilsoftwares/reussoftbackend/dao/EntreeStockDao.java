@@ -83,28 +83,27 @@ public class EntreeStockDao {
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeEntreesStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantite,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.valeurTotalCoutUSD, entreestock.valeurTotalCoutFC,");
             scriptSQL.append(" entreestock.valeurTauxCarte, entreestock.dateHeure, entreestock.numeroEntreeStock,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
             scriptSQL.append(" itementreestock.idProduit, produit.description,");
-            scriptSQL.append(" itementreestock.idPrixAchatProduit, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
+            scriptSQL.append(" itementreestock.idPrixAchat, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM itementreestock");
             scriptSQL.append(" LEFT JOIN entreestock ON itementreestock.idEntreestock = entreestock.id");
             scriptSQL.append(" LEFT JOIN fournisseur ON entreestock.idFournisseur = fournisseur.id");
             scriptSQL.append(" LEFT JOIN produit ON itementreestock.idProduit = produit.id");
-            scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
+            scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchat = prixachatproduit.id");
+            scriptSQL.append(" ORDER BY itementreestock.idEntreeStock, entreestock.dateHeure");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
             if (res != null) {
-
                 String id = "";
                 EntreeStock etrstck = new EntreeStock();
                 List<ItemEntreeStock> listeItemsEntreeStock = new ArrayList();
 
                 while (res.next()) {
-
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
                     entreeStock.setValeurTotalCoutUSD(res.getBigDecimal(3));
                     entreeStock.setValeurTotalCoutFC(res.getBigDecimal(4));
@@ -131,14 +130,20 @@ public class EntreeStockDao {
 
                     if (id.equals(entreeStock.getId())) {
                         listeItemsEntreeStock.add(itemEntreeStock);
+                        if (res.isLast()) {
+                            etrstck.setItemsEntreeStock(listeItemsEntreeStock);
+                            listeEntreesStock.add(etrstck);
+                        }
                     } else {
-                        if (!res.first()) {
+                        if (!res.isFirst()) {
                             etrstck.setItemsEntreeStock(listeItemsEntreeStock);
                             listeEntreesStock.add(etrstck);
                         }
                         id = entreeStock.getId();
 
+                        etrstck = new EntreeStock();
                         etrstck.setId(entreeStock.getId());
+                        etrstck.setNumeroEntreeStock(entreeStock.getNumeroEntreeStock());
                         etrstck.setValeurTotalCoutUSD(entreeStock.getValeurTotalCoutUSD());
                         etrstck.setValeurTotalCoutFC(entreeStock.getValeurTotalCoutFC());
                         etrstck.setValeurTauxCarte(entreeStock.getValeurTauxCarte());
@@ -147,6 +152,7 @@ public class EntreeStockDao {
 
                         listeItemsEntreeStock = new ArrayList();
                         listeItemsEntreeStock.add(itemEntreeStock);
+
                     }
                 }
             }
@@ -165,26 +171,26 @@ public class EntreeStockDao {
 
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
-            scriptSQL = new StringBuilder("SELECT itementreestock.quantite");
+            scriptSQL = new StringBuilder("SELECT itementreestock.quantite,");
             scriptSQL.append(" itementreestock.idEntreeStock, entreestock.valeurTotalCoutUSD, entreestock.valeurTotalCoutFC,");
             scriptSQL.append(" entreestock.valeurTauxCarte, entreestock.dateHeure, entreestock.numeroEntreeStock,");
             scriptSQL.append(" entreestock.idFournisseur, fournisseur.entreprise, fournisseur.responsable, fournisseur.telephone,");
             scriptSQL.append(" itementreestock.idProduit, produit.description,");
-            scriptSQL.append(" itementreestock.idPrixAchatProduit, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
+            scriptSQL.append(" itementreestock.idPrixAchat, prixachatproduit.valeurUSD, prixachatproduit.dateHeure");
             scriptSQL.append(" FROM itementreestock");
             scriptSQL.append(" LEFT JOIN entreestock ON itementreestock.idEntreestock = entreestock.id");
             scriptSQL.append(" LEFT JOIN fournisseur ON entreestock.idFournisseur = fournisseur.id");
             scriptSQL.append(" LEFT JOIN produit ON itementreestock.idProduit = produit.id");
-            scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchatProduit = prixachatproduit.id");
+            scriptSQL.append(" LEFT JOIN prixachatproduit ON itementreestock.idPrixAchat = prixachatproduit.id");
+            scriptSQL.append(" ORDER BY itementreestock.idEntreeStock, entreestock.dateHeure");
             scriptSQL.append(" WHERE itementreestock.idEntreeStock=?");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idEntreeStock);
             res = prs.executeQuery();
+
             if (res != null) {
-
                 while (res.next()) {
-
                     EntreeStock entreeStock = new EntreeStock(res.getString(2));
                     entreeStock.setValeurTotalCoutUSD(res.getBigDecimal(3));
                     entreeStock.setValeurTotalCoutFC(res.getBigDecimal(4));
@@ -211,8 +217,9 @@ public class EntreeStockDao {
 
                     listeItemsEntreeStock.add(itemEntreeStock);
 
-                    if (res.first()) {
+                    if (res.isFirst()) {
                         etrstck.setId(entreeStock.getId());
+                        etrstck.setNumeroEntreeStock(entreeStock.getNumeroEntreeStock());
                         etrstck.setValeurTotalCoutUSD(entreeStock.getValeurTotalCoutUSD());
                         etrstck.setValeurTotalCoutFC(entreeStock.getValeurTotalCoutFC());
                         etrstck.setValeurTauxCarte(entreeStock.getValeurTauxCarte());

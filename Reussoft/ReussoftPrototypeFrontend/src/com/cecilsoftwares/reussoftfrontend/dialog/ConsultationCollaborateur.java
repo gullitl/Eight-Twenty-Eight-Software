@@ -1,6 +1,6 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftfrontend.form.RegistreCollaborateur;
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreCollaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

@@ -1,6 +1,6 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftfrontend.form.OperationVente;
+import com.cecilsoftwares.reussoftfrontend.form.operations.OperationVente;
 import com.cecilsoftwares.reussoftmiddleend.model.SortieStock;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

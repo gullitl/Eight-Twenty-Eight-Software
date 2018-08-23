@@ -1,7 +1,7 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftfrontend.form.OperationEntreeStock;
-import com.cecilsoftwares.reussoftfrontend.form.RegistreFournisseur;
+import com.cecilsoftwares.reussoftfrontend.form.operations.OperationEntreeStock;
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreFournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -170,9 +170,6 @@ public class ConsultationFournisseur extends javax.swing.JDialog {
             if (frameAncetre != null) {
                 int row = tblFournisseur.getSelectedRow();
                 fournisseur = fournisseurs.get(row);
-//                fournisseur = fournisseurs.stream()
-//                        .filter(cp -> cp.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-//                        .findFirst().orElse(null);
             }
             dispose();
         }

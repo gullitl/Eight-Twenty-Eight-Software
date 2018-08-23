@@ -1,6 +1,6 @@
 package com.cecilsoftwares.reussoftfrontend.dialog;
 
-import com.cecilsoftwares.reussoftfrontend.form.OperationDispatch;
+import com.cecilsoftwares.reussoftfrontend.form.operations.OperationDispatch;
 import com.cecilsoftwares.reussoftmiddleend.model.Dispatch;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

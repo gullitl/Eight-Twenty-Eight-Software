@@ -1,5 +1,6 @@
-package com.cecilsoftwares.reussoftfrontend.form;
+package com.cecilsoftwares.reussoftfrontend.form.operations;
 
+import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreShop;
 import com.cecilsoftwares.reussoftbackend.service.DispatchService;
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
 import com.cecilsoftwares.reussoftbackend.service.ShopService;
