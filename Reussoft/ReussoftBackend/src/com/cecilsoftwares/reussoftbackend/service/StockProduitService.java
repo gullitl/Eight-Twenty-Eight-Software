@@ -30,8 +30,14 @@ public class StockProduitService {
         return StockProduitDao.getInstance().listerTousLesStockProduit();
     }
 
-    public StockProduit selectionnerStockProduitParProduitId(String idProduit) throws ClassNotFoundException, SQLException {
-        return StockProduitDao.getInstance().selectionnerStockProduitParProduitId(idProduit);
+    public StockProduit selectionnerStockProduitParIdProduitEIdShop(String idProduit, String idShop)
+            throws ClassNotFoundException, SQLException {
+        return StockProduitDao.getInstance().selectionnerStockProduitParIdProduitEIdShop(idProduit, idShop);
+    }
+
+    public BigDecimal selectionnerQuantiteStockProduitTousLesShopsParIdProduit(String idProduit)
+            throws ClassNotFoundException, SQLException {
+        return StockProduitDao.getInstance().selectionnerQuantiteStockProduitTousLesShopsParIdProduit(idProduit);
     }
 
     public boolean entrerStock(Produit produit, Shop shop, BigDecimal quantiteMouvement, Connection connection)

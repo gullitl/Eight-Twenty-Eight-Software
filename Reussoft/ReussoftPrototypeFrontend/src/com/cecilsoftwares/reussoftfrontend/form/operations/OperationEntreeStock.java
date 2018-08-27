@@ -6,6 +6,7 @@ import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreTaux;
 import com.cecilsoftwares.reussoftbackend.service.EntreeStockService;
 import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
+import com.cecilsoftwares.reussoftbackend.service.StockProduitService;
 import com.cecilsoftwares.reussoftbackend.service.TauxService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationEntreeStock;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationFournisseur;
@@ -625,6 +626,10 @@ public class OperationEntreeStock extends JInternalFrame {
         if (produit == null) {
             return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
         produitSelectionne = produit;
         tfdDescriptionProduit.setText(produitSelectionne.getDescription());
         lblPrixAchat.setText(new StringBuilder("Prix d'achat: $")
@@ -632,9 +637,19 @@ public class OperationEntreeStock extends JInternalFrame {
 
         btnEditarPrixAchat.setVisible(true);
 
-        lblProduitStockActuel.setText(new StringBuilder("Stock actuel: ")
-                .append(produitSelectionne.getPrixAchatProduit().getValeurUSD().toString())
-                .append(" temp").toString());
+        BigDecimal nb = new BigDecimal("0");
+        try {
+
+            lblProduitStockActuel.setText(new StringBuilder("Stock actuel: ")
+                    .append(StockProduitService.getInstance()
+                            .selectionnerQuantiteStockProduitTousLesShopsParIdProduit(produit.getId())).toString());
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(OperationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
 
         btnAjouterProduit.setEnabled(true);
 

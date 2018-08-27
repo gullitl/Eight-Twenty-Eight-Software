@@ -103,7 +103,7 @@ public class OperationDispatch extends JInternalFrame {
             }
         });
 
-        jLabel12.setText("Code:");
+        jLabel12.setText("Code produit:");
 
         btnAjouterProduit.setText("+");
         btnAjouterProduit.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +179,7 @@ public class OperationDispatch extends JInternalFrame {
 
         tfdNomShop.setEditable(false);
 
-        jLabel1.setText("Shop:");
+        jLabel1.setText("Shop destinataire:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -367,7 +367,6 @@ public class OperationDispatch extends JInternalFrame {
         if (spnQuantiteProduit.getValue().toString().equals("0") || spnQuantiteProduit.getValue().toString().equals("")) {
             JOptionPane.showMessageDialog(null, "Quantité incorrect!");
         } else {
-
             if (modeEditionItemDispatch) {
                 for (ItemDispatch ids : itemsDispatch) {
                     if (ids.getProduit().getId().equals(idDispatch)) {
@@ -378,9 +377,7 @@ public class OperationDispatch extends JInternalFrame {
 
             } else {
 
-                Dispatch dispatch = new Dispatch(idDispatch);
-
-                ItemDispatch itemDispatch = new ItemDispatch(dispatch, produitSelectionne);
+                ItemDispatch itemDispatch = new ItemDispatch(new Dispatch(idDispatch), produitSelectionne);
                 itemDispatch.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getValue().toString()));
 
                 for (ItemDispatch ids : itemsDispatch) {
@@ -401,23 +398,25 @@ public class OperationDispatch extends JInternalFrame {
     }//GEN-LAST:event_btnAjouterProduitActionPerformed
 
     private void btnConsulterDispatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterDispatchActionPerformed
-        if (btnConsulterDispatchClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
 
-            try {
-                List<Dispatch> dispatchs = DispatchService.getInstance().listerTousLesDispatchsSansItems();
-                ConsultationDispatch consultationDispatch = new ConsultationDispatch(null, true, dispatchs);
-                consultationDispatch.setFrameAncetre(this);
-                consultationDispatch.setVisible(true);
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(OperationDispatch.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterDispatchClickable) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+            List<Dispatch> dispatchs = DispatchService.getInstance().listerTousLesDispatchsAvecItems();
+            ConsultationDispatch consultationDispatch = new ConsultationDispatch(null, true, dispatchs);
+            consultationDispatch.setFrameAncetre(this);
+            consultationDispatch.setVisible(true);
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(OperationDispatch.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterDispatchActionPerformed
 
     private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
@@ -467,6 +466,13 @@ public class OperationDispatch extends JInternalFrame {
             setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_btnConsulterProduitActionPerformed
+
+    public void setProduitSelectionne(Produit produit) {
+        if (produit != null) {
+            produitSelectionne = produit;
+            tfdDescriptionProduit.setText(produitSelectionne.getId());
+        }
+    }
 
     private void btnEffacerChampsProduitsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerChampsProduitsActionPerformed
         effacerChampsItemStock();
@@ -539,13 +545,6 @@ public class OperationDispatch extends JInternalFrame {
         String formeNombre = itemsDispatch.size() > 1 ? "Items" : "Item";
         lblNombreItemDispatch.setText(itemsDispatch.size() + " " + formeNombre);
 
-    }
-
-    public void setProduitSelectionne(Produit produit) {
-        if (produit != null) {
-            produitSelectionne = produit;
-            tfdDescriptionProduit.setText(produitSelectionne.getId());
-        }
     }
 
     private void effacerFormulaire() {

@@ -1,7 +1,10 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.exception.StockInsuffisantException;
+import com.cecilsoftwares.reussoftmiddleend.model.CategorieProduit;
+import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
+import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.StockProduit;
 import java.math.BigDecimal;
@@ -36,11 +39,16 @@ public class StockProduitDao {
         List<StockProduit> listeStocksProduit;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("SELECT stockproduit.idProduit, produit.description, produit.active,");
-            scriptSQL.append(" stockproduit.idShop, shop.nom, shop.adresse, shop.active");
+            scriptSQL = new StringBuilder("stockproduit.idProduit, produit.description, produit.active,");
+            scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
+            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege,");
+            scriptSQL.append(" produit.idPrixachat, prixachatproduit.valeurUSD, prixachatproduit.dateHeure,");
+            scriptSQL.append(" stockproduit.idShop, shop.nom,");
             scriptSQL.append(" stockproduit.quantiteStock");
             scriptSQL.append(" FROM stockproduit");
-            scriptSQL.append(" LEFT JOIN produit ON stockproduit.idProduit = produit.id");
+            scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.id");
+            scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.id");
+            scriptSQL.append(" LEFT JOIN prixachatproduit ON produit.idPrixAchat = prixachatproduit.id");
             scriptSQL.append(" LEFT JOIN shop ON stockproduit.idShop = shop.id");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
@@ -54,13 +62,26 @@ public class StockProduitDao {
                     produit.setDescription(res.getString(2));
                     produit.setActive(res.getInt(3) == 1);
 
-                    Shop shop = new Shop(res.getString(4));
-                    shop.setNom(res.getString(5));
-                    shop.setAdresse(res.getString(6));
-                    shop.setActive(res.getInt(7) == 0);
+                    CategorieProduit categorieProduit = new CategorieProduit(res.getString(4));
+                    categorieProduit.setDescription(res.getString(5));
+                    categorieProduit.setDescriptionAbregee(res.getString(6));
+                    produit.setCategorieProduit(categorieProduit);
+
+                    Reseau reseau = new Reseau(res.getString(7));
+                    reseau.setNom(res.getString(8));
+                    reseau.setNomAbrege(res.getString(9));
+                    produit.setReseau(reseau);
+
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(10));
+                    prixAchatProduit.setValeurUSD(res.getBigDecimal(11));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(12));
+                    produit.setPrixAchatProduit(prixAchatProduit);
+
+                    Shop shop = new Shop(res.getString(13));
+                    shop.setNom(res.getString(14));
 
                     StockProduit stockProduit = new StockProduit(produit, shop);
-                    stockProduit.setQuantiteStock(res.getBigDecimal(8));
+                    stockProduit.setQuantiteStock(res.getBigDecimal(res.getString(15)));
 
                     listeStocksProduit.add(stockProduit);
                 }
@@ -72,21 +93,28 @@ public class StockProduitDao {
         return listeStocksProduit;
     }
 
-    public StockProduit selectionnerStockProduitParProduitId(String idProduit) throws ClassNotFoundException, SQLException {
+    public StockProduit selectionnerStockProduitParIdProduitEIdShop(String idProduit, String idShop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT stockproduit.idProduit, produit.description, produit.active,");
-            scriptSQL.append(" stockproduit.idShop, shop.nom, shop.adresse, shop.active");
+            scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
+            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege,");
+            scriptSQL.append(" produit.idPrixachat, prixachatproduit.valeurUSD, prixachatproduit.dateHeure,");
+            scriptSQL.append(" stockproduit.idShop, shop.nom,");
             scriptSQL.append(" stockproduit.quantiteStock");
             scriptSQL.append(" FROM stockproduit");
             scriptSQL.append(" LEFT JOIN produit ON stockproduit.idProduit = produit.id");
+            scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.id");
+            scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.id");
+            scriptSQL.append(" LEFT JOIN prixachatproduit ON produit.idPrixAchat = prixachatproduit.id");
             scriptSQL.append(" LEFT JOIN shop ON stockproduit.idShop = shop.id");
-            scriptSQL.append(" WHERE stockproduit.idProduit=?");
+            scriptSQL.append(" WHERE stockproduit.idProduit=? AND stockproduit.idShop=?");
 
             prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idProduit);
+            prs.setString(2, idShop);
             res = prs.executeQuery();
 
             if (res != null) {
@@ -96,19 +124,99 @@ public class StockProduitDao {
                     produit.setDescription(res.getString(2));
                     produit.setActive(res.getInt(3) == 1);
 
-                    Shop shop = new Shop(res.getString(4));
-                    shop.setNom(res.getString(5));
-                    shop.setAdresse(res.getString(6));
-                    shop.setActive(res.getInt(7) == 0);
+                    CategorieProduit categorieProduit = new CategorieProduit(res.getString(4));
+                    categorieProduit.setDescription(res.getString(5));
+                    categorieProduit.setDescriptionAbregee(res.getString(6));
+                    produit.setCategorieProduit(categorieProduit);
+
+                    Reseau reseau = new Reseau(res.getString(7));
+                    reseau.setNom(res.getString(8));
+                    reseau.setNomAbrege(res.getString(9));
+                    produit.setReseau(reseau);
+
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(10));
+                    prixAchatProduit.setValeurUSD(res.getBigDecimal(11));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(12));
+                    produit.setPrixAchatProduit(prixAchatProduit);
+
+                    Shop shop = new Shop(res.getString(13));
+                    shop.setNom(res.getString(14));
 
                     StockProduit stockProduit = new StockProduit(produit, shop);
-                    stockProduit.setQuantiteStock(res.getBigDecimal(8));
+                    stockProduit.setQuantiteStock(res.getBigDecimal((15)));
 
                     prs.close();
                     res.close();
                     conexao.close();
 
                     return stockProduit;
+                }
+            }
+            prs.close();
+            res.close();
+            conexao.close();
+        }
+        return null;
+    }
+
+    public BigDecimal selectionnerQuantiteStockProduitParIdProduitEIdShop(String idProduit, String idShop) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("SELECT stockproduit.quantiteStock");
+            scriptSQL.append(" FROM stockproduit");
+            scriptSQL.append(" WHERE stockproduit.idProduit=? AND stockproduit.idShop=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setString(1, idProduit);
+            prs.setString(2, idShop);
+            res = prs.executeQuery();
+
+            if (res != null) {
+                if (res.next()) {
+
+                    BigDecimal quantiteStockProduit = res.getBigDecimal(1);
+
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
+                    return quantiteStockProduit;
+                }
+            }
+            prs.close();
+            res.close();
+            conexao.close();
+        }
+        return null;
+    }
+
+    public BigDecimal selectionnerQuantiteStockProduitTousLesShopsParIdProduit(String idProduit) throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("SELECT stockproduit.quantiteStock");
+            scriptSQL.append(" FROM stockproduit");
+            scriptSQL.append(" WHERE stockproduit.idProduit=?");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            prs.setString(1, idProduit);
+            res = prs.executeQuery();
+
+            BigDecimal quantiteStockProduit = new BigDecimal("0");
+
+            if (res != null) {
+                if (res.next()) {
+
+                    quantiteStockProduit = quantiteStockProduit.add(res.getBigDecimal(1));
+
+                    prs.close();
+                    res.close();
+                    conexao.close();
+
+                    return quantiteStockProduit;
                 }
             }
             prs.close();

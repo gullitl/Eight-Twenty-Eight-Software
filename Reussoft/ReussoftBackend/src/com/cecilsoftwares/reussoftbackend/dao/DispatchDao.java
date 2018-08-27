@@ -78,16 +78,13 @@ public class DispatchDao {
             scriptSQL.append(" itemdispatch.idDispatch, dispatch.dateHeure, dispatch.valide,");
             scriptSQL.append(" dispatch.idShop, shopExpediteur.nom,");
             scriptSQL.append(" itemdispatch.idShop, shopDestinataire.nom,");
-            scriptSQL.append(" itemdispatch.idProduto, produit.description");
+            scriptSQL.append(" itemdispatch.idProduit, produit.description");
             scriptSQL.append(" FROM itemdispatch");
             scriptSQL.append(" LEFT JOIN dispatch ON itemdispatch.idDispatch = dispatch.id");
             scriptSQL.append(" LEFT JOIN shop as shopExpediteur ON dispatch.idShop = shopExpediteur.id");
             scriptSQL.append(" LEFT JOIN shop as shopDestinataire ON itemdispatch.idShop = shopDestinataire.id");
             scriptSQL.append(" LEFT JOIN produit ON itemdispatch.idProduit = produit.id");
-            scriptSQL.append(" GROUP BY itemdispatch.idDispatch, dispatch.dateHeure, dispatch.valide, itemdispatch.quantite,");
-            scriptSQL.append(" dispatch.idShop, shopExpediteur.nom,");
-            scriptSQL.append(" dispatch.idShopDestinataire, shopdestinataire.nom,");
-            scriptSQL.append(" itemdispatch.idProduto, produit.description");
+            scriptSQL.append(" ORDER BY itemdispatch.idDispatch, dispatch.dateHeure");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -112,7 +109,6 @@ public class DispatchDao {
 
                     ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(1));
-                    itemDispatch.setQuantiteProduit(res.getBigDecimal(3));
 
                     Shop shopDestinataire = new Shop(res.getString(7));
                     shopDestinataire.setNom(res.getString(8));
@@ -120,6 +116,10 @@ public class DispatchDao {
 
                     if (id.equals(dispatch.getId())) {
                         listeItemsDispatch.add(itemDispatch);
+                        if (res.isLast()) {
+                            dsptch.setItemsDispatch(listeItemsDispatch);
+                            listeDispatch.add(dsptch);
+                        }
                     } else {
                         if (!res.first()) {
                             dsptch.setItemsDispatch(listeItemsDispatch);
