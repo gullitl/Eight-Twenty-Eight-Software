@@ -24,7 +24,7 @@ public class ConnectionFactory {
         return uniqueInstance;
     }
 
-    public boolean criaEsquemaCasoNaoExiste() {
+    public boolean createSchemaIfNotExists() {
         try {
             Class.forName(AppConfigKS.getInstance().getAppConfig().getJdbcDriver());
             Connection connection = ((Connection) DriverManager

@@ -1,5 +1,6 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
+import com.cecilsoftwares.reussoftmiddleend.exception.StockInsuffisantException;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.StockProduit;
@@ -141,14 +142,13 @@ public class StockProduitDao {
                     //Le stock du produit é insufisant
                     prs.close();
                     res.close();
-                    return false;
+                    throw new StockInsuffisantException("Le stock du produit é insufisant");
                 }
             }
         } else {
-            //Le produit ne même pas encore entré dans le stock
             prs.close();
             res.close();
-            return false;
+            throw new StockInsuffisantException("Le produit n'est même pas encore entré dans le stock");
         }
         prs.close();
         res.close();

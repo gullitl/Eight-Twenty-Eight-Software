@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Plamedi L. Lusembo
@@ -238,10 +240,14 @@ public class EntreeStockDao {
         return etrstck;
     }
 
-    public boolean enregistrerEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerEntreeStock(EntreeStock entreeStock) {
         PreparedStatement prs;
 
-        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
+        Connection connection = null;
+        try {
+            connection = ConnectionFactory.getInstance().habiliterConnection();
+
+            connection.setAutoCommit(false);
 
             scriptSQL = new StringBuilder("INSERT INTO entreestock(");
             scriptSQL.append(" idFournisseur, valeurTotalCoutUSD, valeurTotalCoutFC, valeurTauxCarte, dateHeure, numeroEntreeStock, id )");
@@ -278,17 +284,39 @@ public class EntreeStockDao {
                 prs.execute();
             }
 
+            connection.commit();
+
             prs.close();
             connection.close();
+            return true;
+
+        } catch (ClassNotFoundException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(EntreeStockDao.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(EntreeStockDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(EntreeStockDao.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(EntreeStockDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        return true;
     }
 
-    public boolean actualiserEntreeStock(EntreeStock entreeStock) throws ClassNotFoundException, SQLException {
+    public boolean actualiserEntreeStock(EntreeStock entreeStock) {
         PreparedStatement prs;
         ResultSet res;
+        Connection connection = null;
+        try {
+            connection = ConnectionFactory.getInstance().habiliterConnection();
 
-        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
+            connection.setAutoCommit(false);
 
             scriptSQL = new StringBuilder("UPDATE entreestock");
             scriptSQL.append(" SET idFournisseur=?, valeurTotalCoutUSD=?, valeurTotalCoutFC=?, valeurTauxCarte=?,");
@@ -320,9 +348,18 @@ public class EntreeStockDao {
                     itemEntreeStock.setProduit(new Produit(res.getString(1)));
                     itemEntreeStock.setQuantiteProduit(res.getBigDecimal(2));
 
-                    StockProduitService.getInstance()
+                    if (!StockProduitService.getInstance()
                             .sortirStock(itemEntreeStock.getProduit(),
-                                    new Shop("[B@7bb11784652#a6f0bc88e"), itemEntreeStock.getQuantiteProduit(), connection);
+                                    new Shop("[B@7bb11784652#a6f0bc88e"), itemEntreeStock.getQuantiteProduit(), connection)) {
+                        // throw insuficient stock exception
+
+                        try {
+                            connection.rollback();
+                            return false;
+                        } catch (SQLException ex1) {
+                            Logger.getLogger(EntreeStockDao.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
+                    }
                 }
             }
             res.close();
@@ -353,10 +390,27 @@ public class EntreeStockDao {
                 prs.execute();
             }
 
+            connection.commit();
             prs.close();
             connection.close();
+            return true;
+        } catch (ClassNotFoundException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(EntreeStockDao.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(EntreeStockDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(EntreeStockDao.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(EntreeStockDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        return true;
     }
 
 }
