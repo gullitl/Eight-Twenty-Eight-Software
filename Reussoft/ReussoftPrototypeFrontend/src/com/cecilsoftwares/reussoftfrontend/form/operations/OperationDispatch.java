@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreShop;
 import com.cecilsoftwares.reussoftbackend.service.DispatchService;
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
 import com.cecilsoftwares.reussoftbackend.service.ShopService;
+import com.cecilsoftwares.reussoftbackend.service.StockProduitService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationDispatch;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationFournisseur;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationProduit;
@@ -48,9 +49,12 @@ public class OperationDispatch extends JInternalFrame {
     private boolean btnAnnulerClickable;
 
     private Produit produitSelectionne;
+    private Shop shopSelectionne;
     private List<ItemDispatch> itemsDispatch;
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
+
+    private BigDecimal stockProduitShopActuel;
 
     public OperationDispatch() {
         initComponents();
@@ -81,6 +85,7 @@ public class OperationDispatch extends JInternalFrame {
         btnConsulterShop = new javax.swing.JButton();
         tfdNomShop = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        lblStockProduitShopActuel = new javax.swing.JLabel();
         btnEffacerFormulaire = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
@@ -92,7 +97,7 @@ public class OperationDispatch extends JInternalFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dispatch");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Produits"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()));
 
         tfdDescriptionProduit.setEditable(false);
 
@@ -103,7 +108,7 @@ public class OperationDispatch extends JInternalFrame {
             }
         });
 
-        jLabel12.setText("Code produit:");
+        jLabel12.setText("Shop destinataire:");
 
         btnAjouterProduit.setText("+");
         btnAjouterProduit.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +184,9 @@ public class OperationDispatch extends JInternalFrame {
 
         tfdNomShop.setEditable(false);
 
-        jLabel1.setText("Shop destinataire:");
+        jLabel1.setText("Produit:");
+
+        lblStockProduitShopActuel.setText("jLabel2");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -191,9 +198,12 @@ public class OperationDispatch extends JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(spnQuantiteProduit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(spnQuantiteProduit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4))
+                                    .addGap(153, 153, 153)
+                                    .addComponent(lblStockProduitShopActuel))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(btnAjouterProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,18 +215,18 @@ public class OperationDispatch extends JInternalFrame {
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel1)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(tfdNomShop, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfdDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterShop)))
+                                .addComponent(btnConsulterProduit)))
                         .addGap(0, 12, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(tfdDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfdNomShop, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnConsulterProduit)))
-                        .addContainerGap(336, Short.MAX_VALUE))))
+                                .addComponent(btnConsulterShop)))
+                        .addContainerGap(342, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,18 +235,20 @@ public class OperationDispatch extends JInternalFrame {
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterProduit))
+                    .addComponent(btnConsulterShop)
+                    .addComponent(tfdNomShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdNomShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsulterShop))
+                    .addComponent(btnConsulterProduit)
+                    .addComponent(tfdDescriptionProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spnQuantiteProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spnQuantiteProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblStockProduitShopActuel))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAjouterProduit)
@@ -296,7 +308,7 @@ public class OperationDispatch extends JInternalFrame {
                         .addComponent(tfdNumeroDispatch, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnConsulterDispatch)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,7 +319,7 @@ public class OperationDispatch extends JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdNumeroDispatch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsulterDispatch))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox1)
@@ -377,7 +389,7 @@ public class OperationDispatch extends JInternalFrame {
 
             } else {
 
-                ItemDispatch itemDispatch = new ItemDispatch(new Dispatch(idDispatch), produitSelectionne);
+                ItemDispatch itemDispatch = new ItemDispatch(new Dispatch(idDispatch), produitSelectionne, shopSelectionne);
                 itemDispatch.setQuantiteProduit(new BigDecimal(spnQuantiteProduit.getValue().toString()));
 
                 for (ItemDispatch ids : itemsDispatch) {
@@ -420,58 +432,85 @@ public class OperationDispatch extends JInternalFrame {
     }//GEN-LAST:event_btnConsulterDispatchActionPerformed
 
     private void btnConsulterShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterShopActionPerformed
-        if (btnConsulterShopClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-
-                ConsultationShop consultationShop = new ConsultationShop(null, true, ShopService.getInstance()
-                        .listerTousLesShops());
-                consultationShop.setFrameAncetre(this);
-                consultationShop.setVisible(true);
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterShopClickable) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+
+            ConsultationShop consultationShop = new ConsultationShop(null, true, ShopService.getInstance()
+                    .listerTousLesShops());
+            consultationShop.setFrameAncetre(this);
+            consultationShop.setVisible(true);
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterShopActionPerformed
 
     public void shopSelectionne(Shop shop) {
-        if (shop != null) {
-            tfdNomShop.setText(String.valueOf(shop.getNom()));
+        if (shop == null) {
+            return;
         }
+        shopSelectionne = shop;
+        tfdNomShop.setText(String.valueOf(shopSelectionne.getNom()));
     }
 
     private void btnConsulterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterProduitActionPerformed
-        if (btnConsulterProduitClickable) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            habiliterComposantFormulaire(false);
-
-            try {
-
-                ConsultationProduit consultationProduit = new ConsultationProduit(null, true, ProduitService.getInstance()
-                        .listerTousLesProduits());
-                consultationProduit.setFrameAncetre(this);
-                consultationProduit.setVisible(true);
-
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            habiliterComposantFormulaire(true);
-            setCursor(Cursor.getDefaultCursor());
+        if (!btnConsulterProduitClickable) {
+            return;
         }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        try {
+
+            ConsultationProduit consultationProduit = new ConsultationProduit(null, true, ProduitService.getInstance()
+                    .listerTousLesProduits());
+            consultationProduit.setFrameAncetre(this);
+            consultationProduit.setVisible(true);
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ConsultationFournisseur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterProduitActionPerformed
 
     public void setProduitSelectionne(Produit produit) {
-        if (produit != null) {
-            produitSelectionne = produit;
-            tfdDescriptionProduit.setText(produitSelectionne.getId());
+        if (produit == null) {
+            return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
+        produitSelectionne = produit;
+        tfdDescriptionProduit.setText(produitSelectionne.getDescription());
+
+        try {
+            stockProduitShopActuel = StockProduitService.getInstance()
+                    .selectionnerQuantiteStockProduitTousLesShopsParIdProduit(produit.getId());
+
+            lblStockProduitShopActuel.setText(new StringBuilder("Stock actuel: ")
+                    .append(stockProduitShopActuel.toString()).toString());
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(OperationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
+
+        btnAjouterProduit.setEnabled(true);
+
+        spnQuantiteProduit.requestFocus();
     }
 
     private void btnEffacerChampsProduitsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEffacerChampsProduitsActionPerformed
@@ -483,6 +522,9 @@ public class OperationDispatch extends JInternalFrame {
         spnQuantiteProduit.setValue(0);
         modeEditionItemDispatch = false;
         tfdDescriptionProduit.requestFocus();
+
+        stockProduitShopActuel = new BigDecimal("0");
+
     }
 
     private void tblItemsDispatchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemsDispatchMouseClicked
@@ -536,9 +578,9 @@ public class OperationDispatch extends JInternalFrame {
         itemsDispatch.forEach(ies -> {
             dataRows[0] = ies.getShop().getNom();
             dataRows[1] = ies.getProduit().getDescription();
-            dataRows[2] = ies.getQuantiteProduit();
-            dataRows[3] = ies.getQuantiteProduit();
-            dataRows[4] = ies.getQuantiteProduit().add(ies.getQuantiteProduit());
+            dataRows[2] = Double.parseDouble(stockProduitShopActuel.toString());
+            dataRows[3] = Double.parseDouble(ies.getQuantiteProduit().toString());
+            dataRows[4] = Double.parseDouble(stockProduitShopActuel.add(ies.getQuantiteProduit()).toString());
             defaultTableModel.addRow(dataRows);
         });
 
@@ -553,6 +595,12 @@ public class OperationDispatch extends JInternalFrame {
         tfdNumeroDispatch.requestFocus();
 
         tfdNomShop.setText("");
+
+        lblStockProduitShopActuel.setText("");
+        stockProduitShopActuel = new BigDecimal("0");
+
+        shopSelectionne = null;
+        produitSelectionne = null;
 
         tfdDescriptionProduit.setText("");
         spnQuantiteProduit.setValue(0);
@@ -628,6 +676,7 @@ public class OperationDispatch extends JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblNombreItemDispatch;
+    private javax.swing.JLabel lblStockProduitShopActuel;
     private javax.swing.JSpinner spnQuantiteProduit;
     private javax.swing.JTable tblItemsDispatch;
     private javax.swing.JTextField tfdDescriptionProduit;

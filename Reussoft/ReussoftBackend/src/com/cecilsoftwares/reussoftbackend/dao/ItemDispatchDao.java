@@ -61,16 +61,15 @@ public class ItemDispatchDao {
                     shopExpediteur.setNom(res.getString(6));
                     dispatch.setShop(shopExpediteur);
 
+                    Shop shopDestinataire = new Shop(res.getString(7));
+                    shopDestinataire.setNom(res.getString(8));
+
                     Produit produit = new Produit(res.getString(9));
                     produit.setDescription(res.getString(10));
 
-                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit, shopDestinataire);
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(1));
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(3));
-
-                    Shop shopDestinataire = new Shop(res.getString(7));
-                    shopDestinataire.setNom(res.getString(8));
-                    itemDispatch.setShop(shopDestinataire);
 
                     listeItemsDispatch.add(itemDispatch);
                 }
@@ -116,16 +115,15 @@ public class ItemDispatchDao {
                     shopExpediteur.setNom(res.getString(6));
                     dispatch.setShop(shopExpediteur);
 
+                    Shop shopDestinataire = new Shop(res.getString(7));
+                    shopDestinataire.setNom(res.getString(8));
+
                     Produit produit = new Produit(res.getString(9));
                     produit.setDescription(res.getString(10));
 
-                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit, shopDestinataire);
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(1));
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(3));
-
-                    Shop shopDestinataire = new Shop(res.getString(7));
-                    shopDestinataire.setNom(res.getString(8));
-                    itemDispatch.setShop(shopDestinataire);
 
                     listeItemsDispatch.add(itemDispatch);
                 }
@@ -171,16 +169,15 @@ public class ItemDispatchDao {
                     shopExpediteur.setNom(res.getString(6));
                     dispatch.setShop(shopExpediteur);
 
+                    Shop shopDestinataire = new Shop(res.getString(7));
+                    shopDestinataire.setNom(res.getString(8));
+
                     Produit produit = new Produit(res.getString(9));
                     produit.setDescription(res.getString(10));
 
-                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit, shopDestinataire);
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(1));
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(3));
-
-                    Shop shopDestinataire = new Shop(res.getString(7));
-                    shopDestinataire.setNom(res.getString(8));
-                    itemDispatch.setShop(shopDestinataire);
 
                     listeItemsDispatch.add(itemDispatch);
                 }
@@ -225,16 +222,15 @@ public class ItemDispatchDao {
                     shopExpediteur.setNom(res.getString(6));
                     dispatch.setShop(shopExpediteur);
 
+                    Shop shopDestinataire = new Shop(res.getString(7));
+                    shopDestinataire.setNom(res.getString(8));
+
                     Produit produit = new Produit(res.getString(9));
                     produit.setDescription(res.getString(10));
 
-                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit);
+                    ItemDispatch itemDispatch = new ItemDispatch(dispatch, produit, shopDestinataire);
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(1));
                     itemDispatch.setQuantiteProduit(res.getBigDecimal(3));
-
-                    Shop shopDestinataire = new Shop(res.getString(7));
-                    shopDestinataire.setNom(res.getString(8));
-                    itemDispatch.setShop(shopDestinataire);
 
                     prs.close();
                     res.close();

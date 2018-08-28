@@ -637,12 +637,11 @@ public class OperationEntreeStock extends JInternalFrame {
 
         btnEditarPrixAchat.setVisible(true);
 
-        BigDecimal nb = new BigDecimal("0");
         try {
 
             lblProduitStockActuel.setText(new StringBuilder("Stock actuel: ")
                     .append(StockProduitService.getInstance()
-                            .selectionnerQuantiteStockProduitTousLesShopsParIdProduit(produit.getId())).toString());
+                            .selectionnerQuantiteStockProduitTousLesShopsParIdProduit(produit.getId()).toString()).toString());
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(OperationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);
@@ -744,7 +743,7 @@ public class OperationEntreeStock extends JInternalFrame {
 
         for (ItemEntreeStock ies : itemsEntreeStock) {
             dataRows[0] = ies.getProduit().getDescription();
-            dataRows[1] = ies.getQuantiteProduit();
+            dataRows[1] = Double.parseDouble(ies.getQuantiteProduit().toString());
             dataRows[2] = Double.parseDouble(ies.getProduit().getPrixAchatProduit().getValeurUSD().toString());
             dataRows[3] = Double.parseDouble(ies.getProduit().getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()).toString());
 
