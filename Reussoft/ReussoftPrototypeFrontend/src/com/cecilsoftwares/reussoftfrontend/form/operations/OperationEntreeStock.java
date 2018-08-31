@@ -6,6 +6,7 @@ import com.cecilsoftwares.reussoftfrontend.form.registres.RegistreTaux;
 import com.cecilsoftwares.reussoftbackend.service.EntreeStockService;
 import com.cecilsoftwares.reussoftbackend.service.FournisseurService;
 import com.cecilsoftwares.reussoftbackend.service.ProduitService;
+import com.cecilsoftwares.reussoftbackend.service.StockProduitService;
 import com.cecilsoftwares.reussoftbackend.service.TauxService;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationEntreeStock;
 import com.cecilsoftwares.reussoftfrontend.dialog.ConsultationFournisseur;
@@ -16,6 +17,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.ItemEntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
+import com.cecilsoftwares.reussoftmiddleend.model.StockProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
@@ -55,6 +57,9 @@ public class OperationEntreeStock extends JInternalFrame {
 
     private Produit produitSelectionne;
     private List<ItemEntreeStock> itemsEntreeStock;
+    private StockProduit stockProduit;
+    private List<StockProduit> listeStockProduit;
+
     private final DefaultTableModel defaultTableModel;
     private final Object dataRows[];
 
@@ -65,6 +70,8 @@ public class OperationEntreeStock extends JInternalFrame {
 
         defaultTableModel = (DefaultTableModel) tblItemsEntreeStock.getModel();
         dataRows = new Object[4];
+
+        listeStockProduit = new ArrayList();
 
         effacerFormulaire();
         onInit();
@@ -438,6 +445,7 @@ public class OperationEntreeStock extends JInternalFrame {
         habiliterComposantFormulaire(false);
 
         EntreeStock entreeStock = new EntreeStock(idEntreeStock);
+        entreeStock.setNumeroEntreeStock(tfdNumeroEntreeStock.getText());
         entreeStock.setFournisseur(new Fournisseur(idFournisseur));
         entreeStock.setValeurTotalCoutUSD(new BigDecimal(tfdValeurUSD.getText()));
         entreeStock.setValeurTotalCoutFC(new BigDecimal(tfdValeurFC.getText()));
@@ -489,6 +497,7 @@ public class OperationEntreeStock extends JInternalFrame {
                 }
 
                 itemsEntreeStock.add(itemEntreeStock);
+                listeStockProduit.add(stockProduit);
             }
 
             listerItemsEntreeStock();
@@ -523,11 +532,14 @@ public class OperationEntreeStock extends JInternalFrame {
         if (entreeStock == null) {
             return;
         }
+        idEntreeStock = entreeStock.getId();
         tfdNumeroEntreeStock.setText(entreeStock.getNumeroEntreeStock());
         tfdEntrepriseFournisseur.setText(new StringBuilder(entreeStock.getFournisseur().getEntreprise()).append(" - ")
                 .append(entreeStock.getFournisseur().getResponsable()).toString());
 
         lblTauxCarte.setText("Taux carte:" + "Valeur");
+
+        idFournisseur = entreeStock.getFournisseur().getId();
 
         itemsEntreeStock = entreeStock.getItemsEntreeStock();
 
@@ -557,8 +569,11 @@ public class OperationEntreeStock extends JInternalFrame {
             tfdValeurFC.setEditable(false);
         } else {
             tfdValeurFC.setText(entreeStock.getValeurTotalCoutFC().toString());
-
+            tfdValeurFC.setEditable(true);
         }
+
+        modeEdition = true;
+        btnEnregistrer.setText("ACTUALISER");
 
     }
 
@@ -618,6 +633,10 @@ public class OperationEntreeStock extends JInternalFrame {
         if (produit == null) {
             return;
         }
+
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        habiliterComposantFormulaire(false);
+
         produitSelectionne = produit;
         tfdDescriptionProduit.setText(produitSelectionne.getDescription());
         lblPrixAchat.setText(new StringBuilder("Prix d'achat: $")
@@ -625,13 +644,24 @@ public class OperationEntreeStock extends JInternalFrame {
 
         btnEditarPrixAchat.setVisible(true);
 
-        lblProduitStockActuel.setText(new StringBuilder("Stock actuel: ")
-                .append(produitSelectionne.getPrixAchatProduit().getValeurUSD().toString())
-                .append(" temp").toString());
+        try {
+            stockProduit = StockProduitService.getInstance()
+                    .selectionnerStockProduitTousLesShopsParIdProduitSansDetail(produit.getId());
+
+            lblProduitStockActuel.setText(new StringBuilder("Stock actuel: ")
+                    .append(stockProduit.getQuantiteStock().toString()).toString());
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(OperationEntreeStock.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         btnAjouterProduit.setEnabled(true);
+        modeEditionItemEntreeStock = false;
 
         spnQuantiteProduit.requestFocus();
+
+        habiliterComposantFormulaire(true);
+        setCursor(Cursor.getDefaultCursor());
 
     }
 
@@ -647,9 +677,30 @@ public class OperationEntreeStock extends JInternalFrame {
 
             itemEntreeStock = itemsEntreeStock.get(row);
 
+            if (itemEntreeStock == null) {
+                return;
+            }
+
             spnQuantiteProduit.setValue(itemEntreeStock.getQuantiteProduit());
+            spnQuantiteProduit.requestFocus();
+
+            produitSelectionne = itemEntreeStock.getProduit();
+            tfdDescriptionProduit.setText(produitSelectionne.getDescription());
+            lblPrixAchat.setText(new StringBuilder("Prix d'achat: $")
+                    .append(produitSelectionne.getPrixAchatProduit().getValeurUSD().toString()).toString());
+
+            btnEditarPrixAchat.setVisible(true);
+
+            StockProduit sp = listeStockProduit.stream()
+                    .filter(lsp -> lsp.getProduit().getId().equals(produitSelectionne.getId()))
+                    .findFirst().orElse(null);
+
+            lblProduitStockActuel.setText(new StringBuilder("Stock actuel: ")
+                    .append(sp.getQuantiteStock().toString()).toString());
+
             modeEditionItemEntreeStock = true;
-            setProduitSelectionne(itemEntreeStock.getProduit());
+            btnAjouterProduit.setEnabled(true);
+
         }
     }//GEN-LAST:event_tblItemsEntreeStockMouseClicked
 
@@ -664,6 +715,13 @@ public class OperationEntreeStock extends JInternalFrame {
             for (ItemEntreeStock ies : listeItemsEntreeStock) {
                 if (ies.getProduit().getId().equals(itemsEntreeStock.get(row).getProduit().getId())) {
                     itemsEntreeStock.remove(ies);
+
+                    StockProduit sp = listeStockProduit.stream()
+                            .filter(lsp -> lsp.getProduit().getId().equals(ies.getProduit().getId()))
+                            .findFirst().orElse(null);
+
+                    listeStockProduit.remove(sp);
+
                     modeEditionItemEntreeStock = false;
                     exclu = true;
                     break;
@@ -720,7 +778,7 @@ public class OperationEntreeStock extends JInternalFrame {
 
         for (ItemEntreeStock ies : itemsEntreeStock) {
             dataRows[0] = ies.getProduit().getDescription();
-            dataRows[1] = ies.getQuantiteProduit();
+            dataRows[1] = Double.parseDouble(ies.getQuantiteProduit().toString());
             dataRows[2] = Double.parseDouble(ies.getProduit().getPrixAchatProduit().getValeurUSD().toString());
             dataRows[3] = Double.parseDouble(ies.getProduit().getPrixAchatProduit().getValeurUSD().multiply(ies.getQuantiteProduit()).toString());
 
@@ -796,12 +854,17 @@ public class OperationEntreeStock extends JInternalFrame {
         itemsEntreeStock.clear();
         defaultTableModel.setRowCount(0);
 
+        stockProduit = null;
+        listeStockProduit.clear();
+
         lblTotalAPayer.setText("");
         lblNombreItemEntreeStock.setText("");
 
         tfdValeurUSD.setText("");
         tfdValeurFC.setText("");
         tfdValeurFC.setEditable(false);
+
+        btnEnregistrer.setText("ENREGISTRER");
 
         habiliterComposantFormulaire(true);
 
@@ -813,6 +876,8 @@ public class OperationEntreeStock extends JInternalFrame {
         lblPrixAchat.setText("");
         lblProduitStockActuel.setText("");
         modeEditionItemEntreeStock = false;
+
+        stockProduit = null;
 
         btnEditarPrixAchat.setVisible(false);
         btnAjouterProduit.setEnabled(false);

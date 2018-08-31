@@ -38,6 +38,7 @@ public class ShopDao {
             scriptSQL = new StringBuilder("SELECT shop.id, shop.nom, shop.adresse, shop.active,");
             scriptSQL.append(" shop.idTauxCarte, tauxcarte.valeur, tauxcarte.dateHeure");
             scriptSQL.append(" FROM shop JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
+            scriptSQL.append(" ORDER BY shop.nom");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

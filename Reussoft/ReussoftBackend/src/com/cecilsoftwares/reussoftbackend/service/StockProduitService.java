@@ -30,8 +30,24 @@ public class StockProduitService {
         return StockProduitDao.getInstance().listerTousLesStockProduit();
     }
 
-    public StockProduit selectionnerStockProduitParProduitId(String idProduit) throws ClassNotFoundException, SQLException {
-        return StockProduitDao.getInstance().selectionnerStockProduitParProduitId(idProduit);
+    public StockProduit selectionnerStockProduitParIdProduitEIdShopAvecDetail(String idProduit, String idShop)
+            throws ClassNotFoundException, SQLException {
+        return StockProduitDao.getInstance().selectionnerStockProduitParIdProduitEIdShopAvecDetail(idProduit, idShop);
+    }
+
+    public StockProduit selectionnerStockProduitParIdProduitEIdShopSansDetail(String idProduit, String idShop)
+            throws ClassNotFoundException, SQLException {
+        return StockProduitDao.getInstance().selectionnerStockProduitParIdProduitEIdShopSansDetail(idProduit, idShop);
+    }
+
+    public StockProduit selectionnerStockProduitTousLesShopsParIdProduitAvecDetail(String idProduit)
+            throws ClassNotFoundException, SQLException {
+        return StockProduitDao.getInstance().selectionnerStockProduitTousLesShopsParIdProduitAvecDetail(idProduit);
+    }
+
+    public StockProduit selectionnerStockProduitTousLesShopsParIdProduitSansDetail(String idProduit)
+            throws ClassNotFoundException, SQLException {
+        return StockProduitDao.getInstance().selectionnerStockProduitTousLesShopsParIdProduitSansDetail(idProduit);
     }
 
     public boolean entrerStock(Produit produit, Shop shop, BigDecimal quantiteMouvement, Connection connection)

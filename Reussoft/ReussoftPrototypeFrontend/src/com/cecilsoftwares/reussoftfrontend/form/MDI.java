@@ -923,7 +923,7 @@ public class MDI extends javax.swing.JFrame {
                 jDesktopPane.getWidth() / 2 - rapportStockProduit.getWidth() / 2,
                 jDesktopPane.getHeight() / 2 - rapportStockProduit.getHeight() / 2);
 
-        rapportEntreeStock.setVisible(true);
+        rapportStockProduit.setVisible(true);
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 

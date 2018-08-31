@@ -37,6 +37,7 @@ public class ProfilUtilisateurDao {
 
             scriptSQL = new StringBuilder("SELECT id, description, descriptionAbregee");
             scriptSQL.append(" FROM profilutilisateur");
+            scriptSQL.append(" ORDER BY description");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

@@ -34,6 +34,7 @@ public class CategorieProduitDao {
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT id, description, descriptionAbregee");
             scriptSQL.append(" FROM categorieproduit");
+            scriptSQL.append(" ORDER BY description");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

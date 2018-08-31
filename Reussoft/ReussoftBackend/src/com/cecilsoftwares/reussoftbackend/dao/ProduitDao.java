@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Plamedi L. Lusembo
@@ -46,6 +48,7 @@ public class ProduitDao {
             scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.id");
             scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.id");
             scriptSQL.append(" LEFT JOIN prixachatproduit ON produit.idPrixAchat = prixachatproduit.id");
+            scriptSQL.append(" ORDER BY produit.description");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -136,10 +139,14 @@ public class ProduitDao {
         return null;
     }
 
-    public boolean enregistrerProduit(Produit produit) throws ClassNotFoundException, SQLException {
+    public boolean enregistrerProduit(Produit produit) {
         PreparedStatement prs;
+        Connection connection = null;
+        try {
+            connection = ConnectionFactory.getInstance().habiliterConnection();
 
-        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
+            connection.setAutoCommit(false);
+
             scriptSQL = new StringBuilder("INSERT INTO produit(");
             scriptSQL.append(" description, idCategorieProduit, idReseau, active, id )");
             scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
@@ -175,10 +182,30 @@ public class ProduitDao {
             prs.setString(2, produit.getId());
 
             prs.execute();
+
+            connection.commit();
+
             prs.close();
             connection.close();
+            return true;
+        } catch (ClassNotFoundException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ProduitDao.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(ProduitDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ProduitDao.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(ProduitDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        return true;
+
     }
 
     public boolean actualiserProduit(Produit produit) throws ClassNotFoundException, SQLException {

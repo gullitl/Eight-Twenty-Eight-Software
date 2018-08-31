@@ -199,6 +199,19 @@ public class RegistreClient extends JInternalFrame {
         setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_btnConsulterClientActionPerformed
 
+    public void clientSelectionne(Client client) {
+        if (client == null) {
+            return;
+        }
+        idClient = client.getId();
+        tfdNom.setText(client.getNom());
+        tfdEntreprise.setText(client.getEntreprise());
+        tfdTelephone.setText(client.getTelephone());
+        btnEnregistrer.setText("ACTUALISER");
+        modeEdition = true;
+        btnExclure.setEnabled(true);
+    }
+
     private void btnExclureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExclureActionPerformed
         Object[] options = {"Exclure", "Annuler"};
         int n = JOptionPane.showOptionDialog(this,
@@ -237,19 +250,6 @@ public class RegistreClient extends JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnExclureActionPerformed
-
-    public void clientSelectionne(Client client) {
-        if (client == null) {
-            return;
-        }
-        idClient = client.getId();
-        tfdNom.setText(client.getNom());
-        tfdEntreprise.setText(client.getEntreprise());
-        tfdTelephone.setText(client.getTelephone());
-        btnEnregistrer.setText("ACTUALISER");
-        modeEdition = true;
-        btnExclure.setEnabled(true);
-    }
 
     private void effacerFormulaire() {
         idClient = "";

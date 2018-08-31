@@ -41,7 +41,7 @@ public class SortieStockDao {
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             listeSortiesStock = new ArrayList();
 
-            scriptSQL = new StringBuilder("SELECT sortiestock.id, sortiestock.dateHeure,");
+            scriptSQL = new StringBuilder("SELECT sortiestock.id, sortiestock.numeroSortieStock, sortiestock.dateHeure,");
             scriptSQL.append(" sortiestock.idShop, shop.nom,");
             scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone");
             scriptSQL.append(" FROM sortiestock");
@@ -54,16 +54,17 @@ public class SortieStockDao {
                 while (res.next()) {
 
                     SortieStock entreeStock = new SortieStock(res.getString(1));
-                    entreeStock.setDateHeure(res.getTimestamp(2));
+                    entreeStock.setNumeroSortieStock(res.getString(2));
+                    entreeStock.setDateHeure(res.getTimestamp(3));
 
-                    Shop shop = new Shop(res.getString(3));
-                    shop.setNom(res.getString(4));
+                    Shop shop = new Shop(res.getString(4));
+                    shop.setNom(res.getString(5));
                     entreeStock.setShop(shop);
 
-                    Client client = new Client(res.getString(5));
-                    client.setEntreprise(res.getString(6));
-                    client.setNom(res.getString(7));
-                    client.setTelephone(res.getString(8));
+                    Client client = new Client(res.getString(6));
+                    client.setEntreprise(res.getString(7));
+                    client.setNom(res.getString(8));
+                    client.setTelephone(res.getString(9));
                     entreeStock.setClient(client);
 
                     listeSortiesStock.add(entreeStock);
@@ -85,7 +86,7 @@ public class SortieStockDao {
             listeSortiesStock = new ArrayList();
 
             scriptSQL = new StringBuilder("SELECT itemsortiestock.quantiteProduit,");
-            scriptSQL.append(" itemsortiestock.idSortieStock, sortiestock.dateHeure,");
+            scriptSQL.append(" itemsortiestock.idSortieStock, sortiestock.numeroSortieStock, sortiestock.dateHeure,");
             scriptSQL.append(" sortiestock.idShop, shop.nom,");
             scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
@@ -113,27 +114,28 @@ public class SortieStockDao {
                 while (res.next()) {
 
                     SortieStock sortieStock = new SortieStock(res.getString(2));
-                    sortieStock.setDateHeure(res.getTimestamp(3));
+                    sortieStock.setNumeroSortieStock(res.getString(3));
+                    sortieStock.setDateHeure(res.getTimestamp(4));
 
-                    Shop shop = new Shop(res.getString(4));
-                    shop.setNom(res.getString(5));
+                    Shop shop = new Shop(res.getString(5));
+                    shop.setNom(res.getString(6));
                     sortieStock.setShop(shop);
 
-                    Client client = new Client(res.getString(6));
-                    client.setNom(res.getString(7));
-                    client.setEntreprise(res.getString(8));
-                    client.setTelephone(res.getString(9));
+                    Client client = new Client(res.getString(7));
+                    client.setNom(res.getString(8));
+                    client.setEntreprise(res.getString(9));
+                    client.setTelephone(res.getString(10));
                     sortieStock.setClient(client);
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
+                    Produit produit = new Produit(res.getString(11));
+                    produit.setDescription(res.getString(12));
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
                     itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(1)));
 
-                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getString(12));
-                    prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixVenteProduit.setDateHeure(res.getTimestamp(14));
+                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getString(13));
+                    prixVenteProduit.setValeurUSD(res.getBigDecimal(14));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(15));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
 
                     if (id.equals(sortieStock.getId())) {
@@ -172,7 +174,7 @@ public class SortieStockDao {
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("SELECT itemsortiestock.quantiteProduit,");
-            scriptSQL.append(" itemsortiestock.idSortieStock, sortiestock.dateHeure,");
+            scriptSQL.append(" itemsortiestock.idSortieStock, sortiestock.numeroSortieStock, sortiestock.dateHeure,");
             scriptSQL.append(" sortiestock.idShop, shop.nom,");
             scriptSQL.append(" sortiestock.idClient, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" itemsortiestock.idProduto, produit.description,");
@@ -198,27 +200,28 @@ public class SortieStockDao {
                 while (res.next()) {
 
                     SortieStock sortieStock = new SortieStock(res.getString(2));
-                    sortieStock.setDateHeure(res.getTimestamp(3));
+                    sortieStock.setNumeroSortieStock(res.getString(3));
+                    sortieStock.setDateHeure(res.getTimestamp(4));
 
-                    Shop shop = new Shop(res.getString(4));
-                    shop.setNom(res.getString(5));
+                    Shop shop = new Shop(res.getString(5));
+                    shop.setNom(res.getString(6));
                     sortieStock.setShop(shop);
 
-                    Client client = new Client(res.getString(6));
-                    client.setNom(res.getString(7));
-                    client.setEntreprise(res.getString(8));
-                    client.setTelephone(res.getString(9));
+                    Client client = new Client(res.getString(7));
+                    client.setNom(res.getString(8));
+                    client.setEntreprise(res.getString(9));
+                    client.setTelephone(res.getString(10));
                     sortieStock.setClient(client);
 
-                    Produit produit = new Produit(res.getString(10));
-                    produit.setDescription(res.getString(11));
+                    Produit produit = new Produit(res.getString(11));
+                    produit.setDescription(res.getString(12));
 
                     ItemSortieStock itemSortieStock = new ItemSortieStock(sortieStock, produit);
                     itemSortieStock.setQuantiteProduit(new BigDecimal(res.getString(1)));
 
-                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getString(12));
-                    prixVenteProduit.setValeurUSD(res.getBigDecimal(13));
-                    prixVenteProduit.setDateHeure(res.getTimestamp(14));
+                    PrixVenteProduit prixVenteProduit = new PrixVenteProduit(res.getString(13));
+                    prixVenteProduit.setValeurUSD(res.getBigDecimal(14));
+                    prixVenteProduit.setDateHeure(res.getTimestamp(15));
                     itemSortieStock.setPrixVenteProduit(prixVenteProduit);
 
                     listeItemsSortieStock.add(itemSortieStock);
@@ -248,15 +251,16 @@ public class SortieStockDao {
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
 
             scriptSQL = new StringBuilder("INSERT INTO sortiestock(");
-            scriptSQL.append(" idShop, idClient, dateHeure, id)");
-            scriptSQL.append(" VALUES (?, ?, ?, ?)");
+            scriptSQL.append(" numeroSortieStock, idShop, idClient, dateHeure, id)");
+            scriptSQL.append(" VALUES (?, ?, ?, ?, ?)");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
 
-            prs.setString(1, sortieStock.getShop().getId());
-            prs.setString(2, sortieStock.getClient().getId());
-            prs.setTimestamp(3, new Timestamp(sortieStock.getDateHeure().getTime()));
-            prs.setString(4, sortieStock.getId());
+            prs.setString(1, sortieStock.getNumeroSortieStock());
+            prs.setString(2, sortieStock.getShop().getId());
+            prs.setString(3, sortieStock.getClient().getId());
+            prs.setTimestamp(4, new Timestamp(sortieStock.getDateHeure().getTime()));
+            prs.setString(5, sortieStock.getId());
             prs.execute();
 
             for (ItemSortieStock itemSortieStock : sortieStock.getItemsSortieStock()) {

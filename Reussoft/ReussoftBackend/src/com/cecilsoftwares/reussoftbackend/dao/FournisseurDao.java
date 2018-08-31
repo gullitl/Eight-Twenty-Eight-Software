@@ -34,6 +34,7 @@ public class FournisseurDao {
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT id, responsable, entreprise, telephone");
             scriptSQL.append(" FROM fournisseur");
+            scriptSQL.append(" ORDER BY entreprise");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

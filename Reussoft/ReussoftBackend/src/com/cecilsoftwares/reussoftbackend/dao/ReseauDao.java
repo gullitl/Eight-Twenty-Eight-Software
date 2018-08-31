@@ -34,6 +34,7 @@ public class ReseauDao {
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT id, nom, nomAbrege, active");
             scriptSQL.append(" FROM reseau");
+            scriptSQL.append(" ORDER BY nom");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

@@ -16,9 +16,10 @@ public class ItemDispatch {
 
     }
 
-    public ItemDispatch(Dispatch dispatch, Produit produit) {
+    public ItemDispatch(Dispatch dispatch, Produit produit, Shop shop) {
         this.dispatch = dispatch;
         this.produit = produit;
+        this.shop = shop;
     }
 
     public Dispatch getDispatch() {

@@ -43,6 +43,7 @@ public class SessionUtilisateurDao {
             scriptSQL.append(" FROM sessionutilisateur");
             scriptSQL.append(" LEFT JOIN collaborateur ON sessionutilisateur.idSessionUtilisateur = collaborateur.id");
             scriptSQL.append(" LEFT JOIN shop ON sessionutilisateur.idShop = shop.id");
+            scriptSQL.append(" ORDER BY sessionutilisateur.dateHeure, sessionutilisateur.action");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

@@ -36,6 +36,7 @@ public class ClientDao {
             scriptSQL = new StringBuilder("SELECT client.id, client.nom, client.entreprise, client.telephone,");
             scriptSQL.append(" client.idShop, shop.nom, shop.adresse, shop.active");
             scriptSQL.append(" FROM client LEFT JOIN shop ON client.idShop = shop.id");
+            scriptSQL.append(" ORDER BY client.nom");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
@@ -164,8 +165,8 @@ public class ClientDao {
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             prs.setString(1, idClient);
-
             prs.execute();
+
             prs.close();
             connection.close();
         }

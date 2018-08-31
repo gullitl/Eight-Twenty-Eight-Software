@@ -42,6 +42,7 @@ public class PrixVenteProduitDao {
             scriptSQL.append(" FROM prixventeproduit");
             scriptSQL.append(" LEFT JOIN produit ON prixventeproduit.idProduit = produit.id");
             scriptSQL.append(" LEFT JOIN shop ON prixventeproduit.idShop = shop.id");
+            scriptSQL.append(" ORDER BY shop.nom, produit.Description");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();

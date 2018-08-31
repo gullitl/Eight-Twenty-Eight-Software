@@ -43,6 +43,7 @@ public class TauxDao {
             scriptSQL.append(" tauxcarte.idShop, shop.nom, shop.adresse");
             scriptSQL.append(" FROM tauxcarte");
             scriptSQL.append(" LEFT JOIN shop ON tauxcarte.idShop = shop.id");
+            scriptSQL.append(" ORDER BY tauxcarte.dateHeure");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
             res = prs.executeQuery();
