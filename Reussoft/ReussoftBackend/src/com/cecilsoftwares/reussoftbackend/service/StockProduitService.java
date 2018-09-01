@@ -26,8 +26,16 @@ public class StockProduitService {
         return uniqueInstance;
     }
 
-    public List<StockProduit> listerTousLesStockProduit() throws ClassNotFoundException, SQLException {
-        return StockProduitDao.getInstance().listerTousLesStockProduit();
+    public List<StockProduit> listerTousLesStockProduitAvecDetail() throws ClassNotFoundException, SQLException {
+        return StockProduitDao.getInstance().listerTousLesStockProduitAvecDetail();
+    }
+
+    public List<StockProduit> listerTousLesStockProduitSansDetail() throws ClassNotFoundException, SQLException {
+        return StockProduitDao.getInstance().listerTousLesStockProduitSansDetail();
+    }
+
+    public List<StockProduit> listerTotalStockProduit() throws ClassNotFoundException, SQLException {
+        return StockProduitDao.getInstance().listerTotalStockProduit();
     }
 
     public StockProduit selectionnerStockProduitParIdProduitEIdShopAvecDetail(String idProduit, String idShop)

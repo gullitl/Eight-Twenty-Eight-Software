@@ -33,13 +33,13 @@ public class StockProduitDao {
         return uniqueInstance;
     }
 
-    public List<StockProduit> listerTousLesStockProduit() throws ClassNotFoundException, SQLException {
+    public List<StockProduit> listerTousLesStockProduitAvecDetail() throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
         List<StockProduit> listeStocksProduit;
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
-            scriptSQL = new StringBuilder("stockproduit.idProduit, produit.description, produit.active,");
+            scriptSQL = new StringBuilder("SELECT stockproduit.idProduit, produit.description, produit.active,");
             scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
             scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege,");
             scriptSQL.append(" produit.idPrixachat, prixachatproduit.valeurUSD, prixachatproduit.dateHeure,");
@@ -83,6 +83,60 @@ public class StockProduitDao {
                     StockProduit stockProduit = new StockProduit(produit, shop);
                     stockProduit.setQuantiteStock(res.getBigDecimal(res.getString(15)));
 
+                    listeStocksProduit.add(stockProduit);
+                }
+            }
+            prs.close();
+            res.close();
+            conexao.close();
+        }
+        return listeStocksProduit;
+    }
+
+    public List<StockProduit> listerTousLesStockProduitSansDetail() throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+        List<StockProduit> listeStocksProduit;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("SELECT idProduit, idShop, quantiteStock FROM stockproduit");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            res = prs.executeQuery();
+
+            listeStocksProduit = new ArrayList();
+            if (res != null) {
+                while (res.next()) {
+                    StockProduit stockProduit = new StockProduit(new Produit(res.getString(1)), new Shop(res.getString(2)));
+                    stockProduit.setQuantiteStock(res.getBigDecimal(res.getString(3)));
+                    listeStocksProduit.add(stockProduit);
+                }
+            }
+            prs.close();
+            res.close();
+            conexao.close();
+        }
+        return listeStocksProduit;
+    }
+
+    public List<StockProduit> listerTotalStockProduit() throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+        List<StockProduit> listeStocksProduit;
+
+        try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
+            scriptSQL = new StringBuilder("SELECT idProduit, SUM(quantiteStock)");
+            scriptSQL = scriptSQL.append("FROM stockproduit");
+            scriptSQL = scriptSQL.append("GROUP BY idProduit");
+
+            prs = ((PreparedStatement) conexao.prepareStatement(scriptSQL.toString()));
+            res = prs.executeQuery();
+
+            listeStocksProduit = new ArrayList();
+            if (res != null) {
+                while (res.next()) {
+                    StockProduit stockProduit = new StockProduit(new Produit(res.getString(1)));
+                    stockProduit.setQuantiteStock(res.getBigDecimal(res.getString(2)));
                     listeStocksProduit.add(stockProduit);
                 }
             }

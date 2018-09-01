@@ -77,7 +77,7 @@ public class MDI extends javax.swing.JFrame {
                 options, //the titles of buttons
                 options[0]); //default button title
 
-        if (n == 1) {
+        if (n >= 0) {
             setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         } else {
             setVisible(false);

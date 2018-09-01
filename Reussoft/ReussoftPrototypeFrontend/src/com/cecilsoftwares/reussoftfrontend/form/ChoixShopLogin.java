@@ -132,10 +132,6 @@ public class ChoixShopLogin extends javax.swing.JFrame {
 
             shop = shops.get(row);
 
-//            shop = shops.stream()
-//                    .filter(s -> s.getCode() == (int) defaultTableModel.getValueAt(row, 0))
-//                    .findFirst().orElse(null);
-
             /* Create and display the login form */
             java.awt.EventQueue.invokeLater(() -> {
                 Login login = new Login(shop);
