@@ -2,6 +2,7 @@ package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Client;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,10 +51,11 @@ public class ClientDao {
                     client.setEntreprise(res.getString(3));
                     client.setTelephone(res.getString(4));
 
-                    Shop shop = new Shop(res.getString(5));
-                    shop.setNom(res.getString(6));
-                    shop.setAdresse(res.getString(7));
-                    shop.setActive(res.getInt(8) == 0);
+                    Shop shop = new ShopBuilder(res.getString(5))
+                            .withNom(res.getString(6))
+                            .withAdresse(res.getString(7))
+                            .withActive(res.getInt(8) == 0)
+                            .create();
 
                     client.setShop(shop);
 
@@ -89,10 +91,11 @@ public class ClientDao {
                     client.setEntreprise(res.getString(3));
                     client.setTelephone(res.getString(4));
 
-                    Shop shop = new Shop(res.getString(5));
-                    shop.setNom(res.getString(6));
-                    shop.setAdresse(res.getString(7));
-                    shop.setActive(res.getInt(8) == 0);
+                    Shop shop = new ShopBuilder(res.getString(5))
+                            .withNom(res.getString(6))
+                            .withAdresse(res.getString(7))
+                            .withActive(res.getInt(8) == 0)
+                            .create();
 
                     client.setShop(shop);
 

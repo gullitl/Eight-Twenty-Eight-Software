@@ -3,6 +3,7 @@ package com.cecilsoftwares.reussoftbackend.dao;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,10 +59,11 @@ public class CollaborateurDao {
                     collaborateur.setNomUtilisateur(res.getString(7));
                     collaborateur.setMotDePasse(res.getString(8));
 
-                    Shop shop = new Shop(res.getString(9));
-                    shop.setNom(res.getString(10));
-                    shop.setAdresse(res.getString(11));
-                    shop.setActive(res.getInt(12) == 1);
+                    Shop shop = new ShopBuilder(res.getString(9))
+                            .withNom(res.getString(10))
+                            .withAdresse(res.getString(11))
+                            .withActive(res.getInt(12) == 1).create();
+
                     collaborateur.setShop(shop);
 
                     ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getString(13));
@@ -117,10 +119,11 @@ public class CollaborateurDao {
                     collaborateur.setNomUtilisateur(res.getString(7));
                     collaborateur.setMotDePasse(res.getString(8));
 
-                    Shop shop = new Shop(res.getString(9));
-                    shop.setNom(res.getString(10));
-                    shop.setAdresse(res.getString(11));
-                    shop.setActive(res.getInt(12) == 1);
+                    Shop shop = new ShopBuilder(res.getString(9))
+                            .withNom(res.getString(10))
+                            .withAdresse(res.getString(11))
+                            .withActive(res.getInt(12) == 1).create();
+
                     collaborateur.setShop(shop);
 
                     ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getString(13));
@@ -170,10 +173,11 @@ public class CollaborateurDao {
                     collaborateur.setNomUtilisateur(res.getString(7));
                     collaborateur.setMotDePasse(res.getString(8));
 
-                    Shop shop = new Shop(res.getString(9));
-                    shop.setNom(res.getString(10));
-                    shop.setAdresse(res.getString(11));
-                    shop.setActive(res.getInt(12) == 1);
+                    Shop shop = new ShopBuilder(res.getString(9))
+                            .withNom(res.getString(10))
+                            .withAdresse(res.getString(11))
+                            .withActive(res.getInt(12) == 1).create();
+
                     collaborateur.setShop(shop);
 
                     ProfilUtilisateur profilUtilisateur = new ProfilUtilisateur(res.getString(13));

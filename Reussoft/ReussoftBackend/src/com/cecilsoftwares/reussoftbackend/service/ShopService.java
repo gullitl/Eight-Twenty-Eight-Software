@@ -1,8 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ShopDao;
-import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import static com.cecilsoftwares.reussoftmiddleend.util.IdGenerator.generateId;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -40,8 +40,8 @@ public class ShopService {
         }
     }
 
-    public boolean exclureShop(String idShop) throws ClassNotFoundException, SQLException {
-        return ShopDao.getInstance().exclureShop(idShop);
+    public boolean exclureShop(Shop shop) throws ClassNotFoundException, SQLException {
+        return ShopDao.getInstance().exclureShop(shop);
     }
 
 }

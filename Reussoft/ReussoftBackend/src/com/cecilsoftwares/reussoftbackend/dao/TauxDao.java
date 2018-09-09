@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxMonnaie;
 import java.math.BigDecimal;
@@ -54,9 +55,11 @@ public class TauxDao {
                     tauxCarte.setDateHeure(res.getTimestamp(2));
                     tauxCarte.setValeur(new BigDecimal(res.getString(3)));
 
-                    Shop shop = new Shop(res.getString(4));
-                    shop.setNom(res.getString(5));
-                    shop.setAdresse(res.getString(6));
+                    Shop shop = new ShopBuilder(res.getString(4))
+                            .withNom(res.getString(5))
+                            .withAdresse(res.getString(6))
+                            .create();
+
                     tauxCarte.setShop(shop);
 
                     listeTauxCartes.add(tauxCarte);
@@ -91,9 +94,11 @@ public class TauxDao {
                     tauxCarte.setDateHeure(res.getTimestamp(2));
                     tauxCarte.setValeur(new BigDecimal(res.getString(3)));
 
-                    Shop shop = new Shop(res.getString(4));
-                    shop.setNom(res.getString(5));
-                    shop.setAdresse(res.getString(6));
+                    Shop shop = new ShopBuilder(res.getString(4))
+                            .withNom(res.getString(5))
+                            .withAdresse(res.getString(6))
+                            .create();
+
                     tauxCarte.setShop(shop);
 
                     prs.close();

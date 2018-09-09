@@ -46,14 +46,40 @@ public class MainService {
         }
 
         boolean connecte = false;
+        int nombreTentative = 0;
         do {
             try {
                 System.out.println(ConnectionFactory.getInstance().habiliterConnection());
                 connecte = true;
                 System.out.println("SUCESS");
 
-            } catch (ClassNotFoundException | SQLException ex) {
-                System.out.println("Não conectou: " + ex);
+            } catch (SQLException ex) {
+                System.out.println("La connection a échouée: " + ex);
+                Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, ex);
+                nombreTentative++;
+
+                if (nombreTentative == 10) {
+                    nombreTentative = 0;
+
+                    Object[] options = {"Quitter", "Reessayer"};
+                    int n = JOptionPane.showOptionDialog(null,
+                            "La connection a échouée!",
+                            "Question",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null, //do not use a custom Icon
+                            options, //the titles of buttons
+                            options[0]); //default button title
+
+                    if (n >= 0) {
+                    } else {
+
+                    }
+
+                }
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(MainService.class.getName()).log(Level.SEVERE, null, ex);
             }
         } while (!connecte);
     }

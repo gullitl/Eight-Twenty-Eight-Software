@@ -6,7 +6,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
 import com.cecilsoftwares.reussoftmiddleend.model.EntreeStock;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
-import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -280,7 +280,7 @@ public class EntreeStockDao {
 
                 StockProduitService.getInstance()
                         .entrerStock(itemEntreeStock.getProduit(),
-                                new Shop("[B@7bb11784652#a6f0bc88e"), itemEntreeStock.getQuantiteProduit(), connection);
+                                new ShopBuilder("[B@7bb11784652#a6f0bc88e").create(), itemEntreeStock.getQuantiteProduit(), connection);
 
                 prs.execute();
             }
@@ -351,7 +351,7 @@ public class EntreeStockDao {
 
                     if (!StockProduitService.getInstance()
                             .sortirStock(itemEntreeStock.getProduit(),
-                                    new Shop("[B@7bb11784652#a6f0bc88e"), itemEntreeStock.getQuantiteProduit(), connection)) {
+                                    new ShopBuilder("[B@7bb11784652#a6f0bc88e").create(), itemEntreeStock.getQuantiteProduit(), connection)) {
                         // throw insuficient stock exception
 
                         try {
@@ -386,7 +386,7 @@ public class EntreeStockDao {
 
                 StockProduitService.getInstance()
                         .entrerStock(itemEntreeStock.getProduit(),
-                                new Shop("[B@7bb11784652#a6f0bc88e"), itemEntreeStock.getQuantiteProduit(), connection);
+                                new ShopBuilder("[B@7bb11784652#a6f0bc88e").create(), itemEntreeStock.getQuantiteProduit(), connection);
 
                 prs.execute();
             }

@@ -1,8 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.FournisseurDao;
-import com.cecilsoftwares.reussoftbackend.util.IdGenerator;
 import com.cecilsoftwares.reussoftmiddleend.model.Fournisseur;
+import com.cecilsoftwares.reussoftmiddleend.util.IdGenerator;
 import java.sql.SQLException;
 import java.util.List;
 

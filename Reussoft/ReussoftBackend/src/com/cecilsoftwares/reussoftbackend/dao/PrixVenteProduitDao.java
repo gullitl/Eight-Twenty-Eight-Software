@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.PrixVenteProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixVenteProduitShop;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,10 +60,12 @@ public class PrixVenteProduitDao {
                     produit.setDescription(res.getString(5));
                     prixVenteProduit.setProduit(produit);
 
-                    Shop shop = new Shop(res.getString(6));
-                    shop.setNom(res.getString(7));
-                    shop.setAdresse(res.getString(8));
-                    shop.setActive(res.getInt(9) == 0);
+                    Shop shop = new ShopBuilder(res.getString(6))
+                            .withNom(res.getString(7))
+                            .withAdresse(res.getString(8))
+                            .withActive(res.getInt(9) == 0)
+                            .create();
+
                     prixVenteProduit.setShop(shop);
 
                     listePrixVenteProduits.add(prixVenteProduit);
@@ -105,10 +108,12 @@ public class PrixVenteProduitDao {
                     produit.setDescription(res.getString(5));
                     prixVenteProduit.setProduit(produit);
 
-                    Shop shop = new Shop(res.getString(6));
-                    shop.setNom(res.getString(7));
-                    shop.setAdresse(res.getString(8));
-                    shop.setActive(res.getInt(9) == 0);
+                    Shop shop = new ShopBuilder(res.getString(6))
+                            .withNom(res.getString(7))
+                            .withAdresse(res.getString(8))
+                            .withActive(res.getInt(9) == 0)
+                            .create();
+
                     prixVenteProduit.setShop(shop);
 
                     listePrixVenteProduits.add(prixVenteProduit);
@@ -150,10 +155,12 @@ public class PrixVenteProduitDao {
                     produit.setDescription(res.getString(5));
                     prixVenteProduit.setProduit(produit);
 
-                    Shop shop = new Shop(res.getString(6));
-                    shop.setNom(res.getString(7));
-                    shop.setAdresse(res.getString(8));
-                    shop.setActive(res.getInt(9) == 0);
+                    Shop shop = new ShopBuilder(res.getString(6))
+                            .withNom(res.getString(7))
+                            .withAdresse(res.getString(8))
+                            .withActive(res.getInt(9) == 0)
+                            .create();
+
                     prixVenteProduit.setShop(shop);
 
                     prs.close();

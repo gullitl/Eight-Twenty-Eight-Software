@@ -2,11 +2,11 @@ package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.CollaborateurDao;
 import com.cecilsoftwares.reussoftbackend.dao.SessionUtilisateurDao;
-import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.ks.SessionUtilisateurKS;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import static com.cecilsoftwares.reussoftmiddleend.util.IdGenerator.generateId;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;

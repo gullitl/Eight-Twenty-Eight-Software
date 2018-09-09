@@ -6,6 +6,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.PrixVenteProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.SortieStock;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,8 +63,9 @@ public class ItemSortieStockDao {
                     sortieStock.setNumeroSortieStock(res.getString(3));
                     sortieStock.setDateHeure(res.getTimestamp(4));
 
-                    Shop shop = new Shop(res.getString(5));
-                    shop.setNom(res.getString(6));
+                    Shop shop = new ShopBuilder(res.getString(5))
+                            .withNom(res.getString(6)).create();
+
                     sortieStock.setShop(shop);
 
                     Client client = new Client(res.getString(7));
@@ -125,8 +127,9 @@ public class ItemSortieStockDao {
                     sortieStock.setNumeroSortieStock(res.getString(3));
                     sortieStock.setDateHeure(res.getTimestamp(4));
 
-                    Shop shop = new Shop(res.getString(5));
-                    shop.setNom(res.getString(6));
+                    Shop shop = new ShopBuilder(res.getString(5))
+                            .withNom(res.getString(6)).create();
+
                     sortieStock.setShop(shop);
 
                     Client client = new Client(res.getString(7));
@@ -188,8 +191,8 @@ public class ItemSortieStockDao {
                     sortieStock.setNumeroSortieStock(res.getString(3));
                     sortieStock.setDateHeure(res.getTimestamp(4));
 
-                    Shop shop = new Shop(res.getString(5));
-                    shop.setNom(res.getString(6));
+                    Shop shop = new ShopBuilder(res.getString(5))
+                            .withNom(res.getString(6)).create();
                     sortieStock.setShop(shop);
 
                     Client client = new Client(res.getString(7));
@@ -250,8 +253,8 @@ public class ItemSortieStockDao {
                     sortieStock.setNumeroSortieStock(res.getString(3));
                     sortieStock.setDateHeure(res.getTimestamp(4));
 
-                    Shop shop = new Shop(res.getString(5));
-                    shop.setNom(res.getString(6));
+                    Shop shop = new ShopBuilder(res.getString(5))
+                            .withNom(res.getString(6)).create();
                     sortieStock.setShop(shop);
 
                     Client client = new Client(res.getString(7));

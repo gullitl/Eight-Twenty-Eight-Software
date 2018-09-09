@@ -4,6 +4,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.ItemDispatch;
 import com.cecilsoftwares.reussoftmiddleend.model.Dispatch;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,8 +55,10 @@ public class DispatchDao {
                     dispatch.setDateHeure(res.getTimestamp(3));
                     dispatch.setValide(res.getInt(4) == 1);
 
-                    Shop shop = new Shop(res.getString(5));
-                    shop.setNom(res.getString(6));
+                    Shop shop = new ShopBuilder(res.getString(5))
+                            .withNom(res.getString(6))
+                            .create();
+
                     dispatch.setShop(shop);
 
                     listeDispatch.add(dispatch);
@@ -103,12 +106,15 @@ public class DispatchDao {
                     dispatch.setDateHeure(res.getTimestamp(4));
                     dispatch.setValide(res.getInt(5) == 1);
 
-                    Shop shopExpediteur = new Shop(res.getString(6));
-                    shopExpediteur.setNom(res.getString(7));
+                    Shop shopExpediteur = new ShopBuilder(res.getString(6))
+                            .withNom(res.getString(7))
+                            .create();
+
                     dispatch.setShop(shopExpediteur);
 
-                    Shop shopDestinataire = new Shop(res.getString(8));
-                    shopDestinataire.setNom(res.getString(9));
+                    Shop shopDestinataire = new ShopBuilder(res.getString(8))
+                            .withNom(res.getString(9))
+                            .create();
 
                     Produit produit = new Produit(res.getString(10));
                     produit.setDescription(res.getString(11));
@@ -184,12 +190,15 @@ public class DispatchDao {
                     dispatch.setDateHeure(res.getTimestamp(4));
                     dispatch.setValide(res.getInt(5) == 1);
 
-                    Shop shopExpediteur = new Shop(res.getString(6));
-                    shopExpediteur.setNom(res.getString(7));
+                    Shop shopExpediteur = new ShopBuilder(res.getString(6))
+                            .withNom(res.getString(7))
+                            .create();
+
                     dispatch.setShop(shopExpediteur);
 
-                    Shop shopDestinataire = new Shop(res.getString(8));
-                    shopDestinataire.setNom(res.getString(9));
+                    Shop shopDestinataire = new ShopBuilder(res.getString(8))
+                            .withNom(res.getString(9))
+                            .create();
 
                     Produit produit = new Produit(res.getString(10));
                     produit.setDescription(res.getString(11));

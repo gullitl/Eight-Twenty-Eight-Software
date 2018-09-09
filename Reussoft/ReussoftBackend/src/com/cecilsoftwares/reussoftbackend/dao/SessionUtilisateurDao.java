@@ -3,6 +3,7 @@ package com.cecilsoftwares.reussoftbackend.dao;
 import com.cecilsoftwares.reussoftmiddleend.model.Collaborateur;
 import com.cecilsoftwares.reussoftmiddleend.model.SessionUtilisateur;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,9 +61,11 @@ public class SessionUtilisateurDao {
                     collaborateur.setPostnom(res.getString(7));
                     collaborateur.setSurnom(res.getString(8));
 
-                    Shop shop = new Shop(res.getString(9));
-                    shop.setNom(res.getString(10));
-                    shop.setAdresse(res.getString(11));
+                    Shop shop = new ShopBuilder(res.getString(9))
+                            .withNom(res.getString(10))
+                            .withAdresse(res.getString(11))
+                            .create();
+
                     collaborateur.setShop(shop);
 
                     sessionutilisateur.setCollaborateur(collaborateur);
@@ -107,9 +110,11 @@ public class SessionUtilisateurDao {
                     collaborateur.setPostnom(res.getString(7));
                     collaborateur.setSurnom(res.getString(8));
 
-                    Shop shop = new Shop(res.getString(9));
-                    shop.setNom(res.getString(10));
-                    shop.setAdresse(res.getString(11));
+                    Shop shop = new ShopBuilder(res.getString(9))
+                            .withNom(res.getString(10))
+                            .withAdresse(res.getString(11))
+                            .create();
+
                     collaborateur.setShop(shop);
 
                     sessionutilisateur.setCollaborateur(collaborateur);

@@ -1,6 +1,7 @@
 package com.cecilsoftwares.reussoftbackend.dao;
 
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -37,7 +38,7 @@ public class ShopDao {
 
             scriptSQL = new StringBuilder("SELECT shop.id, shop.nom, shop.adresse, shop.active,");
             scriptSQL.append(" shop.idTauxCarte, tauxcarte.valeur, tauxcarte.dateHeure");
-            scriptSQL.append(" FROM shop JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
+            scriptSQL.append(" FROM shop LEFT JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
             scriptSQL.append(" ORDER BY shop.nom");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
@@ -47,10 +48,11 @@ public class ShopDao {
             if (res != null) {
                 while (res.next()) {
 
-                    Shop shop = new Shop(res.getString(1));
-                    shop.setNom(res.getString(2));
-                    shop.setAdresse(res.getString(3));
-                    shop.setActive(res.getInt(4) == 1);
+                    Shop shop = new ShopBuilder(res.getString(1))
+                            .withNom(res.getString(2))
+                            .withAdresse(res.getString(3))
+                            .withActive(res.getInt(4) == 1)
+                            .create();
 
                     TauxCarte tauxCarte = new TauxCarte(res.getString(5));
                     tauxCarte.setValeur(new BigDecimal(res.getString(6)));
@@ -75,7 +77,7 @@ public class ShopDao {
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT shop.id, shop.nom, shop.adresse, shop.active,");
             scriptSQL.append(" shop.idTauxCarte, tauxcarte.id, tauxcarte.valeur, tauxcarte.dateHeure");
-            scriptSQL.append(" FROM shop JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
+            scriptSQL.append(" FROM shop LEFT JOIN tauxcarte ON shop.idTauxCarte=tauxcarte.id");
             scriptSQL.append(" WHERE shop.id=?");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
@@ -85,10 +87,11 @@ public class ShopDao {
             if (res != null) {
                 if (res.next()) {
 
-                    Shop shop = new Shop(res.getString(1));
-                    shop.setNom(res.getString(2));
-                    shop.setAdresse(res.getString(3));
-                    shop.setActive(res.getInt(4) == 1);
+                    Shop shop = new ShopBuilder(res.getString(1))
+                            .withNom(res.getString(2))
+                            .withAdresse(res.getString(3))
+                            .withActive(res.getInt(4) == 1)
+                            .create();
 
                     TauxCarte tauxCarte = new TauxCarte(res.getString(5));
                     tauxCarte.setValeur(new BigDecimal(res.getString(6)));
@@ -154,14 +157,14 @@ public class ShopDao {
         return true;
     }
 
-    public boolean exclureShop(String idShop) throws ClassNotFoundException, SQLException {
+    public boolean exclureShop(Shop shop) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
 
         try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("DELETE FROM shop WHERE id=?");
 
             prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
-            prs.setString(1, idShop);
+            prs.setString(1, shop.getId());
 
             prs.execute();
             prs.close();

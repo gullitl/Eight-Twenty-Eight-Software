@@ -1,8 +1,8 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ProfilUtilisateurDao;
-import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.model.ProfilUtilisateur;
+import static com.cecilsoftwares.reussoftmiddleend.util.IdGenerator.generateId;
 import java.sql.SQLException;
 import java.util.List;
 

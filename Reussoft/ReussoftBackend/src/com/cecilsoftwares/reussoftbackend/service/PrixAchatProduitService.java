@@ -1,9 +1,9 @@
 package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.PrixAchatProduitDao;
-import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
+import static com.cecilsoftwares.reussoftmiddleend.util.IdGenerator.generateId;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;

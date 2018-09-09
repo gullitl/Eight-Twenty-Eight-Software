@@ -11,12 +11,7 @@ public class Shop {
     private TauxCarte tauxCarte;
     private boolean active;
 
-    public Shop() {
-
-    }
-
-    public Shop(String id) {
-        this.id = id;
+    private Shop() {
     }
 
     public String getId() {
@@ -57,6 +52,51 @@ public class Shop {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public static class ShopBuilder {
+
+        private final String id;
+        private String nom;
+        private String adresse;
+        private TauxCarte tauxCarte;
+        private boolean active;
+
+        public ShopBuilder(String id) {
+            this.id = id;
+        }
+
+        public ShopBuilder withNom(String nom) {
+            this.nom = nom;
+            return this;
+        }
+
+        public ShopBuilder withAdresse(String adresse) {
+            this.adresse = adresse;
+            return this;
+        }
+
+        public ShopBuilder withTauxCarte(TauxCarte tauxCarte) {
+            this.tauxCarte = tauxCarte;
+            return this;
+        }
+
+        public ShopBuilder withActive(boolean active) {
+            this.active = active;
+            return this;
+        }
+
+        public Shop create() {
+            Shop shop = new Shop();
+            shop.setId(this.id);
+            shop.setNom(this.nom);
+            shop.setAdresse(this.adresse);
+            shop.setTauxCarte(this.tauxCarte);
+            shop.setActive(this.active);
+
+            return shop;
+        }
+
     }
 
 }

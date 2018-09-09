@@ -2,10 +2,10 @@ package com.cecilsoftwares.reussoftbackend.service;
 
 import com.cecilsoftwares.reussoftbackend.dao.ShopDao;
 import com.cecilsoftwares.reussoftbackend.dao.TauxDao;
-import static com.cecilsoftwares.reussoftbackend.util.IdGenerator.generateId;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxMonnaie;
+import static com.cecilsoftwares.reussoftmiddleend.util.IdGenerator.generateId;
 import java.sql.SQLException;
 import java.util.List;
 

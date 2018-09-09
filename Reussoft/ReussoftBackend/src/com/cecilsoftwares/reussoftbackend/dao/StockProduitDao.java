@@ -6,6 +6,7 @@ import com.cecilsoftwares.reussoftmiddleend.model.PrixAchatProduit;
 import com.cecilsoftwares.reussoftmiddleend.model.Produit;
 import com.cecilsoftwares.reussoftmiddleend.model.Reseau;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
+import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.StockProduit;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -77,8 +78,9 @@ public class StockProduitDao {
                     prixAchatProduit.setDateHeure(res.getTimestamp(12));
                     produit.setPrixAchatProduit(prixAchatProduit);
 
-                    Shop shop = new Shop(res.getString(13));
-                    shop.setNom(res.getString(14));
+                    Shop shop = new ShopBuilder(res.getString(13))
+                            .withNom(res.getString(14))
+                            .create();
 
                     StockProduit stockProduit = new StockProduit(produit, shop);
                     stockProduit.setQuantiteStock(res.getBigDecimal(res.getString(15)));
@@ -107,7 +109,7 @@ public class StockProduitDao {
             listeStocksProduit = new ArrayList();
             if (res != null) {
                 while (res.next()) {
-                    StockProduit stockProduit = new StockProduit(new Produit(res.getString(1)), new Shop(res.getString(2)));
+                    StockProduit stockProduit = new StockProduit(new Produit(res.getString(1)), new ShopBuilder(res.getString(2)).create());
                     stockProduit.setQuantiteStock(res.getBigDecimal(res.getString(3)));
                     listeStocksProduit.add(stockProduit);
                 }
@@ -193,8 +195,9 @@ public class StockProduitDao {
                     prixAchatProduit.setDateHeure(res.getTimestamp(12));
                     produit.setPrixAchatProduit(prixAchatProduit);
 
-                    Shop shop = new Shop(res.getString(13));
-                    shop.setNom(res.getString(14));
+                    Shop shop = new ShopBuilder(res.getString(13))
+                            .withNom(res.getString(14))
+                            .create();
 
                     StockProduit stockProduit = new StockProduit(produit, shop);
                     stockProduit.setQuantiteStock(res.getBigDecimal((15)));
@@ -217,7 +220,7 @@ public class StockProduitDao {
         PreparedStatement prs;
         ResultSet res;
 
-        StockProduit stockProduit = new StockProduit(new Produit(idProduit), new Shop(idShop));
+        StockProduit stockProduit = new StockProduit(new Produit(idProduit), new ShopBuilder(idShop).create());
 
         try (Connection conexao = ConnectionFactory.getInstance().habiliterConnection()) {
             scriptSQL = new StringBuilder("SELECT idProduit, idShop, quantiteStock");
@@ -295,8 +298,9 @@ public class StockProduitDao {
                     prixAchatProduit.setDateHeure(res.getTimestamp(12));
                     produit.setPrixAchatProduit(prixAchatProduit);
 
-                    Shop shop = new Shop(res.getString(13));
-                    shop.setNom(res.getString(14));
+                    Shop shop = new ShopBuilder(res.getString(13))
+                            .withNom(res.getString(14))
+                            .create();
 
                     StockProduit stockProduit = new StockProduit(produit, shop);
                     stockProduit.setQuantiteStock(res.getBigDecimal((15)));
