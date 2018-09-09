@@ -3,7 +3,6 @@ package com.cecilsoftwares.reussoftbackend.dao;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop;
 import com.cecilsoftwares.reussoftmiddleend.model.Shop.ShopBuilder;
 import com.cecilsoftwares.reussoftmiddleend.model.TauxCarte;
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,7 +54,7 @@ public class ShopDao {
                             .create();
 
                     TauxCarte tauxCarte = new TauxCarte(res.getString(5));
-                    tauxCarte.setValeur(new BigDecimal(res.getString(6)));
+                    tauxCarte.setValeur(res.getBigDecimal(6));
                     tauxCarte.setDateHeure(res.getTimestamp(7));
 
                     shop.setTauxCarte(tauxCarte);
@@ -94,7 +93,7 @@ public class ShopDao {
                             .create();
 
                     TauxCarte tauxCarte = new TauxCarte(res.getString(5));
-                    tauxCarte.setValeur(new BigDecimal(res.getString(6)));
+                    tauxCarte.setValeur(res.getBigDecimal(6));
                     tauxCarte.setDateHeure(res.getTimestamp(7));
 
                     shop.setTauxCarte(tauxCarte);
