@@ -84,6 +84,60 @@ public class ProduitDao {
         return listeProduits;
     }
 
+    public List<Produit> listerTousLesProduitsAvecStock() throws ClassNotFoundException, SQLException {
+        PreparedStatement prs;
+        ResultSet res;
+        List<Produit> listeProduits;
+
+        try (Connection connection = ConnectionFactory.getInstance().habiliterConnection()) {
+            listeProduits = new ArrayList();
+
+            scriptSQL = new StringBuilder("SELECT stockproduit.idProduit, produit.description, produit.active,");
+            scriptSQL.append(" produit.idCategorieProduit, categorieproduit.description, categorieproduit.descriptionAbregee,");
+            scriptSQL.append(" produit.idReseau, reseau.nom, reseau.nomAbrege,");
+            scriptSQL.append(" produit.idPrixachat, prixachatproduit.valeurUSD, prixachatproduit.dateHeure, SUM(stockproduit.quantiteStock)");
+            scriptSQL.append(" FROM stockproduit");
+            scriptSQL.append(" LEFT JOIN produit ON stockproduit.idProduit = produit.id");
+            scriptSQL.append(" LEFT JOIN categorieproduit ON produit.idCategorieProduit = categorieproduit.id");
+            scriptSQL.append(" LEFT JOIN reseau ON produit.idReseau = reseau.id");
+            scriptSQL.append(" LEFT JOIN prixachatproduit ON produit.idPrixAchat = prixachatproduit.id");
+            scriptSQL.append(" GROUP BY stockproduit.idProduit");
+            scriptSQL.append(" ORDER BY produit.description");
+
+            prs = ((PreparedStatement) connection.prepareStatement(scriptSQL.toString()));
+            res = prs.executeQuery();
+            if (res != null) {
+                while (res.next()) {
+
+                    Produit produit = new Produit(res.getString(1));
+                    produit.setDescription(res.getString(2));
+                    produit.setActive(res.getInt(3) == 1);
+
+                    CategorieProduit categorieProduit = new CategorieProduit(res.getString(4));
+                    categorieProduit.setDescription(res.getString(5));
+                    categorieProduit.setDescriptionAbregee(res.getString(6));
+                    produit.setCategorieProduit(categorieProduit);
+
+                    Reseau reseau = new Reseau(res.getString(7));
+                    reseau.setNom(res.getString(8));
+                    reseau.setNomAbrege(res.getString(9));
+                    produit.setReseau(reseau);
+
+                    PrixAchatProduit prixAchatProduit = new PrixAchatProduit(res.getString(10));
+                    prixAchatProduit.setValeurUSD(res.getBigDecimal(11));
+                    prixAchatProduit.setDateHeure(res.getTimestamp(12));
+                    produit.setPrixAchatProduit(prixAchatProduit);
+
+                    listeProduits.add(produit);
+                }
+            }
+            prs.close();
+            res.close();
+            connection.close();
+        }
+        return listeProduits;
+    }
+
     public Produit selectionnerProduitParId(String idProduit) throws ClassNotFoundException, SQLException {
         PreparedStatement prs;
         ResultSet res;
