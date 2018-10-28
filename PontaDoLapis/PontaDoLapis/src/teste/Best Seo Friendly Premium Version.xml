@@ -2717,7 +2717,7 @@ var POSTPAGER_NEWER = "<i class='fa fa-chevron-circle-left' aria-hidden='true'><
 <div class='row' id='header-wrappers'>
     <div class='headerleft'> 
       <b:section class='headerleft' id='headerleft' maxwidgets='1' showaddelement='no'>
-         <b:widget id='Header1' locked='true' title='Best - Seo Friendly (Header)' type='Header' version='1'>
+         <b:widget id='Header1' locked='true' title='Igreja Local Jovem (Cabeçalho)' type='Header' version='1'>
            <b:widget-settings>
              <b:widget-setting name='displayUrl'>http://4.bp.blogspot.com/-OHMTljPNkBE/Wliu5bHMLuI/AAAAAAAAEg4/f3HzGdIvTbYso7GVQpeWvJhW6UR4eAyzgCK4BGAYYCw/s1600/logo.png</b:widget-setting>
              <b:widget-setting name='displayHeight'>57</b:widget-setting>
@@ -2870,7 +2870,7 @@ var POSTPAGER_NEWER = "<i class='fa fa-chevron-circle-left' aria-hidden='true'><
 <div class='news-tick-wrap'>
 <div class='news-tick-bar row'>
  <b:section class='ticker' id='ticker' maxwidgets='1' name='Ticker News' showaddelement='yes'>
-   <b:widget id='HTML13' locked='false' title='Breaking' type='HTML' version='1'>
+   <b:widget id='HTML13' locked='false' title='Recentes' type='HTML' version='1'>
      <b:widget-settings>
        <b:widget-setting name='content'><![CDATA[<span data-type="recent" data-no="5"></span>]]></b:widget-setting>
      </b:widget-settings>
@@ -2895,7 +2895,7 @@ var POSTPAGER_NEWER = "<i class='fa fa-chevron-circle-left' aria-hidden='true'><
 
     <div id='main-wrapper'>
    <b:section class='main' id='main' showaddelement='yes'>
-     <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='1'>
+     <b:widget id='Blog1' locked='true' title='Postagens no blog' type='Blog' version='1'>
        <b:widget-settings>
          <b:widget-setting name='showDateHeader'>true</b:widget-setting>
          <b:widget-setting name='style.textcolor'>#19232d</b:widget-setting>
@@ -2916,7 +2916,7 @@ var POSTPAGER_NEWER = "<i class='fa fa-chevron-circle-left' aria-hidden='true'><
          <b:widget-setting name='showBacklinks'>false</b:widget-setting>
          <b:widget-setting name='style.bordercolor'>#ffffff</b:widget-setting>
          <b:widget-setting name='showInlineAds'>false</b:widget-setting>
-         <b:widget-setting name='showReactions'>false</b:widget-setting>
+         <b:widget-setting name='showReactions'>true</b:widget-setting>
        </b:widget-settings>
        <b:includable id='main' var='top'>
   <b:if cond='!data:mobile'>
@@ -4130,7 +4130,104 @@ width: 100%;
       </div>
 
   <div id='sidebar-wrapper'>
-    <b:section class='sidebar ty-trigger' id='sidebar' preferred='yes'/>
+    <b:section class='sidebar ty-trigger' id='sidebar' preferred='yes'>
+      <b:widget id='Profile1' locked='false' title='Quem sou eu' type='Profile'>
+        <b:widget-settings>
+          <b:widget-setting name='showaboutme'>true</b:widget-setting>
+          <b:widget-setting name='showlocation'>false</b:widget-setting>
+        </b:widget-settings>
+        <b:includable id='main'>
+    <b:if cond='data:title != &quot;&quot;'>
+      <h2><data:title/></h2>
+    </b:if>
+    <div class='widget-content'>
+    <b:if cond='data:team'> <!-- team blog profile -->
+      <ul>
+        <b:loop values='data:authors' var='i'>
+          <li><a class='profile-name-link g-profile' expr:href='data:i.userUrl' expr:style='&quot;background-image: url(&quot; + data:i.profileLogo + &quot;);&quot;'><data:i.display-name/></a></li>
+        </b:loop>
+      </ul>
+
+    <b:else/> <!-- normal blog profile -->
+
+      <b:if cond='data:photo.url != &quot;&quot;'>
+        <a expr:href='data:userUrl'><img class='profile-img' expr:alt='data:messages.myPhoto' expr:height='data:photo.height' expr:src='data:photo.url' expr:width='data:photo.width'/></a>
+      </b:if>
+
+      <dl class='profile-datablock'>
+        <dt class='profile-data'>
+          <a class='profile-name-link g-profile' expr:href='data:userUrl' expr:style='&quot;background-image: url(&quot; + data:profileLogo + &quot;);&quot;' rel='author'>
+            <data:displayname/>
+          </a>
+          <b:if cond='data:hasgoogleprofile'>
+            <br/>
+            <div class='g-follow' data-annotation='bubble' data-height='20' expr:data-href='data:userUrl'/>
+          </b:if>
+        </dt>
+
+        <b:if cond='data:showlocation'>
+          <dd class='profile-data'><data:location/></dd>
+        </b:if>
+
+        <b:if cond='data:aboutme != &quot;&quot;'><dd class='profile-textblock'><data:aboutme/></dd></b:if>
+      </dl>
+      <a class='profile-link' expr:href='data:userUrl' rel='author'><data:viewProfileMsg/></a>
+    </b:if>
+
+     <b:include name='quickedit'/>
+    </div>
+  </b:includable>
+      </b:widget>
+      <b:widget id='Attribution1' locked='false' title='' type='Attribution'>
+        <b:widget-settings>
+          <b:widget-setting name='copyright'/>
+        </b:widget-settings>
+        <b:includable id='main'>
+    <div class='widget-content' style='text-align: center;'>
+      <b:if cond='data:attribution != &quot;&quot;'>
+       <data:attribution/>
+      </b:if>
+    </div>
+
+    <b:include name='quickedit'/>
+  </b:includable>
+      </b:widget>
+      <b:widget id='Navbar1' locked='false' title='Navbar' type='Navbar'>
+        <b:includable id='main'>&lt;script type=&quot;text/javascript&quot;&gt;
+    function setAttributeOnload(object, attribute, val) {
+      if(window.addEventListener) {
+        window.addEventListener(&#39;load&#39;,
+          function(){ object[attribute] = val; }, false);
+      } else {
+        window.attachEvent(&#39;onload&#39;, function(){ object[attribute] = val; });
+      }
+    }
+  &lt;/script&gt;
+&lt;div id=&quot;navbar-iframe-container&quot;&gt;&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://apis.google.com/js/plusone.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+      gapi.load(&quot;gapi.iframes:gapi.iframes.style.bubble&quot;, function() {
+        if (gapi.iframes &amp;&amp; gapi.iframes.getContext) {
+          gapi.iframes.getContext().openChild({
+              url: &#39;https://www.blogger.com/navbar.g?targetBlogID\x3d7414226616091620875\x26blogName\x3dIgreja+Local+Jovem\x26publishMode\x3dPUBLISH_MODE_BLOGSPOT\x26navbarType\x3dLIGHT\x26layoutType\x3dLAYOUTS\x26searchRoot\x3dhttps://alfher-145.blogspot.com/search\x26blogLocale\x3dpt_BR\x26v\x3d2\x26homepageUrl\x3dhttps://alfher-145.blogspot.com/\x26readAccessMode\x3dPRIVATE\x26vt\x3d7376429539090221863&#39;,
+              where: document.getElementById(&quot;navbar-iframe-container&quot;),
+              id: &quot;navbar-iframe&quot;
+          });
+        }
+      });
+    &lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt;
+(function() {
+var script = document.createElement(&#39;script&#39;);
+script.type = &#39;text/javascript&#39;;
+script.src = &#39;//pagead2.googlesyndication.com/pagead/js/google_top_exp.js&#39;;
+var head = document.getElementsByTagName(&#39;head&#39;)[0];
+if (head) {
+head.appendChild(script);
+}})();
+&lt;/script&gt;
+</b:includable>
+      </b:widget>
+    </b:section>
 <div class='sidetabs' id='sidetabs'>
       <ul class='menu-tab'>
         <li class='item-1'><a href='#tabside1'/></li>
@@ -4793,7 +4890,7 @@ content: &quot;\f0d2&quot;;
 
 <div id='lowerbar-wrapper'> 
 <b:section class='lowerbar ty-trigger' id='Footer widget(3)' preferred='yes'>
-   <b:widget id='ContactForm2' locked='false' title='Contact Form' type='ContactForm'>
+   <b:widget id='ContactForm2' locked='false' title='Formulário de contato' type='ContactForm'>
      <b:includable id='main'>
   <b:if cond='data:title != &quot;&quot;'>
     <h2 class='title'><data:title/></h2>
